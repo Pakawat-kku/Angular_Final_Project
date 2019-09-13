@@ -9,6 +9,7 @@ import { AboutComponent } from './about/about.component';
 import { LayoutComponent } from './layout/layout.component';
 import { UserComponent } from './user/user.component';
 import { PreferenceComponent } from './preference/preference.component';
+import { RequisitionComponent } from './requisition/requisition.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: 'user', component: UserComponent },
       { path: 'preference', component: PreferenceComponent },
       { path: 'about', component: AboutComponent },
+      { path: 'requisition', component: RequisitionComponent },
       { path: '**', component: PageNotFoundComponent },
     ]
   }

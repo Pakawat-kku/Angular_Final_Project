@@ -11,12 +11,13 @@ import { LayoutComponent } from './layout/layout.component';
 import { UserComponent } from './user/user.component';
 import { PreferenceComponent } from './preference/preference.component';
 import { HelperModule } from 'src/app/pipes/helpers.module';
+import { RequisitionComponent } from './requisition/requisition.component';
 
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
     AboutComponent, LayoutComponent,
-    UserComponent, PreferenceComponent
+    UserComponent, PreferenceComponent, RequisitionComponent
   ],
   imports: [
     CommonModule,
