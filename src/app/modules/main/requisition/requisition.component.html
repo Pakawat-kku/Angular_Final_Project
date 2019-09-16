@@ -1,14 +1,20 @@
+<form clrForm>
+    <clr-input-container>
+      <label>วอร์ด</label>
+      <input placeholder="ค้นหาวอร์ด" clrInput  name="depName" required />
+      <clr-control-helper>Helper text</clr-control-helper>
+      <clr-control-error>This field is required!</clr-control-error>
+    </clr-input-container>
+  </form>
+<clr-datagrid *ngIf="stockList" > 
+    <clr-dg-column style="text-align: center">รายการที่</clr-dg-column>
+    <clr-dg-column style="text-align: center">ชื่อรายการ</clr-dg-column>
+    <clr-dg-column style="text-align: center">จำนวน</clr-dg-column>
 
-<clr-datagrid [(clrDgSelected)]="selected"> 
-    <clr-dg-column>รายการที่</clr-dg-column>
-    <clr-dg-column>ชื่อรายการ</clr-dg-column>
-    <clr-dg-column> จำนวน</clr-dg-column>
-
-    <clr-dg-row *ngFor="">
-        <clr-dg-cell></clr-dg-cell>
-        <clr-dg-cell></clr-dg-cell>
-        <clr-dg-cell></clr-dg-cell>
-        <clr-dg-cell></clr-dg-cell>
+    <clr-dg-row *ngFor="let item of stockList">
+        <clr-dg-cell style="text-align: center">{{ item.cId }}</clr-dg-cell>
+        <clr-dg-cell style="text-align: center">{{ item.cName }}</clr-dg-cell>
+        <clr-dg-cell style="text-align: center">{{ item.cAmount }}</clr-dg-cell>
     </clr-dg-row>
 
     <clr-dg-footer></clr-dg-footer>
