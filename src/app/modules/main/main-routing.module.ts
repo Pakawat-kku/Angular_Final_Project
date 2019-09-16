@@ -10,6 +10,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { UserComponent } from './user/user.component';
 import { PreferenceComponent } from './preference/preference.component';
 import { RequisitionComponent } from './requisition/requisition.component';
+import { StockComponent } from './stock/stock.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,7 @@ const routes: Routes = [
       { path: 'preference', component: PreferenceComponent },
       { path: 'about', component: AboutComponent },
       { path: 'requisition', component: RequisitionComponent },
+      { path: 'stock', component: StockComponent },
       { path: '**', component: PageNotFoundComponent },
     ]
   }
