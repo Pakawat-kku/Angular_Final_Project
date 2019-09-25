@@ -13,20 +13,20 @@ export class RequisitionComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getStock();
+    // this.getStock();
   }
 
-  async getStock() {
-    try {
-      const result: any = await this.stockService.getStock();
-      if (result.rows) {
-        console.log(result.rows);
-        this.stockList = result.rows;
-        console.log('fff', this.stockList);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // async getStock() {
+  //   try {
+  //     const result: any = await this.stockService.getStock();
+  //     if (result.rows) {
+  //       console.log(result.rows);
+  //       this.stockList = result.rows;
+  //       console.log('fff', this.stockList);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
 }

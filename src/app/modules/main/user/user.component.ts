@@ -36,19 +36,6 @@ export class UserComponent implements OnInit {
     this.modalEdit = true;
   }
 
-  async onDelete(row) {
-    const confirmed: any = await this.alertService.confirm('', 'Delete confirm?');
-    if (confirmed.value) {
-      // ....
-    }
-  }
 
-  async onSave() {
-    const confirmed: any = await this.alertService.confirm('', 'Save confirm?');
-    if (confirmed.value) {
-      // ....
-      this.modalEdit = false;
-    }
-  }
 }
 
