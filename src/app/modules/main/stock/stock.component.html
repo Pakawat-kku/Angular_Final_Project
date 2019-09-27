@@ -13,15 +13,15 @@
     <clr-dg-column [clrDgField]="'cName'">ชื่อ</clr-dg-column>
     <clr-dg-column >ชนิดผ้า</clr-dg-column>
     <clr-dg-column>จำนวน</clr-dg-column>
-    <clr-dg-column>#</clr-dg-column>
-    <clr-dg-row *clrDgItems="let item of clothList">
+    <!-- <clr-dg-column>#</clr-dg-column> -->
+    <clr-dg-row *clrDgItems="let item of clothList;">
         <clr-dg-cell>{{ item.cId }}</clr-dg-cell>
         <clr-dg-cell>{{ item.cName }}</clr-dg-cell>
-        <clr-dg-cell>{{ item.cTypeId }}</clr-dg-cell>
+        <clr-dg-cell>{{ item.cTypeName }}</clr-dg-cell>
         <clr-dg-cell>{{ item.cAmount }}</clr-dg-cell>
-        <clr-dg-cell>
+        <!-- <clr-dg-cell>
             <button class="btn btn-primary" (click)="onEdit(item)">แก้ไข</button><br>
-        </clr-dg-cell>
+        </clr-dg-cell> -->
     </clr-dg-row>
     <clr-dg-footer>
         <b>ชนิดผ้าทั้งหมด {{clothList.length}} ชนิด </b>&nbsp;&nbsp;

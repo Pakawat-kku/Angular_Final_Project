@@ -23,6 +23,13 @@ export class StockService {
       .catch(error => error);
   }
 
+  getClothType1(cTypeId) {
+    return this.http.get(`${this.apiUrl}/clothType/search?cTypeId=${cTypeId}`)
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
   insertCloth(data) {
     return this.http.post(`${this.apiUrl}/cloth/`, {data})
     .toPromise()

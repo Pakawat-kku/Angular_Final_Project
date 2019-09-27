@@ -11,11 +11,12 @@ import { AlertService } from 'src/app/services/alert.service';
   styleUrls: ['./stock.component.scss']
 })
 export class StockComponent implements OnInit {
-clothList: any[];
-clothTypeList: any[];
-modalEdit = false;
-currentRow: any;
-editRow: any;
+  clothList: any[];
+  clothTypeList: any[];
+  clothType1List: any[] = [];
+  modalEdit = false;
+  currentRow: any;
+  editRow: any;
 
   constructor(
     private alertService: AlertService,
@@ -33,7 +34,16 @@ editRow: any;
       const result: any = await this.stockService.getCloth();
       if (result.rows) {
         console.log('cloth', result.rows);
+        for (let i = 0; i < result.rows.length; i++) {
+          const getType: any = await this.stockService.getClothType1(result.rows[i].cTypeId);
+          if (getType.rows) {
+            console.log('type', i, getType.rows);
+            result.rows[i].cTypeName = getType.rows[0].cTypeName;
+          }
+        }
         this.clothList = result.rows;
+        console.log('check', this.clothList);
+        // console.log('check', this.clothType1List);
       }
     } catch (err) {
       console.log(err);
