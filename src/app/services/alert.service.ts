@@ -24,6 +24,15 @@ export class AlertService {
     });
   }
 
+  reqSuccess(text = 'สำเร็จ', title = 'congrate') {
+    return Swal.fire({
+      type: 'success',
+      title: 'เพิ่มผ้าใส่รถเข็น',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
   notFoundUser(text = 'not found user', title = ':-(') {
     return Swal.fire('Not found user!');
   }

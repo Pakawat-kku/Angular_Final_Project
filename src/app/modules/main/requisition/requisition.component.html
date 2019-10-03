@@ -1,21 +1,76 @@
-<form clrForm>
-    <clr-input-container>
-      <label>วอร์ด</label>
-      <input placeholder="ค้นหาวอร์ด" clrInput  name="depName" required />
-      <clr-control-helper>Helper text</clr-control-helper>
-      <clr-control-error>This field is required!</clr-control-error>
-    </clr-input-container>
+<div class="clr-row clr-align-items-start">
+  <h1 class="clr-col-8">การเบิก</h1>
+  </div>
+  <div class="clr-row clr-align-items-start">
+  <div class="clr-col-8"> 
+   <!-- <form (ngSubmit)="onSave(f)" #f="ngForm"> -->
+    <form >
+    <clr-datagrid [(clrDgSelected)]="selected" >
+      <clr-dg-column style="text-align: center">รายการที่</clr-dg-column>
+      <clr-dg-column style="text-align: center" [clrDgField]="'cName'">ชื่อรายการ</clr-dg-column>
+      <clr-dg-column style="text-align: center" [clrDgField]="'cTypeName'">ประเภทผ้า</clr-dg-column>
+      <clr-dg-column style="text-align: center">เลือก</clr-dg-column>
+  
+      <clr-dg-row class="row-place" *clrDgItems="let item of stockList">       
+        <clr-dg-cell style="text-align: center"> 
+          {{ item.cId }}  
+        </clr-dg-cell>
+          <clr-dg-cell style="text-align: center"> 
+          {{ item.cName  }} 
+          </clr-dg-cell>
+          <clr-dg-cell style="text-align: center"> 
+            {{ item.cTypeName  }} 
+            </clr-dg-cell>
+          <clr-dg-cell  style="text-align: center">
+              <button type="submit" (click)="onSave(item)" class="btn btn-sm" >เพิ่ม</button>
+          </clr-dg-cell>
+      </clr-dg-row>
+  </clr-datagrid>
   </form>
-<clr-datagrid *ngIf="stockList" > 
-    <clr-dg-column style="text-align: center">รายการที่</clr-dg-column>
-    <clr-dg-column style="text-align: center">ชื่อรายการ</clr-dg-column>
-    <clr-dg-column style="text-align: center">จำนวน</clr-dg-column>
-
-    <clr-dg-row *ngFor="let item of stockList">
-        <clr-dg-cell style="text-align: center">{{ item.cId }}</clr-dg-cell>
-        <clr-dg-cell style="text-align: center">{{ item.cName }}</clr-dg-cell>
-        <clr-dg-cell style="text-align: center">{{ item.cAmount }}</clr-dg-cell>
-    </clr-dg-row>
-
-    <clr-dg-footer></clr-dg-footer>
-</clr-datagrid>
+  </div>
+  
+  <clr-modal [(clrModalOpen)]="modalEdit">
+      <h3 class="modal-title">จำนวนที่ต้องการเบิก</h3>
+      <div class="modal-body">
+      <form clrForm >
+        <input class="clr-input" type="hidden" name="cId"  [(ngModel)]="cId"><br>
+  
+        กรอกจำนวนที่ต้องเบิก :<input class="clr-input" type="number" name="reqAmountCloth"  [(ngModel)]="reqAmountCloth" >
+      </form>
+      </div>
+      <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" (click)="onSubmit(cId,reqAmountCloth)">Ok</button>
+          <button type="button" class="btn btn-outline" (click)="modalEdit = false">Cancel</button>
+      </div>
+  </clr-modal>
+  
+  <!-- <div class="clr-row clr-align-items-start">
+  </div>
+  <div class="clr-row clr-align-items-start">
+  <div class="clr-col-6">
+  <form clrForm (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <clr-datagrid [(clrDgSelected)]="selected" >
+      <clr-dg-column >รายการที่</clr-dg-column>
+      <clr-dg-column [clrDgField]="'cName'">ชื่อรายการ</clr-dg-column>
+      <clr-dg-column >จำนวน</clr-dg-column>
+      <clr-dg-column >เลือก</clr-dg-column>
+        <clr-dg-row class="row-place" *clrDgItems="let item of stockList ">       
+          <clr-dg-cell style="text-align: center"> 
+            {{ item.cId }}  
+            <input clrInput type="text" [(ngModel)]="item.cId" name="cId" />
+          </clr-dg-cell>
+            <clr-dg-cell style="text-align: center"> 
+            {{ item.cName  }} 
+            </clr-dg-cell>
+            <clr-dg-cell style="text-align: center">
+              <input clrInput type="text" ngModel name="reqAmountCloth" />
+            </clr-dg-cell>
+            <clr-dg-cell  style="text-align: center">
+                <button type="submit" class="btn btn-sm" >เพิ่ม</button>
+            </clr-dg-cell>
+        </clr-dg-row>
+    </clr-datagrid>
+   
+  </form>
+  </div>  -->
+  

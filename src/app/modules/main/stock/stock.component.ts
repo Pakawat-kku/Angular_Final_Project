@@ -100,6 +100,7 @@ export class StockComponent implements OnInit {
           this.alertService.error('เกิดข้อผิดพลาด');
         }
       } else if (this.currentRow.mode === 'edit') {
+        // tslint:disable-next-line: no-shadowed-variable
         const obj = {
           cName: this.currentRow.cName,
           cTypeId: this.currentRow.cTypeId,
