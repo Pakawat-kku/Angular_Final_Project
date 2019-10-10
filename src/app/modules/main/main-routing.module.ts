@@ -11,6 +11,8 @@ import { UserComponent } from './user/user.component';
 import { PreferenceComponent } from './preference/preference.component';
 import { RequisitionComponent } from './requisition/requisition.component';
 import { StockComponent } from './stock/stock.component';
+import { WardComponent } from './ward/ward.component';
+import { PurchaseComponent } from './purchase/purchase.component';
 
 const routes: Routes = [
   {
@@ -25,6 +27,8 @@ const routes: Routes = [
       { path: 'about', component: AboutComponent },
       { path: 'requisition', component: RequisitionComponent },
       { path: 'stock', component: StockComponent },
+      { path: 'ward', component: WardComponent },
+      { path: 'purchase', component: PurchaseComponent },
       { path: '**', component: PageNotFoundComponent },
     ]
   }

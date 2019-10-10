@@ -13,12 +13,15 @@ import { PreferenceComponent } from './preference/preference.component';
 import { HelperModule } from 'src/app/pipes/helpers.module';
 import { RequisitionComponent } from './requisition/requisition.component';
 import { StockComponent } from './stock/stock.component';
+import { WardComponent } from './ward/ward.component';
+import { PurchaseComponent } from './purchase/purchase.component';
+import { PurchaseDetailComponent } from './purchase-detail/purchase-detail.component';
 
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
     AboutComponent, LayoutComponent,
-    UserComponent, PreferenceComponent, RequisitionComponent, StockComponent
+    UserComponent, PreferenceComponent, RequisitionComponent, StockComponent, WardComponent, PurchaseComponent, PurchaseDetailComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,28 @@
+<ol class="breadcrumb breadcrumb-arrow">
+    <li><a href="javascript://">Purchase</a></li>
+</ol>
+<h2>รายการสั่งซื้อผ้าเข้ามาใหม่</h2>
+<br>
+<form #purchase="ngForm" (ngSubmit)="onClickSubmit(purchase.value)">
+    <b>ประจำปีงบประมาณ </b> {{year}} <br>
+    <b>จำนวนรายการผ้าที่สั่งซื้อ </b> 
+    <input type="number" placeholder="ex. 12" name="amount" ngModel/> 
+    <input type="submit" value="submit">
+</form>
+<br>
+<div *ngIf="clothList">
+<div *ngFor="let item of arrayList; let i = index">
+{{item.id}} ) 
+<b> รายการผ้า : </b><div class="clr-select-wrapper">
+        <select id="clothId" class="clr-select" name="clothId">
+            <option *ngFor="let j of clothList">
+                {{ j.clothName }}
+            </option>
+        </select>
+    </div>
+<b> จำนวน : </b><input id="amount_{{item.id}}" />
+<b> ราคา/หน่วย : </b><input id="price_{{item.id}}" /> บาท
+<br><br>
+</div>
+<button type="button" class="btn btn-success">ยืนยัน</button>
+</div>

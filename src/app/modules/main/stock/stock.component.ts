@@ -1,3 +1,4 @@
+
 import { StockService } from './../../../services/stock.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -34,13 +35,13 @@ export class StockComponent implements OnInit {
       const result: any = await this.stockService.getCloth();
       if (result.rows) {
         console.log('cloth', result.rows);
-        for (let i = 0; i < result.rows.length; i++) {
-          const getType: any = await this.stockService.getClothType1(result.rows[i].cTypeId);
-          if (getType.rows) {
-            console.log('type', i, getType.rows);
-            result.rows[i].cTypeName = getType.rows[0].cTypeName;
-          }
-        }
+        // for (let i = 0; i < result.rows.length; i++) {
+        //   const getType: any = await this.stockService.getClothType1(result.rows[i].ClothType_clothTypeId);
+        //   if (getType.rows) {
+        //     console.log('type', i, getType.rows);
+        //     result.rows[i].clothTypeName = getType.rows[0].clothTypeName;
+        //   }
+        // }
         this.clothList = result.rows;
         console.log('check', this.clothList);
         // console.log('check', this.clothType1List);
@@ -63,9 +64,9 @@ export class StockComponent implements OnInit {
 
   onAdd() {
     this.currentRow = {
-      cName: '',
-      cTypeId: '',
-      cAmount: ''
+      clothName: '',
+      ClothType_clothTypeId: '',
+      clothClassifier: ''
     };
     this.currentRow.mode = 'add';
     this.modalEdit = true;
@@ -79,9 +80,9 @@ export class StockComponent implements OnInit {
 
   async onSave() {
     const obj = {
-      cName: this.currentRow.cName,
-      cTypeId: this.currentRow.cTypeId,
-      cAmount: this.currentRow.cAmount
+      clothName: this.currentRow.clothName,
+      ClothType_clothTypeId: this.currentRow.ClothType_clothTypeId,
+      clothClassifier: this.currentRow.clothClassifier
     };
     try {
       if (this.currentRow.mode === 'add') {
@@ -101,10 +102,10 @@ export class StockComponent implements OnInit {
         }
       } else if (this.currentRow.mode === 'edit') {
         const obj = {
-          cName: this.currentRow.cName,
-          cTypeId: this.currentRow.cTypeId,
-          cAmount: this.currentRow.cAmount,
-          cId: this.currentRow.cId
+          clothName: this.currentRow.clothName,
+          ClothType_clothTypeId: this.currentRow.ClothType_clothTypeId,
+          clothClassifier: this.currentRow.clothClassifier,
+          clothId: this.currentRow.clothId
         };
         const result: any = await this.stockService.updateCloth(obj);
         console.log(obj);

@@ -23,8 +23,8 @@ export class StockService {
       .catch(error => error);
   }
 
-  getClothType1(cTypeId) {
-    return this.http.get(`${this.apiUrl}/clothType/search?cTypeId=${cTypeId}`)
+  getClothType1(clothTypeId) {
+    return this.http.get(`${this.apiUrl}/clothType/search?ClothType_clothTypeId=${clothTypeId}`)
       .toPromise()
       .then(result => result)
       .catch(error => error);

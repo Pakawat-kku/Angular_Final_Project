@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -27,6 +28,7 @@ import { HelperModule } from './pipes/helpers.module';
     ClarityModule,
     MainModule,
     LoginModule,
+    FormsModule,
     BrowserAnimationsModule
   ],
   providers: [
