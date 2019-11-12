@@ -102,7 +102,6 @@ export class PurchaseComponent implements OnInit {
     for (let row of this.purchaseLists) {
       if (row.amount > 0 && row.price > 0) {
         await saveData.push(row);
-        const result 
       }
     }
     console.log(saveData);

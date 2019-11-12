@@ -1,0 +1,10 @@
+<clr-datagrid *ngIf="showReqlist">
+        <clr-dg-column>#</clr-dg-column>
+        <clr-dg-column>เวลาที่ยื่นคำร้องเบิกผ้า</clr-dg-column>
+        <clr-dg-column>คนที่เบิก</clr-dg-column>    
+        <clr-dg-row *ngFor="let item of showReqlist">
+            <clr-dg-cell> # </clr-dg-cell>
+            <clr-dg-cell> {{ item.reqDate  }}  </clr-dg-cell>
+            <clr-dg-cell> {{ item.firstName  }}  </clr-dg-cell>
+        </clr-dg-row>
+</clr-datagrid>

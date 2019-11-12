@@ -10,7 +10,10 @@
         <clr-icon shape="home"></clr-icon>
       </a>
     </div>
-    <!-- <div class="header-actions">
+    <div class="branding">
+        <span class="title username">{{decoded.username}}</span>
+    </div>
+    <div class="header-actions">
       <clr-dropdown>
         <button class="nav-icon" clrDropdownTrigger>
           <clr-icon shape="user"></clr-icon>
@@ -22,7 +25,7 @@
           <a href="javascript://" clrDropdownItem (click)="onLogout()">Log out</a>
         </clr-dropdown-menu>
       </clr-dropdown>
-    </div> -->
+    </div>
   </clr-header>
   <div class="content-container">
     <main class="content-area">

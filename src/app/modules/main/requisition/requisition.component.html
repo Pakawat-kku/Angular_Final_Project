@@ -1,76 +1,80 @@
-<div class="clr-row clr-align-items-start">
-  <h1 class="clr-col-8">การเบิก</h1>
-  </div>
+<div >
+  <h2 class="clr-col-8" style="text-align: center">การเบิก</h2>
+</div>
+
+
+
   <div class="clr-row clr-align-items-start">
-  <div class="clr-col-8"> 
-   <!-- <form (ngSubmit)="onSave(f)" #f="ngForm"> -->
+  <div class="clr-col-7"> 
+      <!-- <div style="text-align: right">
+          <button class="btn btn-success" (click)="onShowReq()">
+              <clr-icon shape="shopping-cart"></clr-icon>
+              ผ้าที่เลือกไว้
+          </button>
+      </div> -->
     <form >
-    <clr-datagrid [(clrDgSelected)]="selected" >
+    <div class="limit-height">
+    <clr-datagrid>
       <clr-dg-column style="text-align: center">รายการที่</clr-dg-column>
       <clr-dg-column style="text-align: center" [clrDgField]="'cName'">ชื่อรายการ</clr-dg-column>
       <clr-dg-column style="text-align: center" [clrDgField]="'cTypeName'">ประเภทผ้า</clr-dg-column>
       <clr-dg-column style="text-align: center">เลือก</clr-dg-column>
   
-      <clr-dg-row class="row-place" *clrDgItems="let item of stockList">       
+      <clr-dg-row class="row-place" *clrDgItems="let item of stockList" >       
         <clr-dg-cell style="text-align: center"> 
-          {{ item.cId }}  
+          {{ item.clothId }}  
         </clr-dg-cell>
           <clr-dg-cell style="text-align: center"> 
-          {{ item.cName  }} 
+          {{ item.clothName  }} 
           </clr-dg-cell>
           <clr-dg-cell style="text-align: center"> 
-            {{ item.cTypeName  }} 
+            {{ item.clothTypeName  }} 
             </clr-dg-cell>
           <clr-dg-cell  style="text-align: center">
               <button type="submit" (click)="onSave(item)" class="btn btn-sm" >เพิ่ม</button>
           </clr-dg-cell>
       </clr-dg-row>
+      <clr-dg-footer>
+\          <clr-dg-pagination #pagination [clrDgPageSize]="10">
+              <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">cloth per page</clr-dg-page-size>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+              of {{pagination.totalItems}} cloth
+          </clr-dg-pagination>
+      </clr-dg-footer>
   </clr-datagrid>
-  </form>
-  </div>
+</div>
+</form><br>
+</div>
+
+
+<div class="clr-col-5"> 
   
-  <clr-modal [(clrModalOpen)]="modalEdit">
-      <h3 class="modal-title">จำนวนที่ต้องการเบิก</h3>
-      <div class="modal-body">
-      <form clrForm >
-        <input class="clr-input" type="hidden" name="cId"  [(ngModel)]="cId"><br>
-  
-        กรอกจำนวนที่ต้องเบิก :<input class="clr-input" type="number" name="reqAmountCloth"  [(ngModel)]="reqAmountCloth" >
-      </form>
-      </div>
-      <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" (click)="onSubmit(cId,reqAmountCloth)">Ok</button>
-          <button type="button" class="btn btn-outline" (click)="modalEdit = false">Cancel</button>
-      </div>
-  </clr-modal>
-  
-  <!-- <div class="clr-row clr-align-items-start">
-  </div>
-  <div class="clr-row clr-align-items-start">
-  <div class="clr-col-6">
-  <form clrForm (ngSubmit)="onSubmit(f)" #f="ngForm">
-    <clr-datagrid [(clrDgSelected)]="selected" >
-      <clr-dg-column >รายการที่</clr-dg-column>
-      <clr-dg-column [clrDgField]="'cName'">ชื่อรายการ</clr-dg-column>
-      <clr-dg-column >จำนวน</clr-dg-column>
-      <clr-dg-column >เลือก</clr-dg-column>
-        <clr-dg-row class="row-place" *clrDgItems="let item of stockList ">       
+  <form clrForm #form="ngForm" (ngSubmit)="onReq(form)" *ngIf="showReqlist">
+    <clr-datagrid >
+        <clr-dg-column style="text-align: center" [clrDgField]="'cName'">ชื่อรายการ</clr-dg-column>
+        <clr-dg-column style="text-align: center" >จำนวน</clr-dg-column>
+        <clr-dg-column style="text-align: center" >นำออก</clr-dg-column>
+        <clr-dg-placeholder>ไม่มีผ้าที่เลือกไว้</clr-dg-placeholder>
+        <clr-dg-row class="row-place" *clrDgItems="let item of showReqlist; let i = index" >       
           <clr-dg-cell style="text-align: center"> 
-            {{ item.cId }}  
-            <input clrInput type="text" [(ngModel)]="item.cId" name="cId" />
-          </clr-dg-cell>
+            <input  type="hidden"  name="item.{{i}}.Cloth_clothId" [(ngModel)]="item.Cloth_clothId">
+            {{ item.clothName  }}  
+            </clr-dg-cell>
             <clr-dg-cell style="text-align: center"> 
-            {{ item.cName  }} 
+            <clr-input-container>
+            <input  clrInput type="number" name="item.{{i}}.amountCloth" style="width:150px;" [(ngModel)]="item.amountCloth" required>
+            <clr-control-error>กรุณากรอกจำนวนที่ต้องการเบิก</clr-control-error>
+            </clr-input-container>
             </clr-dg-cell>
-            <clr-dg-cell style="text-align: center">
-              <input clrInput type="text" ngModel name="reqAmountCloth" />
-            </clr-dg-cell>
-            <clr-dg-cell  style="text-align: center">
-                <button type="submit" class="btn btn-sm" >เพิ่ม</button>
+            <clr-dg-cell style="text-align: center"> 
+              <button type="button" class="btn btn-icon btn-sm" aria-label="home" (click)="ReqDelete(item.Cloth_clothId)">
+                <clr-icon shape="times"></clr-icon>
+            </button>
             </clr-dg-cell>
         </clr-dg-row>
     </clr-datagrid>
-   
+    <div style="text-align: center;">
+    <button type="submit" class="btn btn-primary" [disabled]="(( showReqlist=='' ))">ยืนยัน</button>
+    </div>
   </form>
-  </div>  -->
-  
+

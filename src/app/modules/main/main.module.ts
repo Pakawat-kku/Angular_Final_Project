@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ClarityModule } from '@clr/angular';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { MainRoutingModule } from './main-routing.module';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -16,12 +17,15 @@ import { StockComponent } from './stock/stock.component';
 import { WardComponent } from './ward/ward.component';
 import { PurchaseComponent } from './purchase/purchase.component';
 import { Select2Module } from 'ng2-select2';
+import { RequisitionDetailComponent } from './requisition-detail/requisition-detail.component';
 
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
     AboutComponent, LayoutComponent,
-    UserComponent, PreferenceComponent, RequisitionComponent, StockComponent, WardComponent, PurchaseComponent
+    UserComponent, PreferenceComponent, RequisitionComponent,
+    StockComponent, WardComponent, PurchaseComponent,
+    RequisitionDetailComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +33,9 @@ import { Select2Module } from 'ng2-select2';
     ClarityModule,
     HelperModule,
     MainRoutingModule,
-    Select2Module
+    Select2Module,
+    ReactiveFormsModule,
+
   ]
 })
 export class MainModule { }

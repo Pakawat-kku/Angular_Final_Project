@@ -13,6 +13,7 @@ import { RequisitionComponent } from './requisition/requisition.component';
 import { StockComponent } from './stock/stock.component';
 import { WardComponent } from './ward/ward.component';
 import { PurchaseComponent } from './purchase/purchase.component';
+import { RequisitionDetailComponent } from './requisition-detail/requisition-detail.component';
 
 const routes: Routes = [
   {

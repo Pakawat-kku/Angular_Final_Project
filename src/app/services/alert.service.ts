@@ -24,15 +24,6 @@ export class AlertService {
     });
   }
 
-  reqSuccess(text = 'สำเร็จ', title = 'congrate') {
-    return Swal.fire({
-      type: 'success',
-      title: 'เพิ่มผ้าใส่รถเข็น',
-      showConfirmButton: false,
-      timer: 1500
-    });
-  }
-
   notFoundUser(text = 'not found user', title = ':-(') {
     return Swal.fire('Not found user!');
   }
@@ -110,4 +101,55 @@ print() {
     confirmButtonText: 'yes'
   });
 }
+
+reqWait(text = 'สำเร็จ', title = 'congrate') {
+  return Swal.fire({
+    type: 'success',
+    title: 'เพิ่มผ้าใส่รถเข็น',
+    showConfirmButton: false,
+    timer: 1500
+  });
 }
+
+reqRepeat(text = 'ซ้ำ', title = 'congrate') {
+  return Swal.fire({
+    type: 'warning',
+    title: 'มีผ้านี้ในรถเข็นแล้ว',
+    showConfirmButton: false,
+    timer: 1500
+  });
+}
+
+reqZero(text = 'กรุณากรอกให้ครบ', title = 'congrate') {
+  return Swal.fire({
+    type: 'warning',
+    title: 'กรุณากรอกให้ครบ',
+    showConfirmButton: false,
+    timer: 1500
+  });
+}
+
+reqSuccess(text = 'สำเร็จ', title = 'congrate') {
+  return Swal.fire({
+    type: 'success',
+    title: 'ส่งคำร้องเบิกผ้าเรียบร้อย',
+    showConfirmButton: false,
+    timer: 1500
+  });
+}
+
+confirmReq(title = 'คุณต้องการส่งคำร้องเบิกผ้าใช่ไหม ?') {
+  return Swal.fire({
+    title: 'คุณต้องการส่งคำร้องเบิกผ้าใช่ไหม',
+    text: 'คุณแน่ใจหรือไม่ ?',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'ยกเลิก',
+    confirmButtonText: 'ยืนยัน'
+  });
+}
+}
+
+
