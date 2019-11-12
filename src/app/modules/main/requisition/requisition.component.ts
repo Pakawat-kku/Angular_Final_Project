@@ -6,13 +6,14 @@ import { Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
 import { NgForm, FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import * as _ from 'lodash';
-import { Custom } from './custom';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { Users } from '../register/users';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import { UsersService } from '../../../services/users.service';
 import * as jwt_decode from 'jwt-decode';
+import { InputArray, InputPurchase } from './inputArray';
+import { Select2OptionData } from 'ng2-select2';
 
 @Component({
   selector: 'app-requisition',
@@ -21,29 +22,23 @@ import * as jwt_decode from 'jwt-decode';
 
 })
 export class RequisitionComponent implements OnInit, OnDestroy {
-  stockList: [];
-  reqList: [];
-  req: any;
-  currentRow: any;
-  modalEdit = false;
-  clothId: any;
-  Cloth_clothId: any;
-  modalShowRequisition = false;
-  showReqlist: any;
-  selected: string[] = [];
-  amountCloth: any;
-  currentObj: { cId: any; };
-  cartReq: Array<{ clothId: number, clothName: string }> = [];
-  // empList: Array<Custom> = [];
-  arrayList: Array<Custom> = [];
-  getRepeat: any;
   currentUser: Users;
   currentUserSubscription: Subscription;
   decoded: any;
-  longReqId: any;
-
-
-
+  month: any;
+  year: any;
+  amount: Number;
+  date: string;
+  purchaseId: number;
+  arrayList: Array<InputArray> = [];
+  public clothList: Array<Select2OptionData>;
+  public clothLists: Array<Select2OptionData>;
+  purchaseLists: any[] = [{
+    clothId: '1',
+    amountCloth: null,
+    // price: null
+  }];
+  reqId: any;
 
   constructor(
     private alertService: AlertService,
@@ -64,207 +59,115 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
-    this.getStock();
-    this.getReq();
-    this.longReqId = this.decoded.Ward_wardId + ' ' + moment().format('DD-MM-YYYY, HH:mm:ss ');
-    console.log(this.longReqId);
+  async ngOnInit() {
+    // this.checkYear();
+    this.getDate();
+    await this.getCloth();
 
   }
 
-  async getStock() {
-    try {
-      const result: any = await this.stockService.getStock();
-      if (result.rows) {
-        console.log(result.rows);
-        this.stockList = result.rows;
+  getDate() {
+    moment.locale('th');
+    this.date = moment().format('YYYY-MM-DD HH:mm:ss');
+    console.log('date', this.date);
+    this.reqId = this.decoded.Ward_wardId + ' ' + moment().format('YYYY-MM-DD HH:mm:ss');
+  }
+
+  onClickSubmit(formData) {
+    console.log(formData);
+    if (formData.amount < 1) {
+      this.alertService.error('จำนวนรายการผ้าที่สั่งซื้อไม่ถูกต้อง');
+    } else {
+      this.amount = formData.amount;
+      for (let i = 0; i < this.amount; i++) {
+        const arrayId = new InputArray();
+        this.purchaseLists.push({
+          clothId: '1',
+          amount: null,
+          price: null
+        });
+        arrayId.id = i + 1;
+        this.arrayList.push(arrayId);
       }
-    } catch (err) {
-      console.log(err);
+      console.log('arraylist', this.arrayList);
+    }
+    this.amount = 0;
+  }
+
+  async getCloth() {
+    const result: any = await this.stockService.getCloth();
+    if (result.rows) {
+      this.clothList = result.rows;
+      console.log('cloth', this.clothList);
     }
   }
 
-  // async getReq() {
+  async addNewRow(rowNo) {
+    if (rowNo + 1 === this.purchaseLists.length && this.purchaseLists[rowNo].amountCloth > 0) {
+      await this.purchaseLists.push({
+        clothId: '1',
+        amountCloth: null,
 
-  //   try {
-  //     console.log('this.decoded.userId', this.decoded.userId);
-
-  //     const result: any = await this.requisitionService.showReq(this.decoded.userId);
-  //     console.log('showReq', result);
-
-  //     if (result.rows) {
-  //       console.log(result.rows);
-  //       this.showReqlist = result.rows;
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
-  async getReq() {
-
-
+      });
     }
-
-  // async onSave(row) {
-  //   this.currentRow = Object.assign({}, row);
-  //   this.getRepeat = _.get(row, ['clothId']);
-  //   console.log('pick', this.getRepeat);
-  //   const req: any = await this.requisitionService.showReq(this.decoded.userId);
-  //   console.log('req', req.rows);
-  //   // console.log('key', _.findKey(this.empList, ['empoloyeeID', this.getRepeat]));
-
-  //   if (_.findKey(req.rows, ['Cloth_clothId', this.getRepeat]) < this.getRepeat) {
-  //     this.alertService.reqRepeat('ซ้ำ').then(value => {
-  //       console.log('value', value);
-  //     });
-  //     this.getReq();
-  //     this.router.navigate(['main/requisition']);
-  //   } else {
-
-  //     this.clothId = this.currentRow.clothId;
-
-  //     const obj = {
-  //       requisitionCode: this.longReqId,
-  //       status: '1',
-  //       Ward_wardId: this.decoded.Ward_wardId,
-  //       Users_userId: this.decoded.userId,
-
-  //     };
-  //     console.log(obj);
-
-  //     // เพิ่มที่ requisition
-  //     const result1 = await this.requisitionService.insertRealReq(obj);
-
-  //     const obj1 = {
-  //       Cloth_clothId: this.clothId,
-  //       Requisition_requisitionCode: this.longReqId,
-  //     };
-
-  //     // เพิ่มที่ requisitionDetail
-  //     const result = await this.requisitionService.insertReq(obj1);
-
-  //     if (result.ok) {
-  //       this.alertService.reqWait('บันทึกสำเร็จ').then(value => {
-  //         console.log('value', value);
-
-  //         if (value.dismiss) {
-  //           this.getReq();
-  //           this.router.navigate(['main/requisition']);
-  //         }
-  //       });
-  //     }
-
-  //   }
-  // }
-
-  async onSave(row) {
-    this.currentRow = Object.assign({}, row);
-    this.getRepeat = _.get(row, ['clothId']);
-
-
   }
 
-
-
-  async onReq(form) {
-    console.log('form.value', form.value);
-
-    this.alertService
-      .confirmReq()
-      .then(async value => {
-        if (value.value === true) {
-          console.log('true');
-
-          for (const i of _.chunk(_.values(form.value), 2)) {
-            this.clothId = i[0];
-            this.amountCloth = i[1];
-
-            const obj1 = {
-              Requisition_requisitionCode: this.longReqId,
-              amountCloth: this.amountCloth
-            };
-            console.log('obj', obj1);
-
-            // เพิ่มที่ requisitionDetail
-            const result = await this.requisitionService.updateReq(this.clothId, obj1);
-
-            const obj = {
-              requisitionCode: this.longReqId,
-              status: '2',
-              reqDate: moment().format('YYYY-MM-DD HH:mm:ss'),
-            };
-            console.log(obj);
-
-            // เพิ่มที่ requisition
-            const result1 = await this.requisitionService.updateRealReq(this.longReqId, obj);
-            console.log('result1', result1);
-
-
-            if (result && result1) {
-              console.log('result', result);
-
-            }
-          }
-
-        } else if (value.dismiss) {
-          console.log('false');
+  async onDelete(rowNo) {
+    const result: any = await this.alertService.confirm('ยืนยันการลบ ?');
+    if (result.value) {
+      const data: any = [];
+      this.purchaseLists.forEach((row, index) => {
+        if (rowNo !== index) {
+          data.push(row);
         }
-        console.log('k', value);
-        this.alertService.reqSuccess();
-              this.getReq();
-              this.ngOnInit();
-              this.router.navigate(['main/requisition']);
-      })
-
-      .catch(err => {
-        console.log('false', err);
       });
+      this.purchaseLists = data;
+      console.log('del', this.purchaseLists);
+    }
   }
 
+  async onSave(data) {
+    console.log('this.purchaseLists', this.purchaseLists);
+    await this.getDate();
+    try {
+      const obj = {
+        requisitionCode: this.reqId,
+        reqDate: this.date,
+        status: '1',
+        Users_userId: this.decoded.userId,
+        Ward_wardId: this.decoded.Ward_wardId
+      };
+      console.log('obj', obj);
 
+      const result: any = await this.requisitionService.insertRealReq(obj);
 
-  async ReqDelete(Cloth_clothId) {
-    console.log('Cloth_clothId', Cloth_clothId);
-    const result3: any = await this.requisitionService.showReq(this.decoded.userId);
-    this.showReqlist = result3.rows;
-    console.log('this.showReqlist', this.showReqlist);
-    this.alertService
-      .confirm()
-      .then(async value => {
-        if (value.value === true) {
-
-          console.log('true');
-           if (this.showReqlist === [0]) {
-
-            const result2: any = await this.requisitionService.deleteReqNull(this.decoded.userId);
-
-           } else {
-          const result: any = await this.requisitionService.deleteReq(Cloth_clothId);
-
-          if (result ) {
-            console.log(result);
-            // console.log(result1);
+      for (const row of this.purchaseLists) {
+        // this.totalPricePerUnit = 0;
+      if (row.amountCloth > 0) {
+         const obj1 = {
+            // id: 0,
+            amountCloth: row.amountCloth,
+            Cloth_clothId: row.clothId,
+            Requisition_requisitionCode	: this.reqId
+          };
+          console.log('obj1', obj1);
+          const dataInsert: any = this.requisitionService.insertReq(obj1);
+          if (dataInsert.rows) {
+            console.log('check', dataInsert.rows);
           }
         }
-        } else if (value.dismiss) {
-          console.log('false');
-        }
-        console.log('k', value);
+      }
+      this.alertService.success('บันทึกข้อมูลเรียบร้อย');
+      this.router.navigate(['main/requisition-detail']);
 
-        this.getReq();
-        this.ngOnInit();
-        this.router.navigate(['main/requisition']);
-      })
-
-      .catch(err => {
-        console.log('false', err);
-      });
+      } catch (error) {
+    console.log(error);
   }
+}
 
-  ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-    this.currentUserSubscription.unsubscribe();
-  }
+ngOnDestroy() {
+  // unsubscribe to ensure no memory leaks
+  this.currentUserSubscription.unsubscribe();
+}
 
 }

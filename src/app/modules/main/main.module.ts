@@ -27,7 +27,8 @@ import { ReportPurchaseComponent } from './report-purchase/report-purchase.compo
     UserComponent, PreferenceComponent,
     RequisitionComponent,
     StockComponent, WardComponent,
-    PurchaseComponent, ReportPurchaseComponent
+    PurchaseComponent, ReportPurchaseComponent,
+    RequisitionDetailComponent
   ],
   imports: [
     CommonModule,

@@ -28,6 +28,7 @@ const routes: Routes = [
       { path: 'preference', component: PreferenceComponent },
       { path: 'about', component: AboutComponent },
       { path: 'requisition', component: RequisitionComponent },
+      { path: 'requisition-detail', component: RequisitionDetailComponent },
       { path: 'stock', component: StockComponent },
       { path: 'ward', component: WardComponent },
       { path: 'purchase', component: PurchaseComponent },

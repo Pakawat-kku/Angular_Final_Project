@@ -21,14 +21,16 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
   currentUserSubscription: Subscription;
   decoded: any;
   showReqlist: any;
+  date: string;
+  month: string;
+  year: string;
+  time: string;
 
   constructor(
     private alertService: AlertService,
     private requisitionService: RequisitionService,
     private router: Router,
-    private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
-    private userService: UsersService
 
   ) {
       this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
@@ -42,20 +44,28 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
 
   ngOnInit() {
     this.getReqWait();
+    moment.locale('th');
   }
 
   async getReqWait() {
-
+    console.log('this.decoded.Ward_wardId', this.decoded.Ward_wardId);
     try {
-      console.log('this.decoded.userId', this.decoded.Ward_wardId);
-
       const result: any = await this.requisitionService.showReqWait(this.decoded.Ward_wardId);
       console.log('result', result);
-
       if (result.rows) {
         console.log(result.rows);
         this.showReqlist = result.rows;
+          for (const item of this.showReqlist) {
+              item.date = moment(item.reqDate).format('DD');
+              item.month = moment(item.reqDate).format('MMMM');
+              item.year = moment(item.reqDate).add(543, 'years').format('YYYY');
+              item.time = moment(item.reqDate).format('HH:mm');
+              item.day = item.date + '  ' + item.month + '  ' + item.year;
+          }
+          console.log(this.showReqlist);
+
       }
+
     } catch (err) {
       console.log(err);
     }

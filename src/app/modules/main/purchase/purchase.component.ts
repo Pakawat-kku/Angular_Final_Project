@@ -29,12 +29,15 @@ export class PurchaseComponent implements OnInit {
     amount: null,
     price: null
   }];
+
   constructor(
     private router: Router,
     private alert: AlertService,
     private stockService: StockService,
     private purchaseService: PurchaseService
-  ) { }
+  ) {
+
+   }
 
   async ngOnInit() {
     this.checkYear();
