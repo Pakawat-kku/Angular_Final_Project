@@ -15,20 +15,21 @@ import { RequisitionComponent } from './requisition/requisition.component';
 import { StockComponent } from './stock/stock.component';
 import { WardComponent } from './ward/ward.component';
 import { PurchaseComponent } from './purchase/purchase.component';
-import { PurchaseDetailComponent } from './purchase-detail/purchase-detail.component';
+import { Select2Module } from 'ng2-select2';
 
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
     AboutComponent, LayoutComponent,
-    UserComponent, PreferenceComponent, RequisitionComponent, StockComponent, WardComponent, PurchaseComponent, PurchaseDetailComponent
+    UserComponent, PreferenceComponent, RequisitionComponent, StockComponent, WardComponent, PurchaseComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ClarityModule,
     HelperModule,
-    MainRoutingModule
+    MainRoutingModule,
+    Select2Module
   ]
 })
 export class MainModule { }

@@ -35,16 +35,8 @@ export class StockComponent implements OnInit {
       const result: any = await this.stockService.getCloth();
       if (result.rows) {
         console.log('cloth', result.rows);
-        // for (let i = 0; i < result.rows.length; i++) {
-        //   const getType: any = await this.stockService.getClothType1(result.rows[i].ClothType_clothTypeId);
-        //   if (getType.rows) {
-        //     console.log('type', i, getType.rows);
-        //     result.rows[i].clothTypeName = getType.rows[0].clothTypeName;
-        //   }
-        // }
         this.clothList = result.rows;
         console.log('check', this.clothList);
-        // console.log('check', this.clothType1List);
       }
     } catch (err) {
       console.log(err);
@@ -56,6 +48,19 @@ export class StockComponent implements OnInit {
       if (result.rows) {
         console.log('cloth type', result.rows);
         this.clothTypeList = result.rows;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async letSearch(search) {
+    try {
+      console.log('search : ', search);
+      const result: any = await this.stockService.getSearch(search);
+      if (result.rows) {
+        console.log('get search ', result.rows);
+        this.clothList = result.rows;
       }
     } catch (error) {
       console.log(error);

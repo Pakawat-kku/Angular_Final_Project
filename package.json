@@ -29,6 +29,8 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "mydatepicker-th": "^0.1.1",
+    "ng-select2": "^1.2.2",
+    "ng2-select2": "^1.0.0-beta.16",
     "numeral": "^2.0.6",
     "rxjs": "~6.5.3",
     "sweetalert2": "^8.17.1",

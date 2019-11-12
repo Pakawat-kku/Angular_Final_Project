@@ -44,10 +44,17 @@ export class StockService {
     .catch(error => error);
   }
 
+  getSearch(search) {
+    return this.http.post(`${this.apiUrl}/cloth/search`, {search})
+    .toPromise()
+    .then(result => result)
+    .catch(error => error);
+  }
+
   getStock() {
     // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
     return this.http
-      .get(`http://localhost:3001/cloth/stock/`, {})
+      .get(`${this.apiUrl}/cloth/stock/`, {})
       .toPromise()
       .then(result => result)
       .catch(error => error);

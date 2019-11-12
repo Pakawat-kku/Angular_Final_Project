@@ -1,27 +1,44 @@
-<ol class="breadcrumb breadcrumb-arrow" >
+<ol class="breadcrumb breadcrumb-arrow">
     <li><a href="javascript://">Stock</a></li>
 </ol>
-<h1>รายการผ้า</h1>
-
-<div style="text-align: right">
+<h1>รายการผ้าในคลังผ้า</h1>
+<br>
+<form clrForm>
+    <div class="clr-row clr-align-items-center">
+        <div class="clr-col-1">
+            <label>ค้นหา</label>
+        </div>
+        <input class="clr-col-3" placeholder="ชื่อผ้า" name="search" [(ngModel)]="search" />
+        <div class="clr-col-1">
+            <button type="button" (click)="letSearch(search)" class="btn btn-primary">ค้นหา</button>
+        </div>
+    </div>
+</form>
+<div style="text-align: left; margin-left: 10px;">
     <button type="button" (click)="onAdd()" class="btn btn-success">
         เพิ่มข้อมูลผ้า
     </button>
 </div>
-<clr-datagrid *ngIf="clothList">
-    <clr-dg-column [clrDgField]="'clothId'" class="clr-col-1">ID</clr-dg-column>
+
+<clr-datagrid *ngIf="clothList" class="clr-col-10">
+    <clr-dg-column [clrDgField]="'clothId'">ID</clr-dg-column>
     <clr-dg-column [clrDgField]="'clothName'">ชื่อ</clr-dg-column>
     <clr-dg-column [clrDgField]="'clothTypeName'">ชนิดผ้า</clr-dg-column>
-    <clr-dg-column>จำนวน</clr-dg-column>
+    <!-- <clr-dg-column>สถานะ</clr-dg-column> -->
+    <!-- <clr-dg-column>จำนวน</clr-dg-column> -->
     <clr-dg-column>#</clr-dg-column>
     <clr-dg-row *clrDgItems="let item of clothList;">
-        <clr-dg-cell class="clr-col-1">{{ item.clothId }}</clr-dg-cell>
-        <clr-dg-cell>{{ item.clothName }}</clr-dg-cell>
+        <clr-dg-cell>{{ item.clothId }}</clr-dg-cell>
+        <clr-dg-cell>{{ item.clothName }} ( {{item.clothClassifier}} )</clr-dg-cell>
         <clr-dg-cell>{{ item.clothTypeName }}</clr-dg-cell>
-        <clr-dg-cell>{{ item.clothAmount }} {{ item.clothClassifier }}</clr-dg-cell>
+        <!-- <clr-dg-cell *ngIf="item.status==='1'">ใช้งาน</clr-dg-cell>
+        <clr-dg-cell *ngIf="item.status==='0'">ไม่ใช้งาน</clr-dg-cell> -->
+        <!-- <clr-dg-cell>{{ item.clothAmount }} {{ item.clothClassifier }}</clr-dg-cell> -->
         <clr-dg-cell>
-            <button class="btn btn-primary" (click)="onEdit(item)">แก้ไขข้อมูลผ้า</button><br>
+            <button class="btn btn-primary-outline" (click)="onEdit(item)">แก้ไขข้อมูลผ้า</button><br>
+            <!-- <button class="btn btn-primary" (click)="onEdit(item)">เพิ่มผ้าไปยังส่วนกลาง</button><br> -->
         </clr-dg-cell>
+
     </clr-dg-row>
     <clr-dg-footer>
         <b>รายการผ้าทั้งหมด {{clothList.length}} รายการ </b>&nbsp;&nbsp;
@@ -40,12 +57,13 @@
     <div class="modal-body">
         <label><b>ชื่อผ้า</b></label>
         <clr-input-container class="clr-col-8">
-        <input clrInput type="text" [(ngModel)]="currentRow.clothName" name="clothName">
+            <input clrInput type="text" [(ngModel)]="currentRow.clothName" name="clothName">
         </clr-input-container>
         <br>
         <label><b>เลือกประเภทของผ้า</b></label><br><br>
         <div class="clr-select-wrapper">
-            <select id="clothTypeId" [(ngModel)]="currentRow.ClothType_clothTypeId" class="clr-select" name="ClothType_clothTypeId">
+            <select id="clothTypeId" [(ngModel)]="currentRow.ClothType_clothTypeId" class="clr-select"
+                name="ClothType_clothTypeId">
                 <option *ngFor="let item of clothTypeList" [value]="item.clothTypeId">
                     {{ item.clothTypeName }}
                 </option>
@@ -54,13 +72,14 @@
         <br><br>
         <label><b>ลักษณะนาม</b></label>
         <clr-input-container class="clr-col-8">
-        <input clrInput type="text" [(ngModel)]="currentRow.clothClassifier" name="clothClassifier">
+            <input clrInput type="text" [(ngModel)]="currentRow.clothClassifier" name="clothClassifier">
         </clr-input-container>
         <br><br>
     </div>
     <br>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline" (click)="modalEdit = false">ยกเลิก</button>
-        <button type="button" class="btn btn-primary" (click)="onSave()" [disabled]="!currentRow.clothName || !currentRow.ClothType_clothTypeId || !currentRow.clothClassifier">บันทึก</button>
+        <button type="button" class="btn btn-primary" (click)="onSave()"
+            [disabled]="!currentRow.clothName || !currentRow.ClothType_clothTypeId || !currentRow.clothClassifier">บันทึก</button>
     </div>
 </clr-modal>

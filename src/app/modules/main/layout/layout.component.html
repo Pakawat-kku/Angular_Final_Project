@@ -1,6 +1,6 @@
 <clr-main-container>
   <clr-header class="header-5" style="background-color:rgb(60, 117, 36)">
-    <div class="branding" >
+    <div class="branding">
       <a href="javascript://" class="nav-link">
         <span class="title">ระบบจัดการงานซักรีด</span>
       </a>
@@ -10,7 +10,7 @@
         <clr-icon shape="home"></clr-icon>
       </a>
     </div>
-    <div class="header-actions">
+    <!-- <div class="header-actions">
       <clr-dropdown>
         <button class="nav-icon" clrDropdownTrigger>
           <clr-icon shape="user"></clr-icon>
@@ -22,17 +22,38 @@
           <a href="javascript://" clrDropdownItem (click)="onLogout()">Log out</a>
         </clr-dropdown-menu>
       </clr-dropdown>
-    </div>
+    </div> -->
   </clr-header>
-
   <div class="content-container">
     <main class="content-area">
       <router-outlet></router-outlet>
     </main>
+    <clr-vertical-nav [clrVerticalNavCollapsible]="false" [(clrVerticalNavCollapsed)]="collapsed" style="background-color: rgb(188, 226, 188);">
+      <a clrVerticalNavLink routerLink="./main" routerLinkActive="active">
+          <clr-icon shape="home"></clr-icon>
+        หน้าแรก
+      </a>
+      <a clrVerticalNavLink routerLink="./stock" routerLinkActive="active">
+        <clr-icon shape="store"></clr-icon>
+        คลังผ้า
+      </a>
+      <a clrVerticalNavLink routerLink="./purchase" routerLinkActive="active">
+        <clr-icon shape="add-text"></clr-icon>
+        รายการสั่งซื้อผ้าเข้าใหม่
+      </a>
+      <a clrVerticalNavLink routerLink="./requisition" routerLinkActive="active">
+        <clr-icon shape="note"></clr-icon>
+        เบิกผ้า
+      </a>
 
-    <nav class="sidenav">
+    </clr-vertical-nav>
+
+    <!-- 
+      
+
+    <nav class="sidenav" style="background-color: rgb(188, 226, 188);">
       <section class="sidenav-content">
-          <a href="..." class="nav-link active">
+          <a href="..." class="nav-link">
               หน้าแรก
           </a>
           <a routerLink="./stock" class="nav-link">
@@ -44,28 +65,8 @@
           <a routerLink="./requisition" class="nav-link">
             เบิกผ้า 
         </a>
-          <!--<section class="nav-group collapsible">
-              <input id="tabexample1" type="checkbox">
-              <label for="tabexample1">Collapsible Nav Element</label>
-              <ul class="nav-list">
-                  <li><a class="nav-link">Link 1</a></li>
-                  <li><a class="nav-link">Link 2</a></li>
-              </ul>
-          </section>
-          <section class="nav-group">
-              <input id="tabexample2" type="checkbox">
-              <label for="tabexample2">Default Nav Element</label>
-              <ul class="nav-list">
-                  <li><a class="nav-link">Link 1</a></li>
-                  <li><a class="nav-link">Link 2</a></li>
-                  <li><a class="nav-link active">Link 3</a></li>
-                  <li><a class="nav-link">Link 4</a></li>
-                  <li><a class="nav-link">Link 5</a></li>
-                  <li><a class="nav-link">Link 6</a></li>
-              </ul>
-          </section> -->
       </section>
-  </nav>
+  </nav> -->
   </div>
 
 </clr-main-container>
