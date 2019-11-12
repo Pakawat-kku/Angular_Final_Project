@@ -14,6 +14,7 @@ import { RequisitionComponent } from './requisition/requisition.component';
 import { StockComponent } from './stock/stock.component';
 import { WardComponent } from './ward/ward.component';
 import { PurchaseComponent } from './purchase/purchase.component';
+import { RequisitionDetailComponent } from './requisition-detail/requisition-detail.component';
 import { ReportPurchaseComponent } from './report-purchase/report-purchase.component';
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
       { path: 'preference', component: PreferenceComponent },
       { path: 'about', component: AboutComponent },
       { path: 'requisition', component: RequisitionComponent },
+      { path: 'requisition-detail', component: RequisitionDetailComponent },
       { path: 'stock', component: StockComponent },
       { path: 'ward', component: WardComponent },
       { path: 'purchase', component: PurchaseComponent },

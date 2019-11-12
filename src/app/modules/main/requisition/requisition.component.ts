@@ -1,95 +1,173 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { RequisitionService } from './../../../services/requisition.service';
 import { StockService } from './../../../services/stock.service';
-import { throwError } from 'rxjs';
+import { throwError, fromEvent } from 'rxjs';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
 import { AlertService } from 'src/app/services/alert.service';
+import { NgForm, FormBuilder, FormGroup, FormsModule } from '@angular/forms';
+import * as _ from 'lodash';
+import * as moment from 'moment';
+import { Subscription } from 'rxjs';
+import { Users } from '../register/users';
+import { AuthenticationService } from '../../../services//Authentication.service';
+import { UsersService } from '../../../services/users.service';
+import * as jwt_decode from 'jwt-decode';
+import { InputArray, InputPurchase } from './inputArray';
+import { Select2OptionData } from 'ng2-select2';
 
 @Component({
   selector: 'app-requisition',
   templateUrl: './requisition.component.html',
+  styleUrls: ['./requisition.component.scss'],
 
 })
-export class RequisitionComponent implements OnInit {
-  stockList: [];
-  reqList: [];
-  req: any;
-  currentRow: any;
-  modalEdit = false;
-  cId: any;
+export class RequisitionComponent implements OnInit, OnDestroy {
+  currentUser: Users;
+  currentUserSubscription: Subscription;
+  decoded: any;
+  month: any;
+  year: any;
+  amount: Number;
+  date: string;
+  purchaseId: number;
+  arrayList: Array<InputArray> = [];
+  public clothList: Array<Select2OptionData>;
+  public clothLists: Array<Select2OptionData>;
+  purchaseLists: any[] = [{
+    clothId: '1',
+    amountCloth: null,
+    // price: null
+  }];
+  reqId: any;
 
   constructor(
     private alertService: AlertService,
     private stockService: StockService,
     private requisitionService: RequisitionService,
-    private router: Router
-  ) {}
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private userService: UsersService
 
-  ngOnInit() {
-    this.getStock();
-    // this.getReg();
+  ) {
+    this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
+      this.currentUser = users;
+      console.log('users', users);
+      this.decoded = jwt_decode(users.token);
+      console.log('decoded', this.decoded);
+
+    });
   }
 
-  async getStock() {
-    try {
-      const result: any = await this.stockService.getStock();
-      if (result.rows) {
-        console.log(result.rows);
-        this.stockList = result.rows;
+  async ngOnInit() {
+    // this.checkYear();
+    this.getDate();
+    await this.getCloth();
+
+  }
+
+  getDate() {
+    moment.locale('th');
+    this.date = moment().format('YYYY-MM-DD HH:mm:ss');
+    console.log('date', this.date);
+    this.reqId = this.decoded.Ward_wardId + ' ' + moment().format('YYYY-MM-DD HH:mm:ss');
+  }
+
+  onClickSubmit(formData) {
+    console.log(formData);
+    if (formData.amount < 1) {
+      this.alertService.error('จำนวนรายการผ้าที่สั่งซื้อไม่ถูกต้อง');
+    } else {
+      this.amount = formData.amount;
+      for (let i = 0; i < this.amount; i++) {
+        const arrayId = new InputArray();
+        this.purchaseLists.push({
+          clothId: '1',
+          amount: null,
+          price: null
+        });
+        arrayId.id = i + 1;
+        this.arrayList.push(arrayId);
       }
-    } catch (err) {
-      console.log(err);
+      console.log('arraylist', this.arrayList);
+    }
+    this.amount = 0;
+  }
+
+  async getCloth() {
+    const result: any = await this.stockService.getCloth();
+    if (result.rows) {
+      this.clothList = result.rows;
+      console.log('cloth', this.clothList);
     }
   }
 
-   async onSave(row) {
-    this.currentRow = Object.assign({}, row);
-    console.log('row', this.currentRow);
-    this.cId = this.currentRow.cId;
-    this.currentRow.mode = 'insert';
-    this.modalEdit = true;
+  async addNewRow(rowNo) {
+    if (rowNo + 1 === this.purchaseLists.length && this.purchaseLists[rowNo].amountCloth > 0) {
+      await this.purchaseLists.push({
+        clothId: '1',
+        amountCloth: null,
+
+      });
+    }
   }
 
-  async onSubmit(cId, reqAmountCloth) {
+  async onDelete(rowNo) {
+    const result: any = await this.alertService.confirm('ยืนยันการลบ ?');
+    if (result.value) {
+      const data: any = [];
+      this.purchaseLists.forEach((row, index) => {
+        if (rowNo !== index) {
+          data.push(row);
+        }
+      });
+      this.purchaseLists = data;
+      console.log('del', this.purchaseLists);
+    }
+  }
+
+  async onSave(data) {
+    console.log('this.purchaseLists', this.purchaseLists);
+    await this.getDate();
     try {
-      console.log('cId', cId);
-      console.log('reqAmountCloth', reqAmountCloth);
       const obj = {
-        cId: cId,
-        reqAmountCloth: reqAmountCloth
+        requisitionCode: this.reqId,
+        reqDate: this.date,
+        status: '1',
+        Users_userId: this.decoded.userId,
+        Ward_wardId: this.decoded.Ward_wardId
       };
       console.log('obj', obj);
-      const result = await this.requisitionService.insertReq(obj);
-      console.log('result', result);
 
-      if (result.ok) {
-        this.alertService.reqSuccess('บันทึกสำเร็จ').then(value => {
-          console.log('value', value);
-          if (value.dismiss) {
-            this.modalEdit = false;
-            this.router.navigate(['main/requisition']);
+      const result: any = await this.requisitionService.insertRealReq(obj);
+
+      for (const row of this.purchaseLists) {
+        // this.totalPricePerUnit = 0;
+      if (row.amountCloth > 0) {
+         const obj1 = {
+            // id: 0,
+            amountCloth: row.amountCloth,
+            Cloth_clothId: row.clothId,
+            Requisition_requisitionCode	: this.reqId
+          };
+          console.log('obj1', obj1);
+          const dataInsert: any = this.requisitionService.insertReq(obj1);
+          if (dataInsert.rows) {
+            console.log('check', dataInsert.rows);
           }
-        });
+        }
       }
-    } catch (err) {
-      console.log(err);
-    }
+      this.alertService.success('บันทึกข้อมูลเรียบร้อย');
+      this.router.navigate(['main/requisition-detail']);
+
+      } catch (error) {
+    console.log(error);
   }
+}
 
-  // async onSave(form) {
-  //   try {
-  //     this.req = form.value;
-  //     console.log('save', form.value);
+ngOnDestroy() {
+  // unsubscribe to ensure no memory leaks
+  this.currentUserSubscription.unsubscribe();
+}
 
-  //     const result = await this.stockService.insertWithdraw(this.req);
-  //     if (result.ok) {
-  //       this.router.navigate(['main/requisition']);
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
-  }
-
+}

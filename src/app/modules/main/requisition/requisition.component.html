@@ -1,76 +1,41 @@
-<div class="clr-row clr-align-items-start">
-  <h1 class="clr-col-8">การเบิก</h1>
-  </div>
-  <div class="clr-row clr-align-items-start">
-  <div class="clr-col-8"> 
-   <!-- <form (ngSubmit)="onSave(f)" #f="ngForm"> -->
-    <form >
-    <clr-datagrid [(clrDgSelected)]="selected" >
-      <clr-dg-column style="text-align: center">รายการที่</clr-dg-column>
-      <clr-dg-column style="text-align: center" [clrDgField]="'cName'">ชื่อรายการ</clr-dg-column>
-      <clr-dg-column style="text-align: center" [clrDgField]="'cTypeName'">ประเภทผ้า</clr-dg-column>
-      <clr-dg-column style="text-align: center">เลือก</clr-dg-column>
-  
-      <clr-dg-row class="row-place" *clrDgItems="let item of stockList">       
-        <clr-dg-cell style="text-align: center"> 
-          {{ item.cId }}  
-        </clr-dg-cell>
-          <clr-dg-cell style="text-align: center"> 
-          {{ item.cName  }} 
-          </clr-dg-cell>
-          <clr-dg-cell style="text-align: center"> 
-            {{ item.cTypeName  }} 
-            </clr-dg-cell>
-          <clr-dg-cell  style="text-align: center">
-              <button type="submit" (click)="onSave(item)" class="btn btn-sm" >เพิ่ม</button>
-          </clr-dg-cell>
-      </clr-dg-row>
-  </clr-datagrid>
-  </form>
-  </div>
-  
-  <clr-modal [(clrModalOpen)]="modalEdit">
-      <h3 class="modal-title">จำนวนที่ต้องการเบิก</h3>
-      <div class="modal-body">
-      <form clrForm >
-        <input class="clr-input" type="hidden" name="cId"  [(ngModel)]="cId"><br>
-  
-        กรอกจำนวนที่ต้องเบิก :<input class="clr-input" type="number" name="reqAmountCloth"  [(ngModel)]="reqAmountCloth" >
-      </form>
-      </div>
-      <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" (click)="onSubmit(cId,reqAmountCloth)">Ok</button>
-          <button type="button" class="btn btn-outline" (click)="modalEdit = false">Cancel</button>
-      </div>
-  </clr-modal>
-  
-  <!-- <div class="clr-row clr-align-items-start">
-  </div>
-  <div class="clr-row clr-align-items-start">
-  <div class="clr-col-6">
-  <form clrForm (ngSubmit)="onSubmit(f)" #f="ngForm">
-    <clr-datagrid [(clrDgSelected)]="selected" >
-      <clr-dg-column >รายการที่</clr-dg-column>
-      <clr-dg-column [clrDgField]="'cName'">ชื่อรายการ</clr-dg-column>
-      <clr-dg-column >จำนวน</clr-dg-column>
-      <clr-dg-column >เลือก</clr-dg-column>
-        <clr-dg-row class="row-place" *clrDgItems="let item of stockList ">       
-          <clr-dg-cell style="text-align: center"> 
-            {{ item.cId }}  
-            <input clrInput type="text" [(ngModel)]="item.cId" name="cId" />
-          </clr-dg-cell>
-            <clr-dg-cell style="text-align: center"> 
-            {{ item.cName  }} 
-            </clr-dg-cell>
-            <clr-dg-cell style="text-align: center">
-              <input clrInput type="text" ngModel name="reqAmountCloth" />
-            </clr-dg-cell>
-            <clr-dg-cell  style="text-align: center">
-                <button type="submit" class="btn btn-sm" >เพิ่ม</button>
-            </clr-dg-cell>
-        </clr-dg-row>
-    </clr-datagrid>
-   
-  </form>
-  </div>  -->
-  
+<!-- <ol class="breadcrumb breadcrumb-arrow">
+    <li><a href="javascript://">Purchase</a></li>
+</ol> -->
+<h2 class="req">เบิกผ้า</h2>
+<br>
+<form #purchase="ngForm" (ngSubmit)="onClickSubmit(purchase.value)">
+    
+    <b>เพิ่มจำนวนช่องรายการ </b>
+    <input type="number" placeholder="ex. 12" name="amount" ngModel />
+    <input type="submit" value="ตกลง" class="btn btn-sm btn-primary-outline">
+</form>
+<br>
+
+<div *ngIf="purchaseLists && purchaseLists.length">
+    <div *ngFor="let item of purchaseLists; let i = index">
+        {{i+1}} )
+        <b> รายการผ้า : </b>
+        <!-- <select2 [data]="clothLists" [cssImport]=true></select2> -->
+    <!-- <ng-select2 [(ngModel)]="item.clothId" [data]="clothList" [placeholder]="'Please select a fruit...'">
+    </ng-select2> -->
+        <div class="clr-select-wrapper">
+            <select id="clothId" class="clr-select" name="clothId" [(ngModel)]="item.clothId">
+                <option *ngFor="let j of clothList" value="{{j.clothId}}">
+                    {{ j.clothName }}
+                </option>
+            </select> 
+        </div>
+        <b> จำนวน : </b><input type="number" name="amountCloth" [(ngModel)]="item.amountCloth" (change)="addNewRow(i)" />
+        <!-- <b> ราคา/หน่วย : </b><input type="number" name="price" [(ngModel)]="item.price" (change)="addNewRow(i)" /> บาท -->
+        <button *ngIf="i>0" (click)="onDelete(i)" class="btn btn-icon btn-sm btn-danger-outline"
+            style="margin-left:3px">
+            <!-- <clr-icon shape="times"></clr-icon> -->
+            <clr-icon shape="trash"></clr-icon>
+        </button>
+        <br>
+        <br>
+    </div>
+    <button class="btn btn-success" (click)="onSave()">บันทึก</button>
+    <!-- <input type="submit" value="save"> -->
+    <!-- </form> -->
+</div>

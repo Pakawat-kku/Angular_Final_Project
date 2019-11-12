@@ -10,7 +10,10 @@
         <clr-icon shape="home"></clr-icon>
       </a>
     </div>
-    <!-- <div class="header-actions">
+    <div class="branding">
+        <span class="title username">{{decoded.username}}</span>
+    </div>
+    <div class="header-actions">
       <clr-dropdown>
         <button class="nav-icon" clrDropdownTrigger>
           <clr-icon shape="user"></clr-icon>
@@ -22,7 +25,7 @@
           <a href="javascript://" clrDropdownItem (click)="onLogout()">Log out</a>
         </clr-dropdown-menu>
       </clr-dropdown>
-    </div> -->
+    </div>
   </clr-header>
   <div class="content-container">
     <main class="content-area">
@@ -33,21 +36,25 @@
           <clr-icon shape="home"></clr-icon>
         หน้าแรก
       </a>
-      <a clrVerticalNavLink routerLink="./stock" routerLinkActive="active">
+      <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./stock" routerLinkActive="active">
         <clr-icon shape="store"></clr-icon>
         คลังผ้า
       </a>
-      <a clrVerticalNavLink routerLink="./purchase" routerLinkActive="active">
+      <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./purchase" routerLinkActive="active">
         <clr-icon shape="add-text"></clr-icon>
         รายการสั่งซื้อผ้าเข้าใหม่
       </a>
-      <a clrVerticalNavLink routerLink="./report-purchase" routerLinkActive="active">
+      <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./report-purchase" routerLinkActive="active">
         <clr-icon shape="view-list"></clr-icon>
         รายงานรายการสั่งซื้อผ้า
       </a>
-      <a clrVerticalNavLink routerLink="./requisition" routerLinkActive="active">
+      <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition" routerLinkActive="active">
         <clr-icon shape="note"></clr-icon>
         เบิกผ้า
+      </a>
+      <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition-detail" routerLinkActive="active">
+        <clr-icon shape="view-list"></clr-icon>
+        รายการเบิกผ้า
       </a>
 
     </clr-vertical-nav>

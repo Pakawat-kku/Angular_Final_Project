@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+
+import { AuthenticationService } from '../../../services/Authentication.service';
+
 
 @Component({
   selector: 'app-login-page',
@@ -7,20 +12,50 @@ import { Router } from '@angular/router';
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
-  username = 'admin';
-  password = '';
-  isError = false;
+  loginForm: FormGroup;
+  loading = false;
+  submitted = false;
+  returnUrl: string;
 
   constructor(
-    private router: Router
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
+
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+
   }
 
-  onLogin() {
-    // tslint:disable-next-line:max-line-length
-    sessionStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsIm5hbWUiOiJKb2huIERvZSIsImxldmVsIjoyLCJpYXQiOjE1MzYyMzkwMjJ9.DEY5VNuDqMBcoNdis1asgHwHV5opwqF0C1sPXsB0DeY');
-    this.router.navigate(['main']);
+  // for accessing to form fields
+  get fval() { return this.loginForm.controls; }
+
+  onFormSubmit() {
+    this.submitted = true;
+    if (this.loginForm.invalid) {
+      return;
+    }
+    console.log('this.loginForm',  this.loginForm);
+
+    this.loading = true;
+    this.authenticationService.login(this.fval.username.value, this.fval.password.value)
+      .subscribe(
+        data => {
+
+            this.router.navigate(['/']);
+
+        },
+        error => {
+          this.toastr.error(error.error.message, 'Error');
+          this.loading = false;
+        });
   }
 }
+
