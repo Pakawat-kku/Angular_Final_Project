@@ -17,12 +17,15 @@ import { WardComponent } from './ward/ward.component';
 import { PurchaseComponent } from './purchase/purchase.component';
 import { Select2Module } from 'ng2-select2';
 import { ReportPurchaseComponent } from './report-purchase/report-purchase.component';
+import { ReportPurchaseDetailComponent } from './report-purchase-detail/report-purchase-detail.component';
 
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
     AboutComponent, LayoutComponent,
-    UserComponent, PreferenceComponent, RequisitionComponent, StockComponent, WardComponent, PurchaseComponent, ReportPurchaseComponent
+    UserComponent, PreferenceComponent, RequisitionComponent, StockComponent,
+    WardComponent, PurchaseComponent, ReportPurchaseComponent,
+    ReportPurchaseDetailComponent
   ],
   imports: [
     CommonModule,
