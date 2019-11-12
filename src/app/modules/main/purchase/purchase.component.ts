@@ -5,6 +5,8 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { InputArray, InputPurchase } from './inputArray';
 import { Select2OptionData } from 'ng2-select2';
+import { PurchaseService } from 'src/app/services/purchase.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-purchase',
@@ -15,6 +17,10 @@ export class PurchaseComponent implements OnInit {
   month: any;
   year: any;
   amount: Number;
+  date: string;
+  totalPrice: number = 0;
+  purchaseId: number;
+  totalPricePerUnit: number = 0;
   arrayList: Array<InputArray> = [];
   public clothList: Array<Select2OptionData>;
   public clothLists: Array<Select2OptionData>;
@@ -24,17 +30,20 @@ export class PurchaseComponent implements OnInit {
     price: null
   }];
   constructor(
+    private router: Router,
     private alert: AlertService,
-    private stockService: StockService
+    private stockService: StockService,
+    private purchaseService: PurchaseService
   ) { }
 
   async ngOnInit() {
     this.checkYear();
+    // this.getDate();
     await this.getCloth();
     this.clothLists = [{ id: '1', text: 'test1' }, { id: '2', text: 'test2' }];
   }
-  async checkYear() {
 
+  async checkYear() {
     this.month = moment().format('MM');
     // tslint:disable-next-line: radix
     if (parseInt(this.month) > 9) {
@@ -43,6 +52,13 @@ export class PurchaseComponent implements OnInit {
       this.year = moment().add(542, 'years').format('YYYY');
     }
   }
+
+  getDate() {
+    moment.locale('th');
+    this.date = moment().format('YYYY-MM-DD HH:mm:ss');
+    console.log('date', this.date);
+  }
+
   onClickSubmit(formData) {
     console.log(formData);
     if (formData.amount < 1) {
@@ -100,12 +116,56 @@ export class PurchaseComponent implements OnInit {
     console.log(this.purchaseLists);
     let saveData: any = [];
     for (let row of this.purchaseLists) {
+      this.totalPricePerUnit = 0;
       if (row.amount > 0 && row.price > 0) {
         await saveData.push(row);
-        const result 
+        this.totalPricePerUnit = row.amount * row.price;
+        this.totalPrice += this.totalPricePerUnit;
       }
     }
-    console.log(saveData);
+    await this.getDate();
+    console.log('save data', saveData);
+    console.log('save data price', this.totalPrice);
+    const obj = {
+      purchaseId: 0,
+      totalPrice: this.totalPrice,
+      purchaseDate: this.date
+    };
+    try {
+      const result: any = await this.purchaseService.insertPurchase(obj);
+      if (result.rows) {
+        console.log(result.rows);
+      }
+      const getPur: any = await this.purchaseService.getPurchase(this.totalPrice, this.date);
+      if (getPur.rows) {
+        console.log('get', getPur.rows[0].purchaseId);
+        this.purchaseId = getPur.rows[0].purchaseId;
+        for (let row of this.purchaseLists) {
+          this.totalPricePerUnit = 0;
+          if (row.amount > 0 && row.price > 0) {
+            this.totalPricePerUnit = row.amount * row.price;
+            console.log('total price', this.totalPricePerUnit);
+            const data = {
+              id: 0,
+              amountCloth: row.amount,
+              pricePerUnit: row.price,
+              totalPrice: this.totalPricePerUnit,
+              Purchase_purchaseId: this.purchaseId,
+              Cloth_clothId: row.clothId
+            };
+            console.log('obj', data);
+            const dataInsert: any = this.purchaseService.insertPurchaseDetail(data);
+            if (dataInsert.rows) {
+              console.log('check', dataInsert.rows);
+            }
+          }
+        }
+        this.alert.success('บันทึกข้อมูลเรียบร้อย');
+        this.router.navigate(['main/report-purchase']);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 

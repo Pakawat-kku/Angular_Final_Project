@@ -13,6 +13,7 @@ import { RequisitionComponent } from './requisition/requisition.component';
 import { StockComponent } from './stock/stock.component';
 import { WardComponent } from './ward/ward.component';
 import { PurchaseComponent } from './purchase/purchase.component';
+import { ReportPurchaseComponent } from './report-purchase/report-purchase.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,7 @@ const routes: Routes = [
       { path: 'stock', component: StockComponent },
       { path: 'ward', component: WardComponent },
       { path: 'purchase', component: PurchaseComponent },
+      { path: 'report-purchase', component: ReportPurchaseComponent },
       { path: '**', component: PageNotFoundComponent },
     ]
   }
