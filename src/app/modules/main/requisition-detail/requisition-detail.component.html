@@ -22,7 +22,9 @@
 </div>
 
 <clr-modal *ngIf="regWaitDetail" [(clrModalOpen)]="modalEdit">
-    <*ngFor="let item of showReqlist"
+    <div *ngFor="let item of regWaitDetail">
+        <b></b>
+    </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline" (click)="modalEdit = false">ปิด</button>
     </div>
