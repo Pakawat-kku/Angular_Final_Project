@@ -7,12 +7,34 @@
         <clr-dg-column>ดูข้อมูลการบิก</clr-dg-column>   
         <clr-dg-column>แก้ไขรายการ</clr-dg-column>   
         <clr-dg-row id="green" *ngFor="let item of showReqlist" >
-            <clr-dg-cell>{{item.day}}</clr-dg-cell>
+            <clr-dg-cell>{{item.reqDate}}</clr-dg-cell>
             <clr-dg-cell>{{item.time}}</clr-dg-cell>
-            <clr-dg-cell *ngIf="item.status==1">รออนุมัติ</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status==1" style="color:red">รออนุมัติ</clr-dg-cell>
             <clr-dg-cell *ngIf="item.status==2">อนุมัติแล้ว</clr-dg-cell>
-            <clr-dg-cell>ข้อมูลการเบิก(เทอมหน้า)</clr-dg-cell>
+            <clr-dg-cell > 
+                <button class="btn btn-success-outline btn-sm" (click)="onAdd(item.requisitionCode)">
+                    ข้อมูลการเบิก
+                </button>
+            </clr-dg-cell>
             <clr-dg-cell>แก้ไข(เทอมหน้า)</clr-dg-cell>
         </clr-dg-row>
 </clr-datagrid>
 </div>
+
+
+<clr-modal *ngIf="regWaitDetail" [(clrModalOpen)]="modalEdit">
+    <div class="modal-body">
+            <h2 style="text-align: center;"><b>รายการผ้าที่เบิก</b></h2>
+        <clr-datagrid >
+                <clr-dg-column>รายการผ้า</clr-dg-column>
+                <clr-dg-column>จำนวน</clr-dg-column> 
+                <clr-dg-row  *clrDgItems="let items of regWaitDetail" >
+                    <clr-dg-cell>{{items.clothName}}</clr-dg-cell>
+                    <clr-dg-cell>{{items.amountCloth}}</clr-dg-cell>
+                </clr-dg-row>
+        </clr-datagrid>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modalEdit = false">ปิด</button>
+    </div>
+    </div>
+</clr-modal>

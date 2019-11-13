@@ -34,4 +34,12 @@ showReqWait(wardId) {
   .catch(error => error);
 }
 
+showReqWaitDetail(wardId, requisitionCode) {
+  // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
+  return this.http.get(`http://localhost:3001/req/showReqWaitDetail?wardId=${wardId}&&requisitionCode=${requisitionCode}`)
+  .toPromise()
+  .then(result => result)
+  .catch(error => error);
+}
+
 }
