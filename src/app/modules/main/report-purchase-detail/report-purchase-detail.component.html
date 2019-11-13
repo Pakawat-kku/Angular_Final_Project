@@ -1,0 +1,31 @@
+<a routerLink="/main/report-purchase">
+    <button class="btn btn-success-outline btn-sm">
+        <clr-icon shape="undo"></clr-icon> BACK
+    </button>
+</a>
+<h2>รายงานรายการสั่งซื้อผ้า</h2>
+<br>
+วันที่ {{date}} {{month}} {{year}}
+<br><br>
+<clr-datagrid *ngIf="purchaseDetailList" class="clr-col-10">
+    <clr-dg-column class="clr-col-1">ลำดับ</clr-dg-column>
+    <clr-dg-column [clrDgField]="'clothName'">รายการผ้า</clr-dg-column>
+    <clr-dg-column>จำนวน</clr-dg-column>
+    <clr-dg-column>ราคา/หน่วย (บาท)</clr-dg-column>
+    <clr-dg-column>ราคารวม (บาท)</clr-dg-column>
+    <clr-dg-row id="bgc" *clrDgItems="let item of purchaseDetailList; let i = index">
+        <clr-dg-cell class="clr-col-1">{{ i+1 }}</clr-dg-cell>
+        <clr-dg-cell>{{ item.clothName }}</clr-dg-cell>
+        <clr-dg-cell>{{ item.amountCloth }} ( {{item.clothClassifier}} )</clr-dg-cell>
+        <clr-dg-cell>{{ item.pricePerUnit }}</clr-dg-cell>
+        <clr-dg-cell>{{ item.totalPrice }}</clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-footer>
+        <b>รายการผ้าทั้งหมด {{purchaseDetailList.length}} รายการ </b>&nbsp;&nbsp;
+        <clr-dg-pagination #pagination [clrDgPageSize]="10">
+            <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
+            {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+            of {{pagination.totalItems}} leave
+        </clr-dg-pagination>
+    </clr-dg-footer>
+</clr-datagrid>
