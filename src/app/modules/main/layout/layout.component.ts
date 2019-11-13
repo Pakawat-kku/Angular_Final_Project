@@ -34,9 +34,9 @@ export class LayoutComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     // tslint:disable-next-line: no-unused-expression
-    this.decoded;
+    await this.decoded;
 
   }
 
