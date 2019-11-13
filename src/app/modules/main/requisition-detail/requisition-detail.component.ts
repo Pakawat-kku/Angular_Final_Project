@@ -82,8 +82,8 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
       const result: any = await this.requisitionService.showReqWaitDetail(this.decoded.Ward_wardId, requisitionCode);
       console.log('result', result);
       if (result.rows) {
-        this.regWaitDetail = result;
-        console.log();
+        this.regWaitDetail = result.rows;
+        console.log('this.regWaitDetail', this.regWaitDetail);
 
       }
 

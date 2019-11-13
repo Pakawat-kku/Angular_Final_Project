@@ -21,11 +21,20 @@
 </clr-datagrid>
 </div>
 
+
 <clr-modal *ngIf="regWaitDetail" [(clrModalOpen)]="modalEdit">
-    <div *ngFor="let item of regWaitDetail">
-        <b></b>
-    </div>
+    <div class="modal-body">
+            <h2 style="text-align: center;"><b>รายการผ้าที่เบิก</b></h2>
+        <clr-datagrid >
+                <clr-dg-column>รายการผ้า</clr-dg-column>
+                <clr-dg-column>จำนวน</clr-dg-column> 
+                <clr-dg-row  *clrDgItems="let items of regWaitDetail" >
+                    <clr-dg-cell>{{items.clothName}}</clr-dg-cell>
+                    <clr-dg-cell>{{items.amountCloth}}</clr-dg-cell>
+                </clr-dg-row>
+        </clr-datagrid>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline" (click)="modalEdit = false">ปิด</button>
+    </div>
     </div>
 </clr-modal>
