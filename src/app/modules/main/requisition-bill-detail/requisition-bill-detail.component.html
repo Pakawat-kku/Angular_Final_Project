@@ -1,4 +1,9 @@
-<a routerLink="/main/requisition-detail">
+<a *ngIf="decoded.position==2" routerLink="/main/requisition-detail">
+    <button class="btn btn-success-outline btn-sm">
+        <clr-icon shape="undo"></clr-icon> BACK
+    </button>
+</a>
+<a *ngIf="decoded.position==1" routerLink="/main/requisition-detail-admin">
     <button class="btn btn-success-outline btn-sm">
         <clr-icon shape="undo"></clr-icon> BACK
     </button>
@@ -27,3 +32,4 @@
         </clr-dg-pagination>
     </clr-dg-footer>
 </clr-datagrid>
+<button *ngIf="decoded.position==1" [disabled]="requisitionBillDetailOnly[0].status==2" type="button" class="btn btn-primary" (click)="approve(requisitionCode)">อนุมัติ</button>

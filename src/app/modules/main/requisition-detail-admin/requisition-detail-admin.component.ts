@@ -49,6 +49,8 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
   }
 
   ngOnInit() {
+    moment.locale('th');
+
     this.showReqWaitAdmin();
     // tslint:disable-next-line: no-unused-expression
     this.showReqWaitDetailAdmin;

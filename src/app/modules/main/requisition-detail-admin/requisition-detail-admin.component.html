@@ -13,7 +13,10 @@
             <clr-dg-cell *ngIf="item.status==1" style="color:red">รออนุมัติ</clr-dg-cell>
             <clr-dg-cell *ngIf="item.status==2" style="color:green">อนุมัติแล้ว</clr-dg-cell>
             <clr-dg-cell > 
-                <button class="btn btn-success-outline btn-sm" (click)="onAdd(item.requisitionCode)">
+                <!-- <button class="btn btn-success-outline btn-sm" (click)="onAdd(item.requisitionCode)">
+                    ข้อมูลการเบิก
+                </button> -->
+                <button class="btn btn-success-outline btn-sm" routerLink="/main/requisition-bill-detail/{{item.requisitionCode}}">
                     ข้อมูลการเบิก
                 </button>
             </clr-dg-cell>
@@ -30,7 +33,7 @@
 </div>
 
 
-<clr-modal *ngIf="showReqWaitDetailAdmin" [(clrModalOpen)]="modalEdit">
+<!-- <clr-modal *ngIf="showReqWaitDetailAdmin" [(clrModalOpen)]="modalEdit">
     <div class="modal-body">
             <h2 style="text-align: center;"><b>รายการผ้าที่เบิก {{requisitionCode}}</b></h2>
         <clr-datagrid >
@@ -45,7 +48,7 @@
     <div class="modal-footer">        
         <button type="button" class="btn btn-primary" (click)="approve(requisitionCode)">อนุมัติ</button>
         <button type="button" class="btn btn-danger" (click)="notApprove()">ไม่อนุมัติ</button>
-        <!-- <button type="button" class="btn btn-outline" (click)="modalEdit = false">ปิด</button> -->
+        <button type="button" class="btn btn-outline" (click)="modalEdit = false">ปิด</button>
     </div>
     </div>
-</clr-modal>
+</clr-modal> -->

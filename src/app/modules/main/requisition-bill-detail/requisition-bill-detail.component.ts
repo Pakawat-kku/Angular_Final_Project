@@ -2,9 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import * as moment from 'moment';
+import { AlertService } from 'src/app/services/alert.service';
 
 import { RequisitionService } from './../../../services/requisition.service';
-
+import { Subscription } from 'rxjs';
+import { Users } from '../register/users';
+import { AuthenticationService } from '../../../services//Authentication.service';
+import * as jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-requisition-bill-detail',
@@ -15,11 +19,26 @@ export class RequisitionBillDetailComponent implements OnInit {
   requisitionCode: any;
   requisitionBillDetail: any;
   requisitionBillDetailOnly: any;
+  currentUser: Users;
+  currentUserSubscription: Subscription;
+  decoded: any;
+  showReqWaitDetailAdmin: any;
 
   constructor(
+    private alertService: AlertService,
     private _Activatedroute: ActivatedRoute,
     private router: Router,
-    private requisitionService: RequisitionService) { }
+    private requisitionService: RequisitionService,
+    private authenticationService: AuthenticationService,
+    ) {
+      this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
+      this.currentUser = users;
+      console.log('users', users);
+      this.decoded = jwt_decode(users.token);
+      console.log('decoded', this.decoded);
+
+    });
+  }
 
     async ngOnInit() {
     moment.locale('th');
@@ -73,8 +92,26 @@ async requisitionHeadBill() {
 
 }
 
-// reload() {
-//   this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
-// }
+async approve(requisitionCode) {
+  this.requisitionCode = requisitionCode;
+  console.log(this.requisitionCode);
+
+  try {
+    const result: any = await this.requisitionService.approveReq(this.requisitionCode);
+    console.log('result', result);
+    if (result.rows) {
+      this.showReqWaitDetailAdmin = result.rows;
+      console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
+      this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
+      this.requisitionHeadBill();
+      this.requisitionBill();
+      this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
+
+    }
+  } catch (err) {
+    console.log(err);
+  }
+
+}
 
 }
