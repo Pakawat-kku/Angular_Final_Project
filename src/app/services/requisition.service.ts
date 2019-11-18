@@ -34,12 +34,43 @@ showReqWait(wardId) {
   .catch(error => error);
 }
 
-showReqWaitDetail(wardId, requisitionCode) {
+showReqWaitDetail(requisitionCode) {
   // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-  return this.http.get(`http://localhost:3001/req/showReqWaitDetail?wardId=${wardId}&&requisitionCode=${requisitionCode}`)
+  return this.http.get(`http://localhost:3001/req/showReqWaitDetail?requisitionCode=${requisitionCode}`)
   .toPromise()
   .then(result => result)
   .catch(error => error);
+}
+
+showReqWaitDetailOnly(requisitionCode) {
+  // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
+  return this.http.get(`http://localhost:3001/req/showReqWaitDetailOnly?requisitionCode=${requisitionCode}`)
+  .toPromise()
+  .then(result => result)
+  .catch(error => error);
+}
+
+showReqWaitAdmin() {
+  // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
+  return this.http.get(`http://localhost:3001/req/showReqWaitAdmin/`, {})
+  .toPromise()
+  .then(result => result)
+  .catch(error => error);
+}
+
+showReqWaitDetailAdmin(requisitionCode) {
+  // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
+  return this.http.get(`http://localhost:3001/req/showReqWaitDetailAdmin?requisitionCode=${requisitionCode}`)
+  .toPromise()
+  .then(result => result)
+  .catch(error => error);
+}
+
+approveReq(requisitionCode) {
+  return this.http.post(`http://localhost:3001/req/approveReq`, { requisitionCode })
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
 }
 
 }

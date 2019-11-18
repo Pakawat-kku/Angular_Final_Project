@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AlertService } from 'src/app/services/alert.service';
 
 import { Users } from '../modules/main/register/users';
 
@@ -10,10 +11,14 @@ import { Users } from '../modules/main/register/users';
 
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<Users>;
-    public currentUser: Observable<Users>;
+    public  currentUser: Observable<Users>;
     private router: Router;
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient,
+        private alertService: AlertService,
+
+    ) {
         this.currentUserSubject = new BehaviorSubject<Users>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -31,6 +36,9 @@ export class AuthenticationService {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(users));
                     this.currentUserSubject.next(users);
+                } else {
+                    this.alertService.error('username หรือ password');
+                    this.router.navigate(['/login/login-page']);
                 }
                 return users;
             }));

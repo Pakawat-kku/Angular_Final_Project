@@ -39,6 +39,9 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     // price: null
   }];
   reqId: any;
+  modalBill = false;
+  bill: any;
+  regWaitDetail: any;
 
   constructor(
     private alertService: AlertService,
@@ -157,13 +160,33 @@ export class RequisitionComponent implements OnInit, OnDestroy {
           }
         }
       }
-      this.alertService.success('บันทึกข้อมูลเรียบร้อย');
-      this.router.navigate(['main/requisition-detail']);
+      this.alertService.reqSuccess('บันทึกข้อมูลเรียบร้อย');
+      this.router.navigate(['main/requisition-bill-detail/' + this.reqId]);
 
       } catch (error) {
     console.log(error);
   }
 }
+
+// async showBill(data) {
+//   this.modalBill = true;
+//     this.bill = data;
+//     console.log('this.requisitionCode' , this.bill);
+//     try {
+//       const result: any = await this.requisitionService.showReqWaitDetail(this.bill);
+//       console.log('result', result);
+//       if (result.rows) {
+//         this.regWaitDetail = result.rows;
+//         console.log('this.regWaitDetail', this.regWaitDetail);
+
+//       }
+
+//     } catch (err) {
+//       console.log(err);
+//     }
+
+//   }
+
 
 ngOnDestroy() {
   // unsubscribe to ensure no memory leaks

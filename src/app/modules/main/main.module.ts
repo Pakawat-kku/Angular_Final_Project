@@ -20,6 +20,8 @@ import { Select2Module } from 'ng2-select2';
 import { RequisitionDetailComponent } from './requisition-detail/requisition-detail.component';
 import { ReportPurchaseComponent } from './report-purchase/report-purchase.component';
 import { ReportPurchaseDetailComponent } from './report-purchase-detail/report-purchase-detail.component';
+import { RequisitionDetailAdminComponent } from './requisition-detail-admin/requisition-detail-admin.component';
+import { RequisitionBillDetailComponent } from './requisition-bill-detail/requisition-bill-detail.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,7 @@ import { ReportPurchaseDetailComponent } from './report-purchase-detail/report-p
     AboutComponent, LayoutComponent,
     UserComponent, PreferenceComponent, RequisitionComponent, StockComponent,
     WardComponent, PurchaseComponent, ReportPurchaseComponent,
-    ReportPurchaseDetailComponent, RequisitionDetailComponent
+    ReportPurchaseDetailComponent, RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent
   ],
   imports: [
     CommonModule,

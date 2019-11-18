@@ -11,7 +11,9 @@
       </a>
     </div>
     <div class="branding">
-        <span class="title username">{{decoded.username}}</span>
+        <span class="title username">{{decoded.wardName}}</span>
+        <span class="title username" *ngIf="decoded.position==1">admin</span>
+
     </div>
     <div class="header-actions">
       <clr-dropdown>
@@ -47,6 +49,10 @@
       <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./report-purchase" routerLinkActive="active">
         <clr-icon shape="view-list"></clr-icon>
         รายงานรายการสั่งซื้อผ้า
+      </a>
+      <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./requisition-detail-admin" routerLinkActive="active">
+        <clr-icon shape="view-list"></clr-icon>
+        รายการเบิกผ้าเข้าของวอร์ด
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition" routerLinkActive="active">
         <clr-icon shape="note"></clr-icon>
