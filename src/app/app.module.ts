@@ -21,7 +21,8 @@ import { HelperModule } from './pipes/helpers.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+
   ],
   imports: [
     BrowserModule,

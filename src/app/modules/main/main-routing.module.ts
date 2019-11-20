@@ -17,6 +17,9 @@ import { WardComponent } from './ward/ward.component';
 import { PurchaseComponent } from './purchase/purchase.component';
 import { RequisitionDetailComponent } from './requisition-detail/requisition-detail.component';
 import { ReportPurchaseComponent } from './report-purchase/report-purchase.component';
+import { RequisitionDetailAdminComponent } from './requisition-detail-admin/requisition-detail-admin.component';
+import { RequisitionBillDetailComponent } from './requisition-bill-detail/requisition-bill-detail.component';
+
 
 const routes: Routes = [
   {
@@ -31,6 +34,8 @@ const routes: Routes = [
       { path: 'about', component: AboutComponent },
       { path: 'requisition', component: RequisitionComponent },
       { path: 'requisition-detail', component: RequisitionDetailComponent },
+      { path: 'requisition-bill-detail/:requisitionCode', component: RequisitionBillDetailComponent },
+      { path: 'requisition-detail-admin', component: RequisitionDetailAdminComponent },
       { path: 'stock', component: StockComponent },
       { path: 'ward', component: WardComponent },
       { path: 'purchase', component: PurchaseComponent },

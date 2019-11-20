@@ -1,0 +1,35 @@
+<a *ngIf="decoded.position==2" routerLink="/main/requisition-detail">
+    <button class="btn btn-success-outline btn-sm">
+        <clr-icon shape="undo"></clr-icon> BACK
+    </button>
+</a>
+<a *ngIf="decoded.position==1" routerLink="/main/requisition-detail-admin">
+    <button class="btn btn-success-outline btn-sm">
+        <clr-icon shape="undo"></clr-icon> BACK
+    </button>
+</a>
+<div class="head-bill">
+<b>รหัสการเบิก : {{requisitionCode}}</b><br>
+<b>เบิกจากวอร์ด : {{requisitionBillDetailOnly[0].wardName}}</b><br>
+<b>เมื่อวันที่ : {{requisitionBillDetailOnly[0].day}}</b><br>
+<b>เวลา : {{requisitionBillDetailOnly[0].time}}</b><br>
+<b *ngIf="requisitionBillDetailOnly[0].status==1">สถานะ​​ : ยังไม่อนุมัติ</b><br>
+<b *ngIf="requisitionBillDetailOnly[0].status==2">สถานะ : อนุมัติแล้ว</b>
+</div>
+<clr-datagrid *ngIf="requisitionBillDetail" class="clr-col-10">
+    <clr-dg-column [clrDgField]="'clothName'">รายการผ้า</clr-dg-column>
+    <clr-dg-column>จำนวน</clr-dg-column>
+    <clr-dg-row id="bgc" *clrDgItems="let item of requisitionBillDetail">
+        <clr-dg-cell>{{ item.clothName }}</clr-dg-cell>
+        <clr-dg-cell>{{ item.amountCloth }} </clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-footer>
+        <b>รายการผ้าทั้งหมด {{requisitionBillDetail.length}} รายการ </b>&nbsp;&nbsp;
+        <clr-dg-pagination #pagination [clrDgPageSize]="10">
+            <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
+            {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+            of {{pagination.totalItems}} leave
+        </clr-dg-pagination>
+    </clr-dg-footer>
+</clr-datagrid>
+<button *ngIf="decoded.position==1" [disabled]="requisitionBillDetailOnly[0].status==2" type="button" class="btn btn-primary" (click)="approve(requisitionCode)">อนุมัติ</button>

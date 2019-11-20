@@ -1,14 +1,13 @@
-.clr-col-8 {
-    display: block;
-    margin: auto; 
-}
 
 .title {
     text-align: center;
 }
 
-.limit-height {
-    height: 500px;
+.limit-height clr-datagrid.clr-col-8 {
+    height: 570px;
+    position: relative;
+    margin-left: auto;
+    margin-right:auto ;
 }
 
 #green:hover, #green:focus{

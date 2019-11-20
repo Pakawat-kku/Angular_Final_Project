@@ -7,22 +7,33 @@
         <clr-dg-column>ดูข้อมูลการบิก</clr-dg-column>   
         <clr-dg-column>แก้ไขรายการ</clr-dg-column>   
         <clr-dg-row id="green" *ngFor="let item of showReqlist" >
-            <clr-dg-cell>{{item.reqDate}}</clr-dg-cell>
+            <clr-dg-cell>{{item.day}}</clr-dg-cell>
             <clr-dg-cell>{{item.time}}</clr-dg-cell>
             <clr-dg-cell *ngIf="item.status==1" style="color:red">รออนุมัติ</clr-dg-cell>
-            <clr-dg-cell *ngIf="item.status==2">อนุมัติแล้ว</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status==2" style="color:green">อนุมัติแล้ว</clr-dg-cell>
             <clr-dg-cell > 
-                <button class="btn btn-success-outline btn-sm" (click)="onAdd(item.requisitionCode)">
+            <!-- <a routerLink="/main/requisition-bill-detail/{{item.requisitionCode}}">  -->
+                <button class="btn btn-success-outline btn-sm" routerLink="/main/requisition-bill-detail/{{item.requisitionCode}}">
                     ข้อมูลการเบิก
                 </button>
+            <!-- </a>  -->
             </clr-dg-cell>
             <clr-dg-cell>แก้ไข(เทอมหน้า)</clr-dg-cell>
         </clr-dg-row>
+        <clr-dg-footer>
+            <b>รายการผ้าทั้งหมด {{showReqlist.length}} รายการ </b>&nbsp;&nbsp;
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+                {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                of {{pagination.totalItems}} users
+            </clr-dg-pagination>
+        </clr-dg-footer>
 </clr-datagrid>
 </div>
 
 
-<clr-modal *ngIf="regWaitDetail" [(clrModalOpen)]="modalEdit">
+
+<!-- <clr-modal *ngIf="regWaitDetail" [(clrModalOpen)]="modalEdit">
     <div class="modal-body">
             <h2 style="text-align: center;"><b>รายการผ้าที่เบิก</b></h2>
         <clr-datagrid >
@@ -37,4 +48,4 @@
         <button type="button" class="btn btn-outline" (click)="modalEdit = false">ปิด</button>
     </div>
     </div>
-</clr-modal>
+</clr-modal> -->

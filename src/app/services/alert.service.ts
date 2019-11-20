@@ -24,6 +24,15 @@ export class AlertService {
     });
   }
 
+  successApprove(text = 'สำเร็จ', title = 'congrate') {
+    return Swal.fire({
+      type: 'success',
+      title: 'อนุมัติการเบิกเสร็จสิ้น',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
   notFoundUser(text = 'not found user', title = ':-(') {
     return Swal.fire('Not found user!');
   }
@@ -78,7 +87,7 @@ export class AlertService {
     });
   }
 
-approve() {
+approve(text = 'สำเร็จ', title = 'congrate') {
   return Swal.fire({
     title: 'ยืนยันการอนุมัติ',
     text: 'คุณแน่ใจหรือไม่ ?',
@@ -138,6 +147,8 @@ reqSuccess(text = 'สำเร็จ', title = 'congrate') {
   });
 }
 
+
+
 confirmReq(title = 'คุณต้องการส่งคำร้องเบิกผ้าใช่ไหม ?') {
   return Swal.fire({
     title: 'คุณต้องการส่งคำร้องเบิกผ้าใช่ไหม',
@@ -148,6 +159,15 @@ confirmReq(title = 'คุณต้องการส่งคำร้องเ
     cancelButtonColor: '#d33',
     cancelButtonText: 'ยกเลิก',
     confirmButtonText: 'ยืนยัน'
+  });
+}
+
+loginfail(text = 'username หรือ password', title = 'username หรือ password') {
+  return Swal.fire({
+    title: title,
+    text: text,
+    type: 'error',
+    confirmButtonText: 'ปิด'
   });
 }
 }
