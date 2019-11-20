@@ -4,7 +4,7 @@
 <h2>รายการสั่งซื้อผ้าเข้ามาใหม่</h2>
 <br>
 <form #purchase="ngForm" (ngSubmit)="onClickSubmit(purchase.value)">
-    <b>ประจำปีงบประมาณ </b> {{year}} <br>
+    <b>วันที่</b> {{day}} พ.ศ. {{pee}} <b>ประจำปีงบประมาณ </b> {{year}} <br>
     <b>เพิ่มจำนวนช่องรายการ </b>
     <input type="number" placeholder="ex. 12" name="amount" ngModel />
     <input type="submit" value="ตกลง" class="btn btn-sm btn-primary-outline">

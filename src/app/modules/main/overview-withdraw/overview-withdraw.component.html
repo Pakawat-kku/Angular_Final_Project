@@ -1,0 +1,7 @@
+<clr-datagrid>
+    <clr-dg-column>ward</clr-dg-column>
+    <clr-dg-row *ngFor="let list of requisitionList">
+        <clr-dg-cell>{{list.wardName}}</clr-dg-cell>
+        <app-overview-withdraw-detail *clrIfExpanded [list]="list.requisitionCode" ngProjectAs="clr-dg-row-detail"></app-overview-withdraw-detail>
+    </clr-dg-row>
+</clr-datagrid>

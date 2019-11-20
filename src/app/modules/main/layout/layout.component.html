@@ -31,7 +31,7 @@
     <main class="content-area">
       <router-outlet></router-outlet>
     </main>
-    <clr-vertical-nav [clrVerticalNavCollapsible]="false" [(clrVerticalNavCollapsed)]="collapsed" style="background-color: rgb(188, 226, 188);">
+    <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed" style="background-color: rgb(188, 226, 188);">
       <a clrVerticalNavLink routerLink="./main" routerLinkActive="active">
           <clr-icon shape="home"></clr-icon>
         หน้าแรก
@@ -55,6 +55,10 @@
       <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition-detail" routerLinkActive="active">
         <clr-icon shape="view-list"></clr-icon>
         รายการเบิกผ้า
+      </a>
+      <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./overview-withdraw" routerLinkActive="active">
+        <clr-icon shape="view-list"></clr-icon>
+        รายการเบิกผ้าประจำวอร์ด
       </a>
 
     </clr-vertical-nav>

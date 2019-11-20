@@ -1,3 +1,4 @@
+import { OverviewWithdrawComponent } from './overview-withdraw/overview-withdraw.component';
 import { ReportPurchaseDetailComponent } from './report-purchase-detail/report-purchase-detail.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -34,6 +35,7 @@ const routes: Routes = [
       { path: 'ward', component: WardComponent },
       { path: 'purchase', component: PurchaseComponent },
       { path: 'report-purchase', component: ReportPurchaseComponent },
+      { path: 'overview-withdraw', component: OverviewWithdrawComponent },
       { path: 'report-purchase-detail/:purchaseId', component: ReportPurchaseDetailComponent },
       { path: '**', component: PageNotFoundComponent },
     ]
