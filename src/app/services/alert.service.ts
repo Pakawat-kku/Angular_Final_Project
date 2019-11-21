@@ -162,14 +162,14 @@ confirmReq(title = 'คุณต้องการส่งคำร้องเ
   });
 }
 
-loginfail(text = 'username หรือ password', title = 'username หรือ password') {
-  return Swal.fire({
-    title: title,
-    text: text,
-    type: 'error',
-    confirmButtonText: 'ปิด'
-  });
-}
+// loginfail(text = 'username หรือ password ไม่ถูกต้อง', title = 'username หรือ password ไม่ถูกต้อง') {
+//   return Swal.fire({
+//     title: title,
+//     text: text,
+//     type: 'error',
+//     confirmButtonText: 'ปิด'
+//   });
+// }
 }
 
 

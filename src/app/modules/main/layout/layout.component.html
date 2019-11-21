@@ -12,8 +12,7 @@
     </div>
     <div class="branding">
         <span class="title username">{{decoded.wardName}}</span>
-        <span class="title username" *ngIf="decoded.position==1">admin</span>
-
+        <span class="title username" *ngIf="decoded.position==1">{{decoded.username}}</span>
     </div>
     <div class="header-actions">
       <clr-dropdown>
@@ -33,7 +32,7 @@
     <main class="content-area">
       <router-outlet></router-outlet>
     </main>
-    <clr-vertical-nav [clrVerticalNavCollapsible]="false" [(clrVerticalNavCollapsed)]="collapsed" style="background-color: rgb(188, 226, 188);">
+    <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed" style="background-color: rgb(188, 226, 188);">
       <a clrVerticalNavLink routerLink="./main" routerLinkActive="active">
           <clr-icon shape="home"></clr-icon>
         หน้าแรก

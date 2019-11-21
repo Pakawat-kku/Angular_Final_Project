@@ -40,12 +40,12 @@ export class RequisitionBillDetailComponent implements OnInit {
     });
   }
 
-    async ngOnInit() {
+  async ngOnInit() {
     moment.locale('th');
     this.requisitionCode = this._Activatedroute.snapshot.paramMap.get('requisitionCode');
     console.log('id-pass', this.requisitionCode);
-    this.requisitionBill();
-    this.requisitionHeadBill();
+    await this.requisitionBill();
+    await this.requisitionHeadBill();
 
   }
 
