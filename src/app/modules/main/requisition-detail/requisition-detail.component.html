@@ -1,24 +1,25 @@
 <h2 class="title">ประวัติการเบิกผ้า</h2>
 <div class="limit-height">
 <clr-datagrid class="clr-col-8" *ngIf="showReqlist">
+        <clr-dg-column>รหัสการเบิก</clr-dg-column>
         <clr-dg-column [clrDgField]="'day'">วันที่เบิก</clr-dg-column>
         <clr-dg-column>เวลาที่ยื่นคำร้องเบิกผ้า</clr-dg-column>
         <clr-dg-column>สถานะ</clr-dg-column> 
         <clr-dg-column>ดูข้อมูลการบิก</clr-dg-column>   
-        <clr-dg-column>แก้ไขรายการ</clr-dg-column>   
         <clr-dg-row id="green" *ngFor="let item of showReqlist" >
+            <clr-dg-cell>{{item.requisitionCode}}</clr-dg-cell>
             <clr-dg-cell>{{item.day}}</clr-dg-cell>
             <clr-dg-cell>{{item.time}}</clr-dg-cell>
-            <clr-dg-cell *ngIf="item.status==1" style="color:red">รออนุมัติ</clr-dg-cell>
-            <clr-dg-cell *ngIf="item.status==2" style="color:green">อนุมัติแล้ว</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status==0" style="color:blue">รออนุมัติ</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status==1" style="color:green">อนุมัติแล้ว</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status==2" style="color:red">ไม่อนุมัติ</clr-dg-cell>
             <clr-dg-cell > 
             <!-- <a routerLink="/main/requisition-bill-detail/{{item.requisitionCode}}">  -->
-                <button class="btn btn-success-outline btn-sm" routerLink="/main/requisition-bill-detail/{{item.requisitionCode}}">
+                <button class="btn btn-primary-outline btn-sm" routerLink="/main/requisition-bill-detail/{{item.requisitionCode}}">
                     ข้อมูลการเบิก
                 </button>
             <!-- </a>  -->
             </clr-dg-cell>
-            <clr-dg-cell>แก้ไข(เทอมหน้า)</clr-dg-cell>
         </clr-dg-row>
         <clr-dg-footer>
             <b>รายการผ้าทั้งหมด {{showReqlist.length}} รายการ </b>&nbsp;&nbsp;

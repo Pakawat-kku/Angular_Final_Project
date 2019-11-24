@@ -33,6 +33,33 @@ export class AlertService {
     });
   }
 
+  successNotApprove(text = 'สำเร็จ', title = 'congrate') {
+    return Swal.fire({
+      type: 'success',
+      title: 'ไม่อนุมัติรายการนี้',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
+  successNotApproveReq(text = 'สำเร็จ', title = 'congrate') {
+    return Swal.fire({
+      type: 'success',
+      title: 'ไม่อนุมัติใบเบิกนี้',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
+  editSuccess(text = 'สำเร็จ', title = 'congrate') {
+    return Swal.fire({
+      type: 'success',
+      title: 'แก้ไขสำเร็จ',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
   notFoundUser(text = 'not found user', title = ':-(') {
     return Swal.fire('Not found user!');
   }

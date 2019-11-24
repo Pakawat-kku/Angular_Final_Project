@@ -17,12 +17,16 @@ import * as jwt_decode from 'jwt-decode';
 })
 export class RequisitionBillDetailComponent implements OnInit {
   requisitionCode: any;
-  requisitionBillDetail: any;
+  requisitionBillDetail: any = [];
   requisitionBillDetailOnly: any;
   currentUser: Users;
   currentUserSubscription: Subscription;
   decoded: any;
   showReqWaitDetailAdmin: any;
+  rowSelected: any = [];
+  currentRow: any;
+  modalEditBill = false;
+  reqEditBill: any;
 
   constructor(
     private alertService: AlertService,
@@ -30,8 +34,8 @@ export class RequisitionBillDetailComponent implements OnInit {
     private router: Router,
     private requisitionService: RequisitionService,
     private authenticationService: AuthenticationService,
-    ) {
-      this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
+  ) {
+    this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
       console.log('users', users);
       this.decoded = jwt_decode(users.token);
@@ -49,30 +53,30 @@ export class RequisitionBillDetailComponent implements OnInit {
 
   }
 
- async requisitionBill() {
-  console.log('this.requisitionCode' , this.requisitionCode);
+  async requisitionBill() {
+    console.log('this.requisitionCode', this.requisitionCode);
     try {
-      console.log('check' , this.requisitionCode);
+      console.log('check', this.requisitionCode);
       const result: any = await this.requisitionService.showReqWaitDetail(this.requisitionCode);
       console.log('result', result);
-      if (result.rows) {
+      if (result.statusCode === 200) {
         this.requisitionBillDetail = result.rows;
         console.log('this.requisitionBillDetail', this.requisitionBillDetail);
+        this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
 
       }
     } catch (err) {
       console.log(err);
     }
 
-}
+  }
 
-async requisitionHeadBill() {
+  async requisitionHeadBill() {
 
-  console.log('this.requisitionCode' , this.requisitionCode);
+    console.log('this.requisitionCode', this.requisitionCode);
     try {
-      console.log('check' , this.requisitionCode);
+      console.log('check', this.requisitionCode);
       const result: any = await this.requisitionService.showReqWaitDetailOnly(this.requisitionCode);
-      console.log('result', result);
       if (result.rows) {
         this.requisitionBillDetailOnly = result.rows;
         for (const item of this.requisitionBillDetailOnly) {
@@ -80,8 +84,8 @@ async requisitionHeadBill() {
           item.month = moment(item.reqDate).format('MMMM');
           item.year = moment(item.reqDate).add(543, 'years').format('YYYY');
           item.time = moment(item.reqDate).format('HH:mm');
-          item.day = item.date + '  ' + item.month + '  ' + item.year;
-      }
+          item.day = item.date + item.month  + item.year;
+        }
         console.log('this.requisitionBillDetailOnly', this.requisitionBillDetailOnly);
 
       }
@@ -90,28 +94,102 @@ async requisitionHeadBill() {
       console.log(err);
     }
 
-}
-
-async approve(requisitionCode) {
-  this.requisitionCode = requisitionCode;
-  console.log(this.requisitionCode);
-
-  try {
-    const result: any = await this.requisitionService.approveReq(this.requisitionCode);
-    console.log('result', result);
-    if (result.rows) {
-      this.showReqWaitDetailAdmin = result.rows;
-      console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
-      this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
-      this.requisitionHeadBill();
-      this.requisitionBill();
-      this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
-
-    }
-  } catch (err) {
-    console.log(err);
   }
 
-}
+  async approve(requisitionCode) {
+    this.requisitionCode = requisitionCode;
+    console.log(this.requisitionCode);
+
+    try {
+      const result: any = await this.requisitionService.approveReq(this.requisitionCode);
+      console.log('result', result);
+      if (result.rows) {
+        this.showReqWaitDetailAdmin = result.rows;
+        console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
+        this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
+        this.requisitionHeadBill();
+        this.requisitionBill();
+        this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
+
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
+
+  async notApproveList(row) {
+    this.currentRow = Object.assign({}, row);
+    console.log('this.currentRow', this.currentRow.Requisition_requisitionCode);
+    console.log('this.currentRow.cloth', this.currentRow.Cloth_clothId);
+
+    try {
+      // tslint:disable-next-line: max-line-length
+      const result: any = await this.requisitionService.notApproveList(this.currentRow.Requisition_requisitionCode, this.currentRow.Cloth_clothId);
+      console.log('result', result);
+      if (result.rows) {
+        // this.showReqWaitDetailAdmin = result.rows;
+        // console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
+        this.alertService.successNotApprove(' อนุมัติเสร็จสิ้น ');
+        this.requisitionHeadBill();
+        this.requisitionBill();
+        this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
+
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
+
+  async notApproveReq(requisitionCode) {
+    this.requisitionCode = requisitionCode;
+    console.log(this.requisitionCode);
+
+    try {
+      const result: any = await this.requisitionService.notApproveReq(this.requisitionCode);
+
+      console.log('result', result);
+      if (result.rows) {
+        this.showReqWaitDetailAdmin = result.rows;
+        console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
+        this.alertService.successNotApproveReq(' อนุมัติเสร็จสิ้น ');
+        this.requisitionHeadBill();
+        this.requisitionBill();
+        this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
+
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
+
+  async showEditBill(row) {
+    this.modalEditBill = true;
+    this.currentRow = Object.assign({}, row);
+    console.log('this.currentRow', this.currentRow.Requisition_requisitionCode);
+  }
+
+  async submitEdit() {
+    console.log('this.currentRow', this.currentRow);
+    try {
+      // tslint:disable-next-line: max-line-length
+      const result: any = await this.requisitionService.submitEdit(this.currentRow.Requisition_requisitionCode, this.currentRow.Cloth_clothId, this.currentRow.amountCloth);
+      console.log('result', result);
+      if (result.rows) {
+
+        this.alertService.editSuccess(' แก้ไขสำเร็จ ');
+        this.requisitionHeadBill();
+        this.requisitionBill();
+        this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
+        this.modalEditBill = false;
+
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+  }
 
 }

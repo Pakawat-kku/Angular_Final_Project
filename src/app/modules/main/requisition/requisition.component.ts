@@ -80,7 +80,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     moment.locale('th');
     this.date = moment().format('YYYY-MM-DD HH:mm:ss');
     console.log('date', this.date);
-    this.reqId = this.decoded.Ward_wardId + ' ' + moment().format('YYYY-MM-DD HH:mm:ss');
+    this.reqId = this.decoded.Ward_wardId + moment().format('YYYYMMDDHHmmss');
   }
 
   onClickSubmit(formData) {
@@ -145,7 +145,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
       const obj = {
         requisitionCode: this.reqId,
         reqDate: this.date,
-        status: '1',
+        status: '0',
         Users_userId: this.decoded.userId,
         Ward_wardId: this.decoded.Ward_wardId
       };
@@ -161,7 +161,8 @@ export class RequisitionComponent implements OnInit, OnDestroy {
             // id: 0,
             amountCloth: row.amountCloth,
             Cloth_clothId: row.clothId,
-            Requisition_requisitionCode	: this.reqId
+            Requisition_requisitionCode	: this.reqId,
+            requisitionDetailStatus: '1',
           };
           console.log('obj1', obj1);
           const dataInsert: any = this.requisitionService.insertReq(obj1);
