@@ -45,6 +45,28 @@ export class RequisitionService {
       .then(result => result)
       .catch(error => error);
   }
+showReqWaitDetail(requisitionCode) {
+  return this.http.post(`http://localhost:3001/req/showReqWaitDetail` , { requisitionCode })
+  .toPromise()
+  .then(result => result)
+  .catch(error => error);
+}
+
+// showReqWaitDetail(requisitionCode) {
+//   // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
+//   return this.http.get(`http://localhost:3001/req/showReqWaitDetail?requisitionCode=${requisitionCode}`)
+//   .toPromise()
+//   .then(result => result)
+//   .catch(error => error);
+// }
+
+showReqWaitDetailOnly(requisitionCode) {
+  // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
+  return this.http.get(`http://localhost:3001/req/showReqWaitDetailOnly?requisitionCode=${requisitionCode}`)
+  .toPromise()
+  .then(result => result)
+  .catch(error => error);
+}
 
   showReqDetailApprove(requisitionCode) {
     return this.http.post(`${this.apiUrl}/req/showReqDetailApprove`, { requisitionCode })
@@ -105,5 +127,33 @@ export class RequisitionService {
       .then(result => result)
       .catch(err => err);
   }
+
+notApproveList(requisitionCode , clothId) {
+  return this.http.post(`http://localhost:3001/req/notApproveList`, { requisitionCode, clothId })
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
+}
+
+notApproveReq(requisitionCode) {
+  return this.http.post(`http://localhost:3001/req/notApproveReq`, { requisitionCode })
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
+}
+
+submitEdit(requisitionCode , clothId , amountCloth) {
+  return this.http.post(`http://localhost:3001/req/editReq`, { requisitionCode, clothId , amountCloth})
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
+}
+
+searchRequisition(searchWard) {
+  return this.http.post(`http://localhost:3001/req/searchReq`, { searchWard})
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
+}
 
 }

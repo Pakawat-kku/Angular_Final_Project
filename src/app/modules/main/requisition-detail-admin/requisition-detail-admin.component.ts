@@ -18,7 +18,7 @@ import { Router , ActivatedRoute } from '@angular/router';
 })
 
 export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
-
+  null: any;
   currentUser: Users;
   currentUserSubscription: Subscription;
   decoded: any;
@@ -57,6 +57,7 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
   }
 
   async showReqWaitAdmin() {
+
     try {
       const result: any = await this.requisitionService.showReqWaitAdmin();
       console.log('result', result);
@@ -78,45 +79,69 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
     }
   }
 
-  async onAdd(requisitionCode) {
-    this.modalEdit = true;
-    this.requisitionCode = requisitionCode;
-    console.log('this.requisitionCode' , this.requisitionCode);
-    try {
-      const result: any = await this.requisitionService.showReqWaitDetailAdmin(this.requisitionCode);
-      console.log('result', result);
-      if (result.rows) {
-        this.showReqWaitDetailAdmin = result.rows;
-        console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
-
-      }
-
-    } catch (err) {
-      console.log(err);
-    }
-
-  }
-
-  async approve(requisitionCode) {
-    this.requisitionCode = requisitionCode;
-    console.log(this.requisitionCode);
+  async search(searchWard, searchDate) {
 
     try {
-      const result: any = await this.requisitionService.approveReq(this.requisitionCode);
-      console.log('result', result);
+      console.log('searchWard : ', searchWard);
+      console.log('searchDate : ', searchDate);
+
+      const result: any = await this.requisitionService.searchRequisition(searchWard);
       if (result.rows) {
-        this.showReqWaitDetailAdmin = result.rows;
-        console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
-        this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
-        this.showReqWaitAdmin();
-        this.router.navigate(['main/requisition-detail-admin']);
-
+        console.log('search ', result.rows);
+        this.showReqAdmin = result.rows;
+        for (const item of this.showReqAdmin) {
+          item.date = moment(item.reqDate).format('DD');
+          item.month = moment(item.reqDate).format('MMMM');
+          item.year = moment(item.reqDate).add(543, 'years').format('YYYY');
+          item.time = moment(item.reqDate).format('HH:mm');
+          item.day = item.date + '  ' + item.month + '  ' + item.year;
       }
-    } catch (err) {
-      console.log(err);
+          console.log(this.showReqAdmin);
+      }
+    } catch (error) {
+      console.log(error);
     }
-
   }
+
+  // async onAdd(requisitionCode) {
+  //   this.modalEdit = true;
+  //   this.requisitionCode = requisitionCode;
+  //   console.log('this.requisitionCode' , this.requisitionCode);
+  //   try {
+  //     const result: any = await this.requisitionService.showReqWaitDetailAdmin(this.requisitionCode);
+  //     console.log('result', result);
+  //     if (result.rows) {
+  //       this.showReqWaitDetailAdmin = result.rows;
+  //       console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
+
+  //     }
+
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+
+  // }
+
+  // async approve(requisitionCode) {
+  //   this.requisitionCode = requisitionCode;
+  //   console.log(this.requisitionCode);
+
+  //   try {
+  //     const result: any = await this.requisitionService.approveReq(this.requisitionCode);
+  //     console.log('result', result);
+  //     if (result.rows) {
+  //       this.showReqWaitDetailAdmin = result.rows;
+  //       console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
+  //       this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
+  //       this.showReqWaitAdmin();
+  //       this.router.navigate(['main/requisition-detail-admin']);
+
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+
+  // }
 
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks

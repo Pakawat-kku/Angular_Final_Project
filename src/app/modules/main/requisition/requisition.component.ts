@@ -14,6 +14,7 @@ import { UsersService } from '../../../services/users.service';
 import * as jwt_decode from 'jwt-decode';
 import { InputArray, InputPurchase } from './inputArray';
 import { Select2OptionData } from 'ng2-select2';
+import { endWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-requisition',
@@ -42,6 +43,12 @@ export class RequisitionComponent implements OnInit, OnDestroy {
   modalBill = false;
   bill: any;
   regWaitDetail: any;
+  exampleData: Array<Select2OptionData>;
+  options = {
+    multiple: true,
+    theme: 'classic',
+    closeOnSelect: false
+  };
 
   constructor(
     private alertService: AlertService,
@@ -50,7 +57,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     private router: Router,
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
-    private userService: UsersService
+    private userService: UsersService,
 
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
@@ -73,7 +80,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     moment.locale('th');
     this.date = moment().format('YYYY-MM-DD HH:mm:ss');
     console.log('date', this.date);
-    this.reqId = this.decoded.Ward_wardId + ' ' + moment().format('YYYY-MM-DD HH:mm:ss');
+    this.reqId = this.decoded.Ward_wardId + moment().format('YYYYMMDDHHmmss');
   }
 
   onClickSubmit(formData) {
@@ -129,14 +136,16 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     }
   }
 
-  async onSave(data) {
+  async onSave() {
     console.log('this.purchaseLists', this.purchaseLists);
     await this.getDate();
+    // tslint:disable-next-line: no-unused-expression
+    console.log('diff' , (this.purchaseLists, [0]));
     try {
       const obj = {
         requisitionCode: this.reqId,
         reqDate: this.date,
-        status: '1',
+        status: '0',
         Users_userId: this.decoded.userId,
         Ward_wardId: this.decoded.Ward_wardId
       };
@@ -145,13 +154,15 @@ export class RequisitionComponent implements OnInit, OnDestroy {
       const result: any = await this.requisitionService.insertRealReq(obj);
 
       for (const row of this.purchaseLists) {
-        // this.totalPricePerUnit = 0;
+
       if (row.amountCloth > 0) {
+
          const obj1 = {
             // id: 0,
             amountCloth: row.amountCloth,
             Cloth_clothId: row.clothId,
-            Requisition_requisitionCode	: this.reqId
+            Requisition_requisitionCode	: this.reqId,
+            requisitionDetailStatus: '1',
           };
           console.log('obj1', obj1);
           const dataInsert: any = this.requisitionService.insertReq(obj1);
@@ -160,6 +171,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
           }
         }
       }
+
       this.alertService.reqSuccess('บันทึกข้อมูลเรียบร้อย');
       await this.router.navigate(['main/requisition-bill-detail/' + this.reqId]);
 
@@ -168,6 +180,11 @@ export class RequisitionComponent implements OnInit, OnDestroy {
   }
 }
 
+// this.options = {
+//   multiple: true,
+//   theme: 'classic',
+//   closeOnSelect: false
+// }
 // async showBill(data) {
 //   this.modalBill = true;
 //     this.bill = data;

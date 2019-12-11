@@ -1,6 +1,20 @@
 <h2 class="title">ประวัติการเบิกผ้าเข้ามา</h2>
+<form clrForm >
+        <div class="clr-row clr-align-items-center">
+            <div class="clr-col-1">
+                <label>ค้นหา</label>
+            </div>
+            <input class="clr-col-3" placeholder="ชื่อวอร์ด" name="searchWard" [(ngModel)]="searchWard" />
+            <!-- <input class="clr-col-3" placeholder="วันเวลา" name="searchDate" [(ngModel)]="searchDate" /> -->
+            <div class="clr-col-1">
+                <button type="button" (click)="search(searchWard)" class="btn btn-primary">ค้นหา</button>
+            </div>
+        </div>
+    </form>
 <div class="limit-height">
 <clr-datagrid class="clr-col-8" *ngIf="showReqAdmin">
+        <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
+
         <clr-dg-column>วอร์ดที่เบิก</clr-dg-column>
         <clr-dg-column [clrDgField]="'day'">วันที่เบิก</clr-dg-column>
         <clr-dg-column>เวลาที่ยื่นคำร้องเบิกผ้า</clr-dg-column>
@@ -10,8 +24,9 @@
             <clr-dg-cell>{{item.wardName}}</clr-dg-cell>
             <clr-dg-cell>{{item.day}}</clr-dg-cell>
             <clr-dg-cell>{{item.time}}</clr-dg-cell>
-            <clr-dg-cell *ngIf="item.status==1" style="color:red">รออนุมัติ</clr-dg-cell>
-            <clr-dg-cell *ngIf="item.status==2" style="color:green">อนุมัติแล้ว</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status==0" style="color:blue">รออนุมัติ</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status==1" style="color:green">อนุมัติแล้ว</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status==2" style="color:red">ไม่อนุมัติ</clr-dg-cell>
             <clr-dg-cell > 
                 <!-- <button class="btn btn-success-outline btn-sm" (click)="onAdd(item.requisitionCode)">
                     ข้อมูลการเบิก

@@ -31,13 +31,15 @@ export class AuthenticationService {
         return this.http.post<any>(`http://localhost:3001/login/login`, { username, password })
             .pipe(map(users => {
                 // login successful if there's a jwt token in the response
+                console.log('user', users);
 
                 if (users && users.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(users));
                     this.currentUserSubject.next(users);
-                } else {
-                    this.alertService.error('username หรือ password');
+
+                 } else {
+                    this.alertService.error('username หรือ password ไม่ถูกต้อง');
                     this.router.navigate(['/login/login-page']);
                 }
                 return users;
