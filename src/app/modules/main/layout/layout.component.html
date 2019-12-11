@@ -11,7 +11,7 @@
       </a>
     </div>
     <div class="branding">
-        <span class="title username">{{decoded.wardName}}</span>
+        <span class="title username">{{decoded.firstname}} {{decoded.lastname}} ( {{decoded.username}} )</span>
         <span class="title username" *ngIf="decoded.position==1">admin</span>
 
     </div>
@@ -62,9 +62,13 @@
         <clr-icon shape="view-list"></clr-icon>
         รายการเบิกผ้า
       </a>
-      <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./overview-withdraw" routerLinkActive="active">
+      <a clrVerticalNavLink *ngIf="decoded.position==3" routerLink="./overview-withdraw" routerLinkActive="active">
         <clr-icon shape="view-list"></clr-icon>
-        รายการเบิกผ้าประจำวอร์ด
+        รายการเบิกผ้าทั้งหมด
+      </a>
+      <a clrVerticalNavLink *ngIf="decoded.position==3" routerLink="./withdraw-history" routerLinkActive="active">
+        <clr-icon shape="view-list"></clr-icon>
+        รายการเบิกผ้าที่เลือก
       </a>
 
     </clr-vertical-nav>

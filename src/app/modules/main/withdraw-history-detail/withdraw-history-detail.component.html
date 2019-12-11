@@ -1,0 +1,64 @@
+<h1>
+    รายการใบนำจ่ายผ้า
+</h1>
+<b>รหัสใบนำจ่าย : </b> {{withdrawCode}} <br>
+<b>วันที่ทำรายการ : </b> {{date}} <br>
+
+<clr-datagrid>
+    <clr-dg-column>เลขที่ใบเบิก</clr-dg-column>
+    <clr-dg-column>วอร์ด</clr-dg-column>
+    <clr-dg-column>เวลา</clr-dg-column>
+    <clr-dg-column>วันที่เบิก</clr-dg-column>
+    <clr-dg-column>สถานะ</clr-dg-column>
+    <clr-dg-column>#</clr-dg-column>
+    <clr-dg-row *clrDgItems="let item of withdrawList">
+            <clr-dg-cell>{{item.Requisition_requisitionCode}}</clr-dg-cell>
+            <clr-dg-cell>{{item.wardName}}</clr-dg-cell>
+            <clr-dg-cell>{{item.reqTime}} น.</clr-dg-cell>
+            <clr-dg-cell>{{item.reqDate}}</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status_withdraw==='1'" style="color:rgb(158, 31, 31)">เตรียมนำจ่าย</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status_withdraw==='2'" style="color:rgb(36, 151, 36)">นำจ่ายเรียบร้อย</clr-dg-cell>
+            <clr-dg-cell><button (click)="onShow(item)"
+                            class="btn btn-sm btn-primary-outline">ทำการนำจ่ายผ้า</button></clr-dg-cell>
+    </clr-dg-row>
+</clr-datagrid>
+<br>
+<clr-modal *ngIf="rows" [(clrModalOpen)]="modalShow">
+    <h3 class="modal-title">ทำรายการจ่ายผ้า</h3>
+    <div class="modal-body">
+            <label><b>เลขที่ใบนำจ่าย : {{withdrawCode}}</b></label><br>
+            <label><b>วอร์ดที่เบิก : {{rows.wardName}}</b></label><br>
+            <label><b>วันที่นำจ่าย : {{time}}</b></label><br>
+            <label><b>รอบการนำจ่าย : </b></label>
+            <div class="clr-select-wrapper">
+                    <select id="round" class="clr-select" name="round" [(ngModel)]="rows.round">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                    </select>
+            </div><br>
+            <clr-datagrid class="clr-align-items-center">
+                    <clr-dg-column>รายการผ้า</clr-dg-column>
+                    <clr-dg-column>จำนวนที่เบิก</clr-dg-column>
+                    <clr-dg-column>จำนวนที่จ่าย</clr-dg-column>
+                    <clr-dg-row *clrDgItems="let list of reqDetailList" [clrDgItem]="list">
+                            <clr-dg-cell>{{list.clothName}}</clr-dg-cell>
+                            <clr-dg-cell>{{list.amountCloth}}</clr-dg-cell>
+                            <clr-dg-cell>
+                                    <clr-input-container>
+                                            <input clrInput type="number" name="amountClothWithdraw"
+                                                    [(ngModel)]="list.amountClothWithdraw" />
+                                    </clr-input-container>
+                            </clr-dg-cell>
+                    </clr-dg-row>
+            </clr-datagrid><br>
+            <label><b>หมายเหตุ : </b></label>
+                    <input type="text" name="description"
+                            [(ngModel)]="rows.description" />
+    </div>
+    <div class="modal-footer">
+            <button type="button" class="btn btn-success" (click)="onSave()">บันทึกการนำจ่าย</button>
+            <button type="button" class="btn btn-danger-outline" (click)="modalShow = false">ปิด</button>
+    </div>
+</clr-modal>

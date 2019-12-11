@@ -161,7 +161,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
         }
       }
       this.alertService.reqSuccess('บันทึกข้อมูลเรียบร้อย');
-      this.router.navigate(['main/requisition-bill-detail/' + this.reqId]);
+      await this.router.navigate(['main/requisition-bill-detail/' + this.reqId]);
 
       } catch (error) {
     console.log(error);

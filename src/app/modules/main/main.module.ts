@@ -24,6 +24,8 @@ import { OverviewWithdrawComponent } from './overview-withdraw/overview-withdraw
 import { OverviewWithdrawDetailComponent } from './overview-withdraw-detail/overview-withdraw-detail.component';
 import { RequisitionDetailAdminComponent } from './requisition-detail-admin/requisition-detail-admin.component';
 import { RequisitionBillDetailComponent } from './requisition-bill-detail/requisition-bill-detail.component';
+import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.component';
+import { WithdrawHistoryDetailComponent } from './withdraw-history-detail/withdraw-history-detail.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,7 @@ import { RequisitionBillDetailComponent } from './requisition-bill-detail/requis
     UserComponent, PreferenceComponent, RequisitionComponent, StockComponent,
     WardComponent, PurchaseComponent, ReportPurchaseComponent,
     ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent
-    , RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent
+    , RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent, WithdrawHistoryComponent, WithdrawHistoryDetailComponent
   ],
   imports: [
     CommonModule,

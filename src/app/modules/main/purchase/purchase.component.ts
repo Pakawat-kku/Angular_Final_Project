@@ -162,7 +162,7 @@ export class PurchaseComponent implements OnInit {
               Cloth_clothId: row.clothId
             };
             // console.log('obj', data);
-            const dataInsert: any = this.purchaseService.insertPurchaseDetail(data);
+            const dataInsert: any = await this.purchaseService.insertPurchaseDetail(data);
             if (dataInsert.rows) {
               // console.log('check', dataInsert.rows);
             }
