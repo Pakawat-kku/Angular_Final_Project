@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import { Users } from '../register/users';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import * as jwt_decode from 'jwt-decode';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-requisition-bill-detail',
@@ -27,6 +28,8 @@ export class RequisitionBillDetailComponent implements OnInit {
   currentRow: any;
   modalEditBill = false;
   reqEditBill: any;
+  find1: any;
+  find2: any;
 
   constructor(
     private alertService: AlertService,
@@ -61,6 +64,13 @@ export class RequisitionBillDetailComponent implements OnInit {
       console.log('result', result);
       if (result.statusCode === 200) {
         this.requisitionBillDetail = result.rows;
+
+        console.log('find1', _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '1' }));
+        console.log('find2', _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '2' }));
+
+        this.find1 = _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '1' });
+        this.find2 = _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '2' });
+
         console.log('this.requisitionBillDetail', this.requisitionBillDetail);
         this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
 
@@ -84,7 +94,7 @@ export class RequisitionBillDetailComponent implements OnInit {
           item.month = moment(item.reqDate).format('MMMM');
           item.year = moment(item.reqDate).add(543, 'years').format('YYYY');
           item.time = moment(item.reqDate).format('HH:mm');
-          item.day = item.date + item.month  + item.year;
+          item.day = item.date + ' ' + item.month + ' ' + item.year;
         }
         console.log('this.requisitionBillDetailOnly', this.requisitionBillDetailOnly);
 

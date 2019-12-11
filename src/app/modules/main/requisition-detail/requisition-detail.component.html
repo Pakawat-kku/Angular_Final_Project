@@ -10,9 +10,9 @@
             <clr-dg-cell>{{item.requisitionCode}}</clr-dg-cell>
             <clr-dg-cell>{{item.day}}</clr-dg-cell>
             <clr-dg-cell>{{item.time}}</clr-dg-cell>
-            <clr-dg-cell *ngIf="item.status==0" style="color:blue">รออนุมัติ</clr-dg-cell>
-            <clr-dg-cell *ngIf="item.status==1" style="color:green">อนุมัติแล้ว</clr-dg-cell>
-            <clr-dg-cell *ngIf="item.status==2" style="color:red">ไม่อนุมัติ</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status==0" style="color:blue">Pendding fo approval</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status==1" style="color:green">Approve</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status==2" style="color:red">Unapproved</clr-dg-cell>
             <clr-dg-cell > 
             <!-- <a routerLink="/main/requisition-bill-detail/{{item.requisitionCode}}">  -->
                 <button class="btn btn-primary-outline btn-sm" routerLink="/main/requisition-bill-detail/{{item.requisitionCode}}">

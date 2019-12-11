@@ -49,6 +49,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     theme: 'classic',
     closeOnSelect: false
   };
+  time: string;
 
   constructor(
     private alertService: AlertService,
@@ -71,6 +72,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     // this.checkYear();
+    moment.locale('th');
     this.getDate();
     await this.getCloth();
 
@@ -78,7 +80,8 @@ export class RequisitionComponent implements OnInit, OnDestroy {
 
   getDate() {
     moment.locale('th');
-    this.date = moment().format('YYYY-MM-DD HH:mm:ss');
+    this.date = moment().add(543, 'years').format('DD MMMM YYYY');
+    this.time = moment().format('HH:mm');
     console.log('date', this.date);
     this.reqId = this.decoded.Ward_wardId + moment().format('YYYYMMDDHHmmss');
   }

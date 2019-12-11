@@ -2,17 +2,17 @@
   <clr-header class="header-5" style="background-color:rgb(60, 117, 36)">
     <div class="branding">
       <a href="javascript://" class="nav-link">
-        <span class="title">ระบบจัดการงานซักรีด</span>
+        <span class="title">Washing Department Management System</span>
       </a>
     </div>
-    <div class="header-nav" [clr-nav-level]="1">
+    <!-- <div class="header-nav" [clr-nav-level]="1">
       <a href="javascript://" class="active nav-link nav-icon" routerLink="/">
         <clr-icon shape="home"></clr-icon>
       </a>
-    </div>
+    </div> -->
     <div class="branding">
         <span class="title username">{{decoded.wardName}}</span>
-        <span class="title username" *ngIf="decoded.position==1">{{decoded.username}}</span>
+        <span class="title username" *ngIf="decoded.position==1">{{decoded.firstname}} {{decoded.lastname}} (Administrator)</span>
     </div>
     <div class="header-actions">
       <clr-dropdown>
@@ -35,31 +35,31 @@
     <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed" style="background-color: rgb(188, 226, 188);">
       <a clrVerticalNavLink routerLink="./main" routerLinkActive="active">
           <clr-icon shape="home"></clr-icon>
-        หน้าแรก
+        main<!-- หน้าแรก -->
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./stock" routerLinkActive="active">
         <clr-icon shape="store"></clr-icon>
-        คลังผ้า
+        warehouse<!-- คลังผ้า -->
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./purchase" routerLinkActive="active">
         <clr-icon shape="add-text"></clr-icon>
-        รายการสั่งซื้อผ้าเข้าใหม่
+        list purchase of cloth<!-- รายการสั่งซื้อผ้าเข้าใหม่ -->
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./report-purchase" routerLinkActive="active">
         <clr-icon shape="view-list"></clr-icon>
-        รายงานรายการสั่งซื้อผ้า
+        report purchase of cloth<!-- รายงานรายการสั่งซื้อผ้า -->
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./requisition-detail-admin" routerLinkActive="active">
         <clr-icon shape="view-list"></clr-icon>
-        รายการเบิกผ้าเข้าของวอร์ด
+        requisition of ward <!-- รายการเบิกผ้าเข้าของวอร์ด -->
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition" routerLinkActive="active">
         <clr-icon shape="note"></clr-icon>
-        เบิกผ้า
+        requisition<!-- เบิกผ้า -->
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition-detail" routerLinkActive="active">
         <clr-icon shape="view-list"></clr-icon>
-        รายการเบิกผ้า
+        list requisition<!-- รายการเบิกผ้า -->
       </a>
 
     </clr-vertical-nav>

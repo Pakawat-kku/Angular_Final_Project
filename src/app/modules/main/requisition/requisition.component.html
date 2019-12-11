@@ -1,9 +1,13 @@
 <!-- <ol class="breadcrumb breadcrumb-arrow">
     <li><a href="javascript://">Purchase</a></li>
 </ol> -->
-<h1 class="req">เบิกผ้า</h1>
+<h1 class="req">
+    Requisition<!-- เบิกผ้า -->
+</h1>
 <br>
-<b>เบิกจากวอร์ด {{decoded.wardName}}<b>
+<b>เบิกจากวอร์ด : {{decoded.wardName}}</b><br>
+<b>วันที่ : {{date}} {{year}}</b><br>
+<b>เวลา : {{time}}</b>
 <form #purchase="ngForm" (ngSubmit)="onClickSubmit(purchase.value)">
     
     <b>เพิ่มจำนวนช่องรายการ </b>

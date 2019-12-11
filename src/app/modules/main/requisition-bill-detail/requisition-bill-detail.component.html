@@ -8,6 +8,7 @@
         <clr-icon shape="undo"></clr-icon> BACK
     </button>
 </a>
+<h1>รายละเอียดใบเบิก</h1>
 <div class="head-bill">
     <span>
         <b>รหัสการเบิก : {{requisitionCode}}</b><br>
@@ -16,10 +17,14 @@
         <b>เวลา : {{requisitionBillDetailOnly[0].time}}</b><br>
     </span>
     <span *ngIf="requisitionBillDetailOnly[0].status=='0'">
-        <b>สถานะ​​ :</b> <b style="color:blue"> รออนุมัติ</b><br>
+        <b>สถานะ​​ :</b> <b style="color:blue"> 
+                pendding of approval<!-- รออนุมัติ -->
+        </b><br>
     </span>
     <span *ngIf="requisitionBillDetailOnly[0].status=='1'">
-        <b>สถานะ​​ :</b><b style="color:green"> อนุมัติแล้ว</b><br>
+        <b>สถานะ​​ :</b><b style="color:green">
+         approve<!-- อนุมัติแล้ว -->
+        </b><br>
     </span>
     <span *ngIf="requisitionBillDetailOnly[0].status=='2'">
             <b>สถานะ​​ :</b><b style="color:red"> ยกเลิกการอนุมัติแล้ว</b><br>
@@ -29,7 +34,7 @@
         </b>
         <b style="color:red" *ngIf="requisitionBillDetailOnly[0].status=='1' && decoded.position==2">
             <!-- *******แถบสีเขียว คือ รายการนั้นผ่านการอนุมัติเรียบร้อย และ รอการนำจ่าย <br> -->
-            *******แถบสีแดง  คือ รายการนั้นไม่ผ่านการอนุมัติ กรุณาเบิกใหม่
+            <!-- *******แถบสีแดง  คือ รายการนั้นไม่ผ่านการอนุมัติ กรุณาเบิกใหม่ -->
         </b>
 </div>
 
@@ -37,7 +42,7 @@
     <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
     <clr-dg-column [clrDgField]="'clothName'">รายการผ้า</clr-dg-column>
     <clr-dg-column>จำนวน</clr-dg-column>
-    <clr-dg-column *ngIf="decoded.position==1">#</clr-dg-column>
+    <!-- <clr-dg-column *ngIf="decoded.position==1">#</clr-dg-column> -->
     <clr-dg-column *ngIf="decoded.position==2">แก้ไข</clr-dg-column>
 
     <clr-dg-row id="bgc" *clrDgItems="let item of requisitionBillDetail">
@@ -46,11 +51,13 @@
             {{ item.clothName }}</clr-dg-cell>
         <clr-dg-cell style="background-color:rgb(238, 176, 176);" *ngIf="item.requisitionDetailStatus=='2'">
             {{ item.amountCloth }} </clr-dg-cell>
-        <clr-dg-cell style="padding-top:0%; scroll-padding-bottom:0%; background-color:rgb(238, 176, 176); "
+        <!-- <clr-dg-cell style="padding-top:0%; scroll-padding-bottom:0%; background-color:rgb(238, 176, 176); "
             *ngIf="decoded.position==1 && item.requisitionDetailStatus=='2'">
             <button type="button" class="btn btn-sm btn-primary-outline" (click)="notApprove(item)"
-                [disabled]="item.requisitionDetailStatus=='2' || requisitionBillDetailOnly[0].status=='2'">ไม่อนุมัติรายการนี้</button>
-        </clr-dg-cell>
+                [disabled]="item.requisitionDetailStatus=='2' || requisitionBillDetailOnly[0].status=='2'">
+                ไม่อนุมัติรายการนี้
+            </button>
+        </clr-dg-cell> -->
         <clr-dg-cell style="padding-top:0%; scroll-padding-bottom:0%; background-color:rgb(238, 176, 176); "
             *ngIf="decoded.position==2 && item.requisitionDetailStatus=='2'">
             <button type="button" class="btn btn-sm btn-primary" (click)="showEditBill(item)"
@@ -61,11 +68,11 @@
             {{ item.clothName }}</clr-dg-cell>
         <clr-dg-cell style="background-color:rgb(212, 247, 212);" *ngIf="item.requisitionDetailStatus=='1'">
             {{ item.amountCloth }} </clr-dg-cell>
-        <clr-dg-cell style="padding-top:0%; scroll-padding-bottom:0%; background-color:rgb(212, 247, 212);"
+        <!-- <clr-dg-cell style="padding-top:0%; scroll-padding-bottom:0%; background-color:rgb(212, 247, 212);"
             *ngIf="decoded.position==1 && item.requisitionDetailStatus=='1'  ">
             <button type="button" class="btn btn-sm btn-primary-outline" (click)="notApproveList(item)"
-                [disabled]="item.requisitionDetailStatus=='2' || requisitionBillDetailOnly[0].status=='1'">ไม่อนุมัติรายการนี้</button>
-        </clr-dg-cell>
+                [disabled]="item.requisitionDetailStatus=='2' || requisitionBillDetailOnly[0].status=='1' || requisitionBillDetailOnly[0].status=='2'">ไม่อนุมัติรายการนี้</button>
+        </clr-dg-cell> -->
         <clr-dg-cell style="padding-top:0%; scroll-padding-bottom:0%; background-color:rgb(212, 247, 212); "
             *ngIf="decoded.position==2 && item.requisitionDetailStatus=='1'">
             <button type="button" class="btn btn-sm btn-primary" (click)="showEditBill(item)"
@@ -88,13 +95,15 @@
 
 <div class="clr-row clr-justify-content-start" style="margin-left: 1%;">
 <div class="clr-col-1.5" *ngIf="decoded.position==1">
-    <button *ngIf="decoded.position==1" [disabled]="requisitionBillDetailOnly[0].status=='1' || requisitionBillDetailOnly[0].status=='2'  " type="button"
-        class="btn btn-success-outline" (click)="approve(requisitionCode)">ยืนยันอนุมัติการเบิก
+    <button *ngIf="decoded.position==1" 
+    [disabled]="requisitionBillDetailOnly[0].status=='1' || requisitionBillDetailOnly[0].status=='2' || (find1 == undefined && find2 == 0)  " 
+    type="button" class="btn btn-success-outline" (click)="approve(requisitionCode)">ยืนยันอนุมัติการเบิก
     </button>
 </div>
 <div class="clr-col-1" *ngIf="decoded.position==1">
-        <button *ngIf="decoded.position==1" [disabled]="requisitionBillDetailOnly[0].status=='1' || requisitionBillDetailOnly[0].status=='2'" type="button"
-            class="btn btn-danger-outline" (click)="notApproveReq(requisitionCode)">ไม่อนุมัติการเบิกนี้
+        <button *ngIf="decoded.position==1" 
+        [disabled]="requisitionBillDetailOnly[0].status=='1' || requisitionBillDetailOnly[0].status=='2' "
+        type="button" class="btn btn-danger-outline" (click)="notApproveReq(requisitionCode)">ไม่อนุมัติการเบิกนี้
         </button>
     </div>
 </div>
