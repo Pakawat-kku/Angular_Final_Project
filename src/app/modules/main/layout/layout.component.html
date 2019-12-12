@@ -11,8 +11,10 @@
       </a>
     </div> -->
     <div class="branding">
-        <span class="title username">{{decoded.wardName}}</span>
+        <span class="title username" *ngIf="decoded.position==2">{{decoded.wardName}} (Ward)</span>
         <span class="title username" *ngIf="decoded.position==1">{{decoded.firstname}} {{decoded.lastname}} (Administrator)</span>
+        <span class="title username" *ngIf="decoded.position==3">{{decoded.firstname}} {{decoded.lastname}} (withdraw employee)</span>
+
     </div>
     <div class="header-actions">
       <clr-dropdown>
@@ -60,6 +62,14 @@
       <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition-detail" routerLinkActive="active">
         <clr-icon shape="view-list"></clr-icon>
         list requisition<!-- รายการเบิกผ้า -->
+      </a>
+      <a clrVerticalNavLink *ngIf="decoded.position==3" routerLink="./overview-withdraw" routerLinkActive="active">
+        <clr-icon shape="view-list"></clr-icon>
+        รายการเบิกผ้าทั้งหมด
+      </a>
+      <a clrVerticalNavLink *ngIf="decoded.position==3" routerLink="./withdraw-history" routerLinkActive="active">
+        <clr-icon shape="view-list"></clr-icon>
+        รายการเบิกผ้าที่เลือก
       </a>
 
     </clr-vertical-nav>

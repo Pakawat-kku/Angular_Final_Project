@@ -1,0 +1,13 @@
+<h2>ประวัติการนำจ่ายผ้า</h2>
+<br>
+<div *ngIf="withdrawList">
+    <div *ngFor="let item of withdrawList">
+      <a routerLink="/main/withdraw-history-detail/{{item.withdrawCode}}" style="color: rgb(3, 44, 3)"> 
+        <clr-icon shape="file"></clr-icon>
+        <b>
+           รายการที่ {{item.withdrawCode}} 
+        </b>
+        วันที่ {{item.date}}
+        </a>
+    </div>
+</div>

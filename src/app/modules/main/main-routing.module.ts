@@ -1,3 +1,5 @@
+import { WithdrawHistoryDetailComponent } from './withdraw-history-detail/withdraw-history-detail.component';
+import { OverviewWithdrawComponent } from './overview-withdraw/overview-withdraw.component';
 import { ReportPurchaseDetailComponent } from './report-purchase-detail/report-purchase-detail.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -18,6 +20,9 @@ import { RequisitionDetailComponent } from './requisition-detail/requisition-det
 import { ReportPurchaseComponent } from './report-purchase/report-purchase.component';
 import { RequisitionDetailAdminComponent } from './requisition-detail-admin/requisition-detail-admin.component';
 import { RequisitionBillDetailComponent } from './requisition-bill-detail/requisition-bill-detail.component';
+import { OverviewWithdrawDetailComponent } from './overview-withdraw-detail/overview-withdraw-detail.component';
+import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.component';
+import { WithdrawService } from 'src/app/services/withdraw.service';
 
 
 const routes: Routes = [
@@ -39,6 +44,10 @@ const routes: Routes = [
       { path: 'ward', component: WardComponent },
       { path: 'purchase', component: PurchaseComponent },
       { path: 'report-purchase', component: ReportPurchaseComponent },
+      { path: 'overview-withdraw', component: OverviewWithdrawComponent },
+      { path: 'withdraw-history', component: WithdrawHistoryComponent },
+      { path: 'overview-withdraw-detail/:withdrawCode', component: OverviewWithdrawDetailComponent },
+      { path: 'withdraw-history-detail/:withdrawCode', component: WithdrawHistoryDetailComponent },
       { path: 'report-purchase-detail/:purchaseId', component: ReportPurchaseDetailComponent },
       { path: '**', component: PageNotFoundComponent },
     ]

@@ -18,6 +18,8 @@ export class PurchaseComponent implements OnInit {
   year: any;
   amount: Number;
   date: string;
+  day: string;
+  pee: string;
   totalPrice: number = 0;
   purchaseId: number;
   totalPricePerUnit: number = 0;
@@ -37,13 +39,16 @@ export class PurchaseComponent implements OnInit {
     private purchaseService: PurchaseService
   ) {
 
-   }
+  }
 
   async ngOnInit() {
+    moment.locale('th');
     this.checkYear();
     // this.getDate();
     await this.getCloth();
     this.clothLists = [{ id: '1', text: 'test1' }, { id: '2', text: 'test2' }];
+    this.day = moment().format('DD MMMM');
+    this.pee = moment().add(543, 'years').format('YYYY');
   }
 
   async checkYear() {
@@ -59,11 +64,11 @@ export class PurchaseComponent implements OnInit {
   getDate() {
     moment.locale('th');
     this.date = moment().format('YYYY-MM-DD HH:mm:ss');
-    console.log('date', this.date);
+    // console.log('date', this.date);
   }
 
   onClickSubmit(formData) {
-    console.log(formData);
+    // console.log(formData);
     if (formData.amount < 1) {
       this.alert.error('จำนวนรายการผ้าที่สั่งซื้อไม่ถูกต้อง');
     } else {
@@ -78,7 +83,7 @@ export class PurchaseComponent implements OnInit {
         arrayId.id = i + 1;
         this.arrayList.push(arrayId);
       }
-      console.log('arraylist', this.arrayList);
+      // console.log('arraylist', this.arrayList);
     }
     this.amount = 0;
   }
@@ -87,7 +92,7 @@ export class PurchaseComponent implements OnInit {
     const result: any = await this.stockService.getCloth();
     if (result.rows) {
       this.clothList = result.rows;
-      console.log('cloth', this.clothList);
+      // console.log('cloth', this.clothList);
     }
   }
 
@@ -111,12 +116,12 @@ export class PurchaseComponent implements OnInit {
         }
       });
       this.purchaseLists = data;
-      console.log('del', this.purchaseLists);
+      // console.log('del', this.purchaseLists);
     }
   }
 
   async onSave(data) {
-    console.log(this.purchaseLists);
+    console.log('check chong', this.purchaseLists);
     let saveData: any = [];
     for (let row of this.purchaseLists) {
       this.totalPricePerUnit = 0;
@@ -127,8 +132,8 @@ export class PurchaseComponent implements OnInit {
       }
     }
     await this.getDate();
-    console.log('save data', saveData);
-    console.log('save data price', this.totalPrice);
+    // console.log('save data', saveData);
+    // console.log('save data price', this.totalPrice);
     const obj = {
       purchaseId: 0,
       totalPrice: this.totalPrice,
@@ -137,17 +142,17 @@ export class PurchaseComponent implements OnInit {
     try {
       const result: any = await this.purchaseService.insertPurchase(obj);
       if (result.rows) {
-        console.log(result.rows);
+        // console.log(result.rows);
       }
       const getPur: any = await this.purchaseService.getPurchase(this.totalPrice, this.date);
       if (getPur.rows) {
-        console.log('get', getPur.rows[0].purchaseId);
+        // console.log('get', getPur.rows[0].purchaseId);
         this.purchaseId = getPur.rows[0].purchaseId;
         for (let row of this.purchaseLists) {
           this.totalPricePerUnit = 0;
           if (row.amount > 0 && row.price > 0) {
             this.totalPricePerUnit = row.amount * row.price;
-            console.log('total price', this.totalPricePerUnit);
+            // console.log('total price', this.totalPricePerUnit);
             const data = {
               id: 0,
               amountCloth: row.amount,
@@ -156,15 +161,15 @@ export class PurchaseComponent implements OnInit {
               Purchase_purchaseId: this.purchaseId,
               Cloth_clothId: row.clothId
             };
-            console.log('obj', data);
-            const dataInsert: any = this.purchaseService.insertPurchaseDetail(data);
+            // console.log('obj', data);
+            const dataInsert: any = await this.purchaseService.insertPurchaseDetail(data);
             if (dataInsert.rows) {
-              console.log('check', dataInsert.rows);
+              // console.log('check', dataInsert.rows);
             }
           }
         }
         this.alert.success('บันทึกข้อมูลเรียบร้อย');
-        this.router.navigate(['main/report-purchase']);
+        this.router.navigate(['main/report-purchase-detail/' + this.purchaseId]);
       }
     } catch (error) {
       console.log(error);

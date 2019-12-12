@@ -64,9 +64,9 @@ export class AlertService {
     return Swal.fire('Not found user!');
   }
 
-  confirm(title = 'คุณต้องลบรายการนี้ใช่ไหม ?') {
+  confirm(title = 'ยืนยันการทำรายการ ?') {
     return Swal.fire({
-      title: 'ยกเลิกรายการนี้',
+      title: title,
       text: 'คุณแน่ใจหรือไม่ ?',
       type: 'warning',
       showCancelButton: true,
