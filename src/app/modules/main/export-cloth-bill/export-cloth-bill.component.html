@@ -1,9 +1,9 @@
 <h1 style="text-align: center;">รายการชั่งน้ำหนัก {{exportClothCode}}</h1>
-<div class="head-bill">
-    <span>
+<div class="head-bill" *ngFor="let item of exportCloth">
+    <span >
         <b>รหัส : {{exportClothCode}}</b><br>
-        <b>คนชั่งน้ำหนัก : {{exportCloth[0].exportClothUserExport}}</b><br>
-        <b>วันที่ชั่งน้ำหนัก : {{exportCloth[0].day}}</b><br>
+        <b>คนชั่งน้ำหนัก : {{item.exportClothUserExport}}</b><br>
+        <b>วันที่ชั่งน้ำหนัก : {{item.day}}</b><br>
     </span>
 </div>
 <div class="clr-row">
@@ -43,6 +43,6 @@
     </clr-dg-footer>
 </clr-datagrid>
 </div>
-<div class="head-bill">
-    <b>น้ำหนักผ้าเปื้อนรวม : {{exportCloth[0].exportClothTotalWeight}}</b>
+<div class="head-bill" *ngFor="let item of exportCloth">
+    <b>น้ำหนักผ้าเปื้อนรวม : {{item.exportClothTotalWeight}}</b>
 </div>
