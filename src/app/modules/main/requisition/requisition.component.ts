@@ -8,13 +8,13 @@ import { NgForm, FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-import { Users } from '../register/users';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import { UsersService } from '../../../services/users.service';
 import * as jwt_decode from 'jwt-decode';
-import { InputArray, InputPurchase } from './inputArray';
+import { InputArray, InputDummy , InputPurchase } from './inputArray';
 import { Select2OptionData } from 'ng2-select2';
 import { endWith } from 'rxjs/operators';
+import { LocaleHelperService } from '@clr/angular/forms/datepicker/providers/locale-helper.service';
 
 @Component({
   selector: 'app-requisition',
@@ -23,33 +23,37 @@ import { endWith } from 'rxjs/operators';
 
 })
 export class RequisitionComponent implements OnInit, OnDestroy {
-  currentUser: Users;
+  currentUser: any;
   currentUserSubscription: Subscription;
   decoded: any;
   month: any;
   year: any;
   amount: Number;
   date: string;
+  dates: any;
   purchaseId: number;
   arrayList: Array<InputArray> = [];
-  public clothList: Array<Select2OptionData>;
-  public clothLists: Array<Select2OptionData>;
+  clothList: any;
   purchaseLists: any[] = [{
     clothId: '1',
     amountCloth: null,
     // price: null
+  }];
+  dummyLists: any[] = [{
+    clothId: undefined
   }];
   reqId: any;
   modalBill = false;
   bill: any;
   regWaitDetail: any;
   exampleData: Array<Select2OptionData>;
-  options = {
-    multiple: true,
-    theme: 'classic',
-    closeOnSelect: false
-  };
   time: string;
+  value: string[];
+  unNormal = 0;
+  minus = 0;
+  i =  0;
+  ddd: any;
+  unRepeat = 0;
 
   constructor(
     private alertService: AlertService,
@@ -63,26 +67,27 @@ export class RequisitionComponent implements OnInit, OnDestroy {
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
-      console.log('users', users);
       this.decoded = jwt_decode(users.token);
-      console.log('decoded', this.decoded);
+      this.exampleData = [];
 
     });
   }
 
   async ngOnInit() {
-    // this.checkYear();
     moment.locale('th');
     this.getDate();
     await this.getCloth();
-
+    // this.exampleData = this.clothList;
   }
 
   getDate() {
-    moment.locale('th');
     this.date = moment().add(543, 'years').format('DD MMMM YYYY');
-    this.time = moment().format('HH:mm');
     console.log('date', this.date);
+
+    this.dates = moment().format('YYYY-MM-DD HH:mm.ss');
+    console.log('dates', this.dates);
+
+    this.time = moment().format('HH:mm');
     this.reqId = this.decoded.Ward_wardId + moment().format('YYYYMMDDHHmmss');
   }
 
@@ -111,12 +116,13 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     const result: any = await this.stockService.getCloth();
     if (result.rows) {
       this.clothList = result.rows;
-      console.log('cloth', this.clothList);
     }
   }
 
   async addNewRow(rowNo) {
-    if (rowNo + 1 === this.purchaseLists.length && this.purchaseLists[rowNo].amountCloth > 0) {
+    // if (rowNo + 1 === this.purchaseLists.length && this.purchaseLists[rowNo].amountCloth > 0) {
+    if (rowNo + 1 === this.purchaseLists.length) {
+
       await this.purchaseLists.push({
         clothId: '1',
         amountCloth: null,
@@ -141,13 +147,58 @@ export class RequisitionComponent implements OnInit, OnDestroy {
 
   async onSave() {
     console.log('this.purchaseLists', this.purchaseLists);
+
+    let unNormal = 0 ;
+    let unRepeat = 0 ;
+    let dumNum = 0 ;
+    let purchNum = 0 ;
+
+    for (const item of this.purchaseLists) {
+      if (item.amountCloth <= 0 || item.amountCloth === null) {
+          unNormal = unNormal + 1;
+          console.log('unNormal', unNormal);
+      } else {
+           console.log('clothAmountปกติ');
+      }
+  }
+
+  for (let i = 0; i < this.purchaseLists.length; i++) {
+    this.dummyLists[i] = this.purchaseLists[i].clothId;
+  }
+
+    purchNum = _.size(this.purchaseLists);
+    dumNum =  _.size(_.uniq(this.dummyLists));
+
+    console.log('purchNum', purchNum );
+    console.log('dumNum' , dumNum);
+    console.log('dummylist', this.dummyLists );
+    console.log('uniq' , _.uniq(this.dummyLists));
+
+      if (dumNum < purchNum) {
+        console.log('มีผ้าซ้ำ');
+        unRepeat = unRepeat + 1;
+        console.log('this.unRepeat', unRepeat);
+      } else {
+        console.log('ไม่มีผ้าซ้ำ');
+
+      }
+
+    console.log('intersection', _.intersection(_.uniq(this.dummyLists) , this.dummyLists));
+    console.log(unNormal);
+    console.log(unRepeat);
+
+
+    // _.difference(this.dummyLists, [2, 3]);
+
+
     await this.getDate();
-    // tslint:disable-next-line: no-unused-expression
-    console.log('diff' , (this.purchaseLists, [0]));
+
     try {
+      if (unNormal === 0 && unRepeat === 0) {
+
       const obj = {
         requisitionCode: this.reqId,
-        reqDate: this.date,
+        reqDate: this.dates,
         status: '0',
         Users_userId: this.decoded.userId,
         Ward_wardId: this.decoded.Ward_wardId
@@ -157,8 +208,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
       const result: any = await this.requisitionService.insertRealReq(obj);
 
       for (const row of this.purchaseLists) {
-
-      if (row.amountCloth > 0) {
+        // if (this.unNormal === 0) {
 
          const obj1 = {
             // id: 0,
@@ -169,18 +219,31 @@ export class RequisitionComponent implements OnInit, OnDestroy {
           };
           console.log('obj1', obj1);
           const dataInsert: any = this.requisitionService.insertReq(obj1);
-          if (dataInsert.rows) {
-            console.log('check', dataInsert.rows);
-          }
+
+          this.alertService.reqSuccess('บันทึกข้อมูลเรียบร้อย');
+          await this.router.navigate(['main/requisition-bill-detail/' + this.reqId]);
         }
-      }
 
-      this.alertService.reqSuccess('บันทึกข้อมูลเรียบร้อย');
-      await this.router.navigate(['main/requisition-bill-detail/' + this.reqId]);
+    } if (unNormal !== 0) {
+      this.alertService.error('กรุณาตรวจสอบจำนวนที่ต้องการเบิก');
+      this.unNormal = 0;
+      this.unRepeat = 0;
 
-      } catch (error) {
-    console.log(error);
-  }
+    } if (unRepeat !== 0) {
+      this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำ');
+      this.unNormal = 0;
+      this.unRepeat = 0;
+
+    } if (unRepeat !== 0 && unNormal !== 0) {
+      this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำและจำนวนที่ต้องการเบิก');
+      this.unNormal = 0;
+      this.unRepeat = 0;
+    }
+
+    } catch (error) {
+      console.log(error);
+
+}
 }
 
 // this.options = {

@@ -12,7 +12,7 @@
         </div>
     </form>
 <div class="limit-height">
-<clr-datagrid class="clr-col-8" *ngIf="showReqAdmin">
+<clr-datagrid class="datagrid-compact clr-col-8" *ngIf="showReqAdmin">
         <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
 
         <clr-dg-column>วอร์ดที่เบิก</clr-dg-column>
@@ -24,15 +24,15 @@
             <clr-dg-cell>{{item.wardName}}</clr-dg-cell>
             <clr-dg-cell>{{item.day}}</clr-dg-cell>
             <clr-dg-cell>{{item.time}}</clr-dg-cell>
-            <clr-dg-cell *ngIf="item.status==0" style="color:blue">pendding fo approval</clr-dg-cell>
-            <clr-dg-cell *ngIf="item.status==1" style="color:green">approve</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status==0" style="color:blue">รออมัติ</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.status==1" style="color:green">อนุมัติ</clr-dg-cell>
             <clr-dg-cell *ngIf="item.status==2" style="color:red">ไม่อนุมัติ</clr-dg-cell>
             <clr-dg-cell > 
                 <!-- <button class="btn btn-success-outline btn-sm" (click)="onAdd(item.requisitionCode)">
                     ข้อมูลการเบิก
                 </button> -->
                 <button class="btn btn-success-outline btn-sm" routerLink="/main/requisition-bill-detail/{{item.requisitionCode}}">
-                    data of requisition<!-- ข้อมูลการเบิก -->
+                ข้อมูลการเบิก
                 </button>
             </clr-dg-cell>
         </clr-dg-row>

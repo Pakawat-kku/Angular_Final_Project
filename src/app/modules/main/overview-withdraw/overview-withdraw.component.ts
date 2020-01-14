@@ -5,7 +5,6 @@ import { Component, OnInit } from '@angular/core';
 import * as jwt_decode from 'jwt-decode';
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import { Users } from '../register/users';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/Authentication.service';
 import { Router } from '@angular/router';
@@ -22,7 +21,7 @@ export class OverviewWithdrawComponent implements OnInit {
   reqDetailList: any[];
   selected: any = [];
   collapsed = true;
-  currentUser: Users;
+  currentUser: any;
   currentUserSubscription: Subscription;
   decoded: any;
 

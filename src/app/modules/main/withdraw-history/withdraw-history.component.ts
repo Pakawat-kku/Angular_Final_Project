@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { WithdrawService } from 'src/app/services/withdraw.service';
-import { Users } from '../register/users';
 import * as jwt_decode from 'jwt-decode';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
@@ -14,7 +13,7 @@ import { AuthenticationService } from 'src/app/services/Authentication.service';
 export class WithdrawHistoryComponent implements OnInit {
   withdrawList: any[];
   collapsed = true;
-  currentUser: Users;
+  currentUser: any;
   currentUserSubscription: Subscription;
   decoded: any;
 
@@ -38,7 +37,7 @@ export class WithdrawHistoryComponent implements OnInit {
       const result: any = await this.withdrawService.getWithdrawByUserId(this.decoded.userId);
       if (result.rows) {
         this.withdrawList = result.rows;
-        for(let item of this.withdrawList) {
+        for (let item of this.withdrawList) {
           item.date = moment(item.withdrawDate).add(543, 'years').format('DD MMMM YYYY');
         }
         console.log(this.withdrawList);

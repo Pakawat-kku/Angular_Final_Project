@@ -1,0 +1,27 @@
+<h2 class="title">ประวัติการชั่งน้ำหนัก</h2>
+<div class="limit-height">
+<clr-datagrid class="clr-col-8" *ngIf="exportCloth">
+        <clr-dg-column>รหัสชั่งน้ำหนัก</clr-dg-column>
+        <clr-dg-column>วันที่ชั่งน้ำหนัก</clr-dg-column>
+        <clr-dg-column>คนชั่งน้ำหนัก</clr-dg-column>
+        <clr-dg-column>ดูข้อมูลการชั่งน้ำหนัก</clr-dg-column>   
+        <clr-dg-row id="green" *ngFor="let item of exportCloth" >
+            <clr-dg-cell>{{item.exportClothCode}}</clr-dg-cell>
+            <clr-dg-cell>{{item.day}}</clr-dg-cell>
+            <clr-dg-cell>{{item.exportClothUserExport}}</clr-dg-cell>
+            <clr-dg-cell>    
+            <button class="btn btn-primary-outline btn-sm" routerLink="/main/export-cloth-bill/{{item.exportClothCode}}">
+                    ข้อมูลการเบิก
+            </button>
+            </clr-dg-cell>
+        </clr-dg-row>
+        <clr-dg-footer>
+            <b>รายการผ้าทั้งหมด {{exportCloth.length}} รายการ </b>&nbsp;&nbsp;
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+                {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                of {{pagination.totalItems}} users
+            </clr-dg-pagination>
+        </clr-dg-footer>
+</clr-datagrid>
+</div>

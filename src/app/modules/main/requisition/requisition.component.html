@@ -2,7 +2,7 @@
     <li><a href="javascript://">Purchase</a></li>
 </ol> -->
 <h1 class="req">
-    Requisition<!-- เบิกผ้า -->
+    เบิกผ้า
 </h1>
 <br>
 <b>เบิกจากวอร์ด : {{decoded.wardName}}</b><br>
@@ -20,9 +20,13 @@
     <div *ngFor="let item of purchaseLists; let i = index">
         {{i+1}} )
         <b> รายการผ้า : </b>
-        <!-- <select2 [data]="clothLists" [cssImport]=true></select2> -->
-    <!-- <ng-select2 [(ngModel)]="item.clothId" [data]="clothList" [placeholder]="'Please select a fruit...'">
+        
+        <!-- <select2 [data]="exampleData" ></select2>  -->
+    <!-- <ng-select2 [(ngModel)]="exampleData.clothId" [data]="exampleData" [placeholder]="'Please select a fruit...'">
     </ng-select2> -->
+   
+
+
         <div class="clr-select-wrapper">
             <select id="clothId" class="clr-select" name="clothId" [(ngModel)]="item.clothId">
                 <option *ngFor="let j of clothList" value="{{j.clothId}}">
@@ -30,11 +34,15 @@
                 </option>
             </select> 
         </div>
-        <b> จำนวน : </b><input type="number" name="amountCloth" [(ngModel)]="item.amountCloth" (change)="addNewRow(i)" />
-        <!-- <b> ราคา/หน่วย : </b><input type="number" name="price" [(ngModel)]="item.price" (change)="addNewRow(i)" /> บาท -->
+
+        <!-- <b> จำนวน : </b><input type="number" name="amountCloth" [(ngModel)]="item.amountCloth" (change)="addNewRow(i)" /> -->
+        <b> จำนวน : </b><input type="number" name="amountCloth" [(ngModel)]="item.amountCloth" />
+        <button *ngIf="i>=0" (click)="addNewRow(i)" class="btn btn-icon btn-sm btn-peimary-outline"
+            style="margin-left:3px">
+            <clr-icon shape="plus-circle" class="is-solid"></clr-icon>
+        </button>
         <button *ngIf="i>0" (click)="onDelete(i)" class="btn btn-icon btn-sm btn-danger-outline"
             style="margin-left:3px">
-            <!-- <clr-icon shape="times"></clr-icon> -->
             <clr-icon shape="trash"></clr-icon>
         </button>
         <br>

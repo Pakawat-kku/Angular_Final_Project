@@ -5,22 +5,16 @@
         <span class="title">Washing Department Management System</span>
       </a>
     </div>
-    <!-- <div class="header-nav" [clr-nav-level]="1">
-      <a href="javascript://" class="active nav-link nav-icon" routerLink="/">
-        <clr-icon shape="home"></clr-icon>
-      </a>
-    </div> -->
-    <div class="branding">
-        <span class="title username" *ngIf="decoded.position==2">{{decoded.wardName}} (Ward)</span>
-        <span class="title username" *ngIf="decoded.position==1">{{decoded.firstname}} {{decoded.lastname}} (Administrator)</span>
-        <span class="title username" *ngIf="decoded.position==3">{{decoded.firstname}} {{decoded.lastname}} (withdraw employee)</span>
-
-    </div>
     <div class="header-actions">
       <clr-dropdown>
-        <button class="nav-icon" clrDropdownTrigger>
-          <clr-icon shape="user"></clr-icon>
-          <clr-icon shape="caret down"></clr-icon>
+        <button class="nav-icon-text" clrDropdownTrigger>
+          <span class="nav-text"  *ngIf="decoded.position==2">{{decoded.wardName}} (Ward)</span>
+          <span class="nav-text"  *ngIf="decoded.position==1">{{decoded.firstname}} {{decoded.lastname}} (Administrator)</span>
+          <span class="nav-text"  *ngIf="decoded.position==3">{{decoded.firstname}} {{decoded.lastname}} (Withdraw employee)</span>
+          <span class="nav-text"  *ngIf="decoded.position==4">{{decoded.firstname}} {{decoded.lastname}} (Weigh employee )</span>
+          <clr-icon shape="user" size="24"></clr-icon>
+          &nbsp; 
+          <clr-icon shape="caret down" size="20"></clr-icon>
         </button>
         <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
           <a href="javascript://" clrDropdownItem routerLink="/main/about">About</a>
@@ -30,6 +24,7 @@
       </clr-dropdown>
     </div>
   </clr-header>
+
   <div class="content-container">
     <main class="content-area">
       <router-outlet></router-outlet>
@@ -38,6 +33,10 @@
       <a clrVerticalNavLink routerLink="./main" routerLinkActive="active">
           <clr-icon shape="home"></clr-icon>
         main<!-- หน้าแรก -->
+      </a>
+      <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./ward" routerLinkActive="active">
+        <clr-icon shape="view-list" ></clr-icon>
+        ward
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./stock" routerLinkActive="active">
         <clr-icon shape="store"></clr-icon>
@@ -70,6 +69,14 @@
       <a clrVerticalNavLink *ngIf="decoded.position==3" routerLink="./withdraw-history" routerLinkActive="active">
         <clr-icon shape="view-list"></clr-icon>
         รายการเบิกผ้าที่เลือก
+      </a>
+      <a clrVerticalNavLink *ngIf="decoded.position==4" routerLink="./export-cloth" routerLinkActive="active">
+        <clr-icon shape="view-list"></clr-icon>
+        ชั่งน้ำหนักผ้า
+      </a>
+      <a clrVerticalNavLink *ngIf="decoded.position==4" routerLink="./export-cloth-detail" routerLinkActive="active">
+        <clr-icon shape="view-list"></clr-icon>
+        ประวัติชั่งน้ำหนักผ้า
       </a>
 
     </clr-vertical-nav>

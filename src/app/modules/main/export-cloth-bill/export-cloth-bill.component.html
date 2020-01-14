@@ -1,0 +1,48 @@
+<h1 style="text-align: center;">รายการชั่งน้ำหนัก {{exportClothCode}}</h1>
+<div class="head-bill">
+    <span>
+        <b>รหัส : {{exportClothCode}}</b><br>
+        <b>คนชั่งน้ำหนัก : {{exportCloth[0].exportClothUserExport}}</b><br>
+        <b>วันที่ชั่งน้ำหนัก : {{exportCloth[0].day}}</b><br>
+    </span>
+</div>
+<div class="clr-row">
+<clr-datagrid *ngIf="exportDetail" class="clr-col-6">
+    <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
+    <clr-dg-column>น้ำหนักผ้าเปื้อน</clr-dg-column>
+    <clr-dg-column>น้ำหนักรถ</clr-dg-column>
+    <clr-dg-row id="green" *ngFor="let item of exportDetail" >
+        <clr-dg-cell>{{item.exportDetailWeightCloth}}</clr-dg-cell>
+        <clr-dg-cell>{{item.exportDetailWeightCar}}</clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-footer>
+        <b>รายการผ้าทั้งหมด {{exportDetail.length}} รายการ </b>&nbsp;&nbsp;
+        <clr-dg-pagination #pagination [clrDgPageSize]="10">
+            <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
+            {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+            of {{pagination.totalItems}} leave
+        </clr-dg-pagination>
+    </clr-dg-footer>
+</clr-datagrid>
+
+<clr-datagrid *ngIf="exportDetail" class="clr-col-6">
+    <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
+    <clr-dg-column>น้ำหนักผ้าเปื้อน</clr-dg-column>
+    <clr-dg-column>น้ำหนักรถ</clr-dg-column>
+    <clr-dg-row id="green" *ngFor="let item of exportDetail" >
+        <clr-dg-cell>{{item.exportDetailWeightCloth}}</clr-dg-cell>
+        <clr-dg-cell>{{item.exportDetailWeightCar}}</clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-footer>
+        <b>รายการผ้าทั้งหมด {{exportDetail.length}} รายการ </b>&nbsp;&nbsp;
+        <clr-dg-pagination #pagination [clrDgPageSize]="10">
+            <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
+            {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+            of {{pagination.totalItems}} leave
+        </clr-dg-pagination>
+    </clr-dg-footer>
+</clr-datagrid>
+</div>
+<div class="head-bill">
+    <b>น้ำหนักผ้าเปื้อนรวม : {{exportCloth[0].exportClothTotalWeight}}</b>
+</div>

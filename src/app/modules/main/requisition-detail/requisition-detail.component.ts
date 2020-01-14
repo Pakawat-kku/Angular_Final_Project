@@ -3,7 +3,6 @@ import { AlertService } from 'src/app/services/alert.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-import { Users } from '../register/users';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import * as jwt_decode from 'jwt-decode';
 import { RequisitionService } from './../../../services/requisition.service';
@@ -15,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./requisition-detail.component.scss']
 })
 export class RequisitionDetailComponent implements OnInit , OnDestroy {
-  currentUser: Users;
+  currentUser: any;
   currentUserSubscription: Subscription;
   decoded: any;
   showReqlist: any;
@@ -26,6 +25,7 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
   modalEdit = false;
   requisitionCode: any;
   regWaitDetail: any;
+  showSearchRequisitionId: any;
 
   constructor(
     private alertService: AlertService,
@@ -53,9 +53,7 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
     console.log('this.decoded.Ward_wardId', this.decoded.Ward_wardId);
     try {
       const result: any = await this.requisitionService.showReqWait(this.decoded.Ward_wardId);
-      console.log('result', result);
       if (result.rows) {
-        console.log(result.rows);
         this.showReqlist = result.rows;
           for (const item of this.showReqlist) {
               item.date = moment(item.reqDate).format('DD');
@@ -64,10 +62,7 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
               item.time = moment(item.reqDate).format('HH:mm');
               item.day = item.date + '  ' + item.month + '  ' + item.year;
           }
-          console.log(this.showReqlist);
-
       }
-
     } catch (err) {
       console.log(err);
     }
@@ -91,6 +86,74 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
   //   }
 
   // }
+
+  async search(searchRequisitionId) {
+
+    try {
+      console.log('searchWard : ', searchRequisitionId);
+
+      const result: any = await this.requisitionService.searchRequisitionCode(searchRequisitionId);
+      if (result.rows) {
+        console.log('search ', result.rows);
+        this.showReqlist = result.rows;
+        for (const item of this.showReqlist) {
+          item.date = moment(item.reqDate).format('DD');
+          item.month = moment(item.reqDate).format('MMMM');
+          item.year = moment(item.reqDate).add(543, 'years').format('YYYY');
+          item.time = moment(item.reqDate).format('HH:mm');
+          item.day = item.date + '  ' + item.month + '  ' + item.year;
+      }
+          console.log(this.showReqlist);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  async searchTypeApprove() {
+    console.log('this.decoded.Ward_wardId', this.decoded.Ward_wardId);
+
+    try {
+      const result: any = await this.requisitionService.searchTypeApprove(this.decoded.Ward_wardId);
+      if (result.rows) {
+        console.log('search ', result.rows);
+        this.showReqlist = result.rows;
+        for (const item of this.showReqlist) {
+          item.date = moment(item.reqDate).format('DD');
+          item.month = moment(item.reqDate).format('MMMM');
+          item.year = moment(item.reqDate).add(543, 'years').format('YYYY');
+          item.time = moment(item.reqDate).format('HH:mm');
+          item.day = item.date + '  ' + item.month + '  ' + item.year;
+      }
+          console.log(this.showReqlist);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async searchTypeNotApprove() {
+    console.log('this.decoded.Ward_wardId', this.decoded.Ward_wardId);
+
+    try {
+      const result: any = await this.requisitionService.searchTypeNotApprove(this.decoded.Ward_wardId);
+      if (result.rows) {
+        console.log('search ', result.rows);
+        this.showReqlist = result.rows;
+        for (const item of this.showReqlist) {
+          item.date = moment(item.reqDate).format('DD');
+          item.month = moment(item.reqDate).format('MMMM');
+          item.year = moment(item.reqDate).add(543, 'years').format('YYYY');
+          item.time = moment(item.reqDate).format('HH:mm');
+          item.day = item.date + '  ' + item.month + '  ' + item.year;
+      }
+          console.log(this.showReqlist);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks

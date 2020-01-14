@@ -23,6 +23,10 @@ import { RequisitionBillDetailComponent } from './requisition-bill-detail/requis
 import { OverviewWithdrawDetailComponent } from './overview-withdraw-detail/overview-withdraw-detail.component';
 import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.component';
 import { WithdrawService } from 'src/app/services/withdraw.service';
+import { ExportClothComponent } from 'src/app/modules/main/export-cloth/export-cloth.component';
+import { ExportClothDetailComponent } from 'src/app/modules/main/export-cloth-detail/export-cloth-detail.component';
+import { ExportClothBillComponent } from 'src/app/modules/main/export-cloth-bill/export-cloth-bill.component';
+
 
 
 const routes: Routes = [
@@ -49,6 +53,9 @@ const routes: Routes = [
       { path: 'overview-withdraw-detail/:withdrawCode', component: OverviewWithdrawDetailComponent },
       { path: 'withdraw-history-detail/:withdrawCode', component: WithdrawHistoryDetailComponent },
       { path: 'report-purchase-detail/:purchaseId', component: ReportPurchaseDetailComponent },
+      { path: 'export-cloth', component: ExportClothComponent },
+      { path: 'export-cloth-detail', component: ExportClothDetailComponent },
+      { path: 'export-cloth-bill/:exportClothCode', component: ExportClothBillComponent },
       { path: '**', component: PageNotFoundComponent },
     ]
   }

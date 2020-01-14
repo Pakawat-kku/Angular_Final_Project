@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { Select2Module } from 'ng2-select2';
 
 // my module and my service
 import { MainModule } from './modules/main/main.module';
@@ -22,7 +23,6 @@ import { HelperModule } from './pipes/helpers.module';
 @NgModule({
   declarations: [
     AppComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -34,7 +34,9 @@ import { HelperModule } from './pipes/helpers.module';
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    Select2Module,
+    ToastrModule.forRoot(),
+
   ],
   providers: [
     MainService,

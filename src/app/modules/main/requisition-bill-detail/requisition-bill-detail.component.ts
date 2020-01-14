@@ -6,7 +6,6 @@ import { AlertService } from 'src/app/services/alert.service';
 
 import { RequisitionService } from './../../../services/requisition.service';
 import { Subscription } from 'rxjs';
-import { Users } from '../register/users';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import * as jwt_decode from 'jwt-decode';
 import * as _ from 'lodash';
@@ -20,7 +19,7 @@ export class RequisitionBillDetailComponent implements OnInit {
   requisitionCode: any;
   requisitionBillDetail: any = [];
   requisitionBillDetailOnly: any;
-  currentUser: Users;
+  currentUser: any;
   currentUserSubscription: Subscription;
   decoded: any;
   showReqWaitDetailAdmin: any;
@@ -40,9 +39,7 @@ export class RequisitionBillDetailComponent implements OnInit {
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
-      console.log('users', users);
       this.decoded = jwt_decode(users.token);
-      console.log('decoded', this.decoded);
 
     });
   }
@@ -50,18 +47,14 @@ export class RequisitionBillDetailComponent implements OnInit {
   async ngOnInit() {
     moment.locale('th');
     this.requisitionCode = this._Activatedroute.snapshot.paramMap.get('requisitionCode');
-    console.log('id-pass', this.requisitionCode);
     await this.requisitionBill();
     await this.requisitionHeadBill();
 
   }
 
   async requisitionBill() {
-    console.log('this.requisitionCode', this.requisitionCode);
     try {
-      console.log('check', this.requisitionCode);
       const result: any = await this.requisitionService.showReqWaitDetail(this.requisitionCode);
-      console.log('result', result);
       if (result.statusCode === 200) {
         this.requisitionBillDetail = result.rows;
 
@@ -82,8 +75,6 @@ export class RequisitionBillDetailComponent implements OnInit {
   }
 
   async requisitionHeadBill() {
-
-    console.log('this.requisitionCode', this.requisitionCode);
     try {
       console.log('check', this.requisitionCode);
       const result: any = await this.requisitionService.showReqWaitDetailOnly(this.requisitionCode);
@@ -96,8 +87,7 @@ export class RequisitionBillDetailComponent implements OnInit {
           item.time = moment(item.reqDate).format('HH:mm');
           item.day = item.date + ' ' + item.month + ' ' + item.year;
         }
-        console.log('this.requisitionBillDetailOnly', this.requisitionBillDetailOnly);
-
+        this.requisitionBillDetailOnly =  this.requisitionBillDetailOnly;
       }
 
     } catch (err) {
@@ -112,10 +102,8 @@ export class RequisitionBillDetailComponent implements OnInit {
 
     try {
       const result: any = await this.requisitionService.approveReq(this.requisitionCode);
-      console.log('result', result);
       if (result.rows) {
         this.showReqWaitDetailAdmin = result.rows;
-        console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
         this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
         this.requisitionHeadBill();
         this.requisitionBill();
@@ -130,13 +118,10 @@ export class RequisitionBillDetailComponent implements OnInit {
 
   async notApproveList(row) {
     this.currentRow = Object.assign({}, row);
-    console.log('this.currentRow', this.currentRow.Requisition_requisitionCode);
-    console.log('this.currentRow.cloth', this.currentRow.Cloth_clothId);
 
     try {
       // tslint:disable-next-line: max-line-length
       const result: any = await this.requisitionService.notApproveList(this.currentRow.Requisition_requisitionCode, this.currentRow.Cloth_clothId);
-      console.log('result', result);
       if (result.rows) {
         // this.showReqWaitDetailAdmin = result.rows;
         // console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
@@ -154,15 +139,11 @@ export class RequisitionBillDetailComponent implements OnInit {
 
   async notApproveReq(requisitionCode) {
     this.requisitionCode = requisitionCode;
-    console.log(this.requisitionCode);
 
     try {
       const result: any = await this.requisitionService.notApproveReq(this.requisitionCode);
-
-      console.log('result', result);
       if (result.rows) {
         this.showReqWaitDetailAdmin = result.rows;
-        console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
         this.alertService.successNotApproveReq(' อนุมัติเสร็จสิ้น ');
         this.requisitionHeadBill();
         this.requisitionBill();
@@ -178,7 +159,6 @@ export class RequisitionBillDetailComponent implements OnInit {
   async showEditBill(row) {
     this.modalEditBill = true;
     this.currentRow = Object.assign({}, row);
-    console.log('this.currentRow', this.currentRow.Requisition_requisitionCode);
   }
 
   async submitEdit() {
@@ -186,7 +166,6 @@ export class RequisitionBillDetailComponent implements OnInit {
     try {
       // tslint:disable-next-line: max-line-length
       const result: any = await this.requisitionService.submitEdit(this.currentRow.Requisition_requisitionCode, this.currentRow.Cloth_clothId, this.currentRow.amountCloth);
-      console.log('result', result);
       if (result.rows) {
 
         this.alertService.editSuccess(' แก้ไขสำเร็จ ');

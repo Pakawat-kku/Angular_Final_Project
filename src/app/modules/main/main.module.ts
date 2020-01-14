@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ClarityModule } from '@clr/angular';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MyDatePickerTHModule } from 'mydatepicker-th';
+import { Select2Module } from 'ng2-select2';
 
 import { MainRoutingModule } from './main-routing.module';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -16,7 +18,6 @@ import { RequisitionComponent } from './requisition/requisition.component';
 import { StockComponent } from './stock/stock.component';
 import { WardComponent } from './ward/ward.component';
 import { PurchaseComponent } from './purchase/purchase.component';
-import { Select2Module } from 'ng2-select2';
 import { RequisitionDetailComponent } from './requisition-detail/requisition-detail.component';
 import { ReportPurchaseComponent } from './report-purchase/report-purchase.component';
 import { ReportPurchaseDetailComponent } from './report-purchase-detail/report-purchase-detail.component';
@@ -26,15 +27,18 @@ import { RequisitionDetailAdminComponent } from './requisition-detail-admin/requ
 import { RequisitionBillDetailComponent } from './requisition-bill-detail/requisition-bill-detail.component';
 import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.component';
 import { WithdrawHistoryDetailComponent } from './withdraw-history-detail/withdraw-history-detail.component';
-
+import { ExportClothComponent } from './export-cloth/export-cloth.component';
+import { ExportClothDetailComponent } from './export-cloth-detail/export-cloth-detail.component';
+import { ExportClothBillComponent } from './export-cloth-bill/export-cloth-bill.component';
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
     AboutComponent, LayoutComponent,
     UserComponent, PreferenceComponent, RequisitionComponent, StockComponent,
     WardComponent, PurchaseComponent, ReportPurchaseComponent,
-    ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent
-    , RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent, WithdrawHistoryComponent, WithdrawHistoryDetailComponent
+    ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent,
+    RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent,
+    WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent, ExportClothBillComponent
   ],
   imports: [
     CommonModule,
@@ -44,6 +48,7 @@ import { WithdrawHistoryDetailComponent } from './withdraw-history-detail/withdr
     MainRoutingModule,
     Select2Module,
     ReactiveFormsModule,
+    MyDatePickerTHModule,
 
   ]
 })

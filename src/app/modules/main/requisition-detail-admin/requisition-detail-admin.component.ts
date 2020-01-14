@@ -4,7 +4,6 @@ import { NgForm, FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-import { Users } from '../register/users';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import { UsersService } from '../../../services/users.service';
 import * as jwt_decode from 'jwt-decode';
@@ -19,7 +18,7 @@ import { Router , ActivatedRoute } from '@angular/router';
 
 export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
   null: any;
-  currentUser: Users;
+  currentUser: any;
   currentUserSubscription: Subscription;
   decoded: any;
   date: string;

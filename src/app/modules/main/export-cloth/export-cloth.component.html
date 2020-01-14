@@ -1,0 +1,74 @@
+<!-- <ol class="breadcrumb breadcrumb-arrow">
+    <li><a href="javascript://">Purchase</a></li>
+</ol> -->
+<h1 class="req">
+    ชั่งน้ำหนักผ้า<!-- เบิกผ้า -->
+</h1>
+<br>
+<b>วันที่ : {{date}}</b><br>
+<b>เวลา : {{time}}</b>
+<form #purchase="ngForm" (ngSubmit)="onClickSubmit(purchase.value)">
+    
+    <b>เพิ่มจำนวนช่อง </b>
+    <input type="number" placeholder="ex. 12" name="amount" ngModel />&nbsp;&nbsp;&nbsp;
+    <input type="submit" value="ตกลง" class="btn btn-sm btn-primary-outline">
+</form>
+<br>
+
+<div class="cen">
+<div class="clr-row">
+   <div class="clr-col-1.5">
+<b> ประเภทของการซัก :</b>
+</div>
+<div class="clr-col-4">
+<select  name="exportClothType" [(ngModel)]="exportClothType" >
+  <option value="1">ซักเอง</option>
+  <option value="2">ส่งซัก</option>
+</select>
+</div>
+</div><br>
+
+<div class="clr-row" *ngIf="exportClothType === '2'">
+  <div class="clr-col-1.5">
+<b> บริษัท :</b>
+</div>
+<div class="clr-col-4">
+<select  name="company" [(ngModel)]="company" >
+ <option *ngFor="let item of companyList;" value="{{item.	idCompany}}">{{item.companyName}}</option>
+</select>
+</div>
+</div> <br>
+
+<div class="clr-row">
+<div class="clr-col-1.5">
+  <b> วันชั่งน้ำหนักผ้า :</b>
+</div>
+
+<div class="clr-col-4">
+  <my-date-picker-th name="mydate" [options]="myDatePickerOptions"
+    [(ngModel)]="model" required>
+  </my-date-picker-th>
+</div>
+</div>
+</div>
+<!-- <br> -->
+<div *ngIf="exportList && exportList.length">
+    <div *ngFor="let item of exportList; let i = index">
+        {{i+1}} )
+        <b> น้ำหนักผ้าเปื้อน : </b><input type="number" name="weighCloth" [(ngModel)]="item.weighCloth" (change)="addNewRow(i)" />
+        <b> น้ำหนักรถ : </b><input type="number" name="weighCar" [(ngModel)]="item.weighCar" (change)="addNewRow(i)" /> 
+        <button *ngIf="i>0" (click)="onDelete(i)" class="btn btn-icon btn-sm btn-danger-outline"
+            style="margin-left:3px">
+            <!-- <clr-icon shape="times"></clr-icon> -->
+            <clr-icon shape="trash"></clr-icon>
+        </button>
+        <br>
+        <br>
+    </div>
+    <button class="btn btn-success" (click)="onSave()">บันทึก</button>
+    <!-- <input type="submit" value="save"> -->
+    <!-- </form> -->
+</div>
+
+
+

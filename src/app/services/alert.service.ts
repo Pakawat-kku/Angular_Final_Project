@@ -60,6 +60,15 @@ export class AlertService {
     });
   }
 
+  deleteSuccess(text = 'สำเร็จ', title = 'congrate') {
+    return Swal.fire({
+      type: 'success',
+      title: 'ลบสำเร็จ',
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
   notFoundUser(text = 'not found user', title = ':-(') {
     return Swal.fire('Not found user!');
   }
@@ -188,6 +197,7 @@ confirmReq(title = 'คุณต้องการส่งคำร้องเ
     confirmButtonText: 'ยืนยัน'
   });
 }
+
 
 // loginfail(text = 'username หรือ password ไม่ถูกต้อง', title = 'username หรือ password ไม่ถูกต้อง') {
 //   return Swal.fire({
