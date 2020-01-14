@@ -52,7 +52,7 @@ export class ExportClothComponent implements OnInit, OnDestroy {
   time: string;
   currentRow: any;
   disabled = false;
-  model: Object = { date: { year: 2019, month: 12, day: 25 } };
+  model: Object = { date: { year: 2020, month: 1, day: 15 } };
   exportClothCode: any;
   resultYear: number;
   resultMonth: number;
@@ -186,7 +186,7 @@ export class ExportClothComponent implements OnInit, OnDestroy {
     // console.log('resultYear', this.resultYear);
 
     // tslint:disable-next-line: max-line-length
-    if (this.resultDay <= 0 && this.resultMonth <= 0 && this.resultYear <= 0 && this.exportClothType && this.exportClothType !== undefined) {
+    // if (this.resultDay <= 0 && this.resultMonth <= 0 && this.resultYear <= 0  && this.exportClothType !== undefined) {
     await this.getDate();
     // tslint:disable-next-line: no-unused-expression
     console.log('diff' , (this.exportList, [0]));
@@ -229,9 +229,9 @@ export class ExportClothComponent implements OnInit, OnDestroy {
 
       this.alertService.reqSuccess('บันทึกข้อมูลเรียบร้อย');
       await this.router.navigate(['main/export-cloth-bill/' + this.exportClothCode]);
-       } else {
-        this.alertService.error('ไม่สามารถบันทึกข้อมูลได้ โปรดตรวจสอบความถูกต้อง');
-       }
+      //  } else {
+      //   this.alertService.error('ไม่สามารถบันทึกข้อมูลได้ โปรดตรวจสอบความถูกต้อง');
+      //  }
       } catch (error) {
     console.log(error);
   }

@@ -32,35 +32,35 @@
     <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed" style="background-color: rgb(188, 226, 188);">
       <a clrVerticalNavLink routerLink="./main" routerLinkActive="active">
           <clr-icon shape="home"></clr-icon>
-        main<!-- หน้าแรก -->
+        หน้าแรก
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./ward" routerLinkActive="active">
         <clr-icon shape="view-list" ></clr-icon>
-        ward
+        วอร์ด
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./stock" routerLinkActive="active">
         <clr-icon shape="store"></clr-icon>
-        warehouse<!-- คลังผ้า -->
+        คลังผ้า
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./purchase" routerLinkActive="active">
         <clr-icon shape="add-text"></clr-icon>
-        list purchase of cloth<!-- รายการสั่งซื้อผ้าเข้าใหม่ -->
+       รายการสั่งซื้อผ้าเข้าใหม่
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./report-purchase" routerLinkActive="active">
         <clr-icon shape="view-list"></clr-icon>
-        report purchase of cloth<!-- รายงานรายการสั่งซื้อผ้า -->
+        รายงานรายการสั่งซื้อผ้า
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./requisition-detail-admin" routerLinkActive="active">
         <clr-icon shape="view-list"></clr-icon>
-        requisition of ward <!-- รายการเบิกผ้าเข้าของวอร์ด -->
+       รายการเบิกผ้าเข้าของวอร์ด
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition" routerLinkActive="active">
         <clr-icon shape="note"></clr-icon>
-        requisition<!-- เบิกผ้า -->
+       เบิกผ้า
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition-detail" routerLinkActive="active">
         <clr-icon shape="view-list"></clr-icon>
-        list requisition<!-- รายการเบิกผ้า -->
+       รายการเบิกผ้า
       </a>
       <a clrVerticalNavLink *ngIf="decoded.position==3" routerLink="./overview-withdraw" routerLinkActive="active">
         <clr-icon shape="view-list"></clr-icon>

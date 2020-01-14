@@ -23,6 +23,7 @@ export class ExportClothBillComponent implements OnInit {
   exportCloth: any;
   exportDetail: any;
   exportClothCode: any;
+  importDetail: [1, 2];
 
   constructor(
     private alertService: AlertService,

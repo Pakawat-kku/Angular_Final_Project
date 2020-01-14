@@ -25,13 +25,13 @@
     </clr-dg-footer>
 </clr-datagrid>
 
-<clr-datagrid *ngIf="exportDetail" class="clr-col-6">
+<clr-datagrid  class="clr-col-6">
     <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
     <clr-dg-column>น้ำหนักผ้าเปื้อน</clr-dg-column>
     <clr-dg-column>น้ำหนักรถ</clr-dg-column>
-    <clr-dg-row id="green" *ngFor="let item of exportDetail" >
-        <clr-dg-cell>{{item.exportDetailWeightCloth}}</clr-dg-cell>
-        <clr-dg-cell>{{item.exportDetailWeightCar}}</clr-dg-cell>
+    <clr-dg-row id="green" *ngFor="let item of importDetail" >
+        <clr-dg-cell></clr-dg-cell>
+        <clr-dg-cell></clr-dg-cell>
     </clr-dg-row>
     <clr-dg-footer>
         <b>รายการผ้าทั้งหมด {{exportDetail.length}} รายการ </b>&nbsp;&nbsp;
