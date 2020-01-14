@@ -78,13 +78,12 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
     }
   }
 
-  async search(searchWard, searchDate) {
+  async search(searchWard) {
 
     try {
       console.log('searchWard : ', searchWard);
-      console.log('searchDate : ', searchDate);
 
-      const result: any = await this.requisitionService.searchRequisition(searchWard);
+      const result: any = await this.requisitionService.searchWard(searchWard);
       if (result.rows) {
         console.log('search ', result.rows);
         this.showReqAdmin = result.rows;

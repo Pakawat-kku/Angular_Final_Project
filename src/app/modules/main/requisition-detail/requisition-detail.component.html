@@ -18,6 +18,8 @@
 </form>
 <div class="limit-height">
 <clr-datagrid class="datagrid-compact clr-col-8" *ngIf="showReqlist">
+        <clr-dg-placeholder>ไม่มีรายการเบิก!</clr-dg-placeholder>
+
         <clr-dg-column>รหัสการเบิก</clr-dg-column>
         <clr-dg-column [clrDgField]="'day'">วันที่เบิก</clr-dg-column>
         <clr-dg-column>เวลาที่ยื่นคำร้องเบิกผ้า</clr-dg-column>

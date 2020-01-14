@@ -135,8 +135,8 @@ submitEdit(requisitionCode , clothId , amountCloth) {
       .catch(err => err);
 }
 
-searchRequisition(searchWard) {
-  return this.http.post(`http://localhost:3001/req/searchReq`, { searchWard})
+searchWard(searchWard) {
+  return this.http.post(`http://localhost:3001/req/searchWard`, { searchWard})
       .toPromise()
       .then(result => result)
       .catch(err => err);

@@ -21,9 +21,14 @@
            รออนุมัติ
         </b><br>
     </span>
-    <span *ngIf="item.status=='1'">
+    <span *ngIf="item.status=='1' && decoded.position== '1' ">
         <b>สถานะ​​ :</b><b style="color:green">
          อนุมัติแล้ว
+        </b><br>
+    </span>
+    <span *ngIf="item.status=='1' && decoded.position=='2' ">
+        <b>สถานะ​​ :</b><b style="color:green">
+         อนุมัติแล้ว(กำลังจัดส่ง)
         </b><br>
     </span>
     <span *ngIf="item.status=='2'">
@@ -32,10 +37,7 @@
         <b style="color:red" *ngIf="item.status=='0' && decoded.position==2">
             *******ถ้ายังไม่ผ่านการอนุมัติจากส่วนการเบิกผ้า ท่านสามารถแก้ไขได้********
         </b>
-        <b style="color:red" *ngIf="item.status=='1' && decoded.position==2">
-            <!-- *******แถบสีเขียว คือ รายการนั้นผ่านการอนุมัติเรียบร้อย และ รอการนำจ่าย <br> -->
-            *******แถบสีแดง  คือ รายการนั้นไม่ผ่านการอนุมัติ กรุณาเบิกใหม่
-        </b> 
+     
 </div> 
 
 <clr-datagrid *ngIf="requisitionBillDetail" class=" clr-col-10 ">
