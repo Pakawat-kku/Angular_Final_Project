@@ -82,9 +82,9 @@ export class OverviewWithdrawComponent implements OnInit {
           await data.push({
             withdrawCode: this.withdrawCode,
             withdrawDate: moment().format('YYYY-MM-DD HH:mm:ss'),
-            withdraw_status: '1',
+            withdraw_status: '0',
             Ward_wardId: row.wardId,
-            Users_userId: this.decoded.userId,
+            // Users_userId: this.decoded.userId,
             Requisition_requisitionCode: row.requisitionCode
           });
           await this.requisitionService.statusWithdraw(row.requisitionCode);

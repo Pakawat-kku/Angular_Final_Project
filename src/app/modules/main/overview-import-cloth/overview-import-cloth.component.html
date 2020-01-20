@@ -1,0 +1,12 @@
+<h1>รายงานการชั่งน้ำหนักผ้า</h1>
+<div *ngIf="importClothList">
+    <div *ngFor="let item of importClothList">
+      <a routerLink="/main/overview-import-cloth-detail/{{item.importCode}}" style="color: rgb(3, 44, 3)"> 
+        <clr-icon shape="file"></clr-icon>
+        <b>
+           รายการเลขที่ {{item.importCode}} 
+        </b>
+        วันที่ {{item.importDate}}
+        </a>
+    </div>
+</div>

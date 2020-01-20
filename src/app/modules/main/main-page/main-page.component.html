@@ -2,6 +2,16 @@
   <li><a href="javascript://">Home</a></li>
 </ol>
 <h1>
-  <!-- งานซักรีดโรงพยาบาลขอนแก่น -->
-
+  <u>งานซักรีดโรงพยาบาลขอนแก่น</u>
 </h1>
+<div *ngIf="decoded.status_approve != 'true'" style="text-align: center;">
+<h1 style="color:red">
+  *บัญชีนี้ยังไม่สามารถใช้งานได้*
+</h1>
+ขออภัยในความไม่สะดวก กรุณารอผู้ดูแลระบบอนุมัติก่อน ขอบคุณค่ะ
+</div>
+<div *ngIf="decoded.status_approve == 'true'">
+    <h1>
+      ยินดีต้อนรับเข้าสู่ระบบคุณ {{decoded.firstname}} {{decoded.lastname}}
+    </h1>
+    </div>

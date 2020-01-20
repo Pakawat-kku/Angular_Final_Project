@@ -19,6 +19,7 @@ import { MainModule } from './modules/main/main.module';
 import { LoginModule } from './modules/login/login.module';
 import { MainService } from './services/main.service';
 import { HelperModule } from './pipes/helpers.module';
+import { SignupModule } from './modules/signup/signup.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { HelperModule } from './pipes/helpers.module';
     ClarityModule,
     MainModule,
     LoginModule,
+    SignupModule,
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,

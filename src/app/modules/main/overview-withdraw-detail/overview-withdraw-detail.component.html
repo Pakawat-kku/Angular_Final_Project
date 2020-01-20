@@ -16,9 +16,9 @@
                 <clr-dg-cell>{{item.wardName}}</clr-dg-cell>
                 <clr-dg-cell>{{item.reqTime}} น.</clr-dg-cell>
                 <clr-dg-cell>{{item.reqDate}}</clr-dg-cell>
-                <clr-dg-cell *ngIf="item.status_withdraw==='1'" style="color:rgb(158, 31, 31)">เตรียมนำจ่าย
+                <clr-dg-cell *ngIf="item.withdraw_status==='0'" style="color:rgb(158, 31, 31)">เตรียมนำจ่าย
                 </clr-dg-cell>
-                <clr-dg-cell *ngIf="item.status_withdraw==='2'" style="color:rgb(36, 151, 36)">นำจ่ายเรียบร้อย
+                <clr-dg-cell *ngIf="item.withdraw_status==='1'" style="color:rgb(36, 151, 36)">นำจ่ายเรียบร้อย
                 </clr-dg-cell>
                 <clr-dg-cell><button (click)="onShow(item)" class="btn btn-sm btn-primary-outline"
                                 >ทำการนำจ่ายผ้า</button>
@@ -33,15 +33,15 @@
                 <label><b>เลขที่ใบนำจ่าย : {{withdrawCode}}</b></label><br>
                 <label><b>วอร์ดที่เบิก : {{rows.wardName}}</b></label><br>
                 <label><b>วันที่นำจ่าย : {{time}}</b></label><br>
-                <label><b>รอบการนำจ่าย : </b></label>
-                <div class="clr-select-wrapper">
+                <label><b>รอบการนำจ่าย : {{rows.totalRound }}</b></label>
+                <!-- <div class="clr-select-wrapper">
                         <select id="round" class="clr-select" name="round" [(ngModel)]="rows.round">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
                                 <option value="4">4</option>
                         </select>
-                </div><br>
+                </div><br> -->
                 <clr-datagrid class="clr-align-items-center">
                         <clr-dg-column>รายการผ้า</clr-dg-column>
                         <clr-dg-column>จำนวนที่เบิก</clr-dg-column>

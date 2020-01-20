@@ -14,13 +14,13 @@
         </div>
     </div>
 </form>
-<div style="text-align: left; margin-left: 10px;">
+<div style="text-align: right;">
     <button type="button" (click)="onAdd()" class="btn btn-success">
         เพิ่มข้อมูลผ้า
     </button>
 </div>
 
-<clr-datagrid *ngIf="clothList" class="clr-col-10">
+<clr-datagrid *ngIf="clothList" >
     <clr-dg-column [clrDgField]="'clothId'">ID</clr-dg-column>
     <clr-dg-column [clrDgField]="'clothName'">ชื่อ</clr-dg-column>
     <clr-dg-column [clrDgField]="'clothTypeName'">ชนิดผ้า</clr-dg-column>
@@ -35,7 +35,7 @@
         <clr-dg-cell *ngIf="item.status==='0'">ไม่ใช้งาน</clr-dg-cell> -->
         <!-- <clr-dg-cell>{{ item.clothAmount }} {{ item.clothClassifier }}</clr-dg-cell> -->
         <clr-dg-cell>
-            <button class="btn btn-primary-outline" (click)="onEdit(item)">แก้ไขข้อมูลผ้า</button><br>
+            <button class="btn btn-sm btn-primary-outline" (click)="onEdit(item)">แก้ไขข้อมูลผ้า</button><br>
             <!-- <button class="btn btn-primary" (click)="onEdit(item)">เพิ่มผ้าไปยังส่วนกลาง</button><br> -->
         </clr-dg-cell>
 

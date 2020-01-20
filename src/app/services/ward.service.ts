@@ -5,8 +5,9 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-
 export class WardService {
+
+
 
   constructor(private http: HttpClient, @Inject('API_URL') private apiUrl) { }
 

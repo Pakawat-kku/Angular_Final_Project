@@ -27,6 +27,12 @@ import { RequisitionDetailAdminComponent } from './requisition-detail-admin/requ
 import { RequisitionBillDetailComponent } from './requisition-bill-detail/requisition-bill-detail.component';
 import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.component';
 import { WithdrawHistoryDetailComponent } from './withdraw-history-detail/withdraw-history-detail.component';
+import { WeightComponent } from './weight/weight.component';
+import { WeightInCompanyComponent } from './weight-in-company/weight-in-company.component';
+import { WeightInHosComponent } from './weight-in-hos/weight-in-hos.component';
+import { OverviewImportClothComponent } from './overview-import-cloth/overview-import-cloth.component';
+import { OverviewImportClothDetailComponent } from './overview-import-cloth-detail/overview-import-cloth-detail.component';
+
 import { ExportClothComponent } from './export-cloth/export-cloth.component';
 import { ExportClothDetailComponent } from './export-cloth-detail/export-cloth-detail.component';
 import { ExportClothBillComponent } from './export-cloth-bill/export-cloth-bill.component';
@@ -36,6 +42,10 @@ import { ExportClothBillComponent } from './export-cloth-bill/export-cloth-bill.
     AboutComponent, LayoutComponent,
     UserComponent, PreferenceComponent, RequisitionComponent, StockComponent,
     WardComponent, PurchaseComponent, ReportPurchaseComponent,
+    ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent
+    , RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent,
+    WithdrawHistoryComponent, WithdrawHistoryDetailComponent, WeightComponent,
+    WeightInCompanyComponent, WeightInHosComponent, OverviewImportClothComponent, OverviewImportClothDetailComponent,
     ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent,
     RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent,
     WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent, ExportClothBillComponent

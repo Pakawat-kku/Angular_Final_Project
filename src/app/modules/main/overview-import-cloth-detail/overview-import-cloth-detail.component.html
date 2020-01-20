@@ -1,0 +1,28 @@
+<a routerLink="../../overview-import-cloth">
+    <button class="btn">
+        <clr-icon shape="undo"></clr-icon>กลับ
+    </button>
+</a>
+<h1>รายงานการชั่งน้ำหนัก</h1>
+<b>เลขที่ใบรายการ : </b>{{importCode}} <br>
+<b>วันที่ที่ทำรายการ : </b>{{importList.importDate}} <br>
+<b>ชื่อผู้รับผ้า : </b>{{importList.importUserImport}} <br>
+<b>ชื่อผู้ส่งผ้า : </b>{{importList.importUserExport}} <br>
+<b>รวมน้ำหนักผ้าสะอาด : </b>{{importList.importDetailWeightSumTotal}} กก.<br>
+------------------------------------------------------------<br>
+<b>รายละเอียด</b>
+<clr-datagrid *ngIf="importDetailList" class="clr-col-6">
+    <clr-dg-column class="clr-col-1">ลำดับ</clr-dg-column>
+    <clr-dg-column>น้ำหนักผ้าสะอาด</clr-dg-column>
+    <clr-dg-column>น้ำหนักรถ</clr-dg-column>
+    <clr-dg-column>น้ำหนักหลังหักน้ำหนักรถ</clr-dg-column>
+
+    <clr-dg-row *ngFor="let item of importDetailList; let i = index">
+        <clr-dg-cell class="clr-col-1">{{i+1}}</clr-dg-cell>
+        <clr-dg-cell>{{item.importDetailWeightCloth}}</clr-dg-cell>
+        <clr-dg-cell>{{item.importDetailWeightCar}}</clr-dg-cell>
+        <clr-dg-cell>{{item.importDetailWeightSum}}</clr-dg-cell>
+    </clr-dg-row>
+
+    <clr-dg-footer>{{importDetailList.length}} รายการ</clr-dg-footer>
+</clr-datagrid>
