@@ -8,16 +8,72 @@ import { Users } from '../modules/main/register/users';
 })
 export class UsersService {
 
-  constructor(private http: HttpClient, @Inject('API_URL') private apiUrl) {}
+  constructor(private http: HttpClient, @Inject('API_URL') private apiUrl) { }
+
+  getUser() {
+    return this.http.get(`${this.apiUrl}/users`, {})
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  searchNotApprove() {
+    return this.http.get(`${this.apiUrl}/users/searchNotApprove`, {})
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  searchApprove() {
+    return this.http.get(`${this.apiUrl}/users/searchApprove`, {})
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
 
   insertUsers(data) {
-    return this.http.post(`http://localhost:3001/users/insertUsers`, {data})
-    .toPromise()
-    .then(result => result)
-    .catch(error => error);
+    return this.http.post(`${this.apiUrl}/users`, { data })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  approveUser(username, dateApprove) {
+    return this.http.post(`${this.apiUrl}/users/approveUser`, { username, dateApprove })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  cancelUser(username) {
+    return this.http.post(`${this.apiUrl}/users/cancelUser`, { username })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  searchByFirstname(search) {
+    return this.http.post(`${this.apiUrl}/users/searchByFirstname`, { search })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  searchByLastname(search) {
+    return this.http.post(`${this.apiUrl}/users/searchByLastname`, { search })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  searchByUsername(search) {
+    return this.http.post(`${this.apiUrl}/users/searchByUsername`, { search })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
   }
 
   register(user: Users) {
     return this.http.post(`auth/register`, user);
-    }
+  }
 }

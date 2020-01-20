@@ -60,13 +60,7 @@ showReqWaitDetail(requisitionCode) {
 //   .catch(error => error);
 // }
 
-showReqWaitDetailOnly(requisitionCode) {
-  // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-  return this.http.get(`http://localhost:3001/req/showReqWaitDetailOnly?requisitionCode=${requisitionCode}`)
-  .toPromise()
-  .then(result => result)
-  .catch(error => error);
-}
+
 
   showReqDetailApprove(requisitionCode) {
     return this.http.post(`${this.apiUrl}/req/showReqDetailApprove`, { requisitionCode })
@@ -75,13 +69,7 @@ showReqWaitDetailOnly(requisitionCode) {
       .catch(error => error);
   }
 
-  showReqWaitDetail(requisitionCode) {
-    // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-    return this.http.get(`http://localhost:3001/req/showReqWaitDetail?requisitionCode=${requisitionCode}`)
-      .toPromise()
-      .then(result => result)
-      .catch(error => error);
-  }
+
 
   showReqWaitDetailOnly(requisitionCode) {
     // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)

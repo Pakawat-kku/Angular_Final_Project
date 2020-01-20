@@ -1,8 +1,100 @@
-<ol class="breadcrumb breadcrumb-arrow font-trirong">
-  <li><a href="javascript://" [routerLink]="['/']">Home</a></li>
-  <li><a href="javascript://">User</a></li>
-</ol>
-
 <h1>
-    hello
+    จัดการบัญชีผู้ใช้งานระบบ
 </h1>
+<form clrForm>
+    <div class="clr-row clr-align-items-center">
+        <div class="clr-col-1">
+            ค้นหา :
+        </div>
+        <select name="type" [(ngModel)]="type">
+            <option value="firstname">ชื่อ</option>
+            <option value="lastname">นามสกุล</option>
+            <option value="username">username</option>
+        </select>
+        <input class="clr-col-3" name="search" [(ngModel)]="search" />
+        <div class="clr-col-1">
+            <button type="button" (click)="letSearch(search,type)" class="btn btn-primary">ค้นหา</button>
+        </div>
+    </div>
+</form>
+<br>
+<div class="btn-group">
+    <div class="radio btn">
+        <input type="radio" name="btn-group-demo-radios" id="btn-demo-radio-1" (click)="getUser()">
+        <label for="btn-demo-radio-1">บัญชีผู้ใช้งานทั้งหมด</label>
+    </div>
+    <div class="radio btn">
+        <input type="radio" name="btn-group-demo-radios" id="btn-demo-radio-2" (click)="getNotApprove()">
+        <label for="btn-demo-radio-2">บัญชีผู้ใช้งานที่ยังไม่อนุมัติ</label>
+    </div>
+    <div class="radio btn">
+        <input type="radio" name="btn-group-demo-radios" id="btn-demo-radio-3" (click)="getApprove()">
+        <label for="btn-demo-radio-3">บัญชีผู้ใช้งานที่อนุมัติ</label>
+    </div>
+</div>
+<br>
+<clr-datagrid *ngIf="userList" class="clr-col-10">
+    <clr-dg-column [clrDgField]="'username'">username</clr-dg-column>
+    <clr-dg-column>ชื่อ-นามสกุล</clr-dg-column>
+    <clr-dg-column>ตำแหน่ง</clr-dg-column>
+    <clr-dg-column>วอร์ด</clr-dg-column>
+    <clr-dg-column>วันที่ขออนุมัติ</clr-dg-column>
+    <clr-dg-column>วันที่อนุมัติ</clr-dg-column>
+    <clr-dg-column>#</clr-dg-column>
+    <clr-dg-row *clrDgItems="let item of userList;"
+    [ngClass]="{pass: item.status_approve=='true' , noPass: item.status_approve=='false'}">
+        <clr-dg-cell>{{ item.username }}</clr-dg-cell>
+        <clr-dg-cell>{{ item.firstname }} {{item.lastname}}</clr-dg-cell>
+        <clr-dg-cell>{{ item.positionName }}</clr-dg-cell>
+        <clr-dg-cell>{{ item.wardName }}</clr-dg-cell>
+        <clr-dg-cell>{{ item.dateSignup }}</clr-dg-cell>
+        <clr-dg-cell *ngIf="item.status_approve=='true'">{{ item.dateApprove }}</clr-dg-cell>
+        <clr-dg-cell *ngIf="item.status_approve=='false'">-</clr-dg-cell>
+        <clr-dg-cell>
+            <button class="btn btn-primary-outline" *ngIf="item.status_approve=='true'" (click)="onEdit(item)" disabled>แก้ไขข้อมูลบัญชี</button><br>
+            <button class="btn btn-danger-outline" *ngIf="item.status_approve=='true' && item.positionId!=1" (click)="onCancel(item.username)" >ยกเลิกบัญชี</button><br>
+            <button class="btn btn-success" *ngIf="item.status_approve=='false'" (click)="onApprove(item.username)" >อนุมัติบัญชี</button><br>
+        </clr-dg-cell>
+
+    </clr-dg-row>
+    <clr-dg-footer>
+        <b>ผู้ใช้งานทั้งหมด {{userList.length}} บัญชี</b>&nbsp;&nbsp;
+        <clr-dg-pagination #pagination [clrDgPageSize]="10">
+            <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
+            {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+            of {{pagination.totalItems}} leave
+        </clr-dg-pagination>
+    </clr-dg-footer>
+</clr-datagrid>
+
+<clr-modal *ngIf="currentRow" [(clrModalOpen)]="modalEdit">
+    <h3 class="modal-title">แก้ไขข้อมูลบัญชี</h3>
+    <div class="modal-body">
+        <label><b>ชื่อ</b></label>
+        <clr-input-container class="clr-col-8">
+            <input clrInput type="text" [(ngModel)]="currentRow.firstname" name="firstname">
+        </clr-input-container>
+        <br>
+        <div class="modal-body">
+            <label><b>นามสกุล</b></label>
+            <clr-input-container class="clr-col-8">
+                <input clrInput type="text" [(ngModel)]="currentRow.lastname" name="lastname">
+            </clr-input-container>
+            <br>
+            <!-- <label><b>เลือกประเภทของผ้า</b></label><br><br>
+        <div class="clr-select-wrapper">
+            <select id="clothTypeId" [(ngModel)]="currentRow.ClothType_clothTypeId" class="clr-select"
+                name="ClothType_clothTypeId">
+                <option *ngFor="let item of clothTypeList" [value]="item.clothTypeId">
+                    {{ item.clothTypeName }}
+                </option>
+            </select>
+        </div> -->
+        </div>
+        <br>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" (click)="modalEdit = false">ยกเลิก</button>
+            <button type="button" class="btn btn-primary" (click)="onSave()">บันทึก</button>
+        </div>
+        </div>
+</clr-modal>

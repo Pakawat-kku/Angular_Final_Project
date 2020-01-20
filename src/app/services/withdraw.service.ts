@@ -37,6 +37,13 @@ export class WithdrawService {
       .catch(error => error);
   }
 
+  updateRound(round, withdrawId) {
+    return this.http.post(`${this.apiUrl}/withdraw/updateRound`, { round, withdrawId })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
   getWithdrawByUserId(userId) {
     return this.http.post(`${this.apiUrl}/withdraw/getWithdrawByUserId`, { userId })
       .toPromise()

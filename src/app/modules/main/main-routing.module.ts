@@ -1,3 +1,5 @@
+import { WeightInHosComponent } from './weight-in-hos/weight-in-hos.component';
+import { WeightComponent } from './weight/weight.component';
 import { WithdrawHistoryDetailComponent } from './withdraw-history-detail/withdraw-history-detail.component';
 import { OverviewWithdrawComponent } from './overview-withdraw/overview-withdraw.component';
 import { ReportPurchaseDetailComponent } from './report-purchase-detail/report-purchase-detail.component';
@@ -22,7 +24,9 @@ import { RequisitionDetailAdminComponent } from './requisition-detail-admin/requ
 import { RequisitionBillDetailComponent } from './requisition-bill-detail/requisition-bill-detail.component';
 import { OverviewWithdrawDetailComponent } from './overview-withdraw-detail/overview-withdraw-detail.component';
 import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.component';
-import { WithdrawService } from 'src/app/services/withdraw.service';
+import { WeightInCompanyComponent } from './weight-in-company/weight-in-company.component';
+import { OverviewImportClothComponent } from './overview-import-cloth/overview-import-cloth.component';
+import { OverviewImportClothDetailComponent } from './overview-import-cloth-detail/overview-import-cloth-detail.component';
 
 
 const routes: Routes = [
@@ -42,9 +46,14 @@ const routes: Routes = [
       { path: 'requisition-detail-admin', component: RequisitionDetailAdminComponent },
       { path: 'stock', component: StockComponent },
       { path: 'ward', component: WardComponent },
+      { path: 'weight', component: WeightComponent },
+      { path: 'weight-in-hos', component: WeightInHosComponent },
+      { path: 'weight-in-company', component: WeightInCompanyComponent },
       { path: 'purchase', component: PurchaseComponent },
       { path: 'report-purchase', component: ReportPurchaseComponent },
       { path: 'overview-withdraw', component: OverviewWithdrawComponent },
+      { path: 'overview-import-cloth', component: OverviewImportClothComponent },
+      { path: 'overview-import-cloth-detail/:importCode', component: OverviewImportClothDetailComponent },
       { path: 'withdraw-history', component: WithdrawHistoryComponent },
       { path: 'overview-withdraw-detail/:withdrawCode', component: OverviewWithdrawDetailComponent },
       { path: 'withdraw-history-detail/:withdrawCode', component: WithdrawHistoryDetailComponent },

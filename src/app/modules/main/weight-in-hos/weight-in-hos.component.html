@@ -1,0 +1,31 @@
+<h1>
+    ชั่งน้ำหนักผ้าซักเอง
+</h1>
+<b>วันที่ </b>{{date}} <br>
+<b>เวลา </b>{{time}} น.<br>
+<b>ชื่อผู้ใช้งาน </b>{{decoded.firstname}} {{decoded.lastname}}
+<br>
+<br>
+<div *ngIf="weightList && weightList.length">
+    <div *ngFor="let item of weightList; let i = index">
+        {{i+1}} )
+        <b> น้ำหนักผ้าสะอาด : </b><input type="number" name="weightCloth" [(ngModel)]="item.weightCloth" /> กก. /
+        <b> น้ำหนักรถ : </b><input type="number" name="weightCar" [(ngModel)]="item.weightCar"
+            (change)="calculateWeight()" /> กก.
+        <button (click)="addNewRow(i)" class="btn btn-icon btn-sm btn-primary-outline" style="margin-left:3px">
+            <clr-icon shape="plus-circle" class="is-solid"></clr-icon>
+        </button>
+        <button *ngIf="i>0" (click)="onDelete(i)" class="btn btn-icon btn-sm btn-danger-outline"
+            style="margin-left:3px">
+            <clr-icon shape="trash"></clr-icon>
+        </button>
+        <br>
+        <br>
+    </div><br>
+    <b>รวมส่งผ้าสะอาด : </b><u>{{weightSum}}</u> กก. <br>
+    <br>
+    <b>ลงชื่อผู้ส่งผ้า : </b><input type="text" name="userExport" [(ngModel)]="userExport"><br>
+    <button class="btn btn-success" (click)="onSave()">บันทึก</button>
+    <!-- <input type="submit" value="save"> -->
+    <!-- </form> -->
+</div>

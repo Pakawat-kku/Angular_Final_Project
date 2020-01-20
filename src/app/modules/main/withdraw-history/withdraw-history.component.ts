@@ -38,7 +38,7 @@ export class WithdrawHistoryComponent implements OnInit {
       const result: any = await this.withdrawService.getWithdrawByUserId(this.decoded.userId);
       if (result.rows) {
         this.withdrawList = result.rows;
-        for(let item of this.withdrawList) {
+        for (let item of this.withdrawList) {
           item.date = moment(item.withdrawDate).add(543, 'years').format('DD MMMM YYYY');
         }
         console.log(this.withdrawList);
