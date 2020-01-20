@@ -9,6 +9,8 @@ import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import * as jwt_decode from 'jwt-decode';
 import * as _ from 'lodash';
+import { NgForm, FormBuilder, FormGroup, FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-requisition-bill-detail',
@@ -96,23 +98,24 @@ export class RequisitionBillDetailComponent implements OnInit {
 
   }
 
-  async approve(requisitionCode) {
-    this.requisitionCode = requisitionCode;
-    console.log(this.requisitionCode);
+  async approve(formData) {
+    console.log('formdata', formData);
 
-    try {
-      const result: any = await this.requisitionService.approveReq(this.requisitionCode);
-      if (result.rows) {
-        this.showReqWaitDetailAdmin = result.rows;
-        this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
-        this.requisitionHeadBill();
-        this.requisitionBill();
-        this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
+    // console.log(this.requisitionCode);
 
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   const result: any = await this.requisitionService.approveReq(this.requisitionCode);
+    //   if (result.rows) {
+    //     this.showReqWaitDetailAdmin = result.rows;
+    //     this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
+    //     this.requisitionHeadBill();
+    //     this.requisitionBill();
+    //     this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
+
+    //   }
+    // } catch (err) {
+    //   console.log(err);
+    // }
 
   }
 

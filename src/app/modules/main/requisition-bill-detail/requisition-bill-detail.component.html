@@ -40,45 +40,33 @@
      
 </div> 
 
+<form #myform="ngForm" (ngSubmit)="approve(myform.value)">
+
 <clr-datagrid *ngIf="requisitionBillDetail" class=" clr-col-10 ">
     <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
     <clr-dg-column [clrDgField]="'clothName'">รายการผ้า</clr-dg-column>
     <clr-dg-column>จำนวน</clr-dg-column>
     <!-- <clr-dg-column *ngIf="decoded.position==1">#</clr-dg-column> -->
     <clr-dg-column *ngIf="decoded.position==2">แก้ไข</clr-dg-column>
+    <clr-dg-column *ngIf="decoded.position==1">หมายเหตุ(ในกรณีที่จ่ายผ้าได้แค่เท่านี้)</clr-dg-column>
 
-    <clr-dg-row id="bgc" *clrDgItems="let item of requisitionBillDetail">
 
-        <!-- <clr-dg-cell style="background-color:rgb(238, 176, 176);" *ngIf="item.requisitionDetailStatus=='2'">
-            {{ item.clothName }}</clr-dg-cell>
-        <clr-dg-cell style="background-color:rgb(238, 176, 176);" *ngIf="item.requisitionDetailStatus=='2'">
-            {{ item.amountCloth }} </clr-dg-cell>
-        <clr-dg-cell style="padding-top:0%; scroll-padding-bottom:0%; background-color:rgb(238, 176, 176); "
-            *ngIf="decoded.position==2 && item.requisitionDetailStatus=='2'">
-            <button type="button" class="btn btn-sm btn-primary" (click)="showEditBill(item)"
-            [disabled]="requisitionBillDetailOnly.status=='1' || requisitionBillDetailOnly.status=='2'">แก้ไข</button>
-        </clr-dg-cell>
-    
-
-        <clr-dg-cell style="background-color:rgb(212, 247, 212);" *ngIf="item.requisitionDetailStatus=='1'">
-            {{ item.clothName }}</clr-dg-cell>
-        <clr-dg-cell style="background-color:rgb(212, 247, 212);" *ngIf="item.requisitionDetailStatus=='1'">
-            {{ item.amountCloth }} </clr-dg-cell>
-        <clr-dg-cell style="padding-top:0%; scroll-padding-bottom:0%; background-color:rgb(212, 247, 212); "
-            *ngIf="decoded.position==2 && item.requisitionDetailStatus=='1'">
-            <button type="button" class="btn btn-sm btn-primary" (click)="showEditBill(item)"
-            [disabled]="requisitionBillDetailOnly.status=='1' || requisitionBillDetailOnly.status=='2'">แก้ไข</button>
-        </clr-dg-cell> -->
+    <clr-dg-row id="bgc" *clrDgItems="let item of requisitionBillDetail ;let i = index">
 
         <clr-dg-cell  *ngIf="item.requisitionDetailStatus=='1'">
+            <input type="hidden" name="clothId.{{i}}" [(ngModel)]="item.clothId" ngModel/>
             {{ item.clothName }}</clr-dg-cell>
         <clr-dg-cell *ngIf="item.requisitionDetailStatus=='1'">
+            <input type="hidden" name="amountCloth.{{i}}" [(ngModel)]="item.amountCloth" ngModel/>
             {{ item.amountCloth }} </clr-dg-cell>
+        <clr-dg-cell *ngIf="decoded.position=='1' && item.requisitionDetailStatus=='1'">
+                <input type="text" placeholder="หมายเหตุ" name="requisitionNote.{{i}}" ngModel />
+        </clr-dg-cell>
         <clr-dg-cell *ngIf="decoded.position==2 && item.requisitionDetailStatus=='1'">
             <button type="button" class="btn btn-sm btn-primary" (click)="showEditBill(item)" *ngFor="let items of requisitionBillDetailOnly"
             [disabled]="items.status=='1' || items.status=='2'">แก้ไข</button>
         </clr-dg-cell> 
-        
+   
 
     </clr-dg-row>
     <clr-dg-footer>
@@ -95,7 +83,7 @@
 <div class="clr-col-1.5" *ngIf="decoded.position==1">
     <button *ngIf="decoded.position==1" 
     [disabled]="items.status=='1' || items.status=='2' || (find1 == undefined && find2 == 0)  " 
-    type="button" class="btn btn-success-outline" (click)="approve(requisitionCode)">ยืนยันอนุมัติการเบิก
+    type="submit" class="btn btn-success-outline" >ยืนยันอนุมัติการเบิก
     </button>
 </div>
 <div class="clr-col-1" *ngIf="decoded.position==1">
@@ -105,6 +93,8 @@
         </button>
 </div>
 </div>
+</form>
+
 <!-- <div *ngIf="decoded.position==2">
     <button type="button" [disabled]="requisitionBillDetailOnly.status=='2'" class="btn btn-primary"
         (click)="editBill(requisitionCode)">แก้ไข
