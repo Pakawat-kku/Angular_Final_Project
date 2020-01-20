@@ -35,7 +35,7 @@ export class SignupPageComponent implements OnInit {
 
   async getPositionWard() {
     const result: any = await this.positionService.getPosition();
-    const re: any = await this.wardService.getWard();
+    const re: any = await this.wardService.getAllWard();
     if (result.rows && re.rows) {
       this.positionList = result.rows;
       this.wardList = re.rows;
