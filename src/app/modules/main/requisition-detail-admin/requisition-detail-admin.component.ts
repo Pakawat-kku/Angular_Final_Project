@@ -4,7 +4,6 @@ import { NgForm, FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-import { Users } from '../register/users';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import { UsersService } from '../../../services/users.service';
 import * as jwt_decode from 'jwt-decode';
@@ -19,7 +18,7 @@ import { Router , ActivatedRoute } from '@angular/router';
 
 export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
   null: any;
-  currentUser: Users;
+  currentUser: any;
   currentUserSubscription: Subscription;
   decoded: any;
   date: string;
@@ -79,13 +78,12 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
     }
   }
 
-  async search(searchWard, searchDate) {
+  async search(searchWard) {
 
     try {
       console.log('searchWard : ', searchWard);
-      console.log('searchDate : ', searchDate);
 
-      const result: any = await this.requisitionService.searchRequisition(searchWard);
+      const result: any = await this.requisitionService.searchWard(searchWard);
       if (result.rows) {
         console.log('search ', result.rows);
         this.showReqAdmin = result.rows;

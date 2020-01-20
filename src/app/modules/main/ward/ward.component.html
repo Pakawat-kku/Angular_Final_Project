@@ -1,1 +1,69 @@
-<p>ward works!</p>
+<h2 class="title">รายชื่อวอร์ด</h2>
+<form clrForm >
+        <div class="clr-row clr-align-items-center">
+            <div class="clr-col-1">
+                <label>search</label>
+            </div>
+            <input class="clr-col-3" placeholder="wardName" name="searchWard" [(ngModel)]="searchWard" />
+            <!-- <input class="clr-col-3" placeholder="วันเวลา" name="searchDate" [(ngModel)]="searchDate" /> -->
+            <div class="clr-col-1">
+                <button type="button" (click)="search(searchWard)" class="btn btn-primary">ค้นหา</button>
+            </div>
+        </div>
+    </form>
+    <div style="text-align: left; margin-left: 10px;">
+            <button type="button" (click)="onAdd()" class="btn btn-success">
+                เพิ่มวอร์ด
+            </button>
+        </div>
+<div class="limit-height">
+<clr-datagrid class="clr-col-10" *ngIf="wardList">
+        <clr-dg-column>รหัสวอร์ด</clr-dg-column>
+        <clr-dg-column>ชื่อวอร์ด</clr-dg-column>
+        <clr-dg-column>แก้ไขชื่อวอร์ด</clr-dg-column>
+        <!-- <clr-dg-column>ลบวอร์ด</clr-dg-column> -->
+
+        <clr-dg-row id="green" *ngFor="let item of wardList" >
+            <clr-dg-cell>{{item.wardId}}</clr-dg-cell>
+            <clr-dg-cell>{{item.wardName}}</clr-dg-cell>
+            <clr-dg-cell > 
+            <!-- <a routerLink="/main/requisition-bill-detail/{{item.requisitionCode}}">  -->
+                <button class="btn btn-primary-outline btn-sm" (click)="onEdit(item)">
+                    แก้ไขชื่อวอร์ด
+                </button>
+            <!-- </a>  -->
+        </clr-dg-cell>
+        <!-- <clr-dg-cell>
+            <button class="btn btn-danger-outline btn-sm" (click)="onDelete(item)">
+                ลบวอร์ด
+            </button>
+        </clr-dg-cell> -->
+        </clr-dg-row>
+        <clr-dg-footer>
+            <b>รายการผ้าทั้งหมด {{wardList.length}} รายการ </b>&nbsp;&nbsp;
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+                {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                of {{pagination.totalItems}} users
+            </clr-dg-pagination>
+        </clr-dg-footer>
+</clr-datagrid>
+</div>
+
+<clr-modal *ngIf="currentRow" [(clrModalOpen)]="modalEdit">
+        <h3 class="modal-title" *ngIf="currentRow.mode== 'edit'" style="text-align:center;">แก้ไขชื่อวอร์ด</h3>
+        <label>ชื่อ</label>
+        <h3 class="modal-title" *ngIf="currentRow.mode== 'add'" style="text-align:center;">เพิ่มวอร์ด</h3>
+        <div class="modal-body">
+            <label><b>ชื่อวอร์ด</b>&nbsp;&nbsp;</label>
+            <!-- <clr-input-container class="clr-col-8"> -->
+                <input type="text" [(ngModel)]="currentRow.wardName" name="wardName" placeholder="ชื่อวอร์ด">
+            <!-- </clr-input-container> -->
+        </div>
+        <br>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" (click)="modalEdit = false">ยกเลิก</button>
+            <button type="button" class="btn btn-primary" (click)="onSave()"
+                [disabled]="!currentRow.wardName">บันทึก</button>
+        </div>
+</clr-modal>

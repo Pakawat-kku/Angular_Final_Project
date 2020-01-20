@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 
 import * as jwt_decode from 'jwt-decode';
 import { Subscription } from 'rxjs';
-import { Users } from '../register/users';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import { UsersService } from '../../../services/users.service';
 
@@ -14,7 +13,7 @@ import { UsersService } from '../../../services/users.service';
 })
 export class LayoutComponent implements OnInit {
   collapsed = true;
-  currentUser: Users;
+  currentUser: any;
   currentUserSubscription: Subscription;
   decoded: any;
 

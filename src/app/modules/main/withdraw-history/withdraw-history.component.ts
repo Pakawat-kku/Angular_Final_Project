@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { WithdrawService } from 'src/app/services/withdraw.service';
-import { Users } from '../register/users';
 import * as jwt_decode from 'jwt-decode';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
@@ -14,7 +13,7 @@ import { AuthenticationService } from 'src/app/services/Authentication.service';
 export class WithdrawHistoryComponent implements OnInit {
   withdrawList: any[];
   collapsed = true;
-  currentUser: Users;
+  currentUser: any;
   currentUserSubscription: Subscription;
   decoded: any;
 

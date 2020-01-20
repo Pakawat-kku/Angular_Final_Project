@@ -27,6 +27,11 @@ import { WithdrawHistoryComponent } from './withdraw-history/withdraw-history.co
 import { WeightInCompanyComponent } from './weight-in-company/weight-in-company.component';
 import { OverviewImportClothComponent } from './overview-import-cloth/overview-import-cloth.component';
 import { OverviewImportClothDetailComponent } from './overview-import-cloth-detail/overview-import-cloth-detail.component';
+import { ExportClothComponent } from './export-cloth/export-cloth.component';
+import { ExportClothDetailComponent } from './export-cloth-detail/export-cloth-detail.component';
+import { ExportClothBillComponent } from './export-cloth-bill/export-cloth-bill.component';
+import { WithdrawService } from 'src/app/services/withdraw.service';
+
 
 
 const routes: Routes = [
@@ -58,6 +63,9 @@ const routes: Routes = [
       { path: 'overview-withdraw-detail/:withdrawCode', component: OverviewWithdrawDetailComponent },
       { path: 'withdraw-history-detail/:withdrawCode', component: WithdrawHistoryDetailComponent },
       { path: 'report-purchase-detail/:purchaseId', component: ReportPurchaseDetailComponent },
+      { path: 'export-cloth', component: ExportClothComponent },
+      { path: 'export-cloth-detail', component: ExportClothDetailComponent },
+      { path: 'export-cloth-bill/:exportClothCode', component: ExportClothBillComponent },
       { path: '**', component: PageNotFoundComponent },
     ]
   }

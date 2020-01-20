@@ -25,7 +25,7 @@ export class RequisitionService {
 
   showReqWait(wardId) {
     // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-    return this.http.get(`http://localhost:3001/req/showReqWait?wardId=${wardId}`)
+    return this.http.post(`http://localhost:3001/req/showReqWait`, { wardId })
       .toPromise()
       .then(result => result)
       .catch(error => error);
@@ -45,6 +45,7 @@ export class RequisitionService {
       .then(result => result)
       .catch(error => error);
   }
+
 showReqWaitDetail(requisitionCode) {
   return this.http.post(`http://localhost:3001/req/showReqWaitDetail` , { requisitionCode })
   .toPromise()
@@ -60,15 +61,12 @@ showReqWaitDetail(requisitionCode) {
 //   .catch(error => error);
 // }
 
-
-
   showReqDetailApprove(requisitionCode) {
     return this.http.post(`${this.apiUrl}/req/showReqDetailApprove`, { requisitionCode })
       .toPromise()
       .then(result => result)
       .catch(error => error);
   }
-
 
 
   showReqWaitDetailOnly(requisitionCode) {
@@ -137,8 +135,29 @@ submitEdit(requisitionCode , clothId , amountCloth) {
       .catch(err => err);
 }
 
-searchRequisition(searchWard) {
-  return this.http.post(`http://localhost:3001/req/searchReq`, { searchWard})
+searchWard(searchWard) {
+  return this.http.post(`http://localhost:3001/req/searchWard`, { searchWard})
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
+}
+
+searchRequisitionCode(requisitionCode) {
+  return this.http.post(`http://localhost:3001/req/searchReqId`, { requisitionCode })
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
+}
+
+searchTypeApprove(wardId) {
+  return this.http.post(`http://localhost:3001/req/searchTypeApprove`, { wardId })
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
+}
+
+searchTypeNotApprove(wardId) {
+  return this.http.post(`http://localhost:3001/req/searchTypeNotApprove`, { wardId })
       .toPromise()
       .then(result => result)
       .catch(err => err);
