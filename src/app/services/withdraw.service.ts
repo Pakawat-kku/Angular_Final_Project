@@ -23,6 +23,20 @@ export class WithdrawService {
       .catch(error => error);
   }
 
+  getDetailById(Withdraw_withdrawId, round) {
+    return this.http.post(`${this.apiUrl}/withdrawDetail/byId`, { Withdraw_withdrawId, round })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  getDetailRound(Withdraw_withdrawId) {
+    return this.http.post(`${this.apiUrl}/withdrawDetail/getRound`, { Withdraw_withdrawId})
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
   getWithdrawByCode(withdrawCode) {
     return this.http.post(`${this.apiUrl}/withdraw/getByCode`, { withdrawCode })
       .toPromise()
@@ -45,7 +59,7 @@ export class WithdrawService {
   }
 
   getWithdrawByUserId(userId) {
-    return this.http.post(`${this.apiUrl}/withdraw/getWithdrawByUserId`, { userId })
+    return this.http.post(`${this.apiUrl}/withdrawDetail/getWithdrawByUserId`, { userId })
       .toPromise()
       .then(result => result)
       .catch(error => error);

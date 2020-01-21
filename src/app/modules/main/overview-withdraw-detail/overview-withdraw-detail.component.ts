@@ -19,6 +19,8 @@ export class OverviewWithdrawDetailComponent implements OnInit {
   withdrawCode: any;
   modalShow = false;
   withdrawList: any[];
+  withdrawDetailList: any[];
+  withdrawRoundList: any[];
   reqDetailList: any[];
   remain: any;
   statusRemain: any;
@@ -72,7 +74,7 @@ export class OverviewWithdrawDetailComponent implements OnInit {
         }
         this.date = moment(result.rows[0].withdrawDate).add(543, 'years').format('DD MMMM YYYY');
       }
-      // console.log('withdrawList', this.withdrawList);
+      console.log('withdrawList', this.withdrawList);
     } catch (error) {
       console.log(error);
     }
@@ -81,11 +83,39 @@ export class OverviewWithdrawDetailComponent implements OnInit {
   async onShow(code) {
     this.modalShow = true;
     this.rows = code;
+    this.round = this.rows.totalRound;
     try {
       const result: any = await this.requisitonService.showReqWaitDetail(code.Requisition_requisitionCode);
       if (result.rows) {
         this.reqDetailList = result.rows;
-        console.log('reqDetailList ', this.reqDetailList);
+        if (this.round > 1) {
+          // console.log('round', this.round);
+          const result1: any = await this.withdrawService.getDetailById(this.rows.withdrawId, this.round - 1);
+          const result2: any = await this.withdrawService.getDetailRound(this.rows.withdrawId);
+          if (result2.rows) {
+            this.withdrawRoundList = result2.rows;
+            console.log(this.withdrawRoundList);
+          }
+          if (result1.rows) {
+            this.withdrawDetailList = result1.rows;
+            for (let i = 0; i < this.reqDetailList.length; i++) {
+              for (let j = 0; j < this.withdrawDetailList.length; j++) {
+                if (this.reqDetailList[i].Cloth_clothId === this.withdrawDetailList[j].Cloth_clothId) {
+                  // console.log(this.reqDetailList[i].Cloth_clothId);
+                  this.reqDetailList[i].remains = this.withdrawDetailList[j].WithdrawDetail_remain;
+                  this.reqDetailList[i].export = this.reqDetailList[i].amountCloth - this.withdrawDetailList[j].WithdrawDetail_remain;
+                }
+              }
+            }
+          }
+        } else {
+          for (const item of this.reqDetailList) {
+            item.remains = item.amountCloth;
+            item.export = 0;
+          }
+        }
+        // console.log('reqDetailList ', this.reqDetailList);
+        // console.log('withDetailList ', this.withdrawDetailList);
       }
     } catch (error) {
       console.log(error);
@@ -100,12 +130,22 @@ export class OverviewWithdrawDetailComponent implements OnInit {
       this.clothOver = '';
       this.uncomplete = 0;
       this.over = 0;
-      console.log('list', this.reqDetailList);
+      this.remain = false;
+      let num = 0;
+      // console.log('list', this.reqDetailList);
       for (const row of this.reqDetailList) {
-        row.remain = row.amountCloth - row.amountClothWithdraw;
+        row.remain = 0;
+        num++;
+        // console.log('num', num);
+        if (row.amountClothWithdraw === '' || row.amountClothWithdraw === undefined) {
+          row.amountClothWithdraw = 0;
+        }
+        row.remain = row.remains - row.amountClothWithdraw;
+        // console.log(row.remain, '=', row.remains, '-', row.amountClothWithdraw);
+        // console.log(row.remain);
         // ค้างส่ง
         if (row.remain > 0) {
-          row.statusRemain = '1';
+          row.statusRemain = 1;
           if (this.uncomplete === 0) {
             this.clothRemain = this.clothRemain + row.clothName;
           } else {
@@ -114,7 +154,8 @@ export class OverviewWithdrawDetailComponent implements OnInit {
           this.uncomplete += 1;
           // ส่งครบ
         } else if (row.remain === 0) {
-          row.statusRemain = '0';
+          row.statusRemain = 2;
+          this.remain = true;
           // ส่งเกิน
         } else {
           if (this.over === 0) {
@@ -133,6 +174,7 @@ export class OverviewWithdrawDetailComponent implements OnInit {
           this.remain = true;
         }
       }
+      // console.log(this.remain, this.over);
       if (this.over === 0 && this.remain === true) {
         for (const row of this.reqDetailList) {
           await data.push({
@@ -146,15 +188,20 @@ export class OverviewWithdrawDetailComponent implements OnInit {
             Users_userId: this.decoded.userId
           });
         }
+        // console.log(data);
         try {
           const result: any = await this.withdrawService.saveWithdrawDetail(data);
-          const result1: any = await this.requisitonService.statusWithdrawSuccess(this.rows.Requisition_requisitionCode);
-          const result2: any = await this.withdrawService.statusWithdraw(this.rows.withdrawId);
           const result3: any = await this.withdrawService.updateRound(this.round, this.rows.withdrawId);
           if (result.statusCode === 200) {
             await this.alertService.success();
             this.modalShow = false;
             await this.getWithdraw();
+            for (const row of this.reqDetailList) {
+              if (row.statusRemain === 2) {
+                const result1: any = await this.requisitonService.statusWithdrawSuccess(this.rows.Requisition_requisitionCode);
+                const result2: any = await this.withdrawService.statusWithdraw(this.rows.withdrawId);
+              }
+            }
           }
         } catch (error) {
           console.log(error);
