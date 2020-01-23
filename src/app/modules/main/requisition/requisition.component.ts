@@ -199,7 +199,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
       const obj = {
         requisitionCode: this.reqId,
         reqDate: this.dates,
-        status: '0',
+        status: '1',
         Users_userId: this.decoded.userId,
         Ward_wardId: this.decoded.Ward_wardId
       };

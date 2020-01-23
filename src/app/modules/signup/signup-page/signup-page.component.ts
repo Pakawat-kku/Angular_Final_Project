@@ -55,17 +55,17 @@ export class SignupPageComponent implements OnInit {
       this.alertService.error('กรุณากรอกรหัสผ่านอีกครั้ง');
       this.checkWard = false;
     } else if (formData.password !== formData.conPassword) {
-        this.checkWard = false;
-        this.alertService.error('รหัสผ่านไม่ตรงกัน');
+      this.checkWard = false;
+      this.alertService.error('รหัสผ่านไม่ตรงกัน');
     } else if (formData.firstname === undefined || formData.firstname === '') {
-        this.checkWard = false;
-        this.alertService.error('กรุณากรอกชื่อ');
+      this.checkWard = false;
+      this.alertService.error('กรุณากรอกชื่อ');
     } else if (formData.lastname === undefined || formData.lastname === '') {
-        this.checkWard = false;
-        this.alertService.error('กรุณากรอกนามสกุล');
+      this.checkWard = false;
+      this.alertService.error('กรุณากรอกนามสกุล');
     } else if (formData.positionId === undefined || formData.positionId === '') {
-        this.checkWard = false;
-        this.alertService.error('กรุณาเลือกตำแหน่ง');
+      this.checkWard = false;
+      this.alertService.error('กรุณาเลือกตำแหน่ง');
     } else if (formData.positionId === '2') {
       if (formData.wardId === undefined || formData.wardId === '') {
         this.alertService.error('กรุณาเลือกวอร์ด');
@@ -73,7 +73,7 @@ export class SignupPageComponent implements OnInit {
       } else {
         this.checkWard = true;
       }
-    } if(this.checkWard === true){
+    } if (this.checkWard === true) {
       const result: any = await this.userService.getUser();
       if (result.rows) {
         this.checkUsername = _.findIndex(result.rows, ['username', formData.username]);
