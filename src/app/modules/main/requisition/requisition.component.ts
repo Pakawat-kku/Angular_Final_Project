@@ -216,6 +216,8 @@ export class RequisitionComponent implements OnInit, OnDestroy {
             Cloth_clothId: row.clothId,
             Requisition_requisitionCode	: this.reqId,
             requisitionDetailStatus: '1',
+            amountClothReal: row.amountCloth
+
           };
           console.log('obj1', obj1);
           const dataInsert: any = this.requisitionService.insertReq(obj1);

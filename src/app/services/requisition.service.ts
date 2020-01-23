@@ -163,4 +163,11 @@ searchTypeNotApprove(wardId) {
       .catch(err => err);
 }
 
+updateAmountReal(clothId, requisitionCode , amountClothReal) {
+  return this.http.post(`http://localhost:3001/req/updateAmountReal`, { clothId, requisitionCode , amountClothReal })
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
+}
+
 }

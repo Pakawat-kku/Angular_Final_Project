@@ -73,6 +73,7 @@ export class WardComponent implements OnInit , OnDestroy {
   async onSave() {
     const obj = {
       wardName: this.currentRow.wardName,
+
     };
     console.log('obj', obj);
 
