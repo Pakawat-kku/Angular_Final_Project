@@ -98,11 +98,11 @@ export class PurchaseComponent implements OnInit {
   }
 
   async addNewRow() {
-      await this.purchaseLists.push({
-        clothId: '1',
-        amount: null,
-        price: null
-      });
+    await this.purchaseLists.push({
+      clothId: '1',
+      amount: null,
+      price: null
+    });
   }
 
   async onDelete(rowNo) {
@@ -126,72 +126,94 @@ export class PurchaseComponent implements OnInit {
     let dumNum = 0;
     let purchNum = 0;
     let intersect = 0;
+    let val = 0;
 
-    for (let i = 0; i < this.purchaseLists.length; i++) {
-      this.dummy[i] = this.purchaseLists[i].clothId;
-    }
-    purchNum = _.size(this.purchaseLists);
-    dumNum = _.size(_.uniq(this.dummy));
-    if (dumNum < purchNum) {
-      console.log('มีผ้าซ้ำ');
-      unRepeat = unRepeat + 1;
-      console.log('this.unRepeat', unRepeat);
-    } else {
-      console.log('ไม่มีผ้าซ้ำ');
-    }
-    if (unRepeat !== 0) {
-      this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำ');
-    } else {
-      for (let row of this.purchaseLists) {
-        this.totalPricePerUnit = 0;
-        if (row.amount > 0 && row.price > 0) {
-          await saveData.push(row);
-          this.totalPricePerUnit = row.amount * row.price;
-          this.totalPrice += this.totalPricePerUnit;
-        }
+    console.log('pur', this.purchaseLists);
+
+    let i = 0;
+    for (let row of this.purchaseLists) {
+      i++;
+      if (row.amount === null || row.amount === undefined || row.amount === '') {
+        this.alertService.error('รายการที่ ' + i + ' ไม่มีจำนวนผ้า');
+        val++;
+      } else if (row.price === null || row.price === undefined || row.price === '') {
+        this.alertService.error('รายการที่ ' + i + ' ไม่มีราคาผ้า');
+        val++;
+      } else if (row.amount <= 0) {
+        this.alertService.error('รายการที่ ' + i + ' จำนวนผิดพลาด');
+        val++;
+      } else if (row.pricw <= 0) {
+        this.alertService.error('รายการที่ ' + i + ' ราคาผิดพลาด');
+        val++;
       }
-      await this.getDate();
-      // console.log('save data', saveData);
-      // console.log('save data price', this.totalPrice);
-      const obj = {
-        purchaseId: 0,
-        totalPrice: this.totalPrice,
-        purchaseDate: this.date
-      };
-      try {
-        const result: any = await this.purchaseService.insertPurchase(obj);
-        if (result.rows) {
-          // console.log(result.rows);
+    }
+    if (val === 0) {
+      for (let i = 0; i < this.purchaseLists.length; i++) {
+        this.dummy[i] = this.purchaseLists[i].clothId;
+      }
+      purchNum = _.size(this.purchaseLists);
+      dumNum = _.size(_.uniq(this.dummy));
+      if (dumNum < purchNum) {
+        console.log('มีผ้าซ้ำ');
+        unRepeat = unRepeat + 1;
+        console.log('this.unRepeat', unRepeat);
+      } else {
+        console.log('ไม่มีผ้าซ้ำ');
+      }
+      if (unRepeat !== 0) {
+        this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำ');
+      } else {
+        for (let row of this.purchaseLists) {
+          this.totalPricePerUnit = 0;
+          if (row.amount > 0 && row.price > 0) {
+            await saveData.push(row);
+            this.totalPricePerUnit = row.amount * row.price;
+            this.totalPrice += this.totalPricePerUnit;
+          }
         }
-        const getPur: any = await this.purchaseService.getPurchase(this.totalPrice, this.date);
-        if (getPur.rows) {
-          // console.log('get', getPur.rows[0].purchaseId);
-          this.purchaseId = getPur.rows[0].purchaseId;
-          for (let row of this.purchaseLists) {
-            this.totalPricePerUnit = 0;
-            if (row.amount > 0 && row.price > 0) {
-              this.totalPricePerUnit = row.amount * row.price;
-              // console.log('total price', this.totalPricePerUnit);
-              const data = {
-                id: 0,
-                amountCloth: row.amount,
-                pricePerUnit: row.price,
-                totalPrice: this.totalPricePerUnit,
-                Purchase_purchaseId: this.purchaseId,
-                Cloth_clothId: row.clothId
-              };
-              // console.log('obj', data);
-              const dataInsert: any = await this.purchaseService.insertPurchaseDetail(data);
-              if (dataInsert.rows) {
-                // console.log('check', dataInsert.rows);
+        await this.getDate();
+        // console.log('save data', saveData);
+        // console.log('save data price', this.totalPrice);
+        const obj = {
+          purchaseId: 0,
+          totalPrice: this.totalPrice,
+          purchaseDate: this.date
+        };
+        try {
+          const result: any = await this.purchaseService.insertPurchase(obj);
+          if (result.rows) {
+            // console.log(result.rows);
+          }
+          const getPur: any = await this.purchaseService.getPurchase(this.totalPrice, this.date);
+          if (getPur.rows) {
+            // console.log('get', getPur.rows[0].purchaseId);
+            this.purchaseId = getPur.rows[0].purchaseId;
+            for (let row of this.purchaseLists) {
+              this.totalPricePerUnit = 0;
+              if (row.amount > 0 && row.price > 0) {
+                this.totalPricePerUnit = row.amount * row.price;
+                // console.log('total price', this.totalPricePerUnit);
+                const data = {
+                  id: 0,
+                  amountCloth: row.amount,
+                  pricePerUnit: row.price,
+                  totalPrice: this.totalPricePerUnit,
+                  Purchase_purchaseId: this.purchaseId,
+                  Cloth_clothId: row.clothId
+                };
+                // console.log('obj', data);
+                const dataInsert: any = await this.purchaseService.insertPurchaseDetail(data);
+                if (dataInsert.rows) {
+                  // console.log('check', dataInsert.rows);
+                }
               }
             }
+            this.alertService.success('บันทึกข้อมูลเรียบร้อย');
+            this.router.navigate(['main/report-purchase-detail/' + this.purchaseId]);
           }
-          this.alertService.success('บันทึกข้อมูลเรียบร้อย');
-          this.router.navigate(['main/report-purchase-detail/' + this.purchaseId]);
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
     }
   }

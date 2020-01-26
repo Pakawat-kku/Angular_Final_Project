@@ -41,8 +41,9 @@ export class ImportClothAmountComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.ImportCloth_importCode = this._Activatedroute.snapshot.paramMap.get('ImportCloth_importCode');
+    this.ImportCloth_importCode = this._Activatedroute.snapshot.paramMap.get('importClothCode');
     moment.locale('th');
+    console.log('im', this.ImportCloth_importCode);
     this.checkYear();
     this.getCloth();
     this.day = moment().format('DD MMMM');
@@ -146,13 +147,18 @@ export class ImportClothAmountComponent implements OnInit {
     } else {
 
       for (let row of this.importList) {
+        this.val = false;
         i++;
         if (row.importDetailAmount === null || row.importDetailAmount === undefined || row.importDetailAmount === '') {
           if (row.damageAmount === null || row.damageAmount === undefined || row.damageAmount === '') {
             this.alertService.error('รายการที่ ' + i + ' ไม่มีจำนวนผ้า');
           }
-        } else if (row.importDetailAmount < 0 || row.damageAmount < 0) {
+          row.importDetailAmount = 0;
+          this.val = false;
+        }
+        if (row.importDetailAmount < 0 || row.damageAmount < 0) {
           this.alertService.error('รายการที่ ' + i + ' จำนวนผิดพลาด');
+          this.val = false;
         } else if (row.damageAmount > 0) {
           const data1 = {
             damageAmount: row.damageAmount,
@@ -190,10 +196,11 @@ export class ImportClothAmountComponent implements OnInit {
           }
         }
       }
-      if (this.val === true) {
-        await this.alertService.success('บันทึกรายการสำเร็จ');
-      }
     }
+        if (this.val === true) {
+          await this.alertService.success('บันทึกรายการสำเร็จ');
+          this.router.navigate(['main/export-cloth-detail/']);
+        }
   }
 
 }

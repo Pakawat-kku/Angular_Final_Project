@@ -37,7 +37,7 @@ export class RequisitionBillDetailComponent implements OnInit {
   pass: any;
   tail: any;
   head: any;
-  unNormal = 0 ;
+  unNormal = 0;
 
   constructor(
     private alertService: AlertService,
@@ -139,8 +139,8 @@ export class RequisitionBillDetailComponent implements OnInit {
       console.log('item[0]', item[0]);
       console.log('_.nth(this.head[0], 1)', _.nth(this.head[unNor], 1));
 
-      if (item[0] >  _.nth(this.head[unNor], 1) || item[0] < 0 || item[0] === null) {
-        this.unNormal = this.unNormal + 1 ;
+      if (item[0] > _.nth(this.head[unNor], 1) || item[0] < 0 || item[0] === null) {
+        this.unNormal = this.unNormal + 1;
         unNor = unNor + 1;
       } else {
         console.log('ปกติ');
@@ -148,7 +148,7 @@ export class RequisitionBillDetailComponent implements OnInit {
       }
     }
     unNor = 0;
-    console.log('this.unNormal' , this.unNormal);
+    console.log('this.unNormal', this.unNormal);
 
     if (this.unNormal > 0) {
       this.alertService.error('ไม่สามารถอนุมัติได้กรุณาตรวจสอบ');
@@ -157,31 +157,31 @@ export class RequisitionBillDetailComponent implements OnInit {
     } else {
       console.log('_.chunk(_.takeRight(Object.values(formData), minus))', _.chunk(_.takeRight(Object.values(formData), minus)));
 
-    for (const item of _.chunk(_.takeRight(Object.values(formData), minus))) {
-        console.log('item' , item[0]);
-        console.log('[0]' , _.take(this.head[sum]));
-        console.log('[1]' , _.tail(this.head[sum]));
-        const result: any = await this.requisitionService.updateAmountReal(_.take(this.head[sum]), this.requisitionCode ,  item[0]);
+      for (const item of _.chunk(_.takeRight(Object.values(formData), minus))) {
+        console.log('item', item[0]);
+        console.log('[0]', _.take(this.head[sum]));
+        console.log('[1]', _.tail(this.head[sum]));
+        const result: any = await this.requisitionService.updateAmountReal(_.take(this.head[sum]), this.requisitionCode, item[0]);
         console.log(result);
-      sum = sum + 1;
-      console.log('sum', sum);
+        sum = sum + 1;
+        console.log('sum', sum);
       }
 
 
-          try {
-            const result: any = await this.requisitionService.approveReq(this.requisitionCode);
-            if (result.rows) {
-              this.showReqWaitDetailAdmin = result.rows;
-              this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
-              this.requisitionHeadBill();
-              this.requisitionBill();
-              this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
+      try {
+        const result: any = await this.requisitionService.approveReq(this.requisitionCode);
+        if (result.rows) {
+          this.showReqWaitDetailAdmin = result.rows;
+          this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
+          this.requisitionHeadBill();
+          this.requisitionBill();
+          this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
 
-            }
-          } catch (err) {
-            console.log(err);
-          }
         }
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }
 
   async notApproveList(row) {
@@ -231,22 +231,25 @@ export class RequisitionBillDetailComponent implements OnInit {
 
   async submitEdit() {
     console.log('this.currentRow', this.currentRow);
-    try {
-      // tslint:disable-next-line: max-line-length
-      const result: any = await this.requisitionService.submitEdit(this.currentRow.Requisition_requisitionCode, this.currentRow.Cloth_clothId, this.currentRow.amountCloth);
-      if (result.rows) {
+    if (this.currentRow.amountCloth <= 0) {
+      this.alertService.error('จำนวนเบิกแก้ไขผิดพลาด');
+    } else {
+      try {
+        // tslint:disable-next-line: max-line-lengththis.currentRow.amountCloth
+        // tslint:disable-next-line: max-line-length
+        const result: any = await this.requisitionService.submitEdit(this.currentRow.Requisition_requisitionCode, this.currentRow.Cloth_clothId, this.currentRow.amountCloth);
+        if (result.rows) {
+          this.alertService.editSuccess(' แก้ไขสำเร็จ ');
+          this.requisitionHeadBill();
+          this.requisitionBill();
+          this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
+          this.modalEditBill = false;
 
-        this.alertService.editSuccess(' แก้ไขสำเร็จ ');
-        this.requisitionHeadBill();
-        this.requisitionBill();
-        this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
-        this.modalEditBill = false;
-
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
     }
-
   }
 
 }

@@ -50,6 +50,6 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-outline" (click)="modalEdit = false">ยกเลิก</button>
         <button type="button" class="btn btn-primary" (click)="onSave()"
-            [disabled]="!currentRow.damageAmount">บันทึก</button>
+            [disabled]="!currentRow.damageAmount || currentRow.damageAmount <0">บันทึก</button>
     </div>
 </clr-modal>

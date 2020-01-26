@@ -41,10 +41,10 @@
                     <clr-dg-column>จำนวนที่ต้องนำจ่าย</clr-dg-column>
                     <clr-dg-row *clrDgItems="let list of reqDetailList" [clrDgItem]="list">
                             <clr-dg-cell>{{list.clothName}}</clr-dg-cell>
-                            <clr-dg-cell >{{list.amountCloth}}</clr-dg-cell>
+                            <clr-dg-cell >{{list.amountClothReal}}</clr-dg-cell>
                             <clr-dg-cell *ngIf="rows.totalRound === 1">-</clr-dg-cell>
                             <clr-dg-cell *ngIf="rows.totalRound !== 1">{{list.export}}</clr-dg-cell>
-                            <clr-dg-cell style="color:red" *ngIf="rows.totalRound === 1"><b>{{list.amountCloth}}</b></clr-dg-cell>
+                            <clr-dg-cell style="color:red" *ngIf="rows.totalRound === 1"><b>{{list.amountClothReal}}</b></clr-dg-cell>
                             <clr-dg-cell style="color:red" *ngIf="rows.totalRound !== 1"><b>{{list.remains}}</b></clr-dg-cell>
                     </clr-dg-row>
             </clr-datagrid><br>

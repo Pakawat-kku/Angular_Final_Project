@@ -23,12 +23,12 @@ export class ImportClothAmountHosComponent implements OnInit {
   day: string;
   pee: string;
   amount: any;
-  val = false;
+  val = 0;
   dummy: any = [];
   arrayList: Array<InputArray> = [];
   importList: any[] = [{
     clothId: '1',
-    damageAmount: null
+    damageAmount: 0
   }];
 
   constructor(
@@ -41,7 +41,8 @@ export class ImportClothAmountHosComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    this.ImportCloth_importCode = this._Activatedroute.snapshot.paramMap.get('ImportCloth_importCode');
+    this.ImportCloth_importCode = this._Activatedroute.snapshot.paramMap.get('importClothCode');
+    console.log('im', this.ImportCloth_importCode);
     moment.locale('th');
     this.checkYear();
     this.getCloth();
@@ -80,7 +81,7 @@ export class ImportClothAmountHosComponent implements OnInit {
         const arrayId = new InputArray();
         this.importList.push({
           clothId: '1',
-          damageAmount: null
+          damageAmount: 0
         });
         arrayId.id = i + 1;
         this.arrayList.push(arrayId);
@@ -93,7 +94,7 @@ export class ImportClothAmountHosComponent implements OnInit {
   async addNewRow() {
     await this.importList.push({
       clothId: '1',
-      damageAmount: null
+      damageAmount: 0
     });
   }
 
@@ -111,7 +112,7 @@ export class ImportClothAmountHosComponent implements OnInit {
   }
 
   async onSave() {
-    // console.log(this.importList);
+    console.log(this.importList);
     let i = 0;
     // this.dummy = this.importList;
     // for (let i = 0; i < this.importList.length; i++) {
@@ -126,6 +127,7 @@ export class ImportClothAmountHosComponent implements OnInit {
     let dumNum = 0;
     let purchNum = 0;
     let intersect = 0;
+    this.val = 0;
 
     for (let i = 0; i < this.importList.length; i++) {
       this.dummy[i] = this.importList[i].clothId;
@@ -142,35 +144,41 @@ export class ImportClothAmountHosComponent implements OnInit {
     if (unRepeat !== 0) {
       this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำ');
     } else {
-
-      for (let row of this.importList) {
-        i++;
-        if (row.damageAmount === null || row.damageAmount === undefined || row.damageAmount === '') {
-          this.alertService.error('รายการที่ ' + i + ' ไม่มีจำนวนผ้า');
-        } else if (row.damageAmount < 0) {
-          this.alertService.error('รายการที่ ' + i + ' จำนวนผิดพลาด');
-        } else {
-          const data = {
-            damageAmount: row.damageAmount,
-            Cloth_clothId: row.clothId,
-            damageDate: moment().format('YYYY-MM-DD'),
-            ImportCloth_importCode: this.ImportCloth_importCode
-          };
-          try {
-            const result: any = await this.damageService.insertDamage(data);
-            if (result.rows) {
-              this.val = true;
-            }
-          } catch (error) {
-            console.log(error);
-          }
+      let j = 0;
+      for (let i = 0; i < this.importList.length; i++) {
+        j++;
+        if (this.importList[i].damageAmount === null || this.importList[i].damageAmount === undefined || this.importList[i].damageAmount === '') {
+          this.alertService.error('รายการที่ ' + j + ' ไม่มีจำนวนผ้า');
+          this.val++;
+        }
+        if (this.importList[i].damageAmount < 0 || this.importList[i].damageAmount === 0) {
+          this.alertService.error('รายการที่ ' + j + ' จำนวนผิดพลาด');
+          this.val++;
         }
       }
-      if (this.val === true) {
-        await this.alertService.success('บันทึกรายการสำเร็จ');
+    
+    if (this.val === 0) {
+      for (let i = 0; i < this.importList.length; i++) {
+        const data = {
+          damageAmount: this.importList[i].damageAmount,
+          Cloth_clothId: this.importList[i].clothId,
+          damageDate: moment().format('YYYY-MM-DD'),
+          ImportCloth_importCode: this.ImportCloth_importCode
+        };
+        try {
+          const result: any = await this.damageService.insertDamage(data);
+          if (result.rows) {
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
-
+    }
+    if (this.val === 0) {
+      await this.alertService.success('บันทึกรายการสำเร็จ');
+      this.router.navigate(['main/export-cloth-detail/']);
     }
   }
+}
 
 }

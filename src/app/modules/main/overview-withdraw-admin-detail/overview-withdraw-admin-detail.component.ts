@@ -103,7 +103,7 @@ export class OverviewWithdrawAdminDetailComponent implements OnInit {
                 if (this.reqDetailList[i].Cloth_clothId === this.withdrawDetailList[j].Cloth_clothId) {
                   // console.log(this.reqDetailList[i].Cloth_clothId);
                   this.reqDetailList[i].remains = this.withdrawDetailList[j].WithdrawDetail_remain;
-                  this.reqDetailList[i].export = this.reqDetailList[i].amountCloth - this.withdrawDetailList[j].WithdrawDetail_remain;
+                  this.reqDetailList[i].export = this.reqDetailList[i].amountClothReal - this.withdrawDetailList[j].WithdrawDetail_remain;
                 }
               }
             }
@@ -129,7 +129,7 @@ export class OverviewWithdrawAdminDetailComponent implements OnInit {
           // console.log('tezt', this.roundList);
         } else {
           for (const item of this.reqDetailList) {
-            item.remains = item.amountCloth;
+            item.remains = item.amountClothReal;
             item.export = 0;
           }
         }

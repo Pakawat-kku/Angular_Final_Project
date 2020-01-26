@@ -89,8 +89,11 @@ export class OverviewWithdrawDetailComponent implements OnInit {
     try {
       const result: any = await this.requisitonService.showReqWaitDetail(code.Requisition_requisitionCode);
       if (result.rows) {
+        for(let row of result.rows){
+          row.amountClothWithdraw = 0;
+        }
         this.reqDetailList = result.rows;
-        console.log(this.reqDetailList);
+        // console.log(this.reqDetailList);
         if (this.round > 1) {
           // console.log('round', this.round);
           const result1: any = await this.withdrawService.getDetailById(this.rows.withdrawId, this.round - 1);
@@ -106,11 +109,16 @@ export class OverviewWithdrawDetailComponent implements OnInit {
                 if (this.reqDetailList[i].Cloth_clothId === this.withdrawDetailList[j].Cloth_clothId) {
                   // console.log(this.reqDetailList[i].Cloth_clothId);
                   this.reqDetailList[i].remains = this.withdrawDetailList[j].WithdrawDetail_remain;
-                  this.reqDetailList[i].export = this.reqDetailList[i].amountCloth - this.withdrawDetailList[j].WithdrawDetail_remain;
+                  this.reqDetailList[i].export = this.reqDetailList[i].amountClothReal - this.withdrawDetailList[j].WithdrawDetail_remain;
                 }
               }
             }
           }
+          console.log('detail', this.reqDetailList);
+          console.log('wth', this.withdrawDetailList);
+          console.log('ro', this.withdrawRoundList);
+          console.log('round', this.round);
+
           for (let i = 0; i < this.reqDetailList.length; i++) {
             for (let j = 0; j < this.round - 1; j++) {
               this.r = 'round';
@@ -132,7 +140,7 @@ export class OverviewWithdrawDetailComponent implements OnInit {
           // console.log('tezt', this.roundList);
         } else {
           for (const item of this.reqDetailList) {
-            item.remains = item.amountCloth;
+            item.remains = item.amountClothReal;
             item.export = 0;
           }
         }
@@ -154,18 +162,20 @@ export class OverviewWithdrawDetailComponent implements OnInit {
       this.over = 0;
       this.remain = false;
       let num = 0;
-      // console.log('list', this.reqDetailList);
+      let i = 0;
+      console.log('list', this.reqDetailList);
       for (const row of this.reqDetailList) {
         row.remain = 0;
         num++;
         // console.log('num', num);
-        if (row.amountClothWithdraw === '' || row.amountClothWithdraw === undefined) {
-          row.amountClothWithdraw = 0;
-        } else if (row.amountClothWithdraw < 0) {
+        // if (row.amountClothWithdraw === '' || row.amountClothWithdraw === undefined) {
+        //   row.amountClothWithdraw = 0;
+        // } 
+        if (row.amountClothWithdraw < 0) {
           this.alertService.error('จำนวน ' + ' ' + row.clothName + 'ผิดพลาด');
         } else {
           row.remain = row.remains - row.amountClothWithdraw;
-          // console.log(row.remain, '=', row.remains, '-', row.amountClothWithdraw);
+          console.log(row.remain, '=', row.remains, '-', row.amountClothWithdraw);
           // console.log(row.remain);
           // ค้างส่ง
           if (row.remain > 0) {
@@ -190,6 +200,7 @@ export class OverviewWithdrawDetailComponent implements OnInit {
             this.over += 1;
           }
         }
+        i++;
       }
       if (this.over > 0) {
         const decision2: any = await this.alertService.error('จำนวน' + this.clothOver + 'เกินจำนวนที่เบิก');

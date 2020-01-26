@@ -75,8 +75,8 @@ const routes: Routes = [
       { path: 'report-purchase-detail/:purchaseId', component: ReportPurchaseDetailComponent },
       { path: 'export-cloth', component: ExportClothComponent },
       { path: 'export-cloth-detail', component: ExportClothDetailComponent },
-      { path: 'import-cloth-amount/:ImportCloth_importCode', component: ImportClothAmountComponent },
-      { path: 'import-cloth-amount-hos/:ImportCloth_importCode', component: ImportClothAmountHosComponent },
+      { path: 'import-cloth-amount/:importClothCode', component: ImportClothAmountComponent },
+      { path: 'import-cloth-amount-hos/:importClothCode', component: ImportClothAmountHosComponent },
       { path: 'export-cloth-bill/:exportClothCode', component: ExportClothBillComponent },
       { path: '**', component: PageNotFoundComponent },
     ]
