@@ -37,4 +37,18 @@ export class ImportClothService {
       .catch(error => error);
   }
 
+  showImportCloth(exportClothCode) {
+    return this.http.post(`${this.apiUrl}/importCloth/showImportCloth`, { exportClothCode })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  getInner(Export_exportClothCode) {
+    return this.http.post(`${this.apiUrl}/importCloth/getInner`, { Export_exportClothCode })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
 }

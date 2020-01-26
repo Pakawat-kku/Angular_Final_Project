@@ -16,4 +16,11 @@ export class ImportDetailWeightSumService {
       .then(result => result)
       .catch(error => error);
   }
+
+  showImportDetailWeightSum(importCode) {
+    return this.http.post(`${this.apiUrl}/importDetailWeightSum/showImportDetailWeightSum`, { importCode })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
 }

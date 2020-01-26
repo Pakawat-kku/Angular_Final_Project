@@ -45,28 +45,43 @@
 <clr-datagrid *ngIf="requisitionBillDetail" class=" clr-col-10 ">
     <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
     <clr-dg-column [clrDgField]="'clothName'">รายการผ้า</clr-dg-column>
-    <clr-dg-column>จำนวน</clr-dg-column>
-    <!-- <clr-dg-column *ngIf="decoded.position==1">#</clr-dg-column> -->
+    <clr-dg-column>จำนวนเบิก</clr-dg-column>
+    <div *ngFor="let items of requisitionBillDetailOnly">
+    <clr-dg-column *ngIf="decoded.position==2 && items.status=='1'">จำนวนที่สามารถจ่ายได้</clr-dg-column>
+    </div>
     <clr-dg-column *ngIf="decoded.position==2">แก้ไข</clr-dg-column>
-    <clr-dg-column *ngIf="decoded.position==1">หมายเหตุ(ในกรณีที่จ่ายผ้าได้แค่เท่านี้)</clr-dg-column>
+    <clr-dg-column *ngIf="decoded.position==1" >จำนวนที่สามารถจ่ายได้</clr-dg-column>
 
 
     <clr-dg-row id="bgc" *clrDgItems="let item of requisitionBillDetail ;let i = index">
 
-        <clr-dg-cell  *ngIf="item.requisitionDetailStatus=='1'">
+        <clr-dg-cell>
             <input type="hidden" name="clothId.{{i}}" [(ngModel)]="item.clothId" ngModel/>
-            {{ item.clothName }}</clr-dg-cell>
-        <clr-dg-cell *ngIf="item.requisitionDetailStatus=='1'">
-            <input type="hidden" name="amountCloth.{{i}}" [(ngModel)]="item.amountCloth" ngModel/>
-            {{ item.amountCloth }} </clr-dg-cell>
-        <clr-dg-cell *ngIf="decoded.position=='1' && item.requisitionDetailStatus=='1'">
-                <input type="text" placeholder="หมายเหตุ" name="requisitionNote.{{i}}" ngModel />
+            {{ item.clothName }}
         </clr-dg-cell>
-        <clr-dg-cell *ngIf="decoded.position==2 && item.requisitionDetailStatus=='1'">
+        
+        <clr-dg-cell>
+            <input type="hidden" name="amountCloth.{{i}}" [(ngModel)]="item.amountCloth" ngModel/>
+            {{ item.amountCloth }} 
+        </clr-dg-cell>
+
+        <clr-dg-cell *ngIf="decoded.position=='1' && status == 0 ">
+            <input type="number"  name="amountClothReal.{{i}}"  [(ngModel)]="item.amountClothReal" ngModel/>
+        </clr-dg-cell>
+
+        <clr-dg-cell *ngIf="decoded.position=='1' && status == 1 ">
+            {{ item.amountClothReal }}
+        </clr-dg-cell>
+
+        <clr-dg-cell *ngIf="decoded.position=='2' && status == 1 ">
+            {{ item.amountClothReal }}
+        </clr-dg-cell>
+
+        <clr-dg-cell *ngIf="decoded.position=='2'">
             <button type="button" class="btn btn-sm btn-primary" (click)="showEditBill(item)" *ngFor="let items of requisitionBillDetailOnly"
             [disabled]="items.status=='1' || items.status=='2'">แก้ไข</button>
         </clr-dg-cell> 
-   
+
 
     </clr-dg-row>
     <clr-dg-footer>

@@ -20,7 +20,9 @@ export class ExportClothDetailComponent implements OnInit {
   currentUserSubscription: Subscription;
   currentUser: any;
   decoded: any;
-  exportCloth: any;
+  exportClothHos: any;
+  exportClothCompany: any;
+  status: any;
 
   constructor(
     private alertService: AlertService,
@@ -39,31 +41,61 @@ export class ExportClothDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getExportCloth();
-
+    this.exportClothHospital();
+    moment.locale('th');
   }
 
-  async getExportCloth() {
+  async exportClothHospital() {
     console.log('this.decoded.Ward_wardId', this.decoded.Ward_wardId);
     try {
-      const result: any = await this.exportService.getExportCloth();
+      const result: any = await this.exportService.getExportClothHos();
+
       console.log('result', result);
+
       if (result.rows) {
-        console.log(result.rows);
-        this.exportCloth = result.rows;
-          for (const item of this.exportCloth) {
+        this.exportClothHos = result.rows;
+          for (const item of this.exportClothHos) {
               item.date = moment(item.exportClothDate).format('DD');
               item.month = moment(item.exportClothDate).format('MMMM');
               item.year = moment(item.exportClothDate).add(543, 'years').format('YYYY');
               item.time = moment(item.exportClothDate).format('HH:mm');
               item.day = item.date + '  ' + item.month + '  ' + item.year;
           }
-          console.log(this.exportCloth);
-
-      }
+          console.log('this.exportClothHos' , this.exportClothHos);
+        }
+          this.status =  1;
+          console.log('status', this.status);
 
     } catch (err) {
       console.log(err);
     }
   }
+
+
+async exportClothCom() {
+  console.log('this.decoded.Ward_wardId', this.decoded.Ward_wardId);
+  try {
+    const result: any = await this.exportService.getExportClothCompany();
+
+    console.log('result', result);
+
+    if (result.rows) {
+
+        this.exportClothHos = result.rows;
+        for (const item of this.exportClothHos) {
+            item.date = moment(item.exportClothDate).format('DD');
+            item.month = moment(item.exportClothDate).format('MMMM');
+            item.year = moment(item.exportClothDate).add(543, 'years').format('YYYY');
+            item.time = moment(item.exportClothDate).format('HH:mm');
+            item.day = item.date + '  ' + item.month + '  ' + item.year;
+        }
+        console.log('this.exportClothHos', this.exportClothHos);
+    }
+    this.status =  2;
+
+
+  } catch (err) {
+    console.log(err);
+  }
+}
 }

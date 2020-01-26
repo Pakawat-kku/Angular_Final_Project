@@ -17,8 +17,10 @@
     <div class="header-actions">
       <clr-dropdown>
         <button class="nav-icon-text" clrDropdownTrigger>
-          <span class="nav-text"  *ngIf="decoded.position===2">{{decoded.firstname}} {{decoded.lastname}} ({{decoded.wardName}})</span>
-          <span class="nav-text"  *ngIf="decoded.position===1 || decoded.position===3 || decoded.position===4">{{decoded.firstname}} {{decoded.lastname}} ({{decoded.positionName}})</span>
+          <span class="nav-text"  *ngIf="decoded.position==2">{{decoded.wardName}} (Ward)</span>
+          <span class="nav-text"  *ngIf="decoded.position==1">{{decoded.firstname}} {{decoded.lastname}} (Administrator)</span>
+          <span class="nav-text"  *ngIf="decoded.position==3">{{decoded.firstname}} {{decoded.lastname}} (Withdraw employee)</span>
+          <span class="nav-text"  *ngIf="decoded.position==4">{{decoded.firstname}} {{decoded.lastname}} (Weigh employee )</span>
           <clr-icon shape="user" size="24"></clr-icon>
           &nbsp; 
           <clr-icon shape="caret down" size="20"></clr-icon>
@@ -64,6 +66,10 @@
           <clr-icon shape="note" clrVerticalNavIcon></clr-icon>
           เบิกผ้า
         </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./ward" routerLinkActive="active">
+          <clr-icon shape="note" clrVerticalNavIcon></clr-icon>
+          วอร์ด
+        </a>
         <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition-detail" routerLinkActive="active">
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
           รายการเบิกผ้า
@@ -89,6 +95,15 @@
           รายการจ่ายผ้าทั้งหมด
         </a>
         <clr-vertical-nav-group routerLinkActive="active" *ngIf="decoded.position==4">
+        <a clrVerticalNavLink *ngIf="decoded.position==4" routerLink="./export-cloth" routerLinkActive="active">
+          <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
+          ชั่งน้ำหนักผ้าส่งบริษัท
+        </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==4" routerLink="./export-cloth-detail" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          ประวัติชั่งน้ำหนักผ้า
+        </a>
+        <!-- <clr-vertical-nav-group routerLinkActive="active" *ngIf="decoded.position==4">
           <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
           ชั่งน้ำหนักผ้า
           <clr-vertical-nav-group-children>
@@ -107,13 +122,9 @@
               <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
               รายงานการชั่งน้ำหนักผ้า
             </a>
-            <a clrVerticalNavLink *ngIf="decoded.position==4" routerLink="./export-cloth-detail"
-              routerLinkActive="active">
-              <clr-icon shape="view-list"></clr-icon>
-              ประวัติชั่งน้ำหนักผ้า
-            </a>
+           
           </clr-vertical-nav-group-children>
-        </clr-vertical-nav-group>
+        </clr-vertical-nav-group> -->
       </div>
     </clr-vertical-nav>
     <!-- 

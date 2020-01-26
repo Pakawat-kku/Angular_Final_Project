@@ -10,6 +10,9 @@ import * as moment from 'moment';
 import { IMyOptions } from 'mydatepicker-th';
 import { CompanyService } from './../../../services/company.service';
 import { ExportService } from './../../../services/export.service';
+import { ImportClothService } from 'src/app/services/import-cloth.service';
+import { ImportDetailWeightService } from 'src/app/services/import-detail-weight.service';
+import { ImportDetailWeightSumService } from 'src/app/services/import-detail-weight-sum.service';
 
 @Component({
   selector: 'app-export-cloth-bill',
@@ -23,7 +26,18 @@ export class ExportClothBillComponent implements OnInit {
   exportCloth: any;
   exportDetail: any;
   exportClothCode: any;
-  importDetail: [1, 2];
+  importDetail: any;
+  importList: any;
+  importDetailList: any;
+  importCloth: any;
+  percent: any;
+  importDetailWeightSum: any;
+  exportClothHospital: any;
+  exportClothType: any;
+  exportClothTypeHospital: any;
+  getInner: any;
+  exportClothCodeDummy: any;
+
 
   constructor(
     private alertService: AlertService,
@@ -33,6 +47,9 @@ export class ExportClothBillComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
     private _Activatedroute: ActivatedRoute,
+    private importService: ImportClothService,
+    private importDetailWeightClothService: ImportDetailWeightService,
+    private importDetailWeightSumService: ImportDetailWeightSumService,
 
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
@@ -43,19 +60,26 @@ export class ExportClothBillComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     moment.locale('th');
     this.exportClothCode = this._Activatedroute.snapshot.paramMap.get('exportClothCode');
     console.log('id-pass', this.exportClothCode);
-    this.getExportCloth();
-    this.getExportDetail();
+    await this.getExportCloth();
+    await this.getExportDetail();
+    await this.getImportDetail();
+    await this.getImportCloth();
+    await this.getImportDetailWeightSum();
 
   }
 
   async getExportCloth() {
     try {
-      const result: any = await this.exportService.showExportCloth(this.exportClothCode);
+      console.log('exportClothCode' , this.exportClothCode);
+      const result: any = await this.exportService.showExportClothCompany(this.exportClothCode);
+      const result1: any = await this.exportService.showExportClothHospital(this.exportClothCode);
+
       console.log('result', result);
+
       if (result.rows) {
         console.log(result.rows);
         this.exportCloth = result.rows;
@@ -65,9 +89,26 @@ export class ExportClothBillComponent implements OnInit {
               item.year = moment(item.exportClothDate).add(543, 'years').format('YYYY');
               item.time = moment(item.exportClothDate).format('HH:mm');
               item.day = item.date + '  ' + item.month + '  ' + item.year;
+              item.percent = item.exportClothTotalWeight.toFixed(2) * 0.95;
+              item.percent = parseFloat(item.percent).toFixed(2);
+              this.exportClothType = item.exportClothType;
           }
-          console.log(this.exportCloth);
+          console.log('this.exportCloth', this.exportCloth);
 
+        this.exportClothHospital = result1.rows;
+        for (const item of this.exportClothHospital) {
+          item.date = moment(item.exportClothDate).format('DD');
+          item.month = moment(item.exportClothDate).format('MMMM');
+          item.year = moment(item.exportClothDate).add(543, 'years').format('YYYY');
+          item.time = moment(item.exportClothDate).format('HH:mm');
+          item.day = item.date + '  ' + item.month + '  ' + item.year;
+          item.percent = item.exportClothTotalWeight.toFixed(2) * 0.95;
+          item.percent = parseFloat(item.percent).toFixed(2);
+          this.exportClothTypeHospital = item.exportClothType;
+
+      }
+      console.log('this.exportClothType', this.exportClothType);
+      console.log('exportClothTypeHospital' , this.exportClothTypeHospital);
       }
 
     } catch (err) {
@@ -78,11 +119,75 @@ export class ExportClothBillComponent implements OnInit {
   async getExportDetail() {
     try {
       const result: any = await this.exportService.showExportDetail(this.exportClothCode);
-      console.log('result', result);
       if (result.rows) {
         console.log(result.rows);
         this.exportDetail = result.rows;
-        console.log(this.exportDetail);
+        console.log('this.exportDetail' , this.exportDetail);
+
+      }
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async getImportCloth() {
+    try {
+      const result: any = await this.importService.showImportCloth(this.exportClothCode);
+      if (result.rows) {
+        console.log(result.rows);
+
+        this.importCloth = result.rows;
+
+        for (const item of this.importCloth) {
+          item.date = moment(item.importDate).format('DD');
+          item.month = moment(item.importDate).format('MMMM');
+          item.year = moment(item.importDate).add(543, 'years').format('YYYY');
+          item.time = moment(item.importDate).format('HH:mm');
+          item.day = item.date + '  ' + item.month + '  ' + item.year;
+      }
+        console.log('this.importCloth' , this.importCloth);
+
+      }
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async getImportDetail() {
+    try {
+      const result: any = await this.importDetailWeightClothService.showImportDetailWeight(this.exportClothCode);
+      if (result.rows) {
+        console.log(result.rows);
+        this.importDetail = result.rows;
+        console.log('this.importDetail' , this.importDetail);
+
+      }
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async getImportDetailWeightSum() {
+    try {
+      console.log(this.exportClothCode);
+      const result: any = await this.importService.showImportCloth(this.exportClothCode);
+      this.exportClothCodeDummy = result.rows;
+      for (const item of this.exportClothCodeDummy) {
+       this.exportClothCodeDummy  = item.importCode;
+      }
+      console.log('this.exportClothCodeDummy', this.exportClothCodeDummy);
+
+      const result1: any = await this.importService.getInner(this.exportClothCode);
+      const result2: any = await this.importDetailWeightSumService.showImportDetailWeightSum(this.exportClothCodeDummy);
+
+      if (result.rows && result1.rows) {
+        console.log(result.rows);
+        this.getInner = result1.rows;
+        console.log('this.getInner', this.getInner);
+        this.importDetailWeightSum = result2.rows;
+        console.log('this.importDetailWeightSum' , this.importDetailWeightSum);
 
       }
 
@@ -91,4 +196,5 @@ export class ExportClothBillComponent implements OnInit {
     }
   }
 }
+
 

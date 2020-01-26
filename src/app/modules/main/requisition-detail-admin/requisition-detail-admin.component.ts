@@ -59,6 +59,7 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
 
     try {
       const result: any = await this.requisitionService.showReqWaitAdmin();
+
       console.log('result', result);
       if (result.rows) {
         console.log(result.rows);
@@ -78,6 +79,53 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
     }
   }
 
+  async showReqWaitAdminApprove() {
+
+    try {
+      const result: any = await this.requisitionService.showReqWaitAdminApprove();
+
+      console.log('result', result);
+      if (result.rows) {
+        console.log(result.rows);
+        this.showReqAdmin = result.rows;
+        for (const item of this.showReqAdmin) {
+          item.date = moment(item.reqDate).format('DD');
+          item.month = moment(item.reqDate).format('MMMM');
+          item.year = moment(item.reqDate).add(543, 'years').format('YYYY');
+          item.time = moment(item.reqDate).format('HH:mm');
+          item.day = item.date + '  ' + item.month + '  ' + item.year;
+      }
+          console.log(this.showReqAdmin);
+      }
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async showReqWaitAdminNotApprove() {
+
+    try {
+      const result: any = await this.requisitionService.showReqWaitAdminNotApprove();
+
+      console.log('result', result);
+      if (result.rows) {
+        console.log(result.rows);
+        this.showReqAdmin = result.rows;
+        for (const item of this.showReqAdmin) {
+          item.date = moment(item.reqDate).format('DD');
+          item.month = moment(item.reqDate).format('MMMM');
+          item.year = moment(item.reqDate).add(543, 'years').format('YYYY');
+          item.time = moment(item.reqDate).format('HH:mm');
+          item.day = item.date + '  ' + item.month + '  ' + item.year;
+      }
+          console.log(this.showReqAdmin);
+      }
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
   async search(searchWard) {
 
     try {

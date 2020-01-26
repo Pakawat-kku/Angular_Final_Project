@@ -20,7 +20,7 @@ export class MainPageComponent implements OnInit {
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService
-  ) { 
+  ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
       console.log('users' , users );
@@ -31,6 +31,8 @@ export class MainPageComponent implements OnInit {
      this.currentUser = x
    );
   }
+
+
 
   async ngOnInit() {
     // tslint:disable-next-line: no-unused-expression

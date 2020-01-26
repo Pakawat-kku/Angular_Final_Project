@@ -9,8 +9,15 @@ export class ExportService {
 
   constructor(private http: HttpClient, @Inject('API_URL') private apiUrl) {}
 
-  getExportCloth() {
-    return this.http.get(`${this.apiUrl}/exportCloth/exportCloth`, {})
+  getExportClothHos() {
+    return this.http.get(`${this.apiUrl}/exportCloth/getExportClothHos`, {})
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  getExportClothCompany() {
+    return this.http.get(`${this.apiUrl}/exportCloth/getExportClothCompany`, {})
       .toPromise()
       .then(result => result)
       .catch(error => error);
@@ -23,8 +30,15 @@ export class ExportService {
       .catch(error => error);
   }
 
-  showExportCloth(exportClothCode) {
-    return this.http.post(`${this.apiUrl}/exportCloth/showExportCloth` , { exportClothCode })
+  showExportClothCompany(exportClothCode) {
+    return this.http.post(`${this.apiUrl}/exportCloth/showExportClothCompany` , { exportClothCode })
+    .toPromise()
+    .then(result => result)
+    .catch(error => error);
+  }
+
+  showExportClothHospital(exportClothCode) {
+    return this.http.post(`${this.apiUrl}/exportCloth/showExportClothHospital` , { exportClothCode })
     .toPromise()
     .then(result => result)
     .catch(error => error);

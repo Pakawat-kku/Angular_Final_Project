@@ -85,6 +85,22 @@ showReqWaitDetail(requisitionCode) {
       .catch(error => error);
   }
 
+  showReqWaitAdminApprove() {
+    // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
+    return this.http.get(`http://localhost:3001/req/showReqWaitAdminApprove/`, {})
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  showReqWaitAdminNotApprove() {
+    // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
+    return this.http.get(`http://localhost:3001/req/showReqWaitAdminNotApprove/`, {})
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
   showReqWaitDetailAdmin(requisitionCode) {
     // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
     return this.http.get(`http://localhost:3001/req/showReqWaitDetailAdmin?requisitionCode=${requisitionCode}`)
@@ -165,6 +181,13 @@ searchTypeApprove(wardId) {
 
 searchTypeNotApprove(wardId) {
   return this.http.post(`http://localhost:3001/req/searchTypeNotApprove`, { wardId })
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
+}
+
+updateAmountReal(clothId, requisitionCode , amountClothReal) {
+  return this.http.post(`http://localhost:3001/req/updateAmountReal`, { clothId, requisitionCode , amountClothReal })
       .toPromise()
       .then(result => result)
       .catch(err => err);
