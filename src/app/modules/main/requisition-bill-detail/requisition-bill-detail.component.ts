@@ -37,6 +37,7 @@ export class RequisitionBillDetailComponent implements OnInit {
   pass: any;
   tail: any;
   head: any;
+  unNormal = 0 ;
 
   constructor(
     private alertService: AlertService,
@@ -95,8 +96,8 @@ export class RequisitionBillDetailComponent implements OnInit {
           item.time = moment(item.reqDate).format('HH:mm');
           item.day = item.date + ' ' + item.month + ' ' + item.year;
         }
-        this.requisitionBillDetailOnly =  this.requisitionBillDetailOnly;
-        console.log('this.requisitionBillDetailOnly' , this.requisitionBillDetailOnly);
+        this.requisitionBillDetailOnly = this.requisitionBillDetailOnly;
+        console.log('this.requisitionBillDetailOnly', this.requisitionBillDetailOnly);
 
         this.status = this.requisitionBillDetailOnly[0].status;
         console.log('status', this.status);
@@ -114,61 +115,74 @@ export class RequisitionBillDetailComponent implements OnInit {
   async approve(formData) {
     let i = 0;
     let j = 0;
-    let minus = 0 ;
-    for (const temm of  _.chunk(Object.values(formData))) {
-        i ++;
+    let minus = 0;
+    for (const temm of _.chunk(Object.values(formData))) {
+      i++;
     }
     minus = i / 3;
-    j = i - minus ;
-    console.log('i', i);
-    console.log('minus' , minus);
-    console.log('j', j);
-    console.log('formdata', formData);
+    j = i - minus;
+    // console.log('i', i);
+    // console.log('minus', minus);
+    // console.log('j', j);
+    // console.log('formdata', formData);
 
-    this.head = _.chunk(_.take(Object.values(formData), j ), 2);
-    this.tail = _.takeRight(Object.values(formData), minus );
+    this.head = _.chunk(_.take(Object.values(formData), j), 2);
+    this.tail = _.takeRight(Object.values(formData), minus);
 
-    console.log('head', _.chunk(_.take(Object.values(formData), j ), 2)) ;
-    console.log('tail', _.takeRight(Object.values(formData), minus )) ;
+    console.log('head', _.chunk(_.take(Object.values(formData), j), 2));
+    console.log('tail', _.takeRight(Object.values(formData), minus));
 
-    let sum = 0 ;
-    for (const item of _.chunk(_.takeRight(Object.values(formData), minus ))) {
+    let unNor = 0;
+    let sum = 0;
 
-      if (item[0] === null) {
-        console.log('itemว่าง' , item[0]);
-        console.log('[0]' , _.take(this.head[sum]));
-        console.log('[1]' , _.tail(this.head[sum]));
-        // tslint:disable-next-line: max-line-length
-        const result: any = await this.requisitionService.updateAmountReal(_.take(this.head[sum]), this.requisitionCode , item[0]);
-        console.log(result);
+    for (const item of _.chunk(_.takeRight(Object.values(formData), minus))) {
+      console.log('item[0]', item[0]);
+      console.log('_.nth(this.head[0], 1)', _.nth(this.head[unNor], 1));
 
+      if (item[0] >  _.nth(this.head[unNor], 1) || item[0] < 0 || item[0] === null) {
+        this.unNormal = this.unNormal + 1 ;
+        unNor = unNor + 1;
       } else {
+        console.log('ปกติ');
+        unNor = unNor + 1;
+      }
+    }
+    unNor = 0;
+    console.log('this.unNormal' , this.unNormal);
+
+    if (this.unNormal > 0) {
+      this.alertService.error('ไม่สามารถอนุมัติได้กรุณาตรวจสอบ');
+      this.unNormal = 0;
+
+    } else {
+      console.log('_.chunk(_.takeRight(Object.values(formData), minus))', _.chunk(_.takeRight(Object.values(formData), minus)));
+
+    for (const item of _.chunk(_.takeRight(Object.values(formData), minus))) {
         console.log('item' , item[0]);
         console.log('[0]' , _.take(this.head[sum]));
         console.log('[1]' , _.tail(this.head[sum]));
-        // tslint:disable-next-line: max-line-length
         const result: any = await this.requisitionService.updateAmountReal(_.take(this.head[sum]), this.requisitionCode ,  item[0]);
         console.log(result);
-      }
       sum = sum + 1;
       console.log('sum', sum);
-
-  }
-
-    try {
-      const result: any = await this.requisitionService.approveReq(this.requisitionCode);
-      if (result.rows) {
-        this.showReqWaitDetailAdmin = result.rows;
-        this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
-        this.requisitionHeadBill();
-        this.requisitionBill();
-        this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
-
       }
-    } catch (err) {
-      console.log(err);
-    }
-}
+
+
+          try {
+            const result: any = await this.requisitionService.approveReq(this.requisitionCode);
+            if (result.rows) {
+              this.showReqWaitDetailAdmin = result.rows;
+              this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
+              this.requisitionHeadBill();
+              this.requisitionBill();
+              this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
+
+            }
+          } catch (err) {
+            console.log(err);
+          }
+        }
+  }
 
   async notApproveList(row) {
     this.currentRow = Object.assign({}, row);

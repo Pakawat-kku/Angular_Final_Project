@@ -52,7 +52,7 @@ const routes: Routes = [
       { path: 'stock', component: StockComponent },
       { path: 'ward', component: WardComponent },
       { path: 'weight', component: WeightComponent },
-      { path: 'weight-in-hos', component: WeightInHosComponent },
+      { path: 'weight-in-hos/:exportClothCode', component: WeightInHosComponent },
       { path: 'weight-in-company', component: WeightInCompanyComponent },
       { path: 'purchase', component: PurchaseComponent },
       { path: 'report-purchase', component: ReportPurchaseComponent },

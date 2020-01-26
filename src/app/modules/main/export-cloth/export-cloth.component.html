@@ -2,109 +2,85 @@
     <li><a href="javascript://">Purchase</a></li>
 </ol> -->
 <h1 class="req">
-    ชั่งน้ำหนักผ้า<!-- เบิกผ้า -->
+  ชั่งน้ำหนักผ้า
 </h1>
 <br>
-<b>วันที่ : {{date}}</b><br>
-<b>เวลา : {{time}}</b>
-<form #purchase="ngForm" (ngSubmit)="onClickSubmit(purchase.value)">
-    
-    <b>เพิ่มจำนวนช่อง </b>
-    <input type="number" placeholder="ex. 12" name="amount" ngModel />&nbsp;&nbsp;&nbsp;
-    <input type="submit" value="ตกลง" class="btn btn-sm btn-primary-outline">
+<!-- <b>วันที่ชั่งน้ำหนักผ้า : {{date}}</b><br><br> -->
+<!-- <b>เวลา : {{time}}</b><br> -->
+<!-- <form #purchase="ngForm" (ngSubmit)="onClickSubmit(purchase.value)">
+  <b>เพิ่มจำนวนช่อง </b>
+  <input type="number" placeholder="ex. 12" name="amount" ngModel />&nbsp;&nbsp;&nbsp;
+  <input type="submit" value="ตกลง" class="btn btn-sm btn-primary-outline">
 </form>
+<br> -->
 <br>
-
+<b>ชื่อผู้ชั่งน้ำหนัก : {{decoded.firstname}}  {{decoded.lastname}}</b>
+<br><br>
 <div class="cen">
-<div class="clr-row">
-   <div class="clr-col-1.5">
-<b> ประเภทของการซัก :</b>
-</div>
-<div class="clr-col-4" style="margin-top: -2%;">
-<select clrSelect name="exportClothType" [(ngModel)]="exportClothType" >
-  <option value="1">ซักเอง</option>
-  <option value="2">ส่งซัก</option>
-</select>
-</div>
-</div><br>
-
-<div class="clr-row" *ngIf="exportClothType === '2'">
-  <div class="clr-col-1.5">
-<b> บริษัท :</b>
-</div>
-<div class="clr-col-4" style="margin-top: -2%;">
-<select clrSelect  name="company" [(ngModel)]="company">
- <option *ngFor="let item of companyList;" value="{{item.	idCompany}}">{{item.companyName}}</option>
-</select>
-</div>
-</div> <br>
-
-<!-- <clr-checkbox-container clrInline>
-  <label>Inline checkbox example</label>
-  <clr-checkbox-wrapper>
-    <input type="checkbox" clrCheckbox name="options" required value="option1" [(ngModel)]="options.option1" />
-    <label>Option 1</label>
-  </clr-checkbox-wrapper>
-  <clr-checkbox-wrapper>
-    <input type="checkbox" clrCheckbox name="options" required value="option2" [(ngModel)]="options.option2" />
-    <label>Option 2</label>
-  </clr-checkbox-wrapper>
-  <clr-control-helper>Helper text</clr-control-helper>
-  <clr-control-error>This field is required!</clr-control-error>
-</clr-checkbox-container>
-
-<div class="clr-form-control">
-  <label class="clr-control-label">บริษัท</label>
-  <div class="clr-control-container">
-    <div class="clr-checkbox-wrapper">
-      <input type="checkbox" id="vertical-checkbox1" name="checkbox-full" value="option1" class="clr-checkbox">
-      <label for="vertical-checkbox1" class="clr-control-label">option 1</label>
+  <div class="clr-row">
+    <div class="clr-col-1.5">
+      <b> ประเภทของการซัก :</b>
     </div>
-    <div class="clr-checkbox-wrapper">
-      <input type="checkbox" id="vertical-checkbox2" name="checkbox-full" value="option2" class="clr-checkbox">
-      <label for="vertical-checkbox2" class="clr-control-label">option 2</label>
+    <div class="clr-col-4" style="margin-top: -2%;">
+      <select clrSelect name="exportClothType" [(ngModel)]="exportClothType">
+        <option value="1">ซักเอง</option>
+        <option value="2">ส่งซัก</option>
+      </select>
     </div>
-    <div class="clr-checkbox-wrapper">
-      <input type="checkbox" id="vertical-checkbox3" name="checkbox-full" value="option3" class="clr-checkbox">
-      <label for="vertical-checkbox3" class="clr-control-label">option 3</label>
+  </div><br>
+
+  <div class="clr-row" *ngIf="exportClothType === '2'">
+    <div class="clr-col-1.5">
+      <b> บริษัท :</b>
     </div>
-    <div class="clr-subtext-wrapper">
-      <clr-icon class="clr-validate-icon" shape="exclamation-circle"></clr-icon>
-      <span class="clr-subtext">Helper Text</span>
+    <div class="clr-col-4" style="margin-top: -2%;">
+      <select clrSelect name="company" [(ngModel)]="company">
+        <option *ngFor="let item of companyList;" value="{{item.idCompany}}">{{item.companyName}}</option>
+      </select>
+      <br>
+    </div>
+    <br>
+  </div>
+
+  <div class="clr-row">
+    <div class="clr-col-1.5">
+      <b> วันที่ชั่งน้ำหนักผ้า :</b>
+    </div>
+
+    <div class="clr-col-4">
+      <b>{{date}}</b><br>
+      <!-- <my-date-picker-th name="mydate" [options]="myDatePickerOptions"
+    [(ngModel)]="model" required>
+  </my-date-picker-th> -->
     </div>
   </div>
-</div><br> -->
-
-<div class="clr-row">
-<div class="clr-col-1.5">
-  <b> วันชั่งน้ำหนักผ้า :</b>
-</div>
-
-<div class="clr-col-4">
-  <my-date-picker-th name="mydate" [options]="myDatePickerOptions"
-    [(ngModel)]="model" required>
-  </my-date-picker-th>
-</div>
-</div>
 </div>
 <!-- <br> -->
+<br>
+
 <div *ngIf="exportList && exportList.length">
-    <div *ngFor="let item of exportList; let i = index">
-        {{i+1}} )
-        <b> น้ำหนักผ้าเปื้อน : </b><input type="number" name="weighCloth" [(ngModel)]="item.weighCloth" (change)="addNewRow(i)" />
-        <b> น้ำหนักรถ : </b><input type="number" name="weighCar" [(ngModel)]="item.weighCar" (change)="addNewRow(i)" /> 
-        <button *ngIf="i>0" (click)="onDelete(i)" class="btn btn-icon btn-sm btn-danger-outline"
-            style="margin-left:3px">
-            <!-- <clr-icon shape="times"></clr-icon> -->
-            <clr-icon shape="trash"></clr-icon>
-        </button>
-        <br>
-        <br>
-    </div>
-    <button class="btn btn-success" (click)="onSave()">บันทึก</button>
-    <!-- <input type="submit" value="save"> -->
-    <!-- </form> -->
+  <div *ngFor="let item of exportList; let i = index">
+    {{i+1}} )
+    <b> น้ำหนักผ้าเปื้อน : </b><input type="number" name="weightCloth" [(ngModel)]="item.weightCloth" (change)="calculateWeight()"/>
+    <b> กก. / น้ำหนักรถ : </b><input type="number" name="weightCar" [(ngModel)]="item.weightCar" (change)="calculateWeight()"/>
+    <b> กก. </b>
+    <button (click)="addNewRow(i)" class="btn btn-icon btn-sm btn-primary-outline" style="margin-left:3px">
+      <clr-icon shape="plus-circle" class="is-solid"></clr-icon>
+    </button>
+    <button *ngIf="i>0" (click)="onDelete(i)" class="btn btn-icon btn-sm btn-danger-outline" style="margin-left:3px">
+     <clr-icon shape="trash"></clr-icon>
+    </button>
+    <br>
+    <br>
+  </div>
+  <b>รวมส่งผ้าเปื้อน : </b><u>{{weightSum}}</u> กก. <br><br>
+  <div *ngIf="exportClothType==2">
+  <b> ทะเบียนรถ : </b>
+  <input type="text" name="exportCarId" [(ngModel)]="exportCarId"><br><br>
+  </div>
+  <b> ชื่อผู้รับผ้า : </b>
+  <input type="text" name="exportClothUserImport" [(ngModel)]="exportClothUserImport"><br><br>
+  <button class="btn btn-success" (click)="onSave()">บันทึก</button>
+  <!-- <input type="submit" value="save"> -->
+  <!-- </form> -->
 </div>
-
-
-

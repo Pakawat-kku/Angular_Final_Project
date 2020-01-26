@@ -1,48 +1,121 @@
-<h1 style="text-align: center;">รายการชั่งน้ำหนัก {{exportClothCode}}</h1>
+<!-- <h1 style="text-align: center;">รายการชั่งน้ำหนัก {{exportClothCode}}</h1> -->
+<a *ngIf="decoded.position==4" routerLink="/main/export-cloth-detail">
+    <button class="btn btn-success-outline btn-sm">
+        <clr-icon shape="undo"></clr-icon> BACK
+    </button>
+</a>
 <div class="head-bill" *ngFor="let item of exportCloth">
-    <span >
-        <b>รหัส : {{exportClothCode}}</b><br>
-        <b>คนชั่งน้ำหนัก : {{item.exportClothUserExport}}</b><br>
-        <b>วันที่ชั่งน้ำหนัก : {{item.day}}</b><br>
-    </span>
+    <h1 style="text-align: center;" *ngIf="item.exportClothType=='2'">บันทึกการส่งผ้าเปื้อนและผ้าสะอาด จาก {{item.companyName}}</h1>
+    <br>
 </div>
-<div class="clr-row">
-<clr-datagrid *ngIf="exportDetail" class="clr-col-6">
-    <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
-    <clr-dg-column>น้ำหนักผ้าเปื้อน</clr-dg-column>
-    <clr-dg-column>น้ำหนักรถ</clr-dg-column>
-    <clr-dg-row id="green" *ngFor="let item of exportDetail" >
-        <clr-dg-cell>{{item.exportDetailWeightCloth}}</clr-dg-cell>
-        <clr-dg-cell>{{item.exportDetailWeightCar}}</clr-dg-cell>
-    </clr-dg-row>
-    <clr-dg-footer>
-        <b>รายการผ้าทั้งหมด {{exportDetail.length}} รายการ </b>&nbsp;&nbsp;
-        <clr-dg-pagination #pagination [clrDgPageSize]="10">
-            <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
-            {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-            of {{pagination.totalItems}} leave
-        </clr-dg-pagination>
-    </clr-dg-footer>
-</clr-datagrid>
+<div class="head-bill" *ngFor="let item of exportClothHospital">
+    <h1 style="text-align: center;" *ngIf="item.exportClothType=='1'">บันทึกการส่งผ้าเปื้อนและผ้าสะอาด ของแผนกซักผ้า</h1>
+    <br>
+</div>
 
-<clr-datagrid  class="clr-col-6">
-    <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
-    <clr-dg-column>น้ำหนักผ้าเปื้อน</clr-dg-column>
-    <clr-dg-column>น้ำหนักรถ</clr-dg-column>
-    <clr-dg-row id="green" *ngFor="let item of importDetail" >
-        <clr-dg-cell></clr-dg-cell>
-        <clr-dg-cell></clr-dg-cell>
-    </clr-dg-row>
-    <clr-dg-footer>
-        <b>รายการผ้าทั้งหมด {{exportDetail.length}} รายการ </b>&nbsp;&nbsp;
-        <clr-dg-pagination #pagination [clrDgPageSize]="10">
-            <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
-            {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-            of {{pagination.totalItems}} leave
-        </clr-dg-pagination>
-    </clr-dg-footer>
-</clr-datagrid>
+
+    <div class="clr-row" *ngIf="exportClothTypeHospital=='2'">
+        <div class="clr-col-6" *ngFor="let item of exportCloth">
+            <b>รหัส : {{exportClothCode}}</b><br>
+            <b>ชื่อเจ้าหน้าที่โรงพยาบาล : {{item.exportClothUserExport}}</b><br>
+            <b>ชื่อเจ้าหน้าที่บริษัท : {{item.exportClothUserImport}}</b><br>
+            <b>วันที่ชั่งน้ำหนัก : {{item.day}}</b><br>
+            <b>ทะเบียนรถ : {{item.exportCarId}}</b><br>
+        </div>
+        <div class="clr-col-6" *ngFor="let items of importCloth">
+            <b>รหัส : {{items.importCode}}</b><br>
+            <b>ชื่อเจ้าหน้าที่โรงพยาบาล(ขามา) : {{items.importUserExport}}</b><br>
+            <b>ชื่อเจ้าหน้าที่โรงพยาบาล(รับกลับ) : {{items.importUserImport}}</b><br>
+            <b>วันที่ชั่งน้ำหนักผ้ารับกลับ : {{items.day}}</b><br>
+            <b>ทะเบียนรถ : {{items.importCarId}}</b>
+        </div>
+    </div>
+
+    <div class="clr-row" *ngIf="exportClothTypeHospital=='1'">
+        <div class="clr-col-6" *ngFor="let item of exportClothHospital">
+            <b>รหัส : {{exportClothCode}}</b><br>
+            <b>ชื่อเจ้าหน้าที่โรงพยาบาล: {{item.exportClothUserExport}}</b><br>
+            <b>ชื่อผู้รับ : {{item.exportClothUserImport}}</b><br>
+            <b>วันที่ชั่งน้ำหนัก : {{item.day}}</b><br>
+            <!-- <b>ทะเบียนรถ : {{item.exportCarId}}</b><br> -->
+            
+        </div>
+        <div class="clr-col-6" *ngFor="let items of importCloth">
+            <b>รหัส : {{items.importCode}}</b><br>
+            <b>ชื่อเจ้าหน้าที่โรงพยาบาล(ขามา) : {{items.importUserExport}}</b><br>
+            <b>ชื่อเจ้าหน้าที่โรงพยาบาล(ขากลับ) : {{items.importUserImport}}</b><br>
+            <b>วันที่ชั่งน้ำหนักผ้ารับกลับ : {{items.day}}</b><br>
+            <!-- <b>ทะเบียนรถ : {{items.importCarId}}</b> -->
+        </div>
+    </div>
+    
+<div class="clr-row">
+    <div class="clr-col-6">
+        <table class="table table-compact table-noborder table-vertical">
+            <tr>
+                <th style="text-align: center; font-size: 1em;">ผ้าเปื้อน</th>
+            </tr>
+        </table>
+        <clr-datagrid *ngIf="exportDetail">
+            <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
+            <clr-dg-column>น้ำหนักผ้าเปื้อน</clr-dg-column>
+            <clr-dg-column>น้ำหนักรถ</clr-dg-column>
+            <clr-dg-row id="green" *ngFor="let item of exportDetail">
+                <clr-dg-cell>{{item.exportDetailWeightCloth}}</clr-dg-cell>
+                <clr-dg-cell>{{item.exportDetailWeightCar}}</clr-dg-cell>
+            </clr-dg-row>
+            <clr-dg-footer>
+                <b>รายการผ้าทั้งหมด {{exportDetail.length}} รายการ </b>&nbsp;&nbsp;
+                <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                    <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
+                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                    of {{pagination.totalItems}} leave
+                </clr-dg-pagination>
+            </clr-dg-footer>
+        </clr-datagrid>
+        <div *ngIf="exportClothTypeHospital=='2'">
+        <div class="head-bill" *ngFor="let item of exportCloth">
+            <b>รวมส่งผ้าเปื้อน : <u>{{item.exportClothTotalWeight}}</u> กก.</b><br>
+            <b>95% : <u>{{item.percent}}</u> กก.</b>
+        </div>
+        </div>
+        <div *ngIf="exportClothTypeHospital=='1'">
+        <div class="head-bill" *ngFor="let item of exportClothHospital">
+            <b>รวมส่งผ้าเปื้อน : <u>{{item.exportClothTotalWeight}}</u> กก.</b><br>
+            <b>95% : <u>{{item.percent}}</u> กก.</b>
+        </div>
+        </div>
+    </div>
+    <div class="clr-col-6">
+        <table class="table table-compact table-noborder table-vertical">
+            <tr>
+                <th style="text-align: center; font-size: 1em;">ผ้าสะอาด</th>
+            </tr>
+        </table>
+        <clr-datagrid *ngIf="getInner">
+            <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
+            <clr-dg-column>น้ำหนักผ้าเปื้อน</clr-dg-column>
+            <clr-dg-column>น้ำหนักรถ</clr-dg-column>
+            <clr-dg-row id="green" *ngFor="let item of getInner">
+                <clr-dg-cell>{{item.importDetailWeightCloth}}</clr-dg-cell>
+                <clr-dg-cell>{{item.importDetailWeightCar}}</clr-dg-cell>
+            </clr-dg-row>
+            <clr-dg-footer>
+                <b>รายการผ้าทั้งหมด {{getInner.length}} รายการ </b>&nbsp;&nbsp;
+                <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                    <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
+                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                    of {{pagination.totalItems}} leave
+                </clr-dg-pagination>
+            </clr-dg-footer>
+        </clr-datagrid>
+        <div class="head-bill" *ngFor="let item of importDetailWeightSum">
+            <b>รวมรับผ้าสะอาด : <u>{{item.importDetailWeightSumTotal}}</u> กก.</b><br>
+            <!-- <b>95% : <u>{{item.percent}}</u> กก.</b> -->
+
+        </div>
+    </div>
 </div>
-<div class="head-bill" *ngFor="let item of exportCloth">
-    <b>น้ำหนักผ้าเปื้อนรวม : {{item.exportClothTotalWeight}}</b>
+<div *ngIf="getInner==''">
+    <button class="btn btn-outline" routerLink="/main/weight-in-hos/{{exportClothCode}}">รับผ้าเข้า</button>
 </div>

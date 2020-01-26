@@ -17,15 +17,10 @@
     <div class="header-actions">
       <clr-dropdown>
         <button class="nav-icon-text" clrDropdownTrigger>
-<<<<<<< HEAD
           <span class="nav-text"  *ngIf="decoded.position==2">{{decoded.wardName}} (Ward)</span>
           <span class="nav-text"  *ngIf="decoded.position==1">{{decoded.firstname}} {{decoded.lastname}} (Administrator)</span>
           <span class="nav-text"  *ngIf="decoded.position==3">{{decoded.firstname}} {{decoded.lastname}} (Withdraw employee)</span>
           <span class="nav-text"  *ngIf="decoded.position==4">{{decoded.firstname}} {{decoded.lastname}} (Weigh employee )</span>
-=======
-          <span class="nav-text"  *ngIf="decoded.position===2">{{decoded.firstname}} {{decoded.lastname}} ({{decoded.wardName}})</span>
-          <span class="nav-text"  *ngIf="decoded.position===1 || decoded.position===3 || decoded.position===4">{{decoded.firstname}} {{decoded.lastname}} ({{decoded.positionName}})</span>
->>>>>>> 53f5686027855a381cd71d7b1dc8871fc1213c46
           <clr-icon shape="user" size="24"></clr-icon>
           &nbsp; 
           <clr-icon shape="caret down" size="20"></clr-icon>
@@ -99,7 +94,7 @@
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
           ประวัติชั่งน้ำหนักผ้า
         </a>
-        <clr-vertical-nav-group routerLinkActive="active" *ngIf="decoded.position==4">
+        <!-- <clr-vertical-nav-group routerLinkActive="active" *ngIf="decoded.position==4">
           <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
           ชั่งน้ำหนักผ้า
           <clr-vertical-nav-group-children>
@@ -120,7 +115,7 @@
             </a>
            
           </clr-vertical-nav-group-children>
-        </clr-vertical-nav-group>
+        </clr-vertical-nav-group> -->
       </div>
     </clr-vertical-nav>
     <!-- 

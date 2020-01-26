@@ -1,17 +1,86 @@
-<h1>
+<!-- <h1>
     ชั่งน้ำหนักผ้าซักเอง
 </h1>
-<b>วันที่ </b>{{date}} <br>
-<b>เวลา </b>{{time}} น.<br>
-<b>ชื่อผู้ใช้งาน </b>{{decoded.firstname}} {{decoded.lastname}}
+<b>วันที่ :     </b>{{date}} <br>
+<b>เวลา : </b>{{time}} น.<br>
+<b>ชื่อผู้ส่งผ้า : </b>{{decoded.firstname}} {{decoded.lastname}} <br>
+<b>ชื่อผู้รับผ้า : </b>{{decoded.firstname}} {{decoded.lastname}} <br>
 <br>
+<br> -->
+<h1 class="req">
+    รับผ้ากลับ
+</h1><br><br>
+<div *ngFor="let item of exportCloth">
+<div class="cen" *ngIf="item.exportClothType=='2'">
+    <div class="clr-row">
+        <div class="clr-col-1.5" *ngFor="let item of exportCloth">
+            <b> ผู้รับผ้า : </b>{{decoded.firstname}} {{decoded.lastname}} &nbsp;
+            <b> วันที่ชั่งน้ำหนักผ้า : </b>{{item.day}}<br><br>
+        </div>
+    </div>
+
+    <div class="clr-row">
+        <div class="clr-col-1.5">
+            <b> ประเภทของการรับ : &nbsp;</b>
+        </div>
+        <div class="clr-col-1.5" *ngFor="let item of exportCloth">
+            <span *ngIf="item.exportClothType==1">ซักเอง</span>
+            <span *ngIf="item.exportClothType==2">รับผ้ากลับจากบริษัท&nbsp;&nbsp;&nbsp; </span>
+        </div>
+        <div class="clr-row" *ngFor="let item of exportCloth">
+            <div class="clr-col-1.5" *ngIf="item.exportClothType === '2'">
+                <b>&nbsp; บริษัท :&nbsp;&nbsp;</b>
+            </div>
+            <div class="clr-col-2.5">
+                {{item.companyName}}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 <br>
+<div *ngFor="let item of exportClothHospital">
+<div class="cen" *ngIf="item.exportClothType=='1'">
+    <!-- <div class="clr-row">
+        <div class="clr-col-1.5">
+            <b> ชื่อผู้ชั่งน้ำหนักผ้า : </b>{{item.exportClothUserExport}} &nbsp;
+            <b> วันที่ชั่งน้ำหนักผ้า : </b>{{item.day}}<br><br>
+        </div>
+    </div> -->
+    <div class="clr-row">
+        <div class="clr-col-1.5">
+            <b> ชื่อผู้รับผ้า : </b>{{decoded.firstname}} {{decoded.lastname}}&nbsp;
+            <b> วันที่รับผ้ากลับ : </b> {{date}}<br><br>
+        </div>
+    </div>
+    <div class="clr-row">
+        <div class="clr-col-1.5">
+            <b> ประเภทของการรับ : &nbsp;</b>
+        </div>
+        <div class="clr-col-1.5" >
+            <span *ngIf="item.exportClothType==1">ซักเอง</span>
+            <span *ngIf="item.exportClothType==2">รับผ้ากลับจากบริษัท&nbsp;&nbsp;&nbsp; </span>
+        </div>
+        <div class="clr-row">
+            <div class="clr-col-1.5" *ngIf="item.exportClothType === '2'">
+                <b>&nbsp; บริษัท :&nbsp;&nbsp;</b>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<br>
+
+
 <div *ngIf="weightList && weightList.length">
     <div *ngFor="let item of weightList; let i = index">
         {{i+1}} )
         <b> น้ำหนักผ้าสะอาด : </b><input type="number" name="weightCloth" [(ngModel)]="item.weightCloth" /> กก. /
         <b> น้ำหนักรถ : </b><input type="number" name="weightCar" [(ngModel)]="item.weightCar"
             (change)="calculateWeight()" /> กก.
+        <!-- <select clrSelect name="company" [(ngModel)]="company">
+                <option *ngFor="let item of companyList;" value="{{item.idCompany}}">{{item.companyName}}</option>
+        </select> -->
         <button (click)="addNewRow(i)" class="btn btn-icon btn-sm btn-primary-outline" style="margin-left:3px">
             <clr-icon shape="plus-circle" class="is-solid"></clr-icon>
         </button>
@@ -24,7 +93,13 @@
     </div><br>
     <b>รวมส่งผ้าสะอาด : </b><u>{{weightSum}}</u> กก. <br>
     <br>
-    <b>ลงชื่อผู้ส่งผ้า : </b><input type="text" name="userExport" [(ngModel)]="userExport"><br>
+    <div *ngIf="exportClothTypeHos=='2'">
+    <b> ทะเบียนรถ : </b>
+    <input type="text" name="importCarId" [(ngModel)]="importCarId">
+    </div><br>
+    <b> ชื่อผู้ส่งมอบผ้า : </b>
+    <input type="text" name="importUserExport" [(ngModel)]="importUserExport"><br><br>
+    <!-- <b>ลงชื่อผู้ส่งผ้า : </b><input type="text" name="userExport" [(ngModel)]="userExport"><br> -->
     <button class="btn btn-success" (click)="onSave()">บันทึก</button>
     <!-- <input type="submit" value="save"> -->
     <!-- </form> -->
