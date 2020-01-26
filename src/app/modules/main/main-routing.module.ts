@@ -31,6 +31,12 @@ import { ExportClothComponent } from './export-cloth/export-cloth.component';
 import { ExportClothDetailComponent } from './export-cloth-detail/export-cloth-detail.component';
 import { ExportClothBillComponent } from './export-cloth-bill/export-cloth-bill.component';
 import { WithdrawService } from 'src/app/services/withdraw.service';
+import { ImportClothAmountComponent } from './import-cloth-amount/import-cloth-amount.component';
+import { ImportClothAmountHosComponent } from './import-cloth-amount-hos/import-cloth-amount-hos.component';
+import { OverviewDamageComponent } from './overview-damage/overview-damage.component';
+import { OverviewDamageDetailComponent } from './overview-damage-detail/overview-damage-detail.component';
+import { OverviewWithdrawAdminComponent } from './overview-withdraw-admin/overview-withdraw-admin.component';
+import { OverviewWithdrawAdminDetailComponent } from './overview-withdraw-admin-detail/overview-withdraw-admin-detail.component';
 
 
 
@@ -57,6 +63,10 @@ const routes: Routes = [
       { path: 'purchase', component: PurchaseComponent },
       { path: 'report-purchase', component: ReportPurchaseComponent },
       { path: 'overview-withdraw', component: OverviewWithdrawComponent },
+      { path: 'overview-withdraw-admin', component: OverviewWithdrawAdminComponent },
+      { path: 'overview-withdraw-admin-detail/:withdrawCode', component: OverviewWithdrawAdminDetailComponent },
+      { path: 'overview-damage', component: OverviewDamageComponent },
+      { path: 'overview-damage-detail/:clothId', component: OverviewDamageDetailComponent },
       { path: 'overview-import-cloth', component: OverviewImportClothComponent },
       { path: 'overview-import-cloth-detail/:importCode', component: OverviewImportClothDetailComponent },
       { path: 'withdraw-history', component: WithdrawHistoryComponent },
@@ -65,6 +75,8 @@ const routes: Routes = [
       { path: 'report-purchase-detail/:purchaseId', component: ReportPurchaseDetailComponent },
       { path: 'export-cloth', component: ExportClothComponent },
       { path: 'export-cloth-detail', component: ExportClothDetailComponent },
+      { path: 'import-cloth-amount/:ImportCloth_importCode', component: ImportClothAmountComponent },
+      { path: 'import-cloth-amount-hos/:ImportCloth_importCode', component: ImportClothAmountHosComponent },
       { path: 'export-cloth-bill/:exportClothCode', component: ExportClothBillComponent },
       { path: '**', component: PageNotFoundComponent },
     ]

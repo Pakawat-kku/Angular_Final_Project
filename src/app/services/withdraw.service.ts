@@ -30,8 +30,15 @@ export class WithdrawService {
       .catch(error => error);
   }
 
+  getDetailByCloth(Withdraw_withdrawId, Cloth_clothId, round) {
+    return this.http.post(`${this.apiUrl}/withdrawDetail/byCloth`, { Withdraw_withdrawId, Cloth_clothId, round })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
   getDetailRound(Withdraw_withdrawId) {
-    return this.http.post(`${this.apiUrl}/withdrawDetail/getRound`, { Withdraw_withdrawId})
+    return this.http.post(`${this.apiUrl}/withdrawDetail/getRound`, { Withdraw_withdrawId })
       .toPromise()
       .then(result => result)
       .catch(error => error);
@@ -60,6 +67,20 @@ export class WithdrawService {
 
   getWithdrawByUserId(userId) {
     return this.http.post(`${this.apiUrl}/withdrawDetail/getWithdrawByUserId`, { userId })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  searchByDate(dateSearch1, dateSearch2) {
+    return this.http.post(`${this.apiUrl}/withdraw/searchByDate`, { dateSearch1, dateSearch2 })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  searchByWard(wardId, dateSearch1, dateSearch2) {
+    return this.http.post(`${this.apiUrl}/withdraw/searchByWard`, { wardId, dateSearch1, dateSearch2 })
       .toPromise()
       .then(result => result)
       .catch(error => error);

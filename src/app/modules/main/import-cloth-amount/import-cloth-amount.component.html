@@ -1,9 +1,6 @@
-<!-- <ol class="breadcrumb breadcrumb-arrow">
-    <li><a href="javascript://">Purchase</a></li>
-</ol> -->
-<h2>รายการสั่งซื้อผ้าเข้ามาใหม่</h2>
-<br>
-<form #purchase="ngForm" (ngSubmit)="onClickSubmit(purchase.value)">
+<h1>บันทึกการรับผ้าเข้าจากบริษัท</h1>
+<b>รหัสใบนำเข้าผ้า : </b> {{ImportCloth_importCode}}
+<form #importCloth="ngForm" (ngSubmit)="onClickSubmit(importCloth.value)">
     <b>วันที่</b> {{day}} พ.ศ. {{pee}} <b>ประจำปีงบประมาณ </b> {{year}} <br>
     <b>เพิ่มจำนวนช่องรายการ </b>
     <input type="number" placeholder="ex. 12" name="amount" ngModel />
@@ -11,8 +8,8 @@
 </form>
 <br>
 
-<div *ngIf="purchaseLists && purchaseLists.length">
-    <div *ngFor="let item of purchaseLists; let i = index">
+<div *ngIf="importList && importList.length">
+    <div *ngFor="let item of importList; let i = index">
         {{i+1}} )
         <b> รายการผ้า : </b>
         <!-- <select2 [data]="clothLists" [cssImport]=true></select2> -->
@@ -25,8 +22,8 @@
                 </option>
             </select> 
         </div>
-        <b> จำนวน : </b><input type="number" name="amount" [(ngModel)]="item.amount"  />
-        <b> ราคา/หน่วย : </b><input type="number" name="price" [(ngModel)]="item.price"  /> บาท
+        <b> จำนวนผ้า : </b><input type="number" name="importDetailAmount" [(ngModel)]="item.importDetailAmount" />
+        <b> จำนวนผ้าชำรุด : </b><input type="number" name="damageAmount" [(ngModel)]="item.damageAmount" /> 
         <button (click)="addNewRow()" class="btn btn-icon btn-sm btn-primary-outline" style="margin-left:3px">
             <clr-icon shape="plus-circle" class="is-solid"></clr-icon>
         </button>

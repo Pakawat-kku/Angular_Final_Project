@@ -17,6 +17,7 @@ export class UserComponent implements OnInit {
   currentRow: any;
   editRow: any;
   dateApprove: any;
+  type = 'firstname';
 
   constructor(
     private alertService: AlertService,

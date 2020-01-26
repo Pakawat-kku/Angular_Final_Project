@@ -11,12 +11,11 @@ import * as jwt_decode from 'jwt-decode';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-overview-withdraw-detail',
-  templateUrl: './overview-withdraw-detail.component.html',
-  styleUrls: ['./overview-withdraw-detail.component.scss']
+  selector: 'app-overview-withdraw-admin-detail',
+  templateUrl: './overview-withdraw-admin-detail.component.html',
+  styleUrls: ['./overview-withdraw-admin-detail.component.scss']
 })
-
-export class OverviewWithdrawDetailComponent implements OnInit {
+export class OverviewWithdrawAdminDetailComponent implements OnInit {
   withdrawCode: any;
   modalShow = false;
   withdrawList: any[];
@@ -39,15 +38,13 @@ export class OverviewWithdrawDetailComponent implements OnInit {
   clothOver = '';
   roundList: any = [];
   r: any = '';
-
   constructor(
     private authenticationService: AuthenticationService,
     private withdrawService: WithdrawService,
     private requisitonService: RequisitionService,
     private alertService: AlertService,
     private _Activatedroute: ActivatedRoute,
-    private router: Router
-  ) {
+    private router: Router) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
       this.decoded = jwt_decode(users.token);
@@ -243,4 +240,3 @@ export class OverviewWithdrawDetailComponent implements OnInit {
     }
   }
 }
-

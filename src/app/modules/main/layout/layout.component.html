@@ -80,6 +80,14 @@
           <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
           จัดการผู้ใช้งาน
         </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./overview-damage" routerLinkActive="active">
+          <clr-icon shape="no-access" clrVerticalNavIcon></clr-icon>
+          รายการผ้าชำรุด
+        </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./overview-withdraw-admin" routerLinkActive="active">
+          <clr-icon shape="file" clrVerticalNavIcon></clr-icon>
+          รายการจ่ายผ้าทั้งหมด
+        </a>
         <clr-vertical-nav-group routerLinkActive="active" *ngIf="decoded.position==4">
           <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
           ชั่งน้ำหนักผ้า

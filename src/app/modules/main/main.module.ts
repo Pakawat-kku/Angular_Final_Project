@@ -36,6 +36,12 @@ import { OverviewImportClothDetailComponent } from './overview-import-cloth-deta
 import { ExportClothComponent } from './export-cloth/export-cloth.component';
 import { ExportClothDetailComponent } from './export-cloth-detail/export-cloth-detail.component';
 import { ExportClothBillComponent } from './export-cloth-bill/export-cloth-bill.component';
+import { ImportClothAmountComponent } from './import-cloth-amount/import-cloth-amount.component';
+import { ImportClothAmountHosComponent } from './import-cloth-amount-hos/import-cloth-amount-hos.component';
+import { OverviewDamageComponent } from './overview-damage/overview-damage.component';
+import { OverviewDamageDetailComponent } from './overview-damage-detail/overview-damage-detail.component';
+import { OverviewWithdrawAdminComponent } from './overview-withdraw-admin/overview-withdraw-admin.component';
+import { OverviewWithdrawAdminDetailComponent } from './overview-withdraw-admin-detail/overview-withdraw-admin-detail.component';
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
@@ -48,7 +54,7 @@ import { ExportClothBillComponent } from './export-cloth-bill/export-cloth-bill.
     WeightInCompanyComponent, WeightInHosComponent, OverviewImportClothComponent, OverviewImportClothDetailComponent,
     ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent,
     RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent,
-    WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent, ExportClothBillComponent
+    WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent, ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent, OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent
   ],
   imports: [
     CommonModule,

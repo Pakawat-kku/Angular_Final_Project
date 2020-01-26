@@ -114,6 +114,13 @@ showReqWaitDetail(requisitionCode) {
       .catch(err => err);
   }
 
+  statusDetailWithdrawSuccess(id) {
+    return this.http.post(`${this.apiUrl}/req/statusDetailWithdrawSuccess`, { id })
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
+  }
+
 notApproveList(requisitionCode , clothId) {
   return this.http.post(`http://localhost:3001/req/notApproveList`, { requisitionCode, clothId })
       .toPromise()
