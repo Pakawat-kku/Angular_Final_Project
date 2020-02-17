@@ -51,6 +51,13 @@ export class WithdrawService {
       .catch(error => error);
   }
 
+  changeActiveOff(withdrawCode) {
+    return this.http.post(`${this.apiUrl}/withdraw/changeActiveOff`, { withdrawCode })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
   statusWithdraw(withdrawId) {
     return this.http.post(`${this.apiUrl}/withdraw/statusWithdraw`, { withdrawId })
       .toPromise()

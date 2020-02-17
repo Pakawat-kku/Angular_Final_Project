@@ -21,9 +21,9 @@ export class PurchaseComponent implements OnInit {
   day: string;
   dummy: any = [];
   pee: string;
-  totalPrice: number = 0;
+  totalPrice = 0;
   purchaseId: number;
-  totalPricePerUnit: number = 0;
+  totalPricePerUnit = 0;
   arrayList: Array<InputArray> = [];
   public clothList: Array<Select2OptionData>;
   public clothLists: Array<Select2OptionData>;
@@ -120,18 +120,29 @@ export class PurchaseComponent implements OnInit {
   }
 
   async onSave(data) {
-    // console.log('check chong', this.purchaseLists);
-    let saveData: any = [];
+    console.log('check chong', this.purchaseLists);
+
+    const saveData: any = [];
     let unRepeat = 0;
     let dumNum = 0;
     let purchNum = 0;
-    let intersect = 0;
     let val = 0;
+    let k = [];
+    let m = 0;
 
-    console.log('pur', this.purchaseLists);
+    // tslint:disable-next-line: no-shadowed-variable
+    for (let i = 0; i < this.purchaseLists.length - 1; i++) {
+      for (let j = i + 1; j < this.purchaseLists.length; j++) {
+        if (this.purchaseLists[i].clothId === this.purchaseLists[j].clothId) {
+          k[m] = this.purchaseLists[j].clothId;
+          m++;
+        }
+      }
+    }
+    console.log(k);
 
     let i = 0;
-    for (let row of this.purchaseLists) {
+    for (const row of this.purchaseLists) {
       i++;
       if (row.amount === null || row.amount === undefined || row.amount === '') {
         this.alertService.error('รายการที่ ' + i + ' ไม่มีจำนวนผ้า');
@@ -148,22 +159,19 @@ export class PurchaseComponent implements OnInit {
       }
     }
     if (val === 0) {
+      // tslint:disable-next-line: no-shadowed-variable
       for (let i = 0; i < this.purchaseLists.length; i++) {
         this.dummy[i] = this.purchaseLists[i].clothId;
       }
       purchNum = _.size(this.purchaseLists);
       dumNum = _.size(_.uniq(this.dummy));
       if (dumNum < purchNum) {
-        console.log('มีผ้าซ้ำ');
         unRepeat = unRepeat + 1;
-        console.log('this.unRepeat', unRepeat);
-      } else {
-        console.log('ไม่มีผ้าซ้ำ');
       }
       if (unRepeat !== 0) {
         this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำ');
       } else {
-        for (let row of this.purchaseLists) {
+        for (const row of this.purchaseLists) {
           this.totalPricePerUnit = 0;
           if (row.amount > 0 && row.price > 0) {
             await saveData.push(row);
@@ -188,11 +196,12 @@ export class PurchaseComponent implements OnInit {
           if (getPur.rows) {
             // console.log('get', getPur.rows[0].purchaseId);
             this.purchaseId = getPur.rows[0].purchaseId;
-            for (let row of this.purchaseLists) {
+            for (const row of this.purchaseLists) {
               this.totalPricePerUnit = 0;
               if (row.amount > 0 && row.price > 0) {
                 this.totalPricePerUnit = row.amount * row.price;
                 // console.log('total price', this.totalPricePerUnit);
+                // tslint:disable-next-line: no-shadowed-variable
                 const data = {
                   id: 0,
                   amountCloth: row.amount,

@@ -42,6 +42,8 @@ import { OverviewDamageComponent } from './overview-damage/overview-damage.compo
 import { OverviewDamageDetailComponent } from './overview-damage-detail/overview-damage-detail.component';
 import { OverviewWithdrawAdminComponent } from './overview-withdraw-admin/overview-withdraw-admin.component';
 import { OverviewWithdrawAdminDetailComponent } from './overview-withdraw-admin-detail/overview-withdraw-admin-detail.component';
+import { RepairComponent } from './repair/repair.component';
+import { RepairDetailComponent } from './repair-detail/repair-detail.component';
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
@@ -54,7 +56,7 @@ import { OverviewWithdrawAdminDetailComponent } from './overview-withdraw-admin-
     WeightInCompanyComponent, WeightInHosComponent, OverviewImportClothComponent, OverviewImportClothDetailComponent,
     ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent,
     RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent,
-    WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent, ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent, OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent
+    WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent, ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent, OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent, RepairDetailComponent
   ],
   imports: [
     CommonModule,

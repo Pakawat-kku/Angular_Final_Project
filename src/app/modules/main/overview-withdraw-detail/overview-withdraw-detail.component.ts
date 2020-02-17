@@ -39,6 +39,7 @@ export class OverviewWithdrawDetailComponent implements OnInit {
   clothOver = '';
   roundList: any = [];
   r: any = '';
+  active_status = '';
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -63,6 +64,19 @@ export class OverviewWithdrawDetailComponent implements OnInit {
     // console.log(this.decoded.userId);
   }
 
+  async onActiveOff(withdrawCode) {
+    console.log(withdrawCode);
+    try {
+      const result: any = await this.withdrawService.changeActiveOff(withdrawCode);
+      if (result.rows) {
+        await this.alertService.success('ทำการนำจ่ายสำเร็จ');
+        this.router.navigate(['main/withdraw-history']);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async getWithdraw() {
     try {
       const result: any = await this.withdrawService.getWithdrawByCode(this.withdrawCode);
@@ -75,8 +89,11 @@ export class OverviewWithdrawDetailComponent implements OnInit {
           this.round = item.totalRound;
         }
         this.date = moment(result.rows[0].withdrawDate).add(543, 'years').format('DD MMMM YYYY');
+        this.active_status = this.withdrawList[0].active_status;
       }
       // console.log('withdrawList', this.withdrawList);
+      console.log('ac', this.active_status);
+
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +106,7 @@ export class OverviewWithdrawDetailComponent implements OnInit {
     try {
       const result: any = await this.requisitonService.showReqWaitDetail(code.Requisition_requisitionCode);
       if (result.rows) {
-        for(let row of result.rows){
+        for (let row of result.rows) {
           row.amountClothWithdraw = 0;
         }
         this.reqDetailList = result.rows;
@@ -114,10 +131,10 @@ export class OverviewWithdrawDetailComponent implements OnInit {
               }
             }
           }
-          console.log('detail', this.reqDetailList);
-          console.log('wth', this.withdrawDetailList);
-          console.log('ro', this.withdrawRoundList);
-          console.log('round', this.round);
+          // console.log('detail', this.reqDetailList);
+          // console.log('wth', this.withdrawDetailList);
+          // console.log('ro', this.withdrawRoundList);
+          // console.log('round', this.round);
 
           for (let i = 0; i < this.reqDetailList.length; i++) {
             for (let j = 0; j < this.round - 1; j++) {

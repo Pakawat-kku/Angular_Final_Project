@@ -37,6 +37,8 @@ import { OverviewDamageComponent } from './overview-damage/overview-damage.compo
 import { OverviewDamageDetailComponent } from './overview-damage-detail/overview-damage-detail.component';
 import { OverviewWithdrawAdminComponent } from './overview-withdraw-admin/overview-withdraw-admin.component';
 import { OverviewWithdrawAdminDetailComponent } from './overview-withdraw-admin-detail/overview-withdraw-admin-detail.component';
+import { RepairComponent } from './repair/repair.component';
+import { RepairDetailComponent } from './repair-detail/repair-detail.component';
 
 
 
@@ -57,6 +59,8 @@ const routes: Routes = [
       { path: 'requisition-detail-admin', component: RequisitionDetailAdminComponent },
       { path: 'stock', component: StockComponent },
       { path: 'ward', component: WardComponent },
+      { path: 'repair', component: RepairComponent },
+      { path: 'repair-detail/:clothId', component: RepairDetailComponent },
       { path: 'weight', component: WeightComponent },
       { path: 'weight-in-hos/:exportClothCode', component: WeightInHosComponent },
       { path: 'weight-in-company', component: WeightInCompanyComponent },

@@ -10,17 +10,16 @@
         <clr-icon shape="home"></clr-icon>
       </a>
     </div>
-    <!-- <div class="branding">
-      <span class="title username">{{decoded.firstname}} {{decoded.lastname}} (
-        {{decoded.positionName}} )</span>
-    </div> -->
     <div class="header-actions">
       <clr-dropdown>
         <button class="nav-icon-text" clrDropdownTrigger>
-          <span class="nav-text"  *ngIf="decoded.position==2">{{decoded.wardName}} (Ward)</span>
+          <span class="title username">{{decoded.firstname}} {{decoded.lastname}} (
+            {{decoded.positionName}}{{decoded.wardName}} ) &nbsp;</span>
+          <!-- <span class="nav-text"  *ngIf="decoded.position==2">{{decoded.wardName}} (Ward)</span>
           <span class="nav-text"  *ngIf="decoded.position==1">{{decoded.firstname}} {{decoded.lastname}} (Administrator)</span>
           <span class="nav-text"  *ngIf="decoded.position==3">{{decoded.firstname}} {{decoded.lastname}} (Withdraw employee)</span>
           <span class="nav-text"  *ngIf="decoded.position==4">{{decoded.firstname}} {{decoded.lastname}} (Weigh employee )</span>
+          -->
           <clr-icon shape="user" size="24"></clr-icon>
           &nbsp; 
           <clr-icon shape="caret down" size="20"></clr-icon>
@@ -59,7 +58,7 @@
         </a>
         <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./requisition-detail-admin"
           routerLinkActive="active">
-          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          <clr-icon shape="file-group" clrVerticalNavIcon></clr-icon>
           รายการเบิกผ้าเข้าของวอร์ด
         </a>
         <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition" routerLinkActive="active">
@@ -89,6 +88,10 @@
         <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./overview-damage" routerLinkActive="active">
           <clr-icon shape="no-access" clrVerticalNavIcon></clr-icon>
           รายการผ้าชำรุด
+        </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./repair" routerLinkActive="active">
+          <clr-icon shape="wrench" clrVerticalNavIcon></clr-icon>
+          รายการซ่อมผ้า
         </a>
         <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./overview-withdraw-admin" routerLinkActive="active">
           <clr-icon shape="file" clrVerticalNavIcon></clr-icon>

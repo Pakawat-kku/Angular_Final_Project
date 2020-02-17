@@ -273,6 +273,7 @@ export class ExportClothComponent implements OnInit, OnDestroy {
           Company_idCompany: this.company,
           exportClothTotalWeight:  this.weightSum,
           exportCarId : this.exportCarId,
+          exportClothUserImport : this.exportClothUserImport,
 
         };
         console.log('obj', obj);
