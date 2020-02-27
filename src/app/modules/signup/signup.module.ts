@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClarityModule } from '@clr/angular';
 import { FormsModule } from '@angular/forms';
+import { SelectModule } from 'ng2-select';
 
 
 
@@ -16,6 +17,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     SignupRoutingModule,
     ClarityModule,
+    SelectModule
   ]
 })
 export class SignupModule { }

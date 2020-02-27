@@ -44,6 +44,7 @@ import { OverviewWithdrawAdminComponent } from './overview-withdraw-admin/overvi
 import { OverviewWithdrawAdminDetailComponent } from './overview-withdraw-admin-detail/overview-withdraw-admin-detail.component';
 import { RepairComponent } from './repair/repair.component';
 import { RepairDetailComponent } from './repair-detail/repair-detail.component';
+import { AuthorityComponent } from './authority/authority.component';
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
@@ -56,7 +57,7 @@ import { RepairDetailComponent } from './repair-detail/repair-detail.component';
     WeightInCompanyComponent, WeightInHosComponent, OverviewImportClothComponent, OverviewImportClothDetailComponent,
     ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent,
     RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent,
-    WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent, ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent, OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent, RepairDetailComponent
+    WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent, ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent, OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent, RepairDetailComponent, AuthorityComponent
   ],
   imports: [
     CommonModule,

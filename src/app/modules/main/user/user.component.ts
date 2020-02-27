@@ -3,6 +3,8 @@ import { AlertService } from 'src/app/services/alert.service';
 import { UsersService } from 'src/app/services/users.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { AuthorityService } from 'src/app/services/authority.service';
+import { UsersAuthorityService } from 'src/app/services/users-authority.service';
 
 @Component({
   selector: 'app-user',
@@ -11,6 +13,7 @@ import * as moment from 'moment';
 })
 export class UserComponent implements OnInit {
   userList: any[] = [];
+  selected: any = [];
   rowSelected: any = {};
   loading = false;
   modalEdit = false;
@@ -18,16 +21,20 @@ export class UserComponent implements OnInit {
   editRow: any;
   dateApprove: any;
   type = 'firstname';
+  authorityList: any = [];
 
   constructor(
     private alertService: AlertService,
     private userService: UsersService,
-    private router: Router
+    private router: Router,
+    private authorityService: AuthorityService,
+    private users_authorityService: UsersAuthorityService
   ) { }
 
   ngOnInit() {
     moment.locale('th');
     this.getUser();
+    this.getAuthority();
   }
 
   async getUser() {
@@ -45,6 +52,28 @@ export class UserComponent implements OnInit {
     this.currentRow = Object.assign({}, row);
     this.currentRow.mode = 'edit';
     this.modalEdit = true;
+  }
+
+  onAdd(item) {
+    this.currentRow = {
+      Users_userId: item.userId,
+      username: item.username,
+      Authority_aId: ''
+    };
+    console.log(this.currentRow);
+    this.currentRow.mode = 'add';
+    this.modalEdit = true;
+  }
+
+  async getAuthority() {
+    try {
+      const result: any = await this.authorityService.getAuthority();
+      if (result.rows) {
+        this.authorityList = result.rows;
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   async getNotApprove() {
@@ -99,38 +128,39 @@ export class UserComponent implements OnInit {
   }
 
   async onSave() {
-    const obj = {
-      firstname: this.currentRow.firstname,
-      lastname: this.currentRow.lastname
-    };
-    console.log(obj);
-  }
-
-  async onApprove(username) {
-    this.dateApprove = moment().format('YYYY-MM-DD');
-    try {
-      const confirm: any = await this.alertService.confirm();
-      if (confirm.value === true) {
-        const result: any = await this.userService.approveUser(username, this.dateApprove);
-        if (result.statusCode === 200) {
-          this.alertService.success();
-          this.getUser();
-          this.router.navigate(['main/user']);
-        }
+    console.log(this.currentRow, this.selected);
+    const confirm: any = await this.alertService.confirm();
+    if (confirm.value === true) {
+      for (const row of this.selected) {
+        const data = {
+          Users_userId: this.currentRow.Users_userId,
+          Authority_aId: row.aId,
+        };
+        const result1: any = await this.users_authorityService.insert(data);
       }
-    } catch (error) {
-      console.log(error);
+      this.dateApprove = moment().format('YYYY-MM-DD');
+      const result: any = await this.userService.approveUser(this.currentRow.username, this.dateApprove);
+      if (result.statusCode === 200) {
+        this.alertService.success();
+        this.getUser();
+        this.modalEdit = false;
+        this.selected = [];
+        this.router.navigate(['main/user']);
+      }
     }
   }
 
-  async onCancel(username) {
+  async onCancel(username, Users_userId) {
+    console.log(Users_userId);
+
     try {
       const confirm: any = await this.alertService.confirm();
       if (confirm.value === true) {
+        const result2: any = await this.users_authorityService.cancel(Users_userId);
         const result: any = await this.userService.cancelUser(username);
-        if (result.statusCode === 200) {
+        if (result.statusCode === 200 ) {
           this.alertService.success();
-          this.getUser();
+          await this.getUser();
           this.router.navigate(['main/user']);
         }
       }

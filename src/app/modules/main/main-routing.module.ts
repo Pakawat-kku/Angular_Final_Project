@@ -39,6 +39,7 @@ import { OverviewWithdrawAdminComponent } from './overview-withdraw-admin/overvi
 import { OverviewWithdrawAdminDetailComponent } from './overview-withdraw-admin-detail/overview-withdraw-admin-detail.component';
 import { RepairComponent } from './repair/repair.component';
 import { RepairDetailComponent } from './repair-detail/repair-detail.component';
+import { AuthorityComponent } from './authority/authority.component';
 
 
 
@@ -58,6 +59,7 @@ const routes: Routes = [
       { path: 'requisition-bill-detail/:requisitionCode', component: RequisitionBillDetailComponent },
       { path: 'requisition-detail-admin', component: RequisitionDetailAdminComponent },
       { path: 'stock', component: StockComponent },
+      { path: 'authority', component: AuthorityComponent },
       { path: 'ward', component: WardComponent },
       { path: 'repair', component: RepairComponent },
       { path: 'repair-detail/:clothId', component: RepairDetailComponent },

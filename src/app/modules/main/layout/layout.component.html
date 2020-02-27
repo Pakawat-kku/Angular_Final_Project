@@ -81,9 +81,13 @@
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
           รายการเบิกผ้าที่เลือก
         </a>
-        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./user" routerLinkActive="active">
+        <a clrVerticalNavLink *ngIf="decoded.position==1 || decoded.position==5" routerLink="./user" routerLinkActive="active">
           <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
           จัดการผู้ใช้งาน
+        </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==5" routerLink="./authority" routerLinkActive="active">
+          <clr-icon shape="bullseye" clrVerticalNavIcon></clr-icon>
+          จัดการสิทธิ์
         </a>
         <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./overview-damage" routerLinkActive="active">
           <clr-icon shape="no-access" clrVerticalNavIcon></clr-icon>
