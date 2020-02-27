@@ -2,7 +2,7 @@
   <clr-header class="header-5" style="background-color:rgb(60, 117, 36)">
     <div class="branding">
       <a href="javascript://" class="nav-link">
-        <span class="title">Washing Department Management System</span>
+        <span class="title">ระบบจัดการงานซักผ้าโรงพยาบาลขอนแก่น</span>
       </a>
     </div>
     <div class="header-nav" [clr-nav-level]="1">
@@ -17,10 +17,10 @@
     <div class="header-actions">
       <clr-dropdown>
         <button class="nav-icon-text" clrDropdownTrigger>
-          <span class="nav-text"  *ngIf="decoded.position==2">{{decoded.wardName}} (Ward)</span>
-          <span class="nav-text"  *ngIf="decoded.position==1">{{decoded.firstname}} {{decoded.lastname}} (Administrator)</span>
-          <span class="nav-text"  *ngIf="decoded.position==3">{{decoded.firstname}} {{decoded.lastname}} (Withdraw employee)</span>
-          <span class="nav-text"  *ngIf="decoded.position==4">{{decoded.firstname}} {{decoded.lastname}} (Weigh employee )</span>
+          <span class="nav-text"  *ngIf="decoded.position==2">{{decoded.wardName}} (วอร์ด)</span>
+          <span class="nav-text"  *ngIf="decoded.position==1">{{decoded.firstname}} {{decoded.lastname}} (ผู้ดูแลระบบ)</span>
+          <span class="nav-text"  *ngIf="decoded.position==3">{{decoded.firstname}} {{decoded.lastname}} (พนักงานจ่าย)</span>
+          <span class="nav-text"  *ngIf="decoded.position==4">{{decoded.firstname}} {{decoded.lastname}} (พนักงานชั่งน้ำหนัก)</span>
           <clr-icon shape="user" size="24"></clr-icon>
           &nbsp; 
           <clr-icon shape="caret down" size="20"></clr-icon>
@@ -47,7 +47,7 @@
       <div *ngIf="decoded.status_approve == 'true'">
         <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./stock" routerLinkActive="active">
           <clr-icon shape="store" clrVerticalNavIcon></clr-icon>
-          คลังผ้า
+          ข้อมูลรายการผ้า
         </a>
         <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./purchase" routerLinkActive="active">
           <clr-icon shape="add-text" clrVerticalNavIcon></clr-icon>
@@ -94,47 +94,26 @@
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
           ประวัติชั่งน้ำหนักผ้า
         </a>
-        <!-- <clr-vertical-nav-group routerLinkActive="active" *ngIf="decoded.position==4">
-          <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
-          ชั่งน้ำหนักผ้า
-          <clr-vertical-nav-group-children>
-            <a clrVerticalNavLink routerLink="./weight-in-company" routerLinkActive="active">
-              ผ้ารับจากบริษัท
-            </a>
-            <a clrVerticalNavLink routerLink="./weight-in-hos" routerLinkActive="active">
-              ผ้าซักเอง
-            </a>
-            <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./ward" routerLinkActive="active">
-              <clr-icon shape="view-list"></clr-icon>
-              วอร์ด
-            </a>
-            <a clrVerticalNavLink *ngIf="decoded.position==4" routerLink="./overview-import-cloth"
-              routerLinkActive="active">
-              <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
-              รายงานการชั่งน้ำหนักผ้า
-            </a>
-           
-          </clr-vertical-nav-group-children>
-        </clr-vertical-nav-group> -->
+        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./warehouse" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          คลังผ้า
+        </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./move-warehouse" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          ย้ายผ้าเข้าส่วนกลาง
+        </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./available" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          คลังผ้าส่วนกลาง
+        </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./manage-porter" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          จัดการพนักงานจ่ายผ้า
+        </a>
+    
       </div>
     </clr-vertical-nav>
-    <!-- 
-    <nav class="sidenav" style="background-color: rgb(188, 226, 188);">
-      <section class="sidenav-content">
-          <a href="..." class="nav-link">
-              หน้าแรก
-          </a>
-          <a routerLink="./stock" class="nav-link">
-              คลังผ้า 
-          </a>
-          <a routerLink="./purchase" class="nav-link">
-            รายการสั่งซื้อผ้าเข้าใหม่
-        </a>
-          <a routerLink="./requisition" class="nav-link">
-            เบิกผ้า 
-        </a>
-      </section>
-  </nav> -->
+   
   </div>
 
 </clr-main-container>

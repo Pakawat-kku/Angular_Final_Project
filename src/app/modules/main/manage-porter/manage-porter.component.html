@@ -1,0 +1,29 @@
+<h2 class="title">จัดการผู้จ่าย</h2>
+<form clrForm >
+        <div class="clr-row clr-align-items-center">
+            <div class="clr-col-1">
+                <label>ค้นหา</label>
+            </div>
+            <input class="clr-col-3" placeholder="รหัสการเบิก" name="searchRequisitionId" [(ngModel)]="searchRequisitionId" />            <!-- <input class="clr-col-3" placeholder="วันเวลา" name="searchDate" [(ngModel)]="searchDate" /> -->
+            <div class="clr-col-1">
+                <button type="button" (click)="searchReq(searchRequisitionId)" class="btn btn-primary">ค้นหา</button>
+            </div>
+        </div>
+    </form>
+<div class="limit-height">
+<clr-datagrid [(clrDgSelected)]="selected" class="datagrid-compact clr-col-8" *ngIf="userList">
+        <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
+        <clr-dg-column>ชื่อ</clr-dg-column>
+        <clr-dg-column>นามสกุล</clr-dg-column>     
+        <clr-dg-column>นามสกุล</clr-dg-column> 
+        <clr-dg-row id="green" *clrDgItems="let item of userList" >
+            <clr-dg-cell>{{item.firstname}}</clr-dg-cell>
+            <clr-dg-cell>{{item.lastname}}</clr-dg-cell>
+            <clr-dg-cell> 
+                <button class="btn btn-success-outline btn-sm" routerLink="/main/requisition-bill-detail/{{item.requisitionCode}}">
+                ข้อมูลการเบิก
+                </button>
+            </clr-dg-cell>
+        </clr-dg-row>
+</clr-datagrid>
+</div>

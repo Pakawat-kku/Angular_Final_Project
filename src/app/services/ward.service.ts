@@ -46,4 +46,11 @@ export class WardService {
         .then(result => result)
         .catch(err => err);
   }
+
+  printPdfWard() {
+    return this.http.get(`${this.apiUrl}/test/ward`, {})
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
 }

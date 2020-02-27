@@ -2,9 +2,9 @@
 <form clrForm >
         <div class="clr-row clr-align-items-center">
             <div class="clr-col-1">
-                <label>search</label>
+                <label>ค้นหา</label>
             </div>
-            <input class="clr-col-3" placeholder="wardName" name="searchWard" [(ngModel)]="searchWard" />
+            <input class="clr-col-3" placeholder="ชื่อวอร์ด" name="searchWard" [(ngModel)]="searchWard" />
             <!-- <input class="clr-col-3" placeholder="วันเวลา" name="searchDate" [(ngModel)]="searchDate" /> -->
             <div class="clr-col-1">
                 <button type="button" (click)="search(searchWard)" class="btn btn-primary">ค้นหา</button>
@@ -67,3 +67,4 @@
                 [disabled]="!currentRow.wardName">บันทึก</button>
         </div>
 </clr-modal>
+<!-- <button class="btn btn-success" (click)="onPdf()">ออกรายงานวอร์ด</button> -->

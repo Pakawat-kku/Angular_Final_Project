@@ -2,32 +2,32 @@
 <form clrForm >
         <div class="clr-row clr-align-items-center">
             <div class="clr-col-1">
-                <label>search</label>
+                <label>ค้นหา</label>
             </div>
-            <input class="clr-col-3" placeholder="wardName" name="searchWard" [(ngModel)]="searchWard" />
-            <!-- <input class="clr-col-3" placeholder="วันเวลา" name="searchDate" [(ngModel)]="searchDate" /> -->
+            <input class="clr-col-3" placeholder="รหัสการเบิก" name="searchRequisitionId" [(ngModel)]="searchRequisitionId" />            <!-- <input class="clr-col-3" placeholder="วันเวลา" name="searchDate" [(ngModel)]="searchDate" /> -->
             <div class="clr-col-1">
-                <button type="button" (click)="search(searchWard)" class="btn btn-primary">ค้นหา</button>
+                <button type="button" (click)="searchReq(searchRequisitionId)" class="btn btn-primary">ค้นหา</button>
             </div>
-            <div class="btn-group" >
-                <button class="btn" (click)="showReqWaitAdmin()()">รออนุมัติ</button>
-                <button class="btn btn-success-outline" (click)="showReqWaitAdminApprove()">อนุมัติแล้ว</button>
-                <button class="btn btn-danger-outline"  (click)="showReqWaitAdminNotApprove()">ไม่อนุมัติ</button>
-            </div>
-
         </div>
     </form>
-    
-<div class="limit-height">
-<clr-datagrid class="datagrid-compact clr-col-8" *ngIf="showReqAdmin">
-        <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
+ <div  style = "position:relative; margin-left: 40%;" class="btn-group" >
+        <button class="btn" (click)="showReqWaitAdmin()()">รออนุมัติ</button>
+        <button class="btn btn-success-outline" (click)="showReqWaitAdminApprove()">อนุมัติแล้ว</button>
+        <button class="btn btn-danger-outline"  (click)="showReqWaitAdminNotApprove()">ไม่อนุมัติ</button>
+ </div>
+ <button type="button" class="btn btn-outline" (click)="moAllApprove()">อนุมัติตามรายการที่เลือก</button>
 
+<div class="limit-height">
+<clr-datagrid [(clrDgSelected)]="selected" class="datagrid-compact clr-col-8" *ngIf="showReqAdmin">
+        <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
+        <clr-dg-column>รหัสการเบิก</clr-dg-column>
         <clr-dg-column>วอร์ดที่เบิก</clr-dg-column>
         <clr-dg-column [clrDgField]="'day'">วันที่เบิก</clr-dg-column>
         <clr-dg-column>เวลาที่ยื่นคำร้องเบิกผ้า</clr-dg-column>
         <clr-dg-column>การอนุมัติ</clr-dg-column>
         <clr-dg-column>ดูข้อมูลการบิก</clr-dg-column>   
-        <clr-dg-row id="green" *ngFor="let item of showReqAdmin" >
+        <clr-dg-row id="green" *clrDgItems="let item of showReqAdmin" [clrDgItem]="item">
+            <clr-dg-cell>{{item.requisitionCode}}</clr-dg-cell>
             <clr-dg-cell>{{item.wardName}}</clr-dg-cell>
             <clr-dg-cell>{{item.day}}</clr-dg-cell>
             <clr-dg-cell>{{item.time}}</clr-dg-cell>
@@ -54,23 +54,17 @@
 </clr-datagrid>
 </div>
 
-
-<!-- <clr-modal *ngIf="showReqWaitDetailAdmin" [(clrModalOpen)]="modalEdit">
+<clr-modal [(clrModalOpen)]="modalAllApprove">
     <div class="modal-body">
-            <h2 style="text-align: center;"><b>รายการผ้าที่เบิก {{requisitionCode}}</b></h2>
-        <clr-datagrid >
-                <clr-dg-column>รายการผ้า</clr-dg-column>
-                <clr-dg-column>จำนวน</clr-dg-column> 
-                <clr-dg-row  *clrDgItems="let items of showReqWaitDetailAdmin" >
-                    <clr-dg-cell>{{items.clothName}}</clr-dg-cell>
-                    <clr-dg-cell>{{items.amountCloth}}</clr-dg-cell>
-                    
-                </clr-dg-row>
-        </clr-datagrid>
-    <div class="modal-footer">        
-        <button type="button" class="btn btn-primary" (click)="approve(requisitionCode)">อนุมัติ</button>
-        <button type="button" class="btn btn-danger" (click)="notApprove()">ไม่อนุมัติ</button>
-        <button type="button" class="btn btn-outline" (click)="modalEdit = false">ปิด</button>
+    <h3 class="modal-title">วอร์ดที่ต้องการอนุมัติ</h3>
+    <clr-datagrid *ngIf="selected" >
+        <clr-dg-column >ID</clr-dg-column>
+        <clr-dg-column >ชื่อ</clr-dg-column>
+        <clr-dg-row *ngFor="let item of selected;">
+            <clr-dg-cell>{{ item.requisitionCode }}</clr-dg-cell>
+            <clr-dg-cell>{{ item.wardName }}</clr-dg-cell>
+        </clr-dg-row>
+    </clr-datagrid>
+    <button type="button" class="btn btn-outline" (click)="allApprove()">อนุมัติ</button>
     </div>
-    </div>
-</clr-modal> -->
+</clr-modal>

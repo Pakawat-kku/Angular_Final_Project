@@ -1,29 +1,21 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { RequisitionService } from './../../../services/requisition.service';
+import { Component, OnInit } from '@angular/core';
 import { StockService } from './../../../services/stock.service';
-import { throwError, fromEvent } from 'rxjs';
+import { WareHouseService } from './../../../services/wareHouse.service';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
 import { NgForm, FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-import { AuthenticationService } from '../../../services//Authentication.service';
-import { UsersService } from '../../../services/users.service';
-import * as jwt_decode from 'jwt-decode';
 import { InputArray, InputDummy, InputPurchase } from './inputArray';
-import { Select2OptionData } from 'ng2-select2';
-// import { endWith } from 'rxjs/operators';
-// import { LocaleHelperService } from '@clr/angular/forms/datepicker/providers/locale-helper.service';
-// import { LoginModule } from '../../login/login.module';
+import { AvailableService } from './../../../services/available.service';
 
 @Component({
-  selector: 'app-requisition',
-  templateUrl: './requisition.component.html',
-  styleUrls: ['./requisition.component.scss'],
-
+  selector: 'app-move-warehouse',
+  templateUrl: './move-warehouse.component.html',
+  styleUrls: ['./move-warehouse.component.scss']
 })
-export class RequisitionComponent implements OnInit, OnDestroy {
+export class MoveWarehouseComponent implements OnInit {
   currentUser: any;
   currentUserSubscription: Subscription;
   decoded: any;
@@ -47,7 +39,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
   modalBill = false;
   bill: any;
   regWaitDetail: any;
-  exampleData: Array<Select2OptionData>;
+  // exampleData: Array<Select2OptionData>;
   time: string;
   value: string[];
   unNormal = 0;
@@ -59,28 +51,28 @@ export class RequisitionComponent implements OnInit, OnDestroy {
   string = '';
   cloth: any;
 
-  constructor(
+  constructor (
     private alertService: AlertService,
-    private stockService: StockService,
-    private requisitionService: RequisitionService,
     private router: Router,
-    private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService,
-    private userService: UsersService,
+    private stockService: StockService,
+    private wareHouseService: WareHouseService,
+    private availableService: AvailableService,
 
-  ) {
-    this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
-      this.currentUser = users;
-      this.decoded = jwt_decode(users.token);
-      this.exampleData = [];
-
-    });
-  }
+  ) { }
 
   async ngOnInit() {
     moment.locale('th');
     this.getDate();
     await this.getCloth();
+    for (const item of this.purchaseLists) {
+      const result: any = await this.wareHouseService.getWareHouse(item.clothId);
+      console.log('result', result.rows);
+        if (result.rows.length === 0) {
+          item.warehouseAmount = 0;
+        } else {
+          item.warehouseAmount = result.rows[0].warehouseAmount;
+        }
+    }
     // this.exampleData = this.clothList;
   }
 
@@ -92,10 +84,10 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     console.log('dates', this.dates);
 
     this.time = moment().format('HH:mm');
-    this.reqId = this.decoded.Ward_wardId + moment().format('YYYYMMDDHHmmss');
+    // this.reqId = this.decoded.Ward_wardId + moment().format('YYYYMMDDHHmmss');
   }
 
-  onClickSubmit(formData) {
+ async onClickSubmit(formData) {
     console.log(formData);
     if (formData.amount < 1) {
       this.alertService.error('จำนวนรายการผ้าที่สั่งซื้อไม่ถูกต้อง');
@@ -103,11 +95,6 @@ export class RequisitionComponent implements OnInit, OnDestroy {
       this.amount = formData.amount;
       for (let i = 0; i < this.amount; i++) {
         const arrayId = new InputArray();
-        // this.purchaseLists.push({
-        //   clothId: '1',
-        //   amount: null,
-        //   price: null
-        // });
         this.purchaseLists.push({
           clothId: '1',
           amountCloth: null,
@@ -117,7 +104,17 @@ export class RequisitionComponent implements OnInit, OnDestroy {
       }
       console.log('arraylist', this.arrayList);
     }
+    for (const item of this.purchaseLists) {
+      const result: any = await this.wareHouseService.getWareHouse(item.clothId);
+      console.log('result', result.rows);
+        if (result.rows.length === 0) {
+          item.warehouseAmount = 0;
+        } else {
+          item.warehouseAmount = result.rows[0].warehouseAmount;
+        }
+    }
     this.amount = 0;
+
   }
 
   async getCloth() {
@@ -136,6 +133,15 @@ export class RequisitionComponent implements OnInit, OnDestroy {
         amountCloth: null,
 
       });
+    }
+    for (const item of this.purchaseLists) {
+      const result: any = await this.wareHouseService.getWareHouse(item.clothId);
+      console.log('result', result.rows);
+        if (result.rows.length === 0) {
+          item.warehouseAmount = 0;
+        } else {
+          item.warehouseAmount = result.rows[0].warehouseAmount;
+        }
     }
   }
 
@@ -157,9 +163,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     console.log('this.purchaseLists', this.purchaseLists);
 
     let unNormal = 0;
-    // let repeat = 0;
-    // let dumNum = 0;
-    // let purchNum = 0;
+
 
     for (let i = 0; i < this.purchaseLists.length; i++) {
       console.log('this.purchaseLists.amountCloth', this.purchaseLists[i].amountCloth);
@@ -173,33 +177,6 @@ export class RequisitionComponent implements OnInit, OnDestroy {
       }
     }
     console.log('this.unRepeatString' , this.unRepeatString);
-
-
-    // for (let i = 0; i < this.purchaseLists.length; i++) {
-    //   this.dummyLists[i] = this.purchaseLists[i].clothId;
-    // }
-
-    //   purchNum = _.size(this.purchaseLists);
-    //   dumNum =  _.size(_.uniq(this.dummyLists));
-
-    //   console.log('purchNum', purchNum );
-    //   console.log('dumNum' , dumNum);
-    //   console.log('dummylist', this.dummyLists );
-    //   console.log('uniq' , _.uniq(this.dummyLists));
-
-    //     if (dumNum < purchNum) {
-    //       console.log('มีผ้าซ้ำ');
-    //       unRepeat = unRepeat + 1;
-    //       console.log('this.unRepeat', unRepeat);
-    //     } else {
-    //       console.log('ไม่มีผ้าซ้ำ');
-
-    //     }
-
-    //   console.log('intersection', _.intersection(_.uniq(this.dummyLists) , this.dummyLists));
-    //   console.log(unNormal);
-    //   console.log(unRepeat);
-
 
     let k = [];
 
@@ -230,6 +207,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
         this.cloth = result.rows;
         for (const item of this.cloth) {
           for (const items of _.uniq(k)) {
+            // tslint:disable-next-line: radix
             if (item.clothId === parseInt(items)) {
               console.log('item.clothId', item.clothName);
               this.string += item.clothName + ' ';
@@ -247,34 +225,45 @@ export class RequisitionComponent implements OnInit, OnDestroy {
 
       try {
 
-        const obj = {
-          requisitionCode: this.reqId,
-          reqDate: this.dates,
-          status: '0',
-          Users_userId: this.decoded.userId,
-          Ward_wardId: this.decoded.Ward_wardId
-        };
-        console.log('obj', obj);
-
-        const result: any = await this.requisitionService.insertRealReq(obj);
-
         for (const row of this.purchaseLists) {
-          // if (this.unNormal === 0) {
 
-          const obj1 = {
-            // id: 0,
-            amountCloth: row.amountCloth,
-            Cloth_clothId: row.clothId,
-            Requisition_requisitionCode: this.reqId,
-            requisitionDetailStatus: '0',
-            amountClothReal: row.amountCloth
+          const result2: any = await this.wareHouseService.getWareHouse(row.clothId);
+          const result4: any = await this.availableService.getAvailable(row.clothId);
+          console.log('result2', result2);
+          console.log('result4', result4);
+          if (result4.rows.length === 0) {
+            const obj1 = {
+              Cloth_clothId: row.clothId,
+              AvailableAmount: row.amountCloth + 0,
+            };
+            console.log('obj1', obj1);
+            const result: any = await this.availableService.insertAvailable(obj1);
 
-          };
-          console.log('obj1', obj1);
-          const dataInsert: any = this.requisitionService.insertReq(obj1);
+            const obj3 = {
+              warehouseAmount: result2.rows[0].warehouseAmount - row.amountCloth,
+            };
 
-          this.alertService.reqSuccess('บันทึกข้อมูลเรียบร้อย');
-          await this.router.navigate(['main/requisition-bill-detail/' + this.reqId]);
+            console.log('obj3', obj3);
+            const result3: any = await this.wareHouseService.updateWareHouse(row.clothId , obj3);
+
+          } else {
+
+            const obj2 = {
+              AvailableAmount: row.amountCloth + result4.rows[0].AvailableAmount,
+            };
+            console.log('obj2', obj2);
+            const result: any = await this.availableService.updateAvailable(row.clothId , obj2);
+
+            const obj3 = {
+              warehouseAmount: result2.rows[0].warehouseAmount - row.amountCloth,
+            };
+
+            console.log('obj3', obj3);
+            const result3: any = await this.wareHouseService.updateWareHouse(row.clothId , obj3);
+
+          }
+          this.alertService.reqSuccess('นำผ้าเข้าส่วนกลางสำเร็จ');
+          await this.router.navigate(['main/available']);
         }
 
       } catch (error) {
@@ -284,9 +273,20 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-    this.currentUserSubscription.unsubscribe();
+
+  async checkValue() {
+    console.log('checkValue' , this.purchaseLists);
+    for (const item of this.purchaseLists) {
+      const result: any = await this.wareHouseService.getWareHouse(item.clothId);
+      console.log('result', result.rows);
+        if (result.rows.length === 0) {
+          item.warehouseAmount = 0;
+        } else {
+          item.warehouseAmount = result.rows[0].warehouseAmount;
+        }
+    }
+    console.log('result.rows', this.purchaseLists);
+
   }
 
 }

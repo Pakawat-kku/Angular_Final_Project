@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import * as moment from 'moment';
 import { AlertService } from 'src/app/services/alert.service';
-
+import { WareHouseService } from './../../../services/wareHouse.service';
 import { RequisitionService } from './../../../services/requisition.service';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../../services//Authentication.service';
@@ -45,6 +45,8 @@ export class RequisitionBillDetailComponent implements OnInit {
     private router: Router,
     private requisitionService: RequisitionService,
     private authenticationService: AuthenticationService,
+    private wareHouseService: WareHouseService,
+
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
@@ -158,16 +160,48 @@ export class RequisitionBillDetailComponent implements OnInit {
       console.log('_.chunk(_.takeRight(Object.values(formData), minus))', _.chunk(_.takeRight(Object.values(formData), minus)));
 
     for (const item of _.chunk(_.takeRight(Object.values(formData), minus))) {
+      const result1: any = await this.wareHouseService.getWareHouse(_.take(this.head[sum]));
+      if (result1.rows[0].warehouseAmount <=  item[0]) {
+        console.log('ขนาดสต็อค');
+
+      } else {
+
+        console.log('dddddd');
+
+
+      }
+    }
+
+    for (const item of _.chunk(_.takeRight(Object.values(formData), minus))) {
         console.log('item' , item[0]);
         console.log('[0]' , _.take(this.head[sum]));
         console.log('[1]' , _.tail(this.head[sum]));
+        const result1: any = await this.wareHouseService.getWareHouse(_.take(this.head[sum]));
+
+         // ส่วนของการ update เข้า warehouse
+        let k = 0;
+        //  console.log('result.rows', result.rows);
+
+        //  if (result.rows.length === 0) {
+        //    const data1 = {
+        //      Cloth_clothId: row.clothId,
+        //      warehouseAmount: row.amount,
+        //    };
+        //    const result1: any = await this.wareHouseService.insertWareHouse(data1);
+        //  } if (result.rows.length !== 0) {
+
+          k = result1.rows[0].warehouseAmount - item[0];
+           const data2 = {
+             warehouseAmount: k,
+           };
+           const result2: any = await this.wareHouseService.updateWareHouse(_.take(this.head[sum]), data2);
+
+         // ส่วนของการ update เข้า warehouse ถึงตรงนี้
         const result: any = await this.requisitionService.updateAmountReal(_.take(this.head[sum]), this.requisitionCode ,  item[0]);
         console.log(result);
-      sum = sum + 1;
-      console.log('sum', sum);
+        sum = sum + 1;
+        console.log('sum', sum);
       }
-
-
           try {
             const result: any = await this.requisitionService.approveReq(this.requisitionCode);
             if (result.rows) {

@@ -75,7 +75,7 @@
 <div *ngIf="weightList && weightList.length">
     <div *ngFor="let item of weightList; let i = index">
         {{i+1}} )
-        <b> น้ำหนักผ้าสะอาด : </b><input type="number" name="weightCloth" [(ngModel)]="item.weightCloth" /> กก. /
+        <b> น้ำหนักผ้าสะอาด : </b><input type="number" name="weightCloth" [(ngModel)]="item.weightCloth" (change)="calculateWeight()" /> กก. /
         <b> น้ำหนักรถ : </b><input type="number" name="weightCar" [(ngModel)]="item.weightCar"
             (change)="calculateWeight()" /> กก.
         <!-- <select clrSelect name="company" [(ngModel)]="company">
