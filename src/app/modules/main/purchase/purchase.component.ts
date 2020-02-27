@@ -3,11 +3,11 @@ import { AlertService } from './../../../services/alert.service';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import { InputArray, InputPurchase } from './inputArray';
 import { Select2OptionData } from 'ng2-select2';
 import { PurchaseService } from 'src/app/services/purchase.service';
 import { Router } from '@angular/router';
 import { WareHouseService } from './../../../services/wareHouse.service';
+import { InputArray } from './inputArray';
 
 @Component({
   selector: 'app-purchase',
@@ -20,10 +20,11 @@ export class PurchaseComponent implements OnInit {
   amount: Number;
   date: string;
   day: string;
+  dummy: any = [];
   pee: string;
-  totalPrice: number = 0;
+  totalPrice = 0;
   purchaseId: number;
-  totalPricePerUnit: number = 0;
+  totalPricePerUnit = 0;
   arrayList: Array<InputArray> = [];
   public clothList: Array<Select2OptionData>;
   public clothLists: Array<Select2OptionData>;
@@ -35,7 +36,7 @@ export class PurchaseComponent implements OnInit {
   k: number = 0;
   constructor(
     private router: Router,
-    private alert: AlertService,
+    private alertService: AlertService,
     private stockService: StockService,
     private purchaseService: PurchaseService,
     private wareHouseService: WareHouseService,
@@ -73,7 +74,7 @@ export class PurchaseComponent implements OnInit {
   onClickSubmit(formData) {
     // console.log(formData);
     if (formData.amount < 1) {
-      this.alert.error('จำนวนรายการผ้าที่สั่งซื้อไม่ถูกต้อง');
+      this.alertService.error('จำนวนรายการผ้าที่สั่งซื้อไม่ถูกต้อง');
     } else {
       this.amount = formData.amount;
       for (let i = 0; i < this.amount; i++) {
@@ -99,18 +100,16 @@ export class PurchaseComponent implements OnInit {
     }
   }
 
-  async addNewRow(rowNo) {
-    if (rowNo + 1 === this.purchaseLists.length && this.purchaseLists[rowNo].amount > 0 && this.purchaseLists[rowNo].price > 0) {
-      await this.purchaseLists.push({
-        clothId: '1',
-        amount: null,
-        price: null
-      });
-    }
+  async addNewRow() {
+    await this.purchaseLists.push({
+      clothId: '1',
+      amount: null,
+      price: null
+    });
   }
 
   async onDelete(rowNo) {
-    const result: any = await this.alert.confirm('ยืนยันการลบ ?');
+    const result: any = await this.alertService.confirm('ยืนยันการลบ ?');
     if (result.value) {
       const data: any = [];
       this.purchaseLists.forEach((row, index) => {
@@ -125,35 +124,60 @@ export class PurchaseComponent implements OnInit {
 
   async onSave(data) {
     console.log('check chong', this.purchaseLists);
-    let saveData: any = [];
-    for (let row of this.purchaseLists) {
-      this.totalPricePerUnit = 0;
-      if (row.amount > 0 && row.price > 0) {
-        await saveData.push(row);
-        this.totalPricePerUnit = row.amount * row.price;
-        this.totalPrice += this.totalPricePerUnit;
+
+    const saveData: any = [];
+    let unRepeat = 0;
+    let dumNum = 0;
+    let purchNum = 0;
+    let val = 0;
+    let k = [];
+    let m = 0;
+
+    // tslint:disable-next-line: no-shadowed-variable
+    for (let i = 0; i < this.purchaseLists.length - 1; i++) {
+      for (let j = i + 1; j < this.purchaseLists.length; j++) {
+        if (this.purchaseLists[i].clothId === this.purchaseLists[j].clothId) {
+          k[m] = this.purchaseLists[j].clothId;
+          m++;
+        }
       }
     }
-    await this.getDate();
-    // console.log('save data', saveData);
-    // console.log('save data price', this.totalPrice);
-    const obj = {
-      purchaseId: 0,
-      totalPrice: this.totalPrice,
-      purchaseDate: this.date
-    };
-    try {
-      const result: any = await this.purchaseService.insertPurchase(obj);
-      if (result.rows) {
-        // console.log(result.rows);
+    console.log(k);
+
+    let i = 0;
+    for (const row of this.purchaseLists) {
+      i++;
+      if (row.amount === null || row.amount === undefined || row.amount === '') {
+        this.alertService.error('รายการที่ ' + i + ' ไม่มีจำนวนผ้า');
+        val++;
+      } else if (row.price === null || row.price === undefined || row.price === '') {
+        this.alertService.error('รายการที่ ' + i + ' ไม่มีราคาผ้า');
+        val++;
+      } else if (row.amount <= 0) {
+        this.alertService.error('รายการที่ ' + i + ' จำนวนผิดพลาด');
+        val++;
+      } else if (row.pricw <= 0) {
+        this.alertService.error('รายการที่ ' + i + ' ราคาผิดพลาด');
+        val++;
       }
-      const getPur: any = await this.purchaseService.getPurchase(this.totalPrice, this.date);
-      if (getPur.rows) {
-        // console.log('get', getPur.rows[0].purchaseId);
-        this.purchaseId = getPur.rows[0].purchaseId;
-        for (let row of this.purchaseLists) {
+    }
+    if (val === 0) {
+      // tslint:disable-next-line: no-shadowed-variable
+      for (let i = 0; i < this.purchaseLists.length; i++) {
+        this.dummy[i] = this.purchaseLists[i].clothId;
+      }
+      purchNum = _.size(this.purchaseLists);
+      dumNum = _.size(_.uniq(this.dummy));
+      if (dumNum < purchNum) {
+        unRepeat = unRepeat + 1;
+      }
+      if (unRepeat !== 0) {
+        this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำ');
+      } else {
+        for (const row of this.purchaseLists) {
           this.totalPricePerUnit = 0;
           if (row.amount > 0 && row.price > 0) {
+            await saveData.push(row);
             this.totalPricePerUnit = row.amount * row.price;
             // console.log('total price', this.totalPricePerUnit);
             const data = {
@@ -189,15 +213,55 @@ export class PurchaseComponent implements OnInit {
             const dataInsert: any = await this.purchaseService.insertPurchaseDetail(data);
             if (dataInsert.rows) {
               // console.log('check', dataInsert.rows);
-            }
+            this.totalPrice += this.totalPricePerUnit;
           }
         }
-        this.alert.success('บันทึกข้อมูลเรียบร้อย');
-        this.router.navigate(['main/report-purchase-detail/' + this.purchaseId]);
+        await this.getDate();
+        // console.log('save data', saveData);
+        // console.log('save data price', this.totalPrice);
+        const obj = {
+          purchaseId: 0,
+          totalPrice: this.totalPrice,
+          purchaseDate: this.date
+        };
+        try {
+          const result: any = await this.purchaseService.insertPurchase(obj);
+          if (result.rows) {
+            // console.log(result.rows);
+          }
+          const getPur: any = await this.purchaseService.getPurchase(this.totalPrice, this.date);
+          if (getPur.rows) {
+            // console.log('get', getPur.rows[0].purchaseId);
+            this.purchaseId = getPur.rows[0].purchaseId;
+            for (const row of this.purchaseLists) {
+              this.totalPricePerUnit = 0;
+              if (row.amount > 0 && row.price > 0) {
+                this.totalPricePerUnit = row.amount * row.price;
+                // console.log('total price', this.totalPricePerUnit);
+                // tslint:disable-next-line: no-shadowed-variable
+                const data = {
+                  id: 0,
+                  amountCloth: row.amount,
+                  pricePerUnit: row.price,
+                  totalPrice: this.totalPricePerUnit,
+                  Purchase_purchaseId: this.purchaseId,
+                  Cloth_clothId: row.clothId
+                };
+                // console.log('obj', data);
+                const dataInsert: any = await this.purchaseService.insertPurchaseDetail(data);
+                if (dataInsert.rows) {
+                  // console.log('check', dataInsert.rows);
+                }
+              }
+            }
+            this.alertService.success('บันทึกข้อมูลเรียบร้อย');
+            this.router.navigate(['main/report-purchase-detail/' + this.purchaseId]);
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
-    } catch (error) {
-      console.log(error);
     }
   }
 }
-
+}

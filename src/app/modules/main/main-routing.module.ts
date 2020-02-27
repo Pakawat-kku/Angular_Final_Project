@@ -34,6 +34,15 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import { AvailableComponent } from './available/available.component';
 import { MoveWarehouseComponent } from './move-warehouse/move-warehouse.component';
 import { ManagePorterComponent } from './manage-porter/manage-porter.component';
+import { ImportClothAmountComponent } from './import-cloth-amount/import-cloth-amount.component';
+import { ImportClothAmountHosComponent } from './import-cloth-amount-hos/import-cloth-amount-hos.component';
+import { OverviewDamageComponent } from './overview-damage/overview-damage.component';
+import { OverviewDamageDetailComponent } from './overview-damage-detail/overview-damage-detail.component';
+import { OverviewWithdrawAdminComponent } from './overview-withdraw-admin/overview-withdraw-admin.component';
+import { OverviewWithdrawAdminDetailComponent } from './overview-withdraw-admin-detail/overview-withdraw-admin-detail.component';
+import { RepairComponent } from './repair/repair.component';
+import { RepairDetailComponent } from './repair-detail/repair-detail.component';
+import { AuthorityComponent } from './authority/authority.component';
 
 // import { WithdrawService } from 'src/app/services/withdraw.service';
 
@@ -54,13 +63,20 @@ const routes: Routes = [
       { path: 'requisition-bill-detail/:requisitionCode', component: RequisitionBillDetailComponent },
       { path: 'requisition-detail-admin', component: RequisitionDetailAdminComponent },
       { path: 'stock', component: StockComponent },
+      { path: 'authority', component: AuthorityComponent },
       { path: 'ward', component: WardComponent },
+      { path: 'repair', component: RepairComponent },
+      { path: 'repair-detail/:clothId', component: RepairDetailComponent },
       { path: 'weight', component: WeightComponent },
       { path: 'weight-in-hos/:exportClothCode', component: WeightInHosComponent },
       { path: 'weight-in-company', component: WeightInCompanyComponent },
       { path: 'purchase', component: PurchaseComponent },
       { path: 'report-purchase', component: ReportPurchaseComponent },
       { path: 'overview-withdraw', component: OverviewWithdrawComponent },
+      { path: 'overview-withdraw-admin', component: OverviewWithdrawAdminComponent },
+      { path: 'overview-withdraw-admin-detail/:withdrawCode', component: OverviewWithdrawAdminDetailComponent },
+      { path: 'overview-damage', component: OverviewDamageComponent },
+      { path: 'overview-damage-detail/:clothId', component: OverviewDamageDetailComponent },
       { path: 'overview-import-cloth', component: OverviewImportClothComponent },
       { path: 'overview-import-cloth-detail/:importCode', component: OverviewImportClothDetailComponent },
       { path: 'withdraw-history', component: WithdrawHistoryComponent },
@@ -69,6 +85,8 @@ const routes: Routes = [
       { path: 'report-purchase-detail/:purchaseId', component: ReportPurchaseDetailComponent },
       { path: 'export-cloth', component: ExportClothComponent },
       { path: 'export-cloth-detail', component: ExportClothDetailComponent },
+      { path: 'import-cloth-amount/:importClothCode', component: ImportClothAmountComponent },
+      { path: 'import-cloth-amount-hos/:importClothCode', component: ImportClothAmountHosComponent },
       { path: 'export-cloth-bill/:exportClothCode', component: ExportClothBillComponent },
       { path: 'warehouse', component: WarehouseComponent },
       { path: 'available', component: AvailableComponent },

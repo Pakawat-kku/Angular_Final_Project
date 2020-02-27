@@ -8,8 +8,12 @@
 <b>เบิกจากวอร์ด : {{decoded.wardName}}</b><br>
 <b>วันที่ : {{date}} {{year}}</b><br>
 <b>เวลา : {{time}}</b>
+<div *ngIf="hour>9 && min >0" style="color: red;">
+<b>*** หลังเวลา 9.00 น. กรุณาไปรับผ้าที่เบิกได้ที่งานซักฟอก ***</b>
+<br><br>
+</div>
 <form #purchase="ngForm" (ngSubmit)="onClickSubmit(purchase.value)">
-    
+
     <b>เพิ่มจำนวนช่องรายการ </b>
     <input type="number" placeholder="ex. 12" name="amount" ngModel />
     <input type="submit" value="ตกลง" class="btn btn-sm btn-primary-outline">
@@ -20,11 +24,11 @@
     <div *ngFor="let item of purchaseLists; let i = index">
         {{i+1}} )
         <b> รายการผ้า : </b>
-        
+
         <!-- <select2 [data]="exampleData" ></select2>  -->
-    <!-- <ng-select2 [(ngModel)]="exampleData.clothId" [data]="exampleData" [placeholder]="'Please select a fruit...'">
+        <!-- <ng-select2 [(ngModel)]="exampleData.clothId" [data]="exampleData" [placeholder]="'Please select a fruit...'">
     </ng-select2> -->
-   
+
 
 
         <div class="clr-select-wrapper">
@@ -32,7 +36,7 @@
                 <option *ngFor="let j of clothList" value="{{j.clothId}}">
                     {{ j.clothName }}
                 </option>
-            </select> 
+            </select>
         </div>
 
         <!-- <b> จำนวน : </b><input type="number" name="amountCloth" [(ngModel)]="item.amountCloth" (change)="addNewRow(i)" /> -->

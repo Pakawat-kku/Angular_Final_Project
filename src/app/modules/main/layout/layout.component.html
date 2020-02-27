@@ -10,17 +10,11 @@
         <clr-icon shape="home"></clr-icon>
       </a>
     </div>
-    <!-- <div class="branding">
-      <span class="title username">{{decoded.firstname}} {{decoded.lastname}} (
-        {{decoded.positionName}} )</span>
-    </div> -->
     <div class="header-actions">
       <clr-dropdown>
         <button class="nav-icon-text" clrDropdownTrigger>
-          <span class="nav-text"  *ngIf="decoded.position==2">{{decoded.wardName}} (วอร์ด)</span>
-          <span class="nav-text"  *ngIf="decoded.position==1">{{decoded.firstname}} {{decoded.lastname}} (ผู้ดูแลระบบ)</span>
-          <span class="nav-text"  *ngIf="decoded.position==3">{{decoded.firstname}} {{decoded.lastname}} (พนักงานจ่าย)</span>
-          <span class="nav-text"  *ngIf="decoded.position==4">{{decoded.firstname}} {{decoded.lastname}} (พนักงานชั่งน้ำหนัก)</span>
+          <span class="title username">{{decoded.firstname}} {{decoded.lastname}} (
+            {{decoded.positionName}}{{decoded.wardName}} ) &nbsp;</span>
           <clr-icon shape="user" size="24"></clr-icon>
           &nbsp; 
           <clr-icon shape="caret down" size="20"></clr-icon>
@@ -44,56 +38,6 @@
         <clr-icon shape="home" clrVerticalNavIcon></clr-icon>
         หน้าแรก
       </a>
-      <div *ngIf="decoded.status_approve == 'true'">
-        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./stock" routerLinkActive="active">
-          <clr-icon shape="store" clrVerticalNavIcon></clr-icon>
-          ข้อมูลรายการผ้า
-        </a>
-        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./purchase" routerLinkActive="active">
-          <clr-icon shape="add-text" clrVerticalNavIcon></clr-icon>
-          รายการสั่งซื้อผ้าเข้าใหม่
-        </a>
-        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./report-purchase" routerLinkActive="active">
-          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
-          รายงานรายการสั่งซื้อผ้า
-        </a>
-        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./requisition-detail-admin"
-          routerLinkActive="active">
-          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
-          รายการเบิกผ้าเข้าของวอร์ด
-        </a>
-        <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition" routerLinkActive="active">
-          <clr-icon shape="note" clrVerticalNavIcon></clr-icon>
-          เบิกผ้า
-        </a>
-        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./ward" routerLinkActive="active">
-          <clr-icon shape="note" clrVerticalNavIcon></clr-icon>
-          วอร์ด
-        </a>
-        <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition-detail" routerLinkActive="active">
-          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
-          รายการเบิกผ้า
-        </a>
-        <a clrVerticalNavLink *ngIf="decoded.position==3" routerLink="./overview-withdraw" routerLinkActive="active">
-          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
-          รายการเบิกผ้าทั้งหมด
-        </a>
-        <a clrVerticalNavLink *ngIf="decoded.position==3" routerLink="./withdraw-history" routerLinkActive="active">
-          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
-          รายการเบิกผ้าที่เลือก
-        </a>
-        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./user" routerLinkActive="active">
-          <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
-          จัดการผู้ใช้งาน
-        </a>
-        <a clrVerticalNavLink *ngIf="decoded.position==4" routerLink="./export-cloth" routerLinkActive="active">
-          <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
-          ชั่งน้ำหนักผ้าส่งบริษัท
-        </a>
-        <a clrVerticalNavLink *ngIf="decoded.position==4" routerLink="./export-cloth-detail" routerLinkActive="active">
-          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
-          ประวัติชั่งน้ำหนักผ้า
-        </a>
         <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./warehouse" routerLinkActive="active">
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
           คลังผ้า

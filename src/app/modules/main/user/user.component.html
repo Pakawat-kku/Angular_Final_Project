@@ -52,8 +52,8 @@
         <clr-dg-cell *ngIf="item.status_approve=='false'">-</clr-dg-cell>
         <clr-dg-cell>
             <button class="btn btn-primary-outline" *ngIf="item.status_approve=='true'" (click)="onEdit(item)" disabled>แก้ไขข้อมูลบัญชี</button><br>
-            <button class="btn btn-danger-outline" *ngIf="item.status_approve=='true' && item.positionId!=1" (click)="onCancel(item.username)" >ยกเลิกบัญชี</button><br>
-            <button class="btn btn-success" *ngIf="item.status_approve=='false'" (click)="onApprove(item.username)" >อนุมัติบัญชี</button><br>
+            <button class="btn btn-danger-outline" *ngIf="item.status_approve=='true' && item.positionId!=1" (click)="onCancel(item.username,item.userId)" >ยกเลิกบัญชี</button><br>
+            <button class="btn btn-success" *ngIf="item.status_approve=='false'" (click)="onAdd(item)" >อนุมัติบัญชี</button><br>
         </clr-dg-cell>
 
     </clr-dg-row>
@@ -68,33 +68,21 @@
 </clr-datagrid>
 
 <clr-modal *ngIf="currentRow" [(clrModalOpen)]="modalEdit">
-    <h3 class="modal-title">แก้ไขข้อมูลบัญชี</h3>
+    <h3 class="modal-title" *ngIf="currentRow.mode== 'edit'">แก้ไขข้อมูล</h3>
+    <label>ชื่อ</label>
+    <h3 class="modal-title" *ngIf="currentRow.mode== 'add'">อนุมัติบัญชี</h3>
     <div class="modal-body">
-        <label><b>ชื่อ</b></label>
-        <clr-input-container class="clr-col-8">
-            <input clrInput type="text" [(ngModel)]="currentRow.firstname" name="firstname">
-        </clr-input-container>
-        <br>
-        <div class="modal-body">
-            <label><b>นามสกุล</b></label>
-            <clr-input-container class="clr-col-8">
-                <input clrInput type="text" [(ngModel)]="currentRow.lastname" name="lastname">
-            </clr-input-container>
-            <br>
-            <!-- <label><b>เลือกประเภทของผ้า</b></label><br><br>
-        <div class="clr-select-wrapper">
-            <select id="clothTypeId" [(ngModel)]="currentRow.ClothType_clothTypeId" class="clr-select"
-                name="ClothType_clothTypeId">
-                <option *ngFor="let item of clothTypeList" [value]="item.clothTypeId">
-                    {{ item.clothTypeName }}
-                </option>
-            </select>
-        </div> -->
-        </div>
-        <br>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-outline" (click)="modalEdit = false">ยกเลิก</button>
-            <button type="button" class="btn btn-primary" (click)="onSave()">บันทึก</button>
-        </div>
-        </div>
+        <label><b>เลือกสิทธิ์ในทำงานของบัญชี</b></label>
+        <clr-datagrid [(clrDgSelected)]="selected">
+            <clr-dg-column [clrDgField]="'description'">สิทธิ์การทำงาน</clr-dg-column>
+            <clr-dg-row *clrDgItems="let row of authorityList;" [clrDgItem]="row">
+                <clr-dg-cell>{{ row.description }}</clr-dg-cell>
+            </clr-dg-row>
+        </clr-datagrid>
+    <br>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modalEdit = false">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" (click)="onSave()">บันทึก</button>
+    </div>
 </clr-modal>

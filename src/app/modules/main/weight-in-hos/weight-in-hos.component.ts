@@ -271,8 +271,7 @@ export class WeightInHosComponent implements OnInit {
           importUserExport: this.importUserExport,
           importUserImport: this.decoded.firstname + ' ' + this.decoded.lastname,
           Company_idCompany: this.exportClothHospital[0].Company_idCompany,
-          Export_exportClothCode: this.exportClothCode,
-          // importCarId: this.importCarId,
+          Export_exportClothCode: this.exportClothCode
         };
         console.log('data', data);
 

@@ -1,0 +1,29 @@
+<h1 style="text-align: center;">
+    รายการซ่อมผ้า
+</h1>
+<div class="limit-height">
+    <clr-datagrid class="datagrid-compact clr-col-6">
+        <clr-dg-column [clrDgField]="'clothName'">ชนิดผ้า</clr-dg-column>
+        <clr-dg-column>จำนวน</clr-dg-column>
+        <clr-dg-column>#</clr-dg-column>
+
+        <clr-dg-row *clrDgItems="let item of repairList">
+            <clr-dg-cell>{{item.clothName}}</clr-dg-cell>
+            <clr-dg-cell>{{item.repairAmount}} {{item.clothClassifier}}</clr-dg-cell>
+            <clr-dg-cell>
+                <a routerLink="/main/repair-detail/{{item.clothId}}">
+                    <button class="btn btn-outline-success" [disabled]="item.repairAmount === 0">
+                        ดูประวัติ
+                    </button>
+                </a>
+            </clr-dg-cell>
+        </clr-dg-row>
+
+        <clr-dg-footer>{{repairList.length}} รายการ<clr-dg-pagination #pagination [clrDgPageSize]="10">
+                <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
+                {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                of {{pagination.totalItems}} leave
+            </clr-dg-pagination>
+        </clr-dg-footer>
+    </clr-datagrid>
+</div>

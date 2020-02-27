@@ -39,20 +39,33 @@ import { WarehouseComponent } from './warehouse/warehouse.component';
 import { AvailableComponent } from './available/available.component';
 import { MoveWarehouseComponent } from './move-warehouse/move-warehouse.component';
 import { ManagePorterComponent } from './manage-porter/manage-porter.component';
+import { ImportClothAmountComponent } from './import-cloth-amount/import-cloth-amount.component';
+import { ImportClothAmountHosComponent } from './import-cloth-amount-hos/import-cloth-amount-hos.component';
+import { OverviewDamageComponent } from './overview-damage/overview-damage.component';
+import { OverviewDamageDetailComponent } from './overview-damage-detail/overview-damage-detail.component';
+import { OverviewWithdrawAdminComponent } from './overview-withdraw-admin/overview-withdraw-admin.component';
+import { OverviewWithdrawAdminDetailComponent } from './overview-withdraw-admin-detail/overview-withdraw-admin-detail.component';
+import { RepairComponent } from './repair/repair.component';
+import { RepairDetailComponent } from './repair-detail/repair-detail.component';
+import { AuthorityComponent } from './authority/authority.component';
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
     AboutComponent, LayoutComponent,
     UserComponent, PreferenceComponent, RequisitionComponent, StockComponent,
     WardComponent, PurchaseComponent, ReportPurchaseComponent,
-    ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent
-   ,RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent,
+    ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent,
+    RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent,
     WithdrawHistoryComponent, WithdrawHistoryDetailComponent, WeightComponent,
     WeightInCompanyComponent, WeightInHosComponent, OverviewImportClothComponent, OverviewImportClothDetailComponent,
     ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent,
     RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent,
     WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent, ExportClothBillComponent,
     WarehouseComponent, AvailableComponent, MoveWarehouseComponent, ManagePorterComponent,
+    WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent,
+    ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent,
+    OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent,
+    RepairDetailComponent, AuthorityComponent
   ],
   imports: [
     CommonModule,

@@ -1,8 +1,16 @@
+<a routerLink="/main/withdraw-history">
+        <button class="btn btn-sm btn-outline-success">
+            <clr-icon shape="undo"></clr-icon> BACK
+        </button>
+</a>
 <h1>
         รายการใบนำจ่ายผ้า
 </h1>
 <b>รหัสใบนำจ่าย : </b> {{withdrawCode}} <br>
 <b>วันที่ทำรายการ : </b> {{date}} <br>
+<!-- <button class="btn btn-danger-outline" (click)="onActiveOff(withdrawCode)" *ngIf="active_status === 'on'">
+        <clr-icon shape="check"></clr-icon> จบการนำจ่ายผ้า
+</button> -->
 
 <clr-datagrid>
         <clr-dg-column>เลขที่ใบเบิก</clr-dg-column>
@@ -20,8 +28,8 @@
                 </clr-dg-cell>
                 <clr-dg-cell *ngIf="item.withdraw_status==='1'" style="color:rgb(36, 151, 36)">นำจ่ายเรียบร้อย
                 </clr-dg-cell>
-                <clr-dg-cell><button (click)="onShow(item)" class="btn btn-sm btn-primary-outline"
-                                >ทำการนำจ่ายผ้า</button>
+                <clr-dg-cell><button (click)="onShow(item)"
+                                class="btn btn-sm btn-primary-outline">ทำการนำจ่ายผ้า</button>
                 </clr-dg-cell>
         </clr-dg-row>
 </clr-datagrid>
@@ -39,15 +47,19 @@
                         <clr-dg-column>จำนวนที่เบิก</clr-dg-column>
                         <clr-dg-column>จำนวนที่จ่ายแล้ว</clr-dg-column>
                         <clr-dg-column>จำนวนที่ต้องนำจ่าย</clr-dg-column>
-                        <clr-dg-column >จำนวนที่จ่าย</clr-dg-column>
+                        <clr-dg-column>จำนวนที่จ่าย</clr-dg-column>
                         <clr-dg-row *clrDgItems="let list of reqDetailList" [clrDgItem]="list">
                                 <clr-dg-cell>{{list.clothName}}</clr-dg-cell>
-                                <clr-dg-cell >{{list.amountCloth}}</clr-dg-cell>
+                                <clr-dg-cell>{{list.amountClothReal}}</clr-dg-cell>
                                 <clr-dg-cell *ngIf="rows.totalRound === 1">-</clr-dg-cell>
                                 <clr-dg-cell *ngIf="rows.totalRound !== 1">{{list.export}}</clr-dg-cell>
-                                <clr-dg-cell style="color:red" *ngIf="rows.totalRound === 1"><b>{{list.amountCloth}}</b></clr-dg-cell>
-                                <clr-dg-cell style="color:red" *ngIf="rows.totalRound !== 1"><b>{{list.remains}}</b></clr-dg-cell>
-                                <clr-dg-cell style="color: rgb(17, 121, 24);" *ngIf="list.remains === 0">ส่งเสร็จเรียบร้อย</clr-dg-cell>
+                                <clr-dg-cell style="color:red" *ngIf="rows.totalRound === 1">
+                                        <b>{{list.amountClothReal}}</b></clr-dg-cell>
+                                <clr-dg-cell style="color:red" *ngIf="rows.totalRound !== 1"><b>{{list.remains}}</b>
+                                </clr-dg-cell>
+                                <clr-dg-cell style="color: rgb(17, 121, 24);"
+                                        *ngIf="list.remains === 0">
+                                        ส่งเสร็จเรียบร้อย</clr-dg-cell>
                                 <clr-dg-cell *ngIf="list.remains !== 0">
                                         <clr-input-container>
                                                 <input clrInput type="number" name="amountClothWithdraw"
@@ -56,11 +68,15 @@
                                 </clr-dg-cell>
                         </clr-dg-row>
                 </clr-datagrid><br>
-                <label><b>หมายเหตุ : </b></label>
-                <input type="text" name="description" [(ngModel)]="rows.description" />
-                <br><br>
-                <button type="button" class="btn btn-success" (click)="onSave()" *ngIf="rows.withdraw_status==='0'">บันทึกการนำจ่าย</button>
-                <button type="button" class="btn btn-danger-outline" (click)="modalShow = false" *ngIf="rows.withdraw_status==='0'">ปิด</button>
+                <!-- <div *ngIf="active_status === 'on'"> -->
+                        <label><b>หมายเหตุ : </b></label>
+                        <input type="text" name="description" [(ngModel)]="rows.description" />
+                        <br><br>
+                        <button type="button" class="btn btn-success" (click)="onSave()"
+                                *ngIf="rows.withdraw_status==='0'">บันทึกการนำจ่าย</button>
+                <!-- </div> -->
+                <!-- <button type="button" class="btn btn-danger-outline" (click)="modalShow = false"
+                        *ngIf="rows.withdraw_status==='0'">ปิด</button> -->
                 <div *ngIf="rows.totalRound !== 1">
                         <br><br>
                         <b><u>ประวัติการส่ง</u></b>
@@ -68,11 +84,11 @@
                         <clr-datagrid class="clr-align-items-center">
                                 <clr-dg-column>รอบที่จ่าย</clr-dg-column>
                                 <clr-dg-column>รายการผ้า</clr-dg-column>
-                                <clr-dg-column >จำนวนที่จ่าย</clr-dg-column>
+                                <clr-dg-column>จำนวนที่จ่าย</clr-dg-column>
                                 <clr-dg-row *clrDgItems="let r of withdrawRoundList">
                                         <clr-dg-cell>{{r.round}}</clr-dg-cell>
-                                        <clr-dg-cell >{{r.clothName}}</clr-dg-cell>
-                                        <clr-dg-cell >{{r.amountCloth}}</clr-dg-cell>
+                                        <clr-dg-cell>{{r.clothName}}</clr-dg-cell>
+                                        <clr-dg-cell>{{r.amountCloth}}</clr-dg-cell>
                                 </clr-dg-row>
                         </clr-datagrid>
                 </div>

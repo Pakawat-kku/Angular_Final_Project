@@ -25,11 +25,13 @@
                 </option>
             </select> 
         </div>
-        <b> จำนวน : </b><input type="number" name="amount" [(ngModel)]="item.amount" (change)="addNewRow(i)" />
-        <b> ราคา/หน่วย : </b><input type="number" name="price" [(ngModel)]="item.price" (change)="addNewRow(i)" /> บาท
+        <b> จำนวน : </b><input type="number" name="amount" [(ngModel)]="item.amount"  />
+        <b> ราคา/หน่วย : </b><input type="number" name="price" [(ngModel)]="item.price"  /> บาท
+        <button (click)="addNewRow()" class="btn btn-icon btn-sm btn-primary-outline" style="margin-left:3px">
+            <clr-icon shape="plus-circle" class="is-solid"></clr-icon>
+        </button>
         <button *ngIf="i>0" (click)="onDelete(i)" class="btn btn-icon btn-sm btn-danger-outline"
             style="margin-left:3px">
-            <!-- <clr-icon shape="times"></clr-icon> -->
             <clr-icon shape="trash"></clr-icon>
         </button>
         <br>

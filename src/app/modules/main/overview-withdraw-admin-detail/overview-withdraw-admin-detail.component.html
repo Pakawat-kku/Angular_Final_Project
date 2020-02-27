@@ -1,0 +1,76 @@
+<a routerLink="/main/overview-withdraw-admin">
+        <button class="btn btn-sm btn-outline-success">
+            <clr-icon shape="undo"></clr-icon> BACK
+        </button>
+    </a>
+<h1>
+    รายการใบนำจ่ายผ้า
+</h1>
+<b>รหัสใบนำจ่าย : </b> {{withdrawCode}} <br>
+<b>วันที่ทำรายการ : </b> {{date}} <br>
+
+<clr-datagrid>
+    <clr-dg-column>เลขที่ใบเบิก</clr-dg-column>
+    <clr-dg-column [clrDgField]="'wardName'">วอร์ด</clr-dg-column>
+    <clr-dg-column>เวลา</clr-dg-column>
+    <clr-dg-column>วันที่เบิก</clr-dg-column>
+    <clr-dg-column>สถานะ</clr-dg-column>
+    <clr-dg-column>#</clr-dg-column>
+    <clr-dg-row *clrDgItems="let item of withdrawList">
+            <clr-dg-cell>{{item.Requisition_requisitionCode}}</clr-dg-cell>
+            <clr-dg-cell>{{item.wardName}}</clr-dg-cell>
+            <clr-dg-cell>{{item.reqTime}} น.</clr-dg-cell>
+            <clr-dg-cell>{{item.reqDate}}</clr-dg-cell>
+            <clr-dg-cell *ngIf="item.withdraw_status==='0'" style="color:rgb(158, 31, 31)">เตรียมนำจ่าย
+            </clr-dg-cell>
+            <clr-dg-cell *ngIf="item.withdraw_status==='1'" style="color:rgb(36, 151, 36)">นำจ่ายเรียบร้อย
+            </clr-dg-cell>
+            <clr-dg-cell><button (click)="onShow(item)" class="btn btn-sm btn-primary-outline"
+                            >ดูการนำจ่ายผ้า</button>
+            </clr-dg-cell>
+    </clr-dg-row>
+</clr-datagrid>
+<br>
+
+<clr-modal *ngIf="rows" [(clrModalOpen)]="modalShow" [clrModalSize]="'xl'">
+    <h3 class="modal-title"><b><u>ทำรายการจ่ายผ้า</u></b></h3>
+    <div class="modal-body">
+            <label><b>เลขที่ใบนำจ่าย : {{withdrawCode}}</b></label><br>
+            <label><b>วอร์ดที่เบิก : {{rows.wardName}}</b></label><br>
+            <label><b>วันที่นำจ่าย : {{time}}</b></label><br>
+            <label><b>รอบการนำจ่าย : {{rows.totalRound}}</b></label>
+            <clr-datagrid class="clr-align-items-center">
+                    <clr-dg-column>รายการผ้า</clr-dg-column>
+                    <clr-dg-column>จำนวนที่เบิก</clr-dg-column>
+                    <clr-dg-column>จำนวนที่จ่ายแล้ว</clr-dg-column>
+                    <clr-dg-column>จำนวนที่ต้องนำจ่าย</clr-dg-column>
+                    <clr-dg-row *clrDgItems="let list of reqDetailList" [clrDgItem]="list">
+                            <clr-dg-cell>{{list.clothName}}</clr-dg-cell>
+                            <clr-dg-cell >{{list.amountClothReal}}</clr-dg-cell>
+                            <clr-dg-cell *ngIf="rows.totalRound === 1">-</clr-dg-cell>
+                            <clr-dg-cell *ngIf="rows.totalRound !== 1">{{list.export}}</clr-dg-cell>
+                            <clr-dg-cell style="color:red" *ngIf="rows.totalRound === 1"><b>{{list.amountClothReal}}</b></clr-dg-cell>
+                            <clr-dg-cell style="color:red" *ngIf="rows.totalRound !== 1"><b>{{list.remains}}</b></clr-dg-cell>
+                    </clr-dg-row>
+            </clr-datagrid><br>
+            <div *ngIf="rows.totalRound !== 1">
+                    <br><br>
+                    <b><u>ประวัติการส่ง</u></b>
+                    <br>
+                    <clr-datagrid class="clr-align-items-center">
+                            <clr-dg-column>รอบที่จ่าย</clr-dg-column>
+                            <clr-dg-column>รายการผ้า</clr-dg-column>
+                            <clr-dg-column >จำนวนที่จ่าย</clr-dg-column>
+                            <clr-dg-row *clrDgItems="let r of withdrawRoundList">
+                                    <clr-dg-cell>{{r.round}}</clr-dg-cell>
+                                    <clr-dg-cell >{{r.clothName}}</clr-dg-cell>
+                                    <clr-dg-cell >{{r.amountCloth}}</clr-dg-cell>
+                            </clr-dg-row>
+                    </clr-datagrid>
+            </div>
+    </div>
+    <div class="modal-footer">
+            <!-- <button type="button" class="btn btn-success" (click)="onSave()">บันทึกการนำจ่าย</button>
+            <button type="button" class="btn btn-danger-outline" (click)="modalShow = false">ปิด</button> -->
+    </div>
+</clr-modal>

@@ -1,0 +1,43 @@
+<h1>รายการสิทธิ์การทำงาน</h1>
+<br>
+<div class="clr-col-10" style="text-align: left;">
+    <button type="button" (click)="onAdd()" class="btn btn-success">
+        เพิ่มสิทธิ์
+    </button>
+</div>
+
+<clr-datagrid *ngIf="authorityList" class="datagrid-compact clr-col-10">
+    <clr-dg-column>ID</clr-dg-column>
+    <clr-dg-column [clrDgField]="'description'">สิทธิ์การทำงาน</clr-dg-column>
+    <clr-dg-row *clrDgItems="let item of authorityList;">
+        <clr-dg-cell>{{ item.aId }}</clr-dg-cell>
+        <clr-dg-cell>{{ item.description }}</clr-dg-cell>
+
+    </clr-dg-row>
+    <clr-dg-footer>
+        <b>สิทธิ์ทั้งหมด {{authorityList.length}} รายการ </b>&nbsp;&nbsp;
+        <clr-dg-pagination #pagination [clrDgPageSize]="10">
+            <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
+            {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+            of {{pagination.totalItems}} leave
+        </clr-dg-pagination>
+    </clr-dg-footer>
+</clr-datagrid>
+
+<clr-modal *ngIf="currentRow" [(clrModalOpen)]="modalEdit">
+    <h3 class="modal-title" *ngIf="currentRow.mode== 'edit'">แก้ไขข้อมูล</h3>
+    <label>ชื่อ</label>
+    <h3 class="modal-title" *ngIf="currentRow.mode== 'add'">เพิ่มข้อมูล</h3>
+    <div class="modal-body">
+        <label><b>สิทธิ์การทำงาน</b></label>
+        <clr-input-container class="clr-col-8">
+            <input clrInput type="text" [(ngModel)]="currentRow.description" name="description">
+        </clr-input-container>
+    <br>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modalEdit = false">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" (click)="onSave()"
+            [disabled]="!currentRow.description">บันทึก</button>
+    </div>
+</clr-modal>

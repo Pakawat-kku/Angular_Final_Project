@@ -24,13 +24,15 @@
         </div>
         <div class="clr-col-6" *ngFor="let items of importCloth">
             <b>รหัส : {{items.importCode}}</b><br>
-            <b>ชื่อเจ้าหน้าที่โรงพยาบาล(ขามา) : {{items.importUserExport}}</b><br>
+            <b>ชื่อเจ้าหน้าที่บริษัท : {{items.importUserExport}}</b><br>
             <b>ชื่อเจ้าหน้าที่โรงพยาบาล(รับกลับ) : {{items.importUserImport}}</b><br>
             <b>วันที่ชั่งน้ำหนักผ้ารับกลับ : {{items.day}}</b><br>
             <b>ทะเบียนรถ : {{items.importCarId}}</b>
         </div>
     </div>
-
+    <div *ngIf="getInner==''">
+        <button class="btn btn-primary" routerLink="/main/weight-in-hos/{{exportClothCode}}">รับผ้าเข้า</button>
+    </div>
     <div class="clr-row" *ngIf="exportClothTypeHospital=='1'">
         <div class="clr-col-6" *ngFor="let item of exportClothHospital">
             <b>รหัส : {{exportClothCode}}</b><br>
@@ -40,15 +42,19 @@
             <!-- <b>ทะเบียนรถ : {{item.exportCarId}}</b><br> -->
             
         </div>
+
         <div class="clr-col-6" *ngFor="let items of importCloth">
             <b>รหัส : {{items.importCode}}</b><br>
-            <b>ชื่อเจ้าหน้าที่โรงพยาบาล(ขามา) : {{items.importUserExport}}</b><br>
+            <b>ชื่อเจ้าหน้าที่โรงพยาบาล(ขามา) {{items.importUserExport}}</b><br>
             <b>ชื่อเจ้าหน้าที่โรงพยาบาล(ขากลับ) : {{items.importUserImport}}</b><br>
             <b>วันที่ชั่งน้ำหนักผ้ารับกลับ : {{items.day}}</b><br>
             <!-- <b>ทะเบียนรถ : {{items.importCarId}}</b> -->
         </div>
     </div>
-    
+    <div *ngIf="importClothCode!=''" style="text-align: right;">
+        <button *ngIf="exportClothTypeHospital=='1'" class="btn btn-primary" routerLink="/main/import-cloth-amount-hos/{{importClothCode}}">กรอกจำนวนผ้าชำรุด</button>
+        <button *ngIf="exportClothType=='2'" class="btn btn-primary" routerLink="/main/import-cloth-amount/{{importClothCode}}">กรอกจำนวนผ้าที่รับเข้า/ผ้าชำรุด</button>
+    </div>
 <div class="clr-row">
     <div class="clr-col-6">
         <table class="table table-compact table-noborder table-vertical">
@@ -115,7 +121,4 @@
 
         </div>
     </div>
-</div>
-<div *ngIf="getInner==''">
-    <button class="btn btn-outline" routerLink="/main/weight-in-hos/{{exportClothCode}}">รับผ้าเข้า</button>
 </div>

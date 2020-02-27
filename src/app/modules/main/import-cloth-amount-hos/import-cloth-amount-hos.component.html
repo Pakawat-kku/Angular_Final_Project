@@ -1,0 +1,38 @@
+<h1>บันทึกผ้าชำรุดจากการซักเอง</h1>
+<b>รหัสใบนำเข้าผ้า : </b> {{ImportCloth_importCode}}
+<form #importCloth="ngForm" (ngSubmit)="onClickSubmit(importCloth.value)">
+    <b>วันที่</b> {{day}} พ.ศ. {{pee}} <b>ประจำปีงบประมาณ </b> {{year}} <br>
+    <b>เพิ่มจำนวนช่องรายการ </b>
+    <input type="number" placeholder="ex. 12" name="amount" ngModel />
+    <input type="submit" value="ตกลง" class="btn btn-sm btn-primary-outline">
+</form>
+<br>
+
+<div *ngIf="importList && importList.length">
+    <div *ngFor="let item of importList; let i = index">
+        {{i+1}} )
+        <b> รายการผ้า : </b>
+        <!-- <select2 [data]="clothLists" [cssImport]=true></select2> -->
+    <!-- <ng-select2 [(ngModel)]="item.clothId" [data]="clothList" [placeholder]="'Please select a fruit...'">
+    </ng-select2> -->
+        <div class="clr-select-wrapper">
+            <select id="clothId" class="clr-select" name="clothId" [(ngModel)]="item.clothId">
+                <option *ngFor="let j of clothList" value="{{j.clothId}}">
+                    {{ j.clothName }}
+                </option>
+            </select> 
+        </div>
+        <b> จำนวนผ้าชำรุด : </b><input type="number" name="damageAmount" [(ngModel)]="item.damageAmount" /> 
+        <button (click)="addNewRow()" class="btn btn-icon btn-sm btn-primary-outline" style="margin-left:3px">
+            <clr-icon shape="plus-circle" class="is-solid"></clr-icon>
+        </button>
+        <button *ngIf="i>0" (click)="onDelete(i)" class="btn btn-icon btn-sm btn-danger-outline"
+            style="margin-left:3px">
+            <clr-icon shape="trash"></clr-icon>
+        </button>
+        <br>
+        <br>
+    </div>
+    <button class="btn btn-success" (click)="onSave()">บันทึก</button>
+    <!-- <input type="submit" value="save"> -->
+    <!-- </form> -->
