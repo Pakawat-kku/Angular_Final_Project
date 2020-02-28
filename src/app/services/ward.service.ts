@@ -26,6 +26,13 @@ export class WardService {
         .catch(err => err);
   }
 
+  getWardById(userId) {
+    return this.http.post(`${this.apiUrl}/ward/getWardById`, {userId})
+        .toPromise()
+        .then(result => result)
+        .catch(err => err);
+  }
+
 
   insertWard(data) {
     return this.http.post(`${this.apiUrl}/ward/insertWard`, {data})

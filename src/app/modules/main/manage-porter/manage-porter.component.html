@@ -38,12 +38,13 @@
             <clr-dg-column>ชื่อวอร์ด</clr-dg-column>
             <clr-dg-column>เจ้าหน้าที่ดูแลวอร์ดนี้</clr-dg-column>
             <clr-dg-row id="green" *clrDgItems="let item of allWard" [clrDgItem]="item">
-                <clr-dg-cell>{{item.wardId}}</clr-dg-cell>
+                <clr-dg-cell>{{item.wardCode}}</clr-dg-cell>
                 <clr-dg-cell>{{item.wardName}}</clr-dg-cell>
                 <clr-dg-cell>{{item.name}}</clr-dg-cell>
             </clr-dg-row>
     </clr-datagrid>
-    <button type="button" (click)="manageWardPorter()" class="btn btn-primary">จัดการวอร์ดที่เลือก</button>
-
+    <div class="btn-group">
+        <button type="button" (click)="manageWardPorter()" class="btn">จัดการวอร์ดที่เลือก</button>       
+    </div>
     </div>
 </clr-modal>
