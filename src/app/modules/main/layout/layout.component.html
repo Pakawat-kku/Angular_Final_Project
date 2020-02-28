@@ -54,10 +54,32 @@
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
           จัดการพนักงานจ่ายผ้า
         </a>
-    
-      </div>
-    </clr-vertical-nav>
-   
-  </div>
-
+        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./requisition-detail-admin" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          ประวัติการเบิก
+        </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./user" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          ประวัติการเบิก
+        </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          เบิก
+        </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./export-cloth" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          ประวัติการเบิก
+        </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./export-cloth-detail" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          ประวัติการเบิก
+        </a>
+        <a clrVerticalNavLink *ngIf="decoded.position==1" routerLink="./ward" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          ประวัติการเบิก
+        </a>
+ 
+ 
+      </clr-vertical-nav>
+    </div>
 </clr-main-container>

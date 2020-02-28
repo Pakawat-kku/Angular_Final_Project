@@ -33,6 +33,8 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
   selected: any = [];
   modalAllApprove = false;
   resultAllApprove: any;
+  approve = 0;
+  searchRequisition = 0;
 
   constructor(
     private alertService: AlertService,
@@ -76,6 +78,7 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
       }
           console.log(this.showReqAdmin);
       }
+      this.approve = 0;
 
     } catch (err) {
       console.log(err);
@@ -100,7 +103,7 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
       }
           console.log(this.showReqAdmin);
       }
-
+      this.approve = 1 ;
     } catch (err) {
       console.log(err);
     }
@@ -124,7 +127,7 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
       }
           console.log(this.showReqAdmin);
       }
-
+      this.approve = 1;
     } catch (err) {
       console.log(err);
     }
@@ -172,6 +175,13 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
       }
           console.log(this.showReqAdmin);
       }
+      for (const item of this.showReqAdmin) {
+        if (item.status === 1) {
+          this.searchRequisition = this.searchRequisition + 1 ;
+        } else {
+          console.log('ไม่ผิดปกติ');
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -185,18 +195,17 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
   }
 
   async allApprove() {
+  for (const item of this.selected) {
+    const result: any = await this.requisitionService.showReqWaitDetail(item.requisitionCode);
+    console.log('result' , result.rows);
 
-    for (const item of this.selected) {
-      const result: any = await this.requisitionService.showReqWaitDetail(item.requisitionCode);
-      console.log('result' , result.rows);
-
-      const result1: any = await this.requisitionService.approveReq(result.rows[0].Requisition_requisitionCode);
-      console.log('result1' , result1.rows);
-  }
-      this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
-      this.modalAllApprove = false;
-      this.router.navigate(['main/requisition-detail-admin/']);
-      this.showReqWaitAdmin();
+    const result1: any = await this.requisitionService.approveReq(result.rows[0].Requisition_requisitionCode);
+    console.log('result1' , result1.rows);
+}
+    this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
+    this.modalAllApprove = false;
+    this.router.navigate(['main/requisition-detail-admin/']);
+    this.showReqWaitAdmin();
 }
 
   ngOnDestroy() {

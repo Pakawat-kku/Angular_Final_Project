@@ -11,11 +11,11 @@
         </div>
     </form>
  <div  style = "position:relative; margin-left: 40%;" class="btn-group" >
-        <button class="btn" (click)="showReqWaitAdmin()()">รออนุมัติ</button>
+        <button class="btn" (click)="showReqWaitAdmin()">รออนุมัติ</button>
         <button class="btn btn-success-outline" (click)="showReqWaitAdminApprove()">อนุมัติแล้ว</button>
         <button class="btn btn-danger-outline"  (click)="showReqWaitAdminNotApprove()">ไม่อนุมัติ</button>
  </div>
- <button type="button" class="btn btn-outline" (click)="moAllApprove()">อนุมัติตามรายการที่เลือก</button>
+ <button type="button" class="btn btn-outline" (click)="moAllApprove()" [disabled]="approve == 1 || selected == '' || searchRequisition == 1">อนุมัติตามรายการที่เลือก</button>
 
 <div class="limit-height">
 <clr-datagrid [(clrDgSelected)]="selected" class="datagrid-compact clr-col-8" *ngIf="showReqAdmin">

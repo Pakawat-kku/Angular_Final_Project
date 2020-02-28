@@ -7,7 +7,6 @@ import { WardService } from 'src/app/services/ward.service';
 import { UsersService } from 'src/app/services/users.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
-import { SelectModule } from 'ng2-select';
 import { Items } from '@clr/angular/data/datagrid/providers/items';
 
 
@@ -41,30 +40,30 @@ export class SignupPageComponent implements OnInit {
     this.getPositionWard();
     // console.log('date ',moment().format('YYYY-MM-DD'));
   }
-  private value: any = {};
+  // private value: any = {};
 
-  public selected(value: any): void {
-    console.log('Selected value is: ', value);
-  }
+  // public selected(value: any): void {
+  //   console.log('Selected value is: ', value);
+  // }
 
-  public removed(value: any): void {
-    console.log('Removed value is: ', value);
-  }
+  // public removed(value: any): void {
+  //   console.log('Removed value is: ', value);
+  // }
 
-  public typed(value: any): void {
-    console.log('New search input: ', value);
-  }
+  // public typed(value: any): void {
+  //   console.log('New search input: ', value);
+  // }
 
-  public refreshValue(value: any): void {
+  // public refreshValue(value: any): void {
     // for (let row of this.wardList) {
     //   this.value = {
     //     text: row.wardName,
     //     id: row.wardId
     //   };
     // }
-    this.value = value;
-    console.log('value', value);
-  }
+  //   this.value = value;
+  //   console.log('value', value);
+  // }
 
   async getPositionWard() {
     const result: any = await this.positionService.getPosition();
