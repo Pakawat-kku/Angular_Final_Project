@@ -46,19 +46,19 @@ export class ManagePorterComponent implements OnInit {
       for (const item of this.userList) {
         for (const items of result1.rows) {
           if (item.userId === items.Users_userId) {
-            if (items.Authority_aId === 1 ) {
-              console.log( item.firstname + 'คนมีสิทธิ');
-                this.porter.push({
-                  userId: item.userId,
-                  firstname: item.firstname,
-                  lastname: item.lastname,
-                });
+            if (items.Authority_aId === 1) {
+              console.log(item.firstname + 'คนมีสิทธิ');
+              this.porter.push({
+                userId: item.userId,
+                firstname: item.firstname,
+                lastname: item.lastname,
+              });
+            }
+          }
         }
       }
-    }
-  }
 
-    console.log('this.porter', this.porter);
+      console.log('this.porter', this.porter);
 
     } catch (error) {
       console.log(error);
@@ -68,27 +68,28 @@ export class ManagePorterComponent implements OnInit {
   async showManagePorter(row) {
     this.managePorter = true;
     this.currentRow = Object.assign({}, row);
-    console.log('this.currentRow' , this.currentRow);
+    console.log('this.currentRow', this.currentRow);
     this.getSelected(this.currentRow);
   }
 
   async getSelected(row) {
     try {
-      console.log('this.currentRow' , row);
+      console.log('this.currentRow', row);
       // const result: any = await this.wardService.getWardBlank(row.userId);
-      const result: any = await this.wardService.getAllWard();
-      this.allWard = result.rows;
-      for (const item of result.rows) {
-        const result1: any = await this.userService.getUserId(item.Users_userId);
-      if (result1.rows.length === 0) {
-        item.name = 'ว่าง';
-      } else {
-        item.name = result1.rows[0].firstname + ' ' + result1.rows[0].lastname;
+      // const result: any = await this.wardService.getAllWard();
+      const result1: any = await this.wardService.getWardBlank(row.userId);
 
+       this.allWard = result1.rows;
+      for (const item of result1.rows) {
+        const result2: any = await this.userService.getUserId(item.Users_userId);
+        if (result2.rows.length === 0) {
+          item.name = 'ว่าง';
+        } else {
+          item.name = result2.rows[0].firstname + ' ' + result2.rows[0].lastname;
+        }
       }
 
-      }
-      console.log('this.allWard' , this.allWard);
+      console.log('this.allWard', this.allWard);
 
     } catch (error) {
       console.log(error);
@@ -96,16 +97,34 @@ export class ManagePorterComponent implements OnInit {
   }
 
   async manageWardPorter() {
-    console.log('selected' , this.selected);
-    console.log('currentRow' , this.currentRow);
+    console.log('selected', this.selected);
+    console.log('currentRow', this.currentRow);
 
-   for (const item of this.selected) {
-    const obj = {
-      wardId: item.wardId,
-      Users_userId: this.currentRow.userId,
-    };
-    const result = await  this.wardService.updateWard(obj);
-   }
+    for (const item of this.selected) {
+      console.log('item.wardId' , item.wardId);
 
-}
+      const result: any = await this.wardService.getWardById(item.wardId);
+      console.log('result.rows' , result.rows);
+      console.log('item.Users_userId' , item.Users_userId);
+
+      if (item.Users_userId === result.rows[0].Users_userId) {
+        const obj = {
+              wardId: item.wardId,
+              Users_userId: null,
+            };
+            console.log('เอาออก');
+
+         const result1 = await  this.wardService.updateWard(obj);
+      } if (item.Users_userId === null) {
+        const obj = {
+              wardId: item.wardId,
+              Users_userId: this.currentRow.userId,
+            };
+            console.log('เพิ่ม');
+
+            const result2 = await  this.wardService.updateWard(obj);
+
+      }
+     }
+  }
 }
