@@ -52,15 +52,63 @@ export class UserComponent implements OnInit {
     this.currentRow = Object.assign({}, row);
     this.currentRow.mode = 'edit';
     this.modalEdit = true;
+    // console.log(this.currentRow);
+    try {
+      const result: any = await this.users_authorityService.getById(this.currentRow.userId);
+      if (result.rows) {
+        for (let i = 0; i < this.authorityList.length; i++) {
+          this.authorityList[i].status = 'false';
+          for (let j = 0; j < result.rows.length; j++) {
+            if (result.rows[j].Authority_aId === this.authorityList[i].aId) {
+              this.authorityList[i].status = 'true';
+            }
+          }
+        }
+        // console.log(this.authorityList);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async cancelAutho(Users_userId, Authority_aId) {
+    // console.log(Users_userId, Authority_aId);
+    try {
+      const result: any = await this.users_authorityService.cancelById(Users_userId, Authority_aId);
+      if (result.rows) {
+        await this.getAuthority();
+        await this.onEdit(this.currentRow);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async addAutho(Users_userId, Authority_aId) {
+    // console.log(Users_userId, Authority_aId);
+    const data = {
+      Users_userId: Users_userId,
+      Authority_aId: Authority_aId
+    };
+    try {
+      const result: any = await this.users_authorityService.insert(data);
+      if (result.rows) {
+        await this.getAuthority();
+        await this.onEdit(this.currentRow);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   onAdd(item) {
     this.currentRow = {
       Users_userId: item.userId,
       username: item.username,
-      Authority_aId: ''
+      Authority_aId: '',
+      position: item.Position_pId
     };
-    console.log(this.currentRow);
+    // console.log(this.currentRow);
     this.currentRow.mode = 'add';
     this.modalEdit = true;
   }
@@ -127,8 +175,29 @@ export class UserComponent implements OnInit {
 
   }
 
+  async onSave2(item) {
+    this.currentRow = {
+      Users_userId: item.userId,
+      username: item.username,
+      position: item.Position_pId
+    };
+    console.log(this.currentRow);
+    const confirm: any = await this.alertService.confirm();
+    if (confirm.value === true) {
+      this.dateApprove = moment().format('YYYY-MM-DD');
+      const result: any = await this.userService.approveUser(this.currentRow.username, this.dateApprove);
+      if (result.statusCode === 200) {
+        this.alertService.success();
+        this.getUser();
+        this.modalEdit = false;
+        this.selected = [];
+        this.router.navigate(['main/user']);
+      }
+    }
+  }
+
   async onSave() {
-    console.log(this.currentRow, this.selected);
+    // console.log(this.currentRow, this.selected);
     const confirm: any = await this.alertService.confirm();
     if (confirm.value === true) {
       for (const row of this.selected) {
@@ -151,14 +220,14 @@ export class UserComponent implements OnInit {
   }
 
   async onCancel(username, Users_userId) {
-    console.log(Users_userId);
+    // console.log(Users_userId);
 
     try {
       const confirm: any = await this.alertService.confirm();
       if (confirm.value === true) {
         const result2: any = await this.users_authorityService.cancel(Users_userId);
         const result: any = await this.userService.cancelUser(username);
-        if (result.statusCode === 200 ) {
+        if (result.statusCode === 200) {
           this.alertService.success();
           await this.getUser();
           this.router.navigate(['main/user']);

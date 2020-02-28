@@ -15,4 +15,64 @@
     <h1 style="text-align:center">
         สมัครสมาชิกระบบ
     </h1>
+
+    <form #signup="ngForm" (ngSubmit)="onClickSubmit(signup.value)" style="margin-left: 30%;">
+        <b>username : </b>
+        <input type="text" [(ngModel)]="username" name="username" />
+        <br>
+
+        <b>รหัสผ่าน : </b>
+        <input type="password" [(ngModel)]="password" name="password" />
+        <br>
+
+        <b>ยืนยันรหัสผ่าน : </b>
+        <input type="password" [(ngModel)]="conPassword" name="conPassword" />
+        <br>
+
+        <b>ชื่อ : </b>
+        <input type="text" [(ngModel)]="firstname" name="firstname" />
+        <br>
+
+        <b>นามสกุล : </b>
+        <input type="text" [(ngModel)]="lastname" name="lastname" />
+        <br>
+
+        <b>ตำแหน่ง : </b>
+        <div class="clr-select-wrapper">
+            <select id="positionId" class="clr-select" name="positionId" [(ngModel)]="positionId">
+                <option *ngFor="let j of positionList" value="{{j.positionId}}">
+                    {{ j.positionName }}
+                </option>
+            </select>
+        </div>
+        <br>
+        <div *ngIf="positionId=='2'">
+        <b>วอร์ด : </b>
+        <div class="clr-select-wrapper">
+            <select id="wardId" class="clr-select" name="wardId" [(ngModel)]="wardId">
+                <option *ngFor="let j of wardList" value="{{j.wardId}}">
+                    {{ j.wardName }}
+                </option>
+            </select>
+        </div>
+        </div>
+
+        <br>
+        <br>
+        <input type="submit" value="ตกลง" class="btn btn-sm btn-primary-outline">
+
+    </form>
+    <!-- <div style="width: 300px; margin-bottom: 20px;">
+        <h3>Select a single city</h3>
+        <ng-select  [allowClear]="true"
+                    [items]="items"
+                    (data)="refreshValue($event)"
+                    (selected)="selected($event)"
+                    (removed)="removed($event)"
+                    (typed)="typed($event)"
+                    placeholder="No city selected"
+                    >
+        </ng-select>
+       
+      </div> -->
 </clr-main-container>

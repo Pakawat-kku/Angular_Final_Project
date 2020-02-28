@@ -16,6 +16,13 @@ export class UsersAuthorityService {
       .catch(error => error);
   }
 
+  getById(Users_userId) {
+    return this.http.post(`${this.apiUrl}/users_authority/getById`, {Users_userId})
+    .toPromise()
+    .then(result => result)
+    .catch(error => error);
+  }
+
   insert(data) {
     return this.http.post(`${this.apiUrl}/users_authority/`, {data})
       .toPromise()
@@ -32,6 +39,13 @@ export class UsersAuthorityService {
 
   cancel(Users_userId) {
     return this.http.post(`${this.apiUrl}/users_authority/cancel`, {Users_userId})
+    .toPromise()
+    .then(result => result)
+    .catch(error => error);
+  }
+
+  cancelById(Users_userId, Authority_aId) {
+    return this.http.post(`${this.apiUrl}/users_authority/cancelById`, {Users_userId, Authority_aId})
     .toPromise()
     .then(result => result)
     .catch(error => error);
