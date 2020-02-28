@@ -30,8 +30,8 @@ export class AvailableService {
     .catch(error => error);
   }
 
-  updateAvailable(clothId , data) {
-    return this.http.post(`${this.apiUrl}/available/updateAvailable`, {clothId , data})
+  updateAvailable(data, clothId) {
+    return this.http.post(`${this.apiUrl}/available/updateAvailable`, {data, clothId})
     .toPromise()
     .then(result => result)
     .catch(error => error);

@@ -3,7 +3,6 @@ import { AlertService } from './../../../services/alert.service';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import * as _ from 'lodash';
-import { Select2OptionData } from 'ng2-select2';
 import { PurchaseService } from 'src/app/services/purchase.service';
 import { Router } from '@angular/router';
 import { WareHouseService } from './../../../services/wareHouse.service';
@@ -26,14 +25,15 @@ export class PurchaseComponent implements OnInit {
   purchaseId: number;
   totalPricePerUnit = 0;
   arrayList: Array<InputArray> = [];
-  public clothList: Array<Select2OptionData>;
-  public clothLists: Array<Select2OptionData>;
+  // public clothList: Array<Select2OptionData>;
+  // public clothLists: Array<Select2OptionData>;
+  clothList: any = [];
   purchaseLists: any[] = [{
     clothId: '1',
     amount: null,
     price: null
   }];
-  k: number = 0;
+  k = 0;
   constructor(
     private router: Router,
     private alertService: AlertService,
@@ -50,7 +50,7 @@ export class PurchaseComponent implements OnInit {
     this.checkYear();
     // this.getDate();
     await this.getCloth();
-    this.clothLists = [{ id: '1', text: 'test1' }, { id: '2', text: 'test2' }];
+    // this.clothLists = [{ id: '1', text: 'test1' }, { id: '2', text: 'test2' }];
     this.day = moment().format('DD MMMM');
     this.pee = moment().add(543, 'years').format('YYYY');
   }
@@ -156,7 +156,7 @@ export class PurchaseComponent implements OnInit {
       } else if (row.amount <= 0) {
         this.alertService.error('รายการที่ ' + i + ' จำนวนผิดพลาด');
         val++;
-      } else if (row.pricw <= 0) {
+      } else if (row.price <= 0) {
         this.alertService.error('รายการที่ ' + i + ' ราคาผิดพลาด');
         val++;
       }
@@ -213,55 +213,69 @@ export class PurchaseComponent implements OnInit {
             const dataInsert: any = await this.purchaseService.insertPurchaseDetail(data);
             if (dataInsert.rows) {
               // console.log('check', dataInsert.rows);
-            this.totalPrice += this.totalPricePerUnit;
+              this.totalPrice += this.totalPricePerUnit;
+            }
           }
-        }
-        await this.getDate();
-        // console.log('save data', saveData);
-        // console.log('save data price', this.totalPrice);
-        const obj = {
-          purchaseId: 0,
-          totalPrice: this.totalPrice,
-          purchaseDate: this.date
-        };
-        try {
-          const result: any = await this.purchaseService.insertPurchase(obj);
-          if (result.rows) {
-            // console.log(result.rows);
-          }
-          const getPur: any = await this.purchaseService.getPurchase(this.totalPrice, this.date);
-          if (getPur.rows) {
-            // console.log('get', getPur.rows[0].purchaseId);
-            this.purchaseId = getPur.rows[0].purchaseId;
-            for (const row of this.purchaseLists) {
-              this.totalPricePerUnit = 0;
-              if (row.amount > 0 && row.price > 0) {
-                this.totalPricePerUnit = row.amount * row.price;
-                // console.log('total price', this.totalPricePerUnit);
-                // tslint:disable-next-line: no-shadowed-variable
-                const data = {
-                  id: 0,
-                  amountCloth: row.amount,
-                  pricePerUnit: row.price,
-                  totalPrice: this.totalPricePerUnit,
-                  Purchase_purchaseId: this.purchaseId,
-                  Cloth_clothId: row.clothId
-                };
-                // console.log('obj', data);
-                const dataInsert: any = await this.purchaseService.insertPurchaseDetail(data);
-                if (dataInsert.rows) {
-                  // console.log('check', dataInsert.rows);
+          await this.getDate();
+          // console.log('save data', saveData);
+          // console.log('save data price', this.totalPrice);
+          const obj = {
+            purchaseId: 0,
+            totalPrice: this.totalPrice,
+            purchaseDate: this.date
+          };
+          try {
+            const result: any = await this.purchaseService.insertPurchase(obj);
+            if (result.rows) {
+              // console.log(result.rows);
+            }
+            const getPur: any = await this.purchaseService.getPurchase(this.totalPrice, this.date);
+            if (getPur.rows) {
+              // console.log('get', getPur.rows[0].purchaseId);
+              this.purchaseId = getPur.rows[0].purchaseId;
+              for (const row of this.purchaseLists) {
+                this.totalPricePerUnit = 0;
+                if (row.amount > 0 && row.price > 0) {
+                  this.totalPricePerUnit = row.amount * row.price;
+                  // console.log('total price', this.totalPricePerUnit);
+                  // tslint:disable-next-line: no-shadowed-variable
+                  const data = {
+                    id: 0,
+                    amountCloth: row.amount,
+                    pricePerUnit: row.price,
+                    totalPrice: this.totalPricePerUnit,
+                    Purchase_purchaseId: this.purchaseId,
+                    Cloth_clothId: row.clothId
+                  };
+                  // console.log('obj', data);
+                  const dataInsert: any = await this.purchaseService.insertPurchaseDetail(data);
+                  if (dataInsert.rows) {
+                    // console.log('check', dataInsert.rows);
+                  }
                 }
               }
+              this.alertService.success('บันทึกข้อมูลเรียบร้อย');
+              this.router.navigate(['main/report-purchase-detail/' + this.purchaseId]);
             }
-            this.alertService.success('บันทึกข้อมูลเรียบร้อย');
-            this.router.navigate(['main/report-purchase-detail/' + this.purchaseId]);
+          } catch (error) {
+            console.log(error);
           }
-        } catch (error) {
-          console.log(error);
         }
       }
     }
   }
-}
+
+  // async onLazy() {
+  //   for (let row of this.clothList) {
+  //     const data = {
+  //       warehouseAmount: 10000,
+  //       warehousePrice: 200,
+  //       Cloth_clothId: row.clothId
+  //     };
+  //     const result: any = await this.wareHouseService.insertWareHouse(data);
+  //     if (result.rows) {
+  //       console.log('pass');
+  //     }
+  //   }
+  // }
 }

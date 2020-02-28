@@ -43,13 +43,17 @@
           <clr-icon shape="store" clrVerticalNavIcon></clr-icon>
           คลังผ้า
         </a>
-        <a clrVerticalNavLink *ngIf="authority.tree=='true'" routerLink="./purchase" routerLinkActive="active">
+        <a clrVerticalNavLink *ngIf="authority.three=='true'" routerLink="./purchase" routerLinkActive="active">
           <clr-icon shape="add-text" clrVerticalNavIcon></clr-icon>
           รายการสั่งซื้อผ้าเข้าใหม่
         </a>
-        <a clrVerticalNavLink *ngIf="authority.tree=='true'" routerLink="./report-purchase" routerLinkActive="active">
+        <a clrVerticalNavLink *ngIf="authority.three=='true'" routerLink="./report-purchase" routerLinkActive="active">
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
           รายงานรายการสั่งซื้อผ้า
+        </a>
+        <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./move-warehouse" routerLinkActive="active">
+          <clr-icon shape="pop-out" clrVerticalNavIcon></clr-icon>
+          เบิกผ้าเข้าส่วนกลาง
         </a>
         <a clrVerticalNavLink *ngIf="authority.two=='true'" routerLink="./requisition-detail-admin"
           routerLinkActive="active">
