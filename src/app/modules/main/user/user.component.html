@@ -36,13 +36,13 @@
 <clr-datagrid *ngIf="userList" class="clr-col-10">
     <clr-dg-column [clrDgField]="'username'">username</clr-dg-column>
     <clr-dg-column>ชื่อ-นามสกุล</clr-dg-column>
-    <clr-dg-column>ตำแหน่ง</clr-dg-column>
+    <clr-dg-column [clrDgField]="'positionName'">ตำแหน่ง</clr-dg-column>
     <clr-dg-column>วอร์ด</clr-dg-column>
     <clr-dg-column>วันที่ขออนุมัติ</clr-dg-column>
     <clr-dg-column>วันที่อนุมัติ</clr-dg-column>
     <clr-dg-column>#</clr-dg-column>
     <clr-dg-row *clrDgItems="let item of userList;"
-    [ngClass]="{pass: item.status_approve=='true' , noPass: item.status_approve=='false'}">
+        [ngClass]="{pass: item.status_approve=='true' , noPass: item.status_approve=='false'}">
         <clr-dg-cell>{{ item.username }}</clr-dg-cell>
         <clr-dg-cell>{{ item.firstname }} {{item.lastname}}</clr-dg-cell>
         <clr-dg-cell>{{ item.positionName }}</clr-dg-cell>
@@ -51,11 +51,15 @@
         <clr-dg-cell *ngIf="item.status_approve=='true'">{{ item.dateApprove }}</clr-dg-cell>
         <clr-dg-cell *ngIf="item.status_approve=='false'">-</clr-dg-cell>
         <clr-dg-cell>
-            <button class="btn btn-primary-outline" *ngIf="item.status_approve=='true'" (click)="onEdit(item)" disabled>แก้ไขข้อมูลบัญชี</button><br>
-            <button class="btn btn-danger-outline" *ngIf="item.status_approve=='true' && item.positionId!=1" (click)="onCancel(item.username,item.userId)" >ยกเลิกบัญชี</button><br>
-            <button class="btn btn-success" *ngIf="item.status_approve=='false'" (click)="onAdd(item)" >อนุมัติบัญชี</button><br>
+            <button class="btn btn-primary-outline" *ngIf="item.status_approve=='true' && item.positionId!=2"
+                (click)="onEdit(item)">แก้ไขสิทธิ์ของบัญชี</button><br>
+            <button class="btn btn-danger-outline" *ngIf="item.status_approve=='true'"
+                (click)="onCancel(item.username,item.userId)">ยกเลิกบัญชี</button><br>
+            <button class="btn btn-success" *ngIf="item.status_approve=='false' && item.positionId!=2"
+                (click)="onAdd(item)">อนุมัติบัญชี</button>
+                <button class="btn btn-success" *ngIf="item.status_approve=='false' && item.positionId==2"
+                (click)="onSave2(item)">อนุมัติบัญชี</button><br>
         </clr-dg-cell>
-
     </clr-dg-row>
     <clr-dg-footer>
         <b>ผู้ใช้งานทั้งหมด {{userList.length}} บัญชี</b>&nbsp;&nbsp;
@@ -69,20 +73,37 @@
 
 <clr-modal *ngIf="currentRow" [(clrModalOpen)]="modalEdit">
     <h3 class="modal-title" *ngIf="currentRow.mode== 'edit'">แก้ไขข้อมูล</h3>
-    <label>ชื่อ</label>
-    <h3 class="modal-title" *ngIf="currentRow.mode== 'add'">อนุมัติบัญชี</h3>
+    <h3 class="modal-title" *ngIf="currentRow.mode== 'add' && currentRow.position != 2">อนุมัติบัญชี</h3>
     <div class="modal-body">
-        <label><b>เลือกสิทธิ์ในทำงานของบัญชี</b></label>
-        <clr-datagrid [(clrDgSelected)]="selected">
-            <clr-dg-column [clrDgField]="'description'">สิทธิ์การทำงาน</clr-dg-column>
-            <clr-dg-row *clrDgItems="let row of authorityList;" [clrDgItem]="row">
-                <clr-dg-cell>{{ row.description }}</clr-dg-cell>
-            </clr-dg-row>
-        </clr-datagrid>
-    <br>
+        <div *ngIf="currentRow.mode== 'add' && currentRow.position != 2">
+            <label><b>เลือกสิทธิ์ในทำงานของบัญชี</b></label>
+            <clr-datagrid [(clrDgSelected)]="selected">
+                <clr-dg-column [clrDgField]="'description'">สิทธิ์การทำงาน</clr-dg-column>
+                <clr-dg-row *clrDgItems="let row of authorityList;" [clrDgItem]="row">
+                    <clr-dg-cell>{{ row.description }}</clr-dg-cell>
+                </clr-dg-row>
+            </clr-datagrid>
+        </div>
+        <div *ngIf="currentRow.mode== 'edit'">
+            <label><b>เลือกสิทธิ์ในทำงานของบัญชี</b></label>
+            <clr-datagrid>
+                <clr-dg-column [clrDgField]="'description'">สิทธิ์การทำงาน</clr-dg-column>
+                <clr-dg-column>#</clr-dg-column>
+                <clr-dg-row *clrDgItems="let row of authorityList;" [clrDgItem]="row">
+                    <clr-dg-cell>{{ row.description }}</clr-dg-cell>
+                    <clr-dg-cell>
+                        <button class="btn btn-danger-outline" *ngIf="row.status==='true'"
+                            (click)="cancelAutho(currentRow.userId, row.aId)">ยกเลิกสิทธิ์</button>
+                            <button class="btn btn-primary-outline" *ngIf="row.status==='false'"
+                            (click)="addAutho(currentRow.userId, row.aId)">เพิ่มสิทธิ์</button>
+                    </clr-dg-cell>
+                </clr-dg-row>
+            </clr-datagrid>
+        </div>
+        <br>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" *ngIf="currentRow.mode== 'add' && currentRow.position != 2">
         <button type="button" class="btn btn-outline" (click)="modalEdit = false">ยกเลิก</button>
-        <button type="button" class="btn btn-primary" (click)="onSave()">บันทึก</button>
+        <button type="button" class="btn btn-primary" (click)="onSave()" [disabled]="selected == ''">บันทึก</button>
     </div>
 </clr-modal>

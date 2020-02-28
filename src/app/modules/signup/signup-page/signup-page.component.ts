@@ -23,6 +23,7 @@ export class SignupPageComponent implements OnInit {
   checkUsername: any;
   checkWard: any = true;
   ward = ['opd', 'or'];
+  positionId = 1;
   public items: Array<string>  = [
     'op', 'kl'
   ];
@@ -72,7 +73,7 @@ export class SignupPageComponent implements OnInit {
     if (result.rows && re.rows) {
       this.positionList = result.rows;
       this.wardList = re.rows;
-      this.positionList = _.drop(this.positionList);
+      this.positionList = _.dropRight(this.positionList);
       for (let row of this.wardList) {
         // this.items = {
         //   text: row.wardName,
