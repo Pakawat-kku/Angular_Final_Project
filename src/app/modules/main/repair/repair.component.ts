@@ -81,7 +81,21 @@ export class RepairComponent implements OnInit {
 
   async onSave() {
     console.log(this.addRepair);
-
+    for (const row of this.addRepair) {
+      const data = {
+        repairAmount: row.amount,
+        Cloth_clothId: row.clothId,
+        repairDate: moment().format('YYYY-MM-DD')
+      };
+      try {
+        const result: any = await this.repairService.insertRepair(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    await this.alertService.success('บันทึกข้อมูลสำเร็จ');
+    this.modalEdit = false;
+    this.getRepair();
   }
 
 }
