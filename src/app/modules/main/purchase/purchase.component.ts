@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { Select2OptionData } from 'ng2-select2';
 import { PurchaseService } from 'src/app/services/purchase.service';
 import { Router } from '@angular/router';
+import { WareHouseService } from './../../../services/wareHouse.service';
 import { InputArray } from './inputArray';
 
 @Component({
@@ -32,12 +33,14 @@ export class PurchaseComponent implements OnInit {
     amount: null,
     price: null
   }];
-
+  k: number = 0;
   constructor(
     private router: Router,
     private alertService: AlertService,
     private stockService: StockService,
-    private purchaseService: PurchaseService
+    private purchaseService: PurchaseService,
+    private wareHouseService: WareHouseService,
+
   ) {
 
   }
@@ -176,6 +179,40 @@ export class PurchaseComponent implements OnInit {
           if (row.amount > 0 && row.price > 0) {
             await saveData.push(row);
             this.totalPricePerUnit = row.amount * row.price;
+            // console.log('total price', this.totalPricePerUnit);
+            const data = {
+              id: 0,
+              amountCloth: row.amount,
+              pricePerUnit: row.price,
+              totalPrice: this.totalPricePerUnit,
+              Purchase_purchaseId: this.purchaseId,
+              Cloth_clothId: row.clothId
+            };
+            // ส่วนของการ update เข้า warehouse
+            const result: any = await this.wareHouseService.getWareHouse(row.clothId);
+            console.log('result.rows', result.rows);
+
+            if (result.rows.length === 0) {
+              const data1 = {
+                Cloth_clothId: row.clothId,
+                warehouseAmount: row.amount,
+              };
+              const result1: any = await this.wareHouseService.insertWareHouse(data1);
+            } if (result.rows.length !== 0) {
+
+              this.k = result.rows[0].warehouseAmount + row.amount;
+              console.log('k', this.k);
+              console.log('กรณีสอง');
+              const data2 = {
+                warehouseAmount: this.k,
+              };
+              const result1: any = await this.wareHouseService.updateWareHouse(row.clothId, data2);
+            }
+            // ส่วนของการ update เข้า warehouse ถึงตรงนี้
+            // console.log('obj', data);
+            const dataInsert: any = await this.purchaseService.insertPurchaseDetail(data);
+            if (dataInsert.rows) {
+              // console.log('check', dataInsert.rows);
             this.totalPrice += this.totalPricePerUnit;
           }
         }
@@ -227,4 +264,4 @@ export class PurchaseComponent implements OnInit {
     }
   }
 }
-
+}

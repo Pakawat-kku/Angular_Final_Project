@@ -19,6 +19,14 @@ export class WardService {
       .catch(error => error);
   }
 
+  getWardBlank(userId) {
+    return this.http.post(`${this.apiUrl}/ward/getWardBlank`, {userId})
+        .toPromise()
+        .then(result => result)
+        .catch(err => err);
+  }
+
+
   insertWard(data) {
     return this.http.post(`${this.apiUrl}/ward/insertWard`, {data})
     .toPromise()
@@ -45,5 +53,12 @@ export class WardService {
         .toPromise()
         .then(result => result)
         .catch(err => err);
+  }
+
+  printPdfWard() {
+    return this.http.get(`${this.apiUrl}/test/ward`, {})
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
   }
 }

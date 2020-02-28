@@ -17,6 +17,13 @@ export class UsersService {
       .catch(error => error);
   }
 
+  getUserId(userId) {
+    return this.http.post(`${this.apiUrl}/users/getUserId`, { userId })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
   searchNotApprove() {
     return this.http.get(`${this.apiUrl}/users/searchNotApprove`, {})
       .toPromise()

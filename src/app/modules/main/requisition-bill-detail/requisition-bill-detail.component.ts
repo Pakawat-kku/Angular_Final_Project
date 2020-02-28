@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import * as moment from 'moment';
 import { AlertService } from 'src/app/services/alert.service';
-
+import { WareHouseService } from './../../../services/wareHouse.service';
 import { RequisitionService } from './../../../services/requisition.service';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../../services//Authentication.service';
@@ -45,6 +45,8 @@ export class RequisitionBillDetailComponent implements OnInit {
     private router: Router,
     private requisitionService: RequisitionService,
     private authenticationService: AuthenticationService,
+    private wareHouseService: WareHouseService,
+
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
@@ -166,7 +168,6 @@ export class RequisitionBillDetailComponent implements OnInit {
         sum = sum + 1;
         console.log('sum', sum);
       }
-
 
       try {
         const result: any = await this.requisitionService.approveReq(this.requisitionCode);

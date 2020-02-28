@@ -32,10 +32,13 @@ import { WeightInCompanyComponent } from './weight-in-company/weight-in-company.
 import { WeightInHosComponent } from './weight-in-hos/weight-in-hos.component';
 import { OverviewImportClothComponent } from './overview-import-cloth/overview-import-cloth.component';
 import { OverviewImportClothDetailComponent } from './overview-import-cloth-detail/overview-import-cloth-detail.component';
-
 import { ExportClothComponent } from './export-cloth/export-cloth.component';
 import { ExportClothDetailComponent } from './export-cloth-detail/export-cloth-detail.component';
 import { ExportClothBillComponent } from './export-cloth-bill/export-cloth-bill.component';
+import { WarehouseComponent } from './warehouse/warehouse.component';
+import { AvailableComponent } from './available/available.component';
+import { MoveWarehouseComponent } from './move-warehouse/move-warehouse.component';
+import { ManagePorterComponent } from './manage-porter/manage-porter.component';
 import { ImportClothAmountComponent } from './import-cloth-amount/import-cloth-amount.component';
 import { ImportClothAmountHosComponent } from './import-cloth-amount-hos/import-cloth-amount-hos.component';
 import { OverviewDamageComponent } from './overview-damage/overview-damage.component';
@@ -51,13 +54,18 @@ import { AuthorityComponent } from './authority/authority.component';
     AboutComponent, LayoutComponent,
     UserComponent, PreferenceComponent, RequisitionComponent, StockComponent,
     WardComponent, PurchaseComponent, ReportPurchaseComponent,
-    ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent
-    , RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent,
+    ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent,
+    RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent,
     WithdrawHistoryComponent, WithdrawHistoryDetailComponent, WeightComponent,
     WeightInCompanyComponent, WeightInHosComponent, OverviewImportClothComponent, OverviewImportClothDetailComponent,
     ReportPurchaseDetailComponent, OverviewWithdrawComponent, OverviewWithdrawDetailComponent,
     RequisitionDetailComponent, RequisitionDetailAdminComponent, RequisitionBillDetailComponent,
-    WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent, ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent, OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent, RepairDetailComponent, AuthorityComponent
+    WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent, ExportClothBillComponent,
+    WarehouseComponent, AvailableComponent, MoveWarehouseComponent, ManagePorterComponent,
+    WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent,
+    ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent,
+    OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent,
+    RepairDetailComponent, AuthorityComponent
   ],
   imports: [
     CommonModule,

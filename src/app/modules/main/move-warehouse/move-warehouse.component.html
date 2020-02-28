@@ -1,0 +1,40 @@
+
+<h1 class="req">
+    นำผ้าเข้าส่วนกลาง
+</h1><br>
+
+<form #purchase="ngForm" (ngSubmit)="onClickSubmit(purchase.value)">
+    
+    <b>เพิ่มจำนวนช่องรายการ </b>
+    <input type="number" placeholder="ex. 12" name="amount" ngModel />
+    <input type="submit" value="ตกลง" class="btn btn-sm btn-primary-outline">
+</form>
+<br>
+
+<div *ngIf="purchaseLists && purchaseLists.length">
+    <div *ngFor="let item of purchaseLists; let i = index">
+        {{i+1}} )
+        <b> รายการผ้า : </b>
+    
+        <div class="clr-select-wrapper">
+            <select id="clothId" class="clr-select" name="clothId" [(ngModel)]="item.clothId" (change)="checkValue()">
+                <option *ngFor="let j of clothList" value="{{j.clothId}}" >
+                    {{ j.clothName }}
+                </option>
+            </select> 
+        </div>
+        <b> จำนวนที่มีอยู่: </b><input type="number" name="warehouseAmount" [(ngModel)]="item.warehouseAmount" />
+        <b> จำนวนที่จะนำเข้าส่วนกลาง : </b><input type="number" name="amountCloth" [(ngModel)]="item.amountCloth" />
+        <button *ngIf="i>=0" (click)="addNewRow(i)" class="btn btn-icon btn-sm btn-peimary-outline"
+            style="margin-left:3px">
+            <clr-icon shape="plus-circle" class="is-solid"></clr-icon>
+        </button>
+        <button *ngIf="i>0" (click)="onDelete(i)" class="btn btn-icon btn-sm btn-danger-outline"
+            style="margin-left:3px">
+            <clr-icon shape="trash"></clr-icon>
+        </button>
+        <br>
+        <br>
+    </div>
+    <button class="btn btn-success" (click)="onSave()">บันทึก</button>
+</div>

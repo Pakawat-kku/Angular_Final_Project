@@ -265,6 +265,8 @@ export class ExportClothComponent implements OnInit, OnDestroy {
         if (result_alert.value) {
         console.log('ส่งบริษัท');
 
+        console.log('this.exportClothUserImport', this.exportClothUserImport);
+
         const obj = {
           exportClothCode: this.exportClothCode,
           exportClothDate: this.dates,
@@ -274,7 +276,6 @@ export class ExportClothComponent implements OnInit, OnDestroy {
           exportClothTotalWeight:  this.weightSum,
           exportCarId : this.exportCarId,
           exportClothUserImport : this.exportClothUserImport,
-
         };
         console.log('obj', obj);
         const result: any = this.exportService.insertExportCloth(obj);

@@ -25,11 +25,16 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
   month: string;
   year: string;
   time: string;
-  modalEdit = false;
+  // modalEdit = false;
   requisitionCode: any;
   showReqAdmin: any;
   showReqWaitDetailAdmin: any;
   requisitionCodeInOnAdd: any;
+  selected: any = [];
+  modalAllApprove = false;
+  resultAllApprove: any;
+  approve = 0;
+  searchRequisition = 0;
 
   constructor(
     private alertService: AlertService,
@@ -73,6 +78,7 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
       }
           console.log(this.showReqAdmin);
       }
+      this.approve = 0;
 
     } catch (err) {
       console.log(err);
@@ -97,7 +103,7 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
       }
           console.log(this.showReqAdmin);
       }
-
+      this.approve = 1 ;
     } catch (err) {
       console.log(err);
     }
@@ -121,7 +127,7 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
       }
           console.log(this.showReqAdmin);
       }
-
+      this.approve = 1;
     } catch (err) {
       console.log(err);
     }
@@ -149,45 +155,58 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
     }
   }
 
-  // async onAdd(requisitionCode) {
-  //   this.modalEdit = true;
-  //   this.requisitionCode = requisitionCode;
-  //   console.log('this.requisitionCode' , this.requisitionCode);
-  //   try {
-  //     const result: any = await this.requisitionService.showReqWaitDetailAdmin(this.requisitionCode);
-  //     console.log('result', result);
-  //     if (result.rows) {
-  //       this.showReqWaitDetailAdmin = result.rows;
-  //       console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
+  async searchReq(searchRequisitionId) {
+    if (searchRequisitionId === null || searchRequisitionId === undefined) {
+      this.alertService.error('กรุณาใส่รหัสการเบิก');
+    } else {
+    try {
+      console.log('searchRequisitionId : ', searchRequisitionId);
 
-  //     }
+      const result: any = await this.requisitionService.searchRequisitionCode(searchRequisitionId);
+      if (result.rows) {
+        console.log('search ', result.rows);
+        this.showReqAdmin = result.rows;
+        for (const item of this.showReqAdmin) {
+          item.date = moment(item.reqDate).format('DD');
+          item.month = moment(item.reqDate).format('MMMM');
+          item.year = moment(item.reqDate).add(543, 'years').format('YYYY');
+          item.time = moment(item.reqDate).format('HH:mm');
+          item.day = item.date + '  ' + item.month + '  ' + item.year;
+      }
+          console.log(this.showReqAdmin);
+      }
+      for (const item of this.showReqAdmin) {
+        if (item.status === 1) {
+          this.searchRequisition = this.searchRequisition + 1 ;
+        } else {
+          console.log('ไม่ผิดปกติ');
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  }
 
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
 
-  // }
+  moAllApprove() {
+    console.log('this.selected', this.selected);
+    this.modalAllApprove = true;
+  }
 
-  // async approve(requisitionCode) {
-  //   this.requisitionCode = requisitionCode;
-  //   console.log(this.requisitionCode);
+  async allApprove() {
+  for (const item of this.selected) {
+    const result: any = await this.requisitionService.showReqWaitDetail(item.requisitionCode);
+    console.log('result' , result.rows);
 
-  //   try {
-  //     const result: any = await this.requisitionService.approveReq(this.requisitionCode);
-  //     console.log('result', result);
-  //     if (result.rows) {
-  //       this.showReqWaitDetailAdmin = result.rows;
-  //       console.log('this.showReqWaitDetailAdmin', this.showReqWaitDetailAdmin);
-  //       this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
-  //       this.showReqWaitAdmin();
-  //       this.router.navigate(['main/requisition-detail-admin']);
-
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-
-  // }
+    const result1: any = await this.requisitionService.approveReq(result.rows[0].Requisition_requisitionCode);
+    console.log('result1' , result1.rows);
+}
+    this.alertService.successApprove(' อนุมัติเสร็จสิ้น ');
+    this.modalAllApprove = false;
+    this.router.navigate(['main/requisition-detail-admin/']);
+    this.showReqWaitAdmin();
+}
 
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks

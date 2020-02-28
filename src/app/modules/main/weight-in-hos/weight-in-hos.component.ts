@@ -129,22 +129,22 @@ export class WeightInHosComponent implements OnInit {
   }
 
   calculateWeight() {
-    for (let i = 0; i < this.weightList.length; i++) {
-      if (this.weightList[i].weightCloth === null
-        || this.weightList[i].weightCar === null
-        || this.weightList[i].weightCloth === undefined
-        || this.weightList[i].weightCar === undefined) {
-        this.alertService.error('รายการที่ ' + (i + 1) + ' กรอกข้อมูลไม่ครบ');
-      } else if (this.weightList[i].weightCloth < this.weightList[i].weightCar) {
-        this.alertService.error('รายการที่ ' + (i + 1) + ' น้ำหนักรถมากกว่าน้ำหนักผ้า');
-      } else {
+    // for (let i = 0; i < this.weightList.length; i++) {
+      // if (this.weightList[i].weightCloth === null
+      //   || this.weightList[i].weightCar === null
+      //   || this.weightList[i].weightCloth === undefined
+      //   || this.weightList[i].weightCar === undefined) {
+      //   this.alertService.error('รายการที่ ' + (i + 1) + ' กรอกข้อมูลไม่ครบ');
+      // } else if (this.weightList[i].weightCloth < this.weightList[i].weightCar) {
+      //   this.alertService.error('รายการที่ ' + (i + 1) + ' น้ำหนักรถมากกว่าน้ำหนักผ้า');
+      // } else {
         this.weightSum = 0.0;
         for (let i = 0; i < this.weightList.length; i++) {
           this.calWeight = 0.0;
           this.calWeight = this.weightList[i].weightCloth - this.weightList[i].weightCar;
           this.weightSum += this.calWeight;
-        }
-      }
+        // }
+    //   }
     }
   }
 

@@ -2,7 +2,7 @@
   <clr-header class="header-5" style="background-color:rgb(60, 117, 36)">
     <div class="branding">
       <a href="javascript://" class="nav-link">
-        <span class="title">Washing Department Management System</span>
+        <span class="title">ระบบจัดการงานซักผ้าโรงพยาบาลขอนแก่น</span>
       </a>
     </div>
     <div class="header-nav" [clr-nav-level]="1">
@@ -66,7 +66,7 @@
         </a>
         <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition-detail" routerLinkActive="active">
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
-          รายการเบิกผ้า
+          คลังผ้าส่วนกลาง
         </a>
         <a clrVerticalNavLink *ngIf="authority.one=='true'" routerLink="./overview-withdraw" routerLinkActive="active">
           <clr-icon shape="event" clrVerticalNavIcon></clr-icon>
@@ -102,11 +102,9 @@
         </a>
         <a clrVerticalNavLink *ngIf="authority.eigth=='true'" routerLink="./export-cloth-detail" routerLinkActive="active">
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
-          ประวัติชั่งน้ำหนักผ้า
+          ประวัติการเบิก
         </a>
       </div>
     </clr-vertical-nav>
-    
-  </div>
-
+    </div>
 </clr-main-container>

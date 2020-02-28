@@ -30,7 +30,10 @@ import { OverviewImportClothDetailComponent } from './overview-import-cloth-deta
 import { ExportClothComponent } from './export-cloth/export-cloth.component';
 import { ExportClothDetailComponent } from './export-cloth-detail/export-cloth-detail.component';
 import { ExportClothBillComponent } from './export-cloth-bill/export-cloth-bill.component';
-import { WithdrawService } from 'src/app/services/withdraw.service';
+import { WarehouseComponent } from './warehouse/warehouse.component';
+import { AvailableComponent } from './available/available.component';
+import { MoveWarehouseComponent } from './move-warehouse/move-warehouse.component';
+import { ManagePorterComponent } from './manage-porter/manage-porter.component';
 import { ImportClothAmountComponent } from './import-cloth-amount/import-cloth-amount.component';
 import { ImportClothAmountHosComponent } from './import-cloth-amount-hos/import-cloth-amount-hos.component';
 import { OverviewDamageComponent } from './overview-damage/overview-damage.component';
@@ -41,6 +44,7 @@ import { RepairComponent } from './repair/repair.component';
 import { RepairDetailComponent } from './repair-detail/repair-detail.component';
 import { AuthorityComponent } from './authority/authority.component';
 
+// import { WithdrawService } from 'src/app/services/withdraw.service';
 
 
 const routes: Routes = [
@@ -84,6 +88,10 @@ const routes: Routes = [
       { path: 'import-cloth-amount/:importClothCode', component: ImportClothAmountComponent },
       { path: 'import-cloth-amount-hos/:importClothCode', component: ImportClothAmountHosComponent },
       { path: 'export-cloth-bill/:exportClothCode', component: ExportClothBillComponent },
+      { path: 'warehouse', component: WarehouseComponent },
+      { path: 'available', component: AvailableComponent },
+      { path: 'move-warehouse', component: MoveWarehouseComponent },
+      { path: 'manage-porter', component: ManagePorterComponent },
       { path: '**', component: PageNotFoundComponent },
     ]
   }

@@ -15,6 +15,7 @@ import { InputArray, InputDummy, InputPurchase } from './inputArray';
 import { Select2OptionData } from 'ng2-select2';
 import { endWith } from 'rxjs/operators';
 import { LocaleHelperService } from '@clr/angular/forms/datepicker/providers/locale-helper.service';
+import { LoginModule } from '../../login/login.module';
 
 @Component({
   selector: 'app-requisition',
@@ -53,6 +54,9 @@ export class RequisitionComponent implements OnInit, OnDestroy {
   minus = 0;
   i = 0;
   ddd: any;
+  unRepeatString = '';
+  string = '';
+  cloth: any;
   unRepeat = 0;
   hour: any;
   min: any;
@@ -110,13 +114,17 @@ export class RequisitionComponent implements OnInit, OnDestroy {
       this.amount = formData.amount;
       for (let i = 0; i < this.amount; i++) {
         const arrayId = new InputArray();
+        // this.purchaseLists.push({
+        //   clothId: '1',
+        //   amount: null,
+        //   price: null
+        // });
         this.purchaseLists.push({
           clothId: '1',
-          amount: null,
-          price: null
+          amountCloth: null,
         });
-        arrayId.id = i + 1;
-        this.arrayList.push(arrayId);
+        // arrayId.id = i + 1;
+        // this.arrayList.push(arrayId);
       }
       // console.log('arraylist', this.arrayList);
     }
@@ -198,14 +206,51 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     // console.log(unNormal);
     // console.log(unRepeat);
 
+    let k = [];
 
-    // _.difference(this.dummyLists, [2, 3]);
+    let m = 0;
 
+    for (let i = 0; i < this.purchaseLists.length - 1; i++) {
 
-    await this.getDate();
+      for (let j = i + 1; j < this.purchaseLists.length; j++) {
 
-    try {
-      if (unNormal === 0 && unRepeat === 0) {
+        if (this.purchaseLists[i].clothId === this.purchaseLists[j].clothId) {
+
+          k[m] = this.purchaseLists[i].clothId;
+          m++;
+        }
+      }
+    }
+
+    console.log('k', k);
+    console.log('unnormal' , unNormal);
+
+    if (k.length !== 0 || unNormal !== 0 ) {
+      if (unNormal !== 0) {
+        this.alertService.error('กรุณาตรวจสอบรายการที่ ' + this.unRepeatString);
+        unNormal = 0;
+        this.unRepeatString = '';
+      } else {
+        const result: any = await this.stockService.getCloth();
+        this.cloth = result.rows;
+        for (const item of this.cloth) {
+          for (const items of _.uniq(k)) {
+            if (item.clothId === parseInt(items)) {
+              console.log('item.clothId', item.clothName);
+              this.string += item.clothName + ' ';
+            }
+          }
+      }
+      this.alertService.error('มีการทำรายการผ้าซ้ำ คือ ' + this.string);
+      this.string = '';
+    }
+
+    } else {
+      console.log('ผ่าน');
+
+      await this.getDate();
+
+      try {
 
         const obj = {
           requisitionCode: this.reqId,
@@ -214,7 +259,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
           Users_userId: this.decoded.userId,
           Ward_wardId: this.decoded.Ward_wardId
         };
-        // console.log('obj', obj);
+        console.log('obj', obj);
 
         const result: any = await this.requisitionService.insertRealReq(obj);
 
@@ -237,52 +282,34 @@ export class RequisitionComponent implements OnInit, OnDestroy {
           await this.router.navigate(['main/requisition-bill-detail/' + this.reqId]);
         }
 
-      } if (unNormal !== 0) {
-        this.alertService.error('กรุณาตรวจสอบจำนวนที่ต้องการเบิก');
-        this.unNormal = 0;
-        this.unRepeat = 0;
+      } catch (error) {
+        console.log(error);
 
-      } if (unRepeat !== 0) {
-        this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำ');
-        this.unNormal = 0;
-        this.unRepeat = 0;
-
-      } if (unRepeat !== 0 && unNormal !== 0) {
-        this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำและจำนวนที่ต้องการเบิก');
-        this.unNormal = 0;
-        this.unRepeat = 0;
       }
-
-    } catch (error) {
-      console.log(error);
-
     }
   }
 
-  // this.options = {
-  //   multiple: true,
-  //   theme: 'classic',
-  //   closeOnSelect: false
-  // }
-  // async showBill(data) {
-  //   this.modalBill = true;
-  //     this.bill = data;
-  //     console.log('this.requisitionCode' , this.bill);
-  //     try {
-  //       const result: any = await this.requisitionService.showReqWaitDetail(this.bill);
-  //       console.log('result', result);
-  //       if (result.rows) {
-  //         this.regWaitDetail = result.rows;
-  //         console.log('this.regWaitDetail', this.regWaitDetail);
+  //     } if (unNormal !== 0) {
+  //       this.alertService.error('กรุณาตรวจสอบจำนวนที่ต้องการเบิก');
+  //       this.unNormal = 0;
+  //       this.unRepeat = 0;
 
-  //       }
+  //     } if (unRepeat !== 0) {
+  //       this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำ');
+  //       this.unNormal = 0;
+  //       this.unRepeat = 0;
 
-  //     } catch (err) {
-  //       console.log(err);
+  //     } if (unRepeat !== 0 && unNormal !== 0) {
+  //       this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำและจำนวนที่ต้องการเบิก');
+  //       this.unNormal = 0;
+  //       this.unRepeat = 0;
   //     }
 
-  //   }
+  //   } catch (error) {
+  //     console.log(error);
 
+  //   }
+  // }
 
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks

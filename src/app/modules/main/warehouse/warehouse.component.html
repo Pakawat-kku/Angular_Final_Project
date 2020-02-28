@@ -1,0 +1,74 @@
+<ol class="breadcrumb breadcrumb-arrow">
+    <li><a href="javascript://">Stock</a></li>
+</ol>
+<h1>คลังผ้าใหญ่</h1>
+<br>
+<form clrForm>
+    <div class="clr-row clr-align-items-center">
+        <div class="clr-col-1">
+            <label>ค้นหา</label>
+        </div>
+        <input class="clr-col-3" placeholder="ชื่อผ้า" name="search" [(ngModel)]="search" />
+        <div class="clr-col-1">
+            <button type="button" (click)="letSearch(search)" class="btn btn-primary">ค้นหา</button>
+        </div>
+    </div>
+</form>
+<!-- <div style="text-align: right;">
+    <button type="button" (click)="onAdd()" class="btn btn-success">
+        เพิ่มข้อมูลผ้า
+    </button>
+</div> -->
+
+<clr-datagrid *ngIf="stock" >
+    <clr-dg-column [clrDgField]="'clothId'">ID</clr-dg-column>
+    <clr-dg-column [clrDgField]="'clothName'">ชื่อ</clr-dg-column>
+    <clr-dg-column >จำนวน</clr-dg-column>
+    <!-- <clr-dg-column>สถานะ</clr-dg-column> -->
+    <!-- <clr-dg-column>จำนวน</clr-dg-column> -->
+    <!-- <clr-dg-column>#</clr-dg-column> -->
+    <clr-dg-row *clrDgItems="let item of stock;">
+        <clr-dg-cell>{{ item.clothId }}</clr-dg-cell>
+        <clr-dg-cell>{{ item.clothName }}</clr-dg-cell>
+        <clr-dg-cell>{{ item.warehouseAmount }}</clr-dg-cell>
+        <!-- <clr-dg-cell>
+            <button class="btn btn-primary" (click)="onAdd(item)">เพิ่มจำนวนผ้า</button><br>
+        </clr-dg-cell> -->
+    </clr-dg-row>
+    <clr-dg-footer>
+        <b>รายการผ้าทั้งหมด {{stock.length}} รายการ </b>&nbsp;&nbsp;
+        <clr-dg-pagination #pagination [clrDgPageSize]="10">
+            <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
+            {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+            of {{pagination.totalItems}} leave
+        </clr-dg-pagination>
+    </clr-dg-footer>
+</clr-datagrid>
+
+<!-- <clr-modal *ngIf="currentRow" [(clrModalOpen)]="modalEdit">
+    <h3 class="modal-title" *ngIf="currentRow.mode== 'edit'">แก้ไขข้อมูลผ้า</h3>
+    <label>ชื่อ</label>
+    <h3 class="modal-title" *ngIf="currentRow.mode== 'add'">เพิ่มจำนวนผ้า</h3>
+    <div class="modal-body">
+        <label><b>ชื่อผ้า</b></label>
+        <clr-input-container class="clr-col-8">
+            <input clrInput type="text" [(ngModel)]="currentRow.clothName" name="clothName">
+        </clr-input-container>
+        <br>
+        <label><b>จำนวนผ้า</b></label>
+        <clr-input-container class="clr-col-8">
+            <input clrInput type="number" [(ngModel)]="currentRow.warehouseAmount" name="warehouseAmount">
+        </clr-input-container>
+        <br> -->
+        <!--    
+        <clr-input-container class="clr-col-8">
+            <input clrInput type="number" [(ngModel)]="currentRow.warehouseAmountPlus" name="warehouseAmountPlus">
+        </clr-input-container>
+        <br> -->
+    <!-- </div>
+    <br>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modalEdit = false">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" (click)="onSave()">บันทึก</button>
+    </div>
+</clr-modal> -->

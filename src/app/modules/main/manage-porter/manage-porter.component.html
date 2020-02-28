@@ -1,0 +1,49 @@
+<h2 class="title">จัดการผู้จ่าย</h2>
+<form clrForm >
+        <div class="clr-row clr-align-items-center">
+            <div class="clr-col-1">
+                <label>ค้นหา</label>
+            </div>
+            <input class="clr-col-3" placeholder="รหัสการเบิก" name="searchRequisitionId" [(ngModel)]="searchRequisitionId" />            <!-- <input class="clr-col-3" placeholder="วันเวลา" name="searchDate" [(ngModel)]="searchDate" /> -->
+            <div class="clr-col-1">
+                <button type="button" (click)="searchReq(searchRequisitionId)" class="btn btn-primary">ค้นหา</button>
+            </div>
+        </div>
+    </form>
+<div class="limit-height">
+<clr-datagrid  class="datagrid-compact clr-col-8" *ngIf="porter">
+        <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
+        <clr-dg-column>ชื่อ</clr-dg-column>
+        <clr-dg-column>นามสกุล</clr-dg-column>     
+        <clr-dg-column>นามสกุล</clr-dg-column> 
+        <clr-dg-row id="green" *clrDgItems="let item of porter"  >
+   
+            <clr-dg-cell>{{item.firstname}}</clr-dg-cell>
+            <clr-dg-cell>{{item.lastname}}</clr-dg-cell>
+            <clr-dg-cell> 
+                <button class="btn btn-success-outline btn-sm" (click)="showManagePorter(item)">
+                จัดการวอร์ด
+                </button>
+            </clr-dg-cell>
+        </clr-dg-row>
+</clr-datagrid>
+</div>
+
+
+<clr-modal *ngIf="currentRow" [(clrModalOpen)]="managePorter">
+    <h3 class="modal-title"  style="text-align:center;">จัดการผู้จ่าย {{ currentRow.firstname}} {{ currentRow.lastname}}</h3>
+    <div class="modal-body">
+        <clr-datagrid [(clrDgSelected)]="selected" class="datagrid-compact" >
+            <clr-dg-column>รหัส</clr-dg-column>
+            <clr-dg-column>ชื่อวอร์ด</clr-dg-column>
+            <clr-dg-column>เจ้าหน้าที่ดูแลวอร์ดนี้</clr-dg-column>
+            <clr-dg-row id="green" *clrDgItems="let item of allWard" [clrDgItem]="item">
+                <clr-dg-cell>{{item.wardId}}</clr-dg-cell>
+                <clr-dg-cell>{{item.wardName}}</clr-dg-cell>
+                <clr-dg-cell>{{item.name}}</clr-dg-cell>
+            </clr-dg-row>
+    </clr-datagrid>
+    <button type="button" (click)="manageWardPorter()" class="btn btn-primary">จัดการวอร์ดที่เลือก</button>
+
+    </div>
+</clr-modal>
