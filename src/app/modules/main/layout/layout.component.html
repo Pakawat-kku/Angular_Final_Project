@@ -51,6 +51,10 @@
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
           รายงานรายการสั่งซื้อผ้า
         </a>
+        <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./move-warehouse" routerLinkActive="active">
+          <clr-icon shape="pop-out" clrVerticalNavIcon></clr-icon>
+          เบิกผ้าเข้าส่วนกลาง
+        </a>
         <a clrVerticalNavLink *ngIf="authority.two=='true'" routerLink="./requisition-detail-admin"
           routerLinkActive="active">
           <clr-icon shape="file-group" clrVerticalNavIcon></clr-icon>
@@ -79,6 +83,10 @@
         <a clrVerticalNavLink *ngIf="authority.ten=='true'" routerLink="./user" routerLinkActive="active">
           <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
           จัดการผู้ใช้งาน
+        </a>
+        <a clrVerticalNavLink *ngIf="authority.seven=='true'" routerLink="./manage-porter" routerLinkActive="active">
+          <clr-icon shape="clipboard" clrVerticalNavIcon></clr-icon>
+          จัดการเจ้าหน้าที่นำจ่าย
         </a>
         <a clrVerticalNavLink *ngIf="authority.ten=='true'" routerLink="./authority" routerLinkActive="active">
           <clr-icon shape="bullseye" clrVerticalNavIcon></clr-icon>

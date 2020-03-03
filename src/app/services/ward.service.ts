@@ -68,4 +68,11 @@ export class WardService {
       .then(result => result)
       .catch(error => error);
   }
+
+  getPorter(Users_userId) {
+    return this.http.post(`${this.apiUrl}/ward/getPorter`, {Users_userId})
+        .toPromise()
+        .then(result => result)
+        .catch(err => err);
+  }
 }

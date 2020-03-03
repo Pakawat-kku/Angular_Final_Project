@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
 import { RepairService } from 'src/app/services/repair.service';
+import { AvailableService } from 'src/app/services/available.service';
 
 @Component({
   selector: 'app-repair',
@@ -21,12 +22,15 @@ export class RepairComponent implements OnInit {
     clothId: '1',
     amount: null
   }];
+  dummy: any = [];
+
 
   constructor(
     private router: Router,
     private alertService: AlertService,
     private stockService: StockService,
-    private repairService: RepairService
+    private repairService: RepairService,
+    private availableService: AvailableService
   ) { }
 
   async ngOnInit() {
@@ -81,21 +85,72 @@ export class RepairComponent implements OnInit {
 
   async onSave() {
     console.log(this.addRepair);
-    for (const row of this.addRepair) {
-      const data = {
-        repairAmount: row.amount,
-        Cloth_clothId: row.clothId,
-        repairDate: moment().format('YYYY-MM-DD')
-      };
-      try {
-        const result: any = await this.repairService.insertRepair(data);
-      } catch (error) {
-        console.log(error);
+    let m = 0;
+    const k = [];
+    const saveData: any = [];
+    let unRepeat = 0;
+    let dumNum = 0;
+    let purchNum = 0;
+    let val = 0;
+
+    for (let i = 0; i < this.addRepair.length - 1; i++) {
+      for (let j = i + 1; j < this.addRepair.length; j++) {
+        if (this.addRepair[i].clothId === this.addRepair[j].clothId) {
+          k[m] = this.addRepair[j].clothId;
+          m++;
+        }
       }
     }
-    await this.alertService.success('บันทึกข้อมูลสำเร็จ');
-    this.modalEdit = false;
-    this.getRepair();
+    let i = 0;
+    for (const row of this.addRepair) {
+      i++;
+      if (row.amount === null || row.amount === undefined || row.amount === '') {
+        this.alertService.error('รายการที่ ' + i + ' ไม่มีจำนวนผ้า');
+        val++;
+      } else if (row.amount <= 0) {
+        this.alertService.error('รายการที่ ' + i + ' จำนวนผิดพลาด');
+        val++;
+      }
+    }
+    if (val === 0) {
+      // tslint:disable-next-line: no-shadowed-variable
+      for (let i = 0; i < this.addRepair.length; i++) {
+        this.dummy[i] = this.addRepair[i].clothId;
+      }
+      purchNum = _.size(this.addRepair);
+      dumNum = _.size(_.uniq(this.dummy));
+      if (dumNum < purchNum) {
+        unRepeat = unRepeat + 1;
+      }
+      if (unRepeat !== 0) {
+        this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำ');
+      } else {
+        for (const row of this.addRepair) {
+          const data = {
+            repairAmount: row.amount,
+            Cloth_clothId: row.clothId,
+            repairDate: moment().format('YYYY-MM-DD')
+          };
+          const result3: any = await this.availableService.getAvailable(row.clothId);
+          if (result3.rows) {
+            const obj = {
+              AvailableAmount: result3.rows[0].AvailableAmount + row.amount
+            };
+            try {
+              const result: any = await this.repairService.insertRepair(data);
+              const result2: any = await this.availableService.updateAvailable(obj, row.clothId);
+            } catch (error) {
+              console.log(error);
+            }
+          await this.alertService.success('บันทึกข้อมูลสำเร็จ');
+          this.modalEdit = false;
+          this.getRepair();
+          } else {
+            await this.alertService.error();
+          }
+        }
+      }
+    }
   }
 
 }

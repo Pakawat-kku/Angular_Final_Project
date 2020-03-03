@@ -33,6 +33,7 @@
 
 <clr-modal [(clrModalOpen)]="modalEdit" [clrModalSize]="'lg'">
     <div class="modal-body">
+        <h1>เพิ่มรายการการซ่อมผ้า</h1>
         <div *ngIf="addRepair && addRepair.length">
             <div *ngFor="let item of addRepair; let i = index">
                 {{i+1}} )

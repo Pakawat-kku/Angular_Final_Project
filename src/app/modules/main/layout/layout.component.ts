@@ -27,9 +27,9 @@ export class LayoutComponent implements OnInit {
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
-      console.log('users' , users );
+      // console.log('users' , users );
       this.decoded = jwt_decode(users.token);
-      console.log('decoded', this.decoded);
+      // console.log('decoded', this.decoded);
 
   });
      this.authenticationService.currentUser.subscribe(x =>
@@ -44,9 +44,9 @@ export class LayoutComponent implements OnInit {
   }
 
   async checkAuthority() {
-    console.log('this.decoded.usersId', this.decoded.userId);
+    // console.log('this.decoded.usersId', this.decoded.userId);
     const result: any = await this.users_authorityService.getById(this.decoded.userId);
-    console.log('result.rows' , result);
+    // console.log('result.rows' , result);
     for (const item of result.rows) {
           if (item.aId === 1) {
           this.authority.one = 'true';
@@ -70,7 +70,7 @@ export class LayoutComponent implements OnInit {
           this.authority.ten = 'true';
         }
     }
-    console.log('this.authority', this.authority);
+    // console.log('this.authority', this.authority);
   }
 
 

@@ -4,13 +4,15 @@
     </h1>
 </div>
 
-<clr-datagrid class="clr-col-6" [(clrDgSelected)]="selected">
+<clr-datagrid class="clr-col-8">
     <clr-dg-column>วอร์ด</clr-dg-column>
+    <clr-dg-column *ngIf="wardCheck==true">จำนวนที่เบิก</clr-dg-column>
     <clr-dg-column>เวลา</clr-dg-column>
     <clr-dg-column>วันที่</clr-dg-column>
     <clr-dg-column>รายละเอียด</clr-dg-column>
     <clr-dg-row *clrDgItems="let item of requisitionList" [clrDgItem]="item">
         <clr-dg-cell>{{item.wardName}}</clr-dg-cell>
+        <clr-dg-cell *ngIf="wardCheck==true">{{item.amountClothReal}}</clr-dg-cell>
         <clr-dg-cell>{{item.reqTime}} น.</clr-dg-cell>
         <clr-dg-cell>{{item.reqDate}}</clr-dg-cell>
         <clr-dg-cell><button (click)="onShow(item.requisitionCode)"
@@ -18,11 +20,68 @@
     </clr-dg-row>
 </clr-datagrid>
 <br>
-Selected ward: <span *ngFor="let item of selected">{{item.wardName}} </span>
 <br>
 <button class="btn btn-sm btn-success" (click)=onSubmit()>ยืนยัน</button>
 
+<clr-modal *ngIf="reqList" [(clrModalOpen)]="modalShow" [clrModalSize]="'xl'">
+    <h3 class="modal-title"><b><u>ทำรายการจ่ายผ้า</u></b></h3>
+    <div class="modal-body">
+        <!-- <label><b>เลขที่ใบนำจ่าย : {{withdrawCode}}</b></label><br> -->
+        <div *ngFor="let row of reqList">
+            <label><b>วอร์ดที่เบิก : {{row.wardName}}</b></label><br>
+        </div>
+        <label><b>วันที่นำจ่าย : {{time}}</b></label><br>
+        <label><b>รอบการนำจ่าย : {{round}}</b></label>
+        <clr-datagrid class="clr-align-items-center">
+            <clr-dg-column>รายการผ้า</clr-dg-column>
+            <clr-dg-column>จำนวนที่เบิก</clr-dg-column>
+            <clr-dg-column>จำนวนที่จ่ายแล้ว</clr-dg-column>
+            <clr-dg-column>จำนวนที่ต้องนำจ่าย</clr-dg-column>
+            <clr-dg-column>จำนวนที่จ่าย</clr-dg-column>
+            <clr-dg-row *clrDgItems="let list of detailList" [clrDgItem]="list">
+                <clr-dg-cell>{{list.clothName}}</clr-dg-cell>
+                <clr-dg-cell>{{list.amountClothReal}}</clr-dg-cell>
+                <clr-dg-cell *ngIf="list.totalRound === 1">-</clr-dg-cell>
+                <clr-dg-cell *ngIf="list.totalRound !== 1">{{list.export}}</clr-dg-cell>
+                <clr-dg-cell style="color:red" *ngIf="list.totalRound === 1">
+                    <b>{{list.amountClothReal}}</b></clr-dg-cell>
+                <clr-dg-cell style="color:red" *ngIf="list.totalRound !== 1"><b>{{list.remains}}</b>
+                </clr-dg-cell>
+                <clr-dg-cell style="color: rgb(17, 121, 24);" *ngIf="list.remains === 0">
+                    ส่งเสร็จเรียบร้อย</clr-dg-cell>
+                <clr-dg-cell *ngIf="list.remains !== 0">
+                    <clr-input-container>
+                        <input clrInput type="number" name="amountClothWithdraw"
+                            [(ngModel)]="list.amountClothWithdraw" />
+                    </clr-input-container>
+                </clr-dg-cell>
+            </clr-dg-row>
+        </clr-datagrid><br>
+        <label><b>หมายเหตุ : </b></label>
+        <div *ngFor="let row of reqList">
+        <input type="text" name="description" [(ngModel)]="row.description" />
+        </div>
+        <br><br>
+        <button type="button" class="btn btn-success" (click)="onSave()">บันทึกการนำจ่าย</button>
 
+        <div *ngIf="detailList.totalRound > 1">
+            <br><br>
+            <b><u>ประวัติการส่ง</u></b>
+            <br>
+            <clr-datagrid class="clr-align-items-center">
+                <clr-dg-column>รอบที่จ่าย</clr-dg-column>
+                <clr-dg-column>รายการผ้า</clr-dg-column>
+                <clr-dg-column>จำนวนที่จ่าย</clr-dg-column>
+                <clr-dg-row *clrDgItems="let r of withdrawRoundList">
+                    <clr-dg-cell>{{r.round}}</clr-dg-cell>
+                    <clr-dg-cell>{{r.clothName}}</clr-dg-cell>
+                    <clr-dg-cell>{{r.amountCloth}}</clr-dg-cell>
+                </clr-dg-row>
+            </clr-datagrid>
+        </div>
+    </div>
+</clr-modal>
+<!-- 
 <clr-modal [(clrModalOpen)]="modalShow">
     <h3 class="modal-title">รายละเอียดการเบิก</h3>
     <div class="modal-body">
@@ -38,4 +97,4 @@ Selected ward: <span *ngFor="let item of selected">{{item.wardName}} </span>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="modalShow = false">Ok</button>
     </div>
-</clr-modal>
+</clr-modal> -->

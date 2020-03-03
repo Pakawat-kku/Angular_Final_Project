@@ -191,7 +191,7 @@ export class MoveWarehouseComponent implements OnInit {
       }
     }
 
-    let k = [];
+    const k = [];
 
     let m = 0;
 
@@ -330,6 +330,28 @@ export class MoveWarehouseComponent implements OnInit {
       }
     }
   }
+
+//   async onL(){
+//     for (const row of this.clothList) {
+
+//       const result2: any = await this.wareHouseService.getWareHouse(row.clothId);
+//       const result4: any = await this.availableService.getAvailable(row.clothId);
+//       if (result4.rows.length === 0) {
+//         const obj1 = {
+//           Cloth_clothId: row.clothId,
+//           AvailableAmount: 500 + 0,
+//         };
+//         const result: any = await this.availableService.insertAvailable(obj1);
+
+//         const obj3 = {
+//           warehouseAmount: 10000 - 500,
+//         };
+
+//         const result3: any = await this.wareHouseService.updateWareHouse(row.clothId , obj3);
+
+//       }
+//   }
+// }
 
 
   async checkValue() {
