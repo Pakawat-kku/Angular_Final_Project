@@ -23,7 +23,7 @@
                 </option>
             </select> 
         </div>
-        <b> จำนวนที่มีอยู่: </b><input type="number" name="warehouseAmount" [(ngModel)]="item.warehouseAmount" />
+        <b> จำนวนที่มีอยู่: </b><input type="number" name="warehouseAmount" [(ngModel)]="item.warehouseAmount" readonly/>
         <b> จำนวนที่จะนำเข้าส่วนกลาง : </b><input type="number" name="amountCloth" [(ngModel)]="item.amountCloth" />
         <button *ngIf="i>=0" (click)="addNewRow(i)" class="btn btn-icon btn-sm btn-peimary-outline"
             style="margin-left:3px">
@@ -38,3 +38,5 @@
     </div>
     <button class="btn btn-success" (click)="onSave()">บันทึก</button>
 </div>
+
+ 

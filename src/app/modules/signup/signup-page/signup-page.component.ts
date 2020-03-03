@@ -56,12 +56,12 @@ export class SignupPageComponent implements OnInit {
   // }
 
   // public refreshValue(value: any): void {
-    // for (let row of this.wardList) {
-    //   this.value = {
-    //     text: row.wardName,
-    //     id: row.wardId
-    //   };
-    // }
+  //   for (let row of this.wardList) {
+  //     this.value = {
+  //       text: row.wardName,
+  //       id: row.wardId
+  //     };
+  //   }
   //   this.value = value;
   //   console.log('value', value);
   // }

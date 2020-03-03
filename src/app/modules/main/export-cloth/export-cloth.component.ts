@@ -207,8 +207,8 @@ export class ExportClothComponent implements OnInit, OnDestroy {
         // tslint:disable-next-line: max-line-length
         } else if (this.exportList[i].weightCloth <= 0 || this.exportList[i].weightCar <= 0) {
           this.alertService.error('รายการที่ ' + (i + 1) + ' มีข้อผิดพลาดกรุณาตรวจสอบ');
-        } else if (this.exportCarId === '' || this.exportCarId === undefined) {
-          this.alertService.error('กรุณาใส่ทะเบียนรถ');
+        // } else if (this.exportCarId === '' || this.exportCarId === undefined) {
+        //   this.alertService.error('กรุณาใส่ทะเบียนรถ');
         } else if (this.exportClothUserImport === '' || this.exportClothUserImport === undefined ) {
           this.alertService.error('กรุณาใส่ชื่อผู้รับ');
         } else {

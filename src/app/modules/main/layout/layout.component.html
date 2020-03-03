@@ -43,11 +43,11 @@
           <clr-icon shape="store" clrVerticalNavIcon></clr-icon>
           คลังผ้า
         </a>
-        <a clrVerticalNavLink *ngIf="authority.tree=='true'" routerLink="./purchase" routerLinkActive="active">
+        <a clrVerticalNavLink *ngIf="authority.three=='true'" routerLink="./purchase" routerLinkActive="active">
           <clr-icon shape="add-text" clrVerticalNavIcon></clr-icon>
-          รายการสั่งซื้อผ้าเข้าใหม่
+          สั่งซื้อผ้าเข้าใหม่
         </a>
-        <a clrVerticalNavLink *ngIf="authority.tree=='true'" routerLink="./report-purchase" routerLinkActive="active">
+        <a clrVerticalNavLink *ngIf="authority.three=='true'" routerLink="./report-purchase" routerLinkActive="active">
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
           รายงานรายการสั่งซื้อผ้า
         </a>
@@ -66,7 +66,7 @@
         </a>
         <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition-detail" routerLinkActive="active">
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
-          คลังผ้าส่วนกลาง
+          ประวัติการเบิก
         </a>
         <a clrVerticalNavLink *ngIf="authority.one=='true'" routerLink="./overview-withdraw" routerLinkActive="active">
           <clr-icon shape="event" clrVerticalNavIcon></clr-icon>
@@ -102,7 +102,23 @@
         </a>
         <a clrVerticalNavLink *ngIf="authority.eigth=='true'" routerLink="./export-cloth-detail" routerLinkActive="active">
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
-          ประวัติการเบิก
+          ประวัติการชั่งน้ำหนัก
+        </a>
+        <a clrVerticalNavLink *ngIf="authority.seven=='true'" routerLink="./manage-porter" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          จัดการเจ้าหน้าที่นำจ่าย
+        </a>
+        <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./move-warehouse" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          เบิกผ้าเข้าส่วนกลาง
+        </a>
+        <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./move-warehouse-detail" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          ประวัติการเบิกเข้าผ้าส่วนกลาง
+        </a>
+        <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./available" routerLinkActive="active">
+          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+          คลังผ้าส่วนกลาง
         </a>
       </div>
     </clr-vertical-nav>

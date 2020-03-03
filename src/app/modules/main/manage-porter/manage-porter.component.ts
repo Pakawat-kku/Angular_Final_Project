@@ -6,6 +6,7 @@ import { UsersAuthorityService } from 'src/app/services/users-authority.service'
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import * as _ from 'lodash';
+import { ifStmt } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-manage-porter',
@@ -19,6 +20,13 @@ export class ManagePorterComponent implements OnInit {
   currentRow: any;
   selected: any = [];
   allWard: any;
+  tableTwo: any;
+  sum = 0;
+  summer: any;
+  diseble = false;
+  blank1 = false;
+  blank2 = false;
+
 
   constructor(
     private alertService: AlertService,
@@ -28,26 +36,26 @@ export class ManagePorterComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     moment.locale('th');
-    this.getUser();
-    // this.getSelected();
+    await this.getUser();
+    await this.getTableTwo();
   }
 
   async getUser() {
     try {
       const result: any = await this.userService.getUser();
       const result1: any = await this.usersAuthorityService.get();
-      console.log(result.rows);
 
       if (result.rows) {
         this.userList = result.rows;
       }
+
       for (const item of this.userList) {
         for (const items of result1.rows) {
           if (item.userId === items.Users_userId) {
             if (items.Authority_aId === 1) {
-              console.log(item.firstname + 'คนมีสิทธิ');
+              // console.log(item.firstname + 'คนมีสิทธิ');
               this.porter.push({
                 userId: item.userId,
                 firstname: item.firstname,
@@ -57,74 +65,137 @@ export class ManagePorterComponent implements OnInit {
           }
         }
       }
-
-      console.log('this.porter', this.porter);
-
     } catch (error) {
       console.log(error);
     }
   }
 
+  async getTableTwo() {
+    const result2: any = await this.wardService.getAllWard();
+    this.tableTwo = result2.rows;
+
+    for (const item of this.tableTwo) {
+      const result3: any = await this.userService.getUserId(item.Users_userId);
+
+      if (result3.rows.length === 0) {
+        item.name = 'ว่าง';
+      } else {
+        item.name = result3.rows[0].firstname + ' ' + result3.rows[0].lastname;
+      }
+    }
+
+  }
+
+
   async showManagePorter(row) {
     this.managePorter = true;
     this.currentRow = Object.assign({}, row);
-    console.log('this.currentRow', this.currentRow);
-    this.getSelected(this.currentRow);
+    await this.getSelected(this.currentRow);
   }
 
   async getSelected(row) {
     try {
-      console.log('this.currentRow', row);
-      // const result: any = await this.wardService.getWardBlank(row.userId);
-      // const result: any = await this.wardService.getAllWard();
-      const result1: any = await this.wardService.getWardBlank(row.userId);
 
-       this.allWard = result1.rows;
+      const result1: any = await this.wardService.getWardBlank(row.userId);
+      this.sum = 0;
+      this.allWard = result1.rows;
       for (const item of result1.rows) {
         const result2: any = await this.userService.getUserId(item.Users_userId);
         if (result2.rows.length === 0) {
           item.name = 'ว่าง';
         } else {
           item.name = result2.rows[0].firstname + ' ' + result2.rows[0].lastname;
+          this.sum = this.sum + 1;
         }
       }
-
-      console.log('this.allWard', this.allWard);
-
     } catch (error) {
       console.log(error);
     }
   }
 
   async manageWardPorter() {
-    console.log('selected', this.selected);
-    console.log('currentRow', this.currentRow);
+    try {
+      for (const item of this.selected) {
 
-    for (const item of this.selected) {
-      console.log('item.wardId' , item.wardId);
+        const result: any = await this.wardService.getWardById(item.wardId);
 
-      const result: any = await this.wardService.getWardById(item.wardId);
-      console.log('result.rows' , result.rows);
-      console.log('item.Users_userId' , item.Users_userId);
+       if (item.Users_userId === null) {
+          const obj = {
+            wardId: item.wardId,
+            Users_userId: this.currentRow.userId,
+          };
 
-      if (item.Users_userId === result.rows[0].Users_userId) {
-        const obj = {
-              wardId: item.wardId,
-              Users_userId: null,
-            };
-            console.log('เอาออก');
-
-         const result1 = await  this.wardService.updateWard(obj);
-      } if (item.Users_userId === null) {
-        const obj = {
-              wardId: item.wardId,
-              Users_userId: this.currentRow.userId,
-            };
-            console.log('เพิ่ม');
-
-            const result2 = await  this.wardService.updateWard(obj);
+          const result2 = await this.wardService.updateWard(obj);
+        }
 
       }
-     }
+      this.managePorter = false;
+
+      this.getTableTwo();
+      this.alertService.success('จัดการสำเร็จ');
+      this.router.navigate(['main/manage-porter']);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async cancelManageWardPorter() {
+    try {
+      for (const item of this.selected) {
+
+        const obj = {
+          wardId: item.wardId,
+          Users_userId: null,
+        };
+        const result1 = await this.wardService.updateWard(obj);
+
+      }
+      this.managePorter = false;
+      this.alertService.success('ยกเลิกรายการที่เลือกเรียบร้อย');
+      this.getTableTwo();
+      this.router.navigate(['main/manage-porter']);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  check() {
+    console.log('this.selected' , this.selected);
+    let i = 0;
+    let j = 0;
+    for (const item of this.selected) {
+        if (item.Users_userId === null) {
+          i ++;
+        } else {
+          j ++;
+        }
+    }
+    if (i > 0 ) {
+      this.blank1 = true ;
+    } else {
+      this.blank1 = false ;
+    }
+
+    if (j > 0 ) {
+      this.blank2 = true ;
+    } else {
+      this.blank2 = false ;
+    }
+
+    console.log('i', i);
+    console.log('j', j);
+
+    if (this.selected.length === 0 ) {
+      this.diseble = false;
+      console.log('this.diseble[]', this.diseble);
+
+    } else {
+      this.diseble = true;
+      console.log('this.diseble![]', this.diseble);
+    }
+    console.log('this.blank1', this.blank1);
+    console.log('this.blank2', this.blank2);
   }
 }
+

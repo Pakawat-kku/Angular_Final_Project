@@ -17,17 +17,17 @@
     <div class="clr-row" *ngIf="exportClothTypeHospital=='2'">
         <div class="clr-col-6" *ngFor="let item of exportCloth">
             <b>รหัส : {{exportClothCode}}</b><br>
-            <b>ชื่อเจ้าหน้าที่โรงพยาบาล : {{item.exportClothUserExport}}</b><br>
-            <b>ชื่อเจ้าหน้าที่บริษัท : {{item.exportClothUserImport}}</b><br>
+            <b>ชื่อเจ้าหน้าที่โรงพยาบาลส่งผ้าเปื้อน : {{item.exportClothUserExport}}</b><br>
+            <b>ชื่อเจ้าหน้าที่บริษัทรับผ้าเปื้อน : {{item.exportClothUserImport}}</b><br>
             <b>วันที่ชั่งน้ำหนัก : {{item.day}}</b><br>
-            <b>ทะเบียนรถ : {{item.exportCarId}}</b><br>
+            <!-- <b>ทะเบียนรถ : {{item.exportCarId}}</b><br> -->
         </div>
         <div class="clr-col-6" *ngFor="let items of importCloth">
             <b>รหัส : {{items.importCode}}</b><br>
             <b>ชื่อเจ้าหน้าที่บริษัท : {{items.importUserExport}}</b><br>
             <b>ชื่อเจ้าหน้าที่โรงพยาบาล(รับกลับ) : {{items.importUserImport}}</b><br>
             <b>วันที่ชั่งน้ำหนักผ้ารับกลับ : {{items.day}}</b><br>
-            <b>ทะเบียนรถ : {{items.importCarId}}</b>
+            <!-- <b>ทะเบียนรถ : {{items.importCarId}}</b> -->
         </div>
     </div>
     <div *ngIf="getInner==''">

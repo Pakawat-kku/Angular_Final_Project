@@ -48,6 +48,8 @@ import { OverviewWithdrawAdminDetailComponent } from './overview-withdraw-admin-
 import { RepairComponent } from './repair/repair.component';
 import { RepairDetailComponent } from './repair-detail/repair-detail.component';
 import { AuthorityComponent } from './authority/authority.component';
+import { MoveWarehouseDetailComponent } from './move-warehouse-detail/move-warehouse-detail.component';
+import { MoveWarehouseBillDetailComponent } from './move-warehouse-bill-detail/move-warehouse-bill-detail.component';
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
@@ -65,7 +67,7 @@ import { AuthorityComponent } from './authority/authority.component';
     WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent,
     ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent,
     OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent,
-    RepairDetailComponent, AuthorityComponent
+    RepairDetailComponent, AuthorityComponent, MoveWarehouseDetailComponent, MoveWarehouseBillDetailComponent
   ],
   imports: [
     CommonModule,

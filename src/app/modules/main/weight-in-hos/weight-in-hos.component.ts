@@ -207,8 +207,8 @@ export class WeightInHosComponent implements OnInit {
         // tslint:disable-next-line: max-line-length
         } else if (this.weightList[i].weightCloth <= 0 || this.weightList[i].weightCar <= 0) {
           this.alertService.error('รายการที่ ' + (i + 1) + ' มีข้อผิดพลาดกรุณาตรวจสอบ');
-        } else if (this.importCarId === '' || this.importCarId === undefined) {
-          this.alertService.error('กรุณาใส่ทะเบียนรถ');
+        // } else if (this.importCarId === '' || this.importCarId === undefined) {
+        //   this.alertService.error('กรุณาใส่ทะเบียนรถ');
         } else if (this.importUserExport === '' || this.importUserExport === undefined ) {
           this.alertService.error('กรุณาใส่ชื่อผู้รับ');
         } else {

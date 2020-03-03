@@ -1,0 +1,39 @@
+<a routerLink="/main/move-warehouse-detail">
+    <button class="btn btn-success-outline btn-sm">
+        <clr-icon shape="undo"></clr-icon> BACK
+    </button>
+</a><h1 style="text-align: center;">รายละเอียดใบเบิก {{warehouse_export_availableCode}}</h1> 
+
+<div class="head-bill" *ngFor="let item of warehouse_export_available">
+    <span >
+        <b>รหัสการเบิก : {{warehouse_export_availableCode}}</b><br>
+        <b>คนเรื่องเบิก : {{item.firstname}}  {{item.lastname}}</b><br>
+        <b>เมื่อวันที่ : {{item.day}}</b><br>
+        <b>เวลา : {{item.time}}</b><br>
+    </span>
+</div>
+
+<div class="limit-height">
+    <clr-datagrid class="datagrid-compact clr-col-8" *ngIf="warehouse_export_availableDetail">
+            <clr-dg-placeholder>ไม่มีรายการเบิก!</clr-dg-placeholder>
+            <clr-dg-column>ชื่อผ้า</clr-dg-column>
+            <clr-dg-column>จำนวน</clr-dg-column> 
+            <clr-dg-row id="green" *ngFor="let item of warehouse_export_availableDetail" >
+                <clr-dg-cell>{{item.clothName}}</clr-dg-cell>
+                <clr-dg-cell>{{item.warehouse_export_availableAmount}}</clr-dg-cell>
+                <!-- <clr-dg-cell>
+                    <button class="btn btn-primary-outline btn-sm" (click)="modalDetailExport(item)"  >
+                        ข้อมูลการเบิก
+                    </button>
+                </clr-dg-cell> -->
+            </clr-dg-row>
+            <clr-dg-footer>
+                <b>รายการผ้าทั้งหมด {{warehouse_export_availableDetail.length}} รายการ </b>&nbsp;&nbsp;
+                <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                    <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                    of {{pagination.totalItems}} users
+                </clr-dg-pagination>
+            </clr-dg-footer>
+    </clr-datagrid>
+    </div>

@@ -18,6 +18,7 @@ export class WarehouseComponent implements OnInit {
   editRow: any;
   stock: any = [];
   notHave = 0;
+  title = 'angularselect2';
 
   constructor(
     private alertService: AlertService,
