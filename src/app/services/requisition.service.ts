@@ -46,20 +46,20 @@ export class RequisitionService {
       .catch(error => error);
   }
 
-showReqWaitDetail(requisitionCode) {
-  return this.http.post(`http://localhost:3001/req/showReqWaitDetail` , { requisitionCode })
-  .toPromise()
-  .then(result => result)
-  .catch(error => error);
-}
+  showReqWaitDetail(requisitionCode) {
+    return this.http.post(`http://localhost:3001/req/showReqWaitDetail`, { requisitionCode })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
 
-// showReqWaitDetail(requisitionCode) {
-//   // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-//   return this.http.get(`http://localhost:3001/req/showReqWaitDetail?requisitionCode=${requisitionCode}`)
-//   .toPromise()
-//   .then(result => result)
-//   .catch(error => error);
-// }
+  // showReqWaitDetail(requisitionCode) {
+  //   // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
+  //   return this.http.get(`http://localhost:3001/req/showReqWaitDetail?requisitionCode=${requisitionCode}`)
+  //   .toPromise()
+  //   .then(result => result)
+  //   .catch(error => error);
+  // }
 
   showReqDetailApprove(requisitionCode) {
     return this.http.post(`${this.apiUrl}/req/showReqDetailApprove`, { requisitionCode })
@@ -137,60 +137,81 @@ showReqWaitDetail(requisitionCode) {
       .catch(err => err);
   }
 
-notApproveList(requisitionCode , clothId) {
-  return this.http.post(`http://localhost:3001/req/notApproveList`, { requisitionCode, clothId })
+  notApproveList(requisitionCode, clothId) {
+    return this.http.post(`http://localhost:3001/req/notApproveList`, { requisitionCode, clothId })
       .toPromise()
       .then(result => result)
       .catch(err => err);
-}
+  }
 
-notApproveReq(requisitionCode) {
-  return this.http.post(`http://localhost:3001/req/notApproveReq`, { requisitionCode })
+  notApproveReq(requisitionCode) {
+    return this.http.post(`http://localhost:3001/req/notApproveReq`, { requisitionCode })
       .toPromise()
       .then(result => result)
       .catch(err => err);
-}
+  }
 
-submitEdit(requisitionCode , clothId , amountCloth) {
-  return this.http.post(`http://localhost:3001/req/editReq`, { requisitionCode, clothId , amountCloth})
+  submitEdit(requisitionCode, clothId, amountCloth) {
+    return this.http.post(`http://localhost:3001/req/editReq`, { requisitionCode, clothId, amountCloth })
       .toPromise()
       .then(result => result)
       .catch(err => err);
-}
+  }
 
-searchWard(searchWard) {
-  return this.http.post(`http://localhost:3001/req/searchWard`, { searchWard})
+  searchWard(searchWard) {
+    return this.http.post(`http://localhost:3001/req/searchWard`, { searchWard })
       .toPromise()
       .then(result => result)
       .catch(err => err);
-}
+  }
 
-searchRequisitionCode(requisitionCode) {
-  return this.http.post(`http://localhost:3001/req/searchReqId`, { requisitionCode })
+  searchRequisitionCode(requisitionCode) {
+    return this.http.post(`http://localhost:3001/req/searchReqId`, { requisitionCode })
       .toPromise()
       .then(result => result)
       .catch(err => err);
-}
+  }
 
-searchTypeApprove(wardId) {
-  return this.http.post(`http://localhost:3001/req/searchTypeApprove`, { wardId })
+  searchTypeApprove(wardId) {
+    return this.http.post(`http://localhost:3001/req/searchTypeApprove`, { wardId })
       .toPromise()
       .then(result => result)
       .catch(err => err);
-}
+  }
 
-searchTypeNotApprove(wardId) {
-  return this.http.post(`http://localhost:3001/req/searchTypeNotApprove`, { wardId })
+  searchTypeNotApprove(wardId) {
+    return this.http.post(`http://localhost:3001/req/searchTypeNotApprove`, { wardId })
       .toPromise()
       .then(result => result)
       .catch(err => err);
-}
+  }
 
-updateAmountReal(clothId, requisitionCode , amountClothReal) {
-  return this.http.post(`http://localhost:3001/req/updateAmountReal`, { clothId, requisitionCode , amountClothReal })
+  updateAmountReal(clothId, requisitionCode, amountClothReal) {
+    return this.http.post(`http://localhost:3001/req/updateAmountReal`, { clothId, requisitionCode, amountClothReal })
       .toPromise()
       .then(result => result)
       .catch(err => err);
-}
+  }
+
+  getByWard(Ward_wardId) {
+    return this.http.post(`${this.apiUrl}/req/getByWard`, { Ward_wardId })
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
+  }
+
+  getByWardStatusWD1(Ward_wardId) {
+    return this.http.post(`${this.apiUrl}/req/getByWardStatusWD1`, { Ward_wardId })
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
+  }
+
+  getNapkin() {
+    return this.http.post(`${this.apiUrl}/req/getNapkin`, {})
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
+  }
 
 }

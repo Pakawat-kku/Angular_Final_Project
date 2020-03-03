@@ -39,7 +39,6 @@ export class OverviewWithdrawDetailComponent implements OnInit {
   clothOver = '';
   roundList: any = [];
   r: any = '';
-  active_status = '';
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -89,10 +88,8 @@ export class OverviewWithdrawDetailComponent implements OnInit {
           this.round = item.totalRound;
         }
         this.date = moment(result.rows[0].withdrawDate).add(543, 'years').format('DD MMMM YYYY');
-        this.active_status = this.withdrawList[0].active_status;
       }
       // console.log('withdrawList', this.withdrawList);
-      console.log('ac', this.active_status);
 
     } catch (error) {
       console.log(error);

@@ -58,8 +58,8 @@ export class WithdrawService {
       .catch(error => error);
   }
 
-  statusWithdraw(withdrawId) {
-    return this.http.post(`${this.apiUrl}/withdraw/statusWithdraw`, { withdrawId })
+  statusWithdraw(withdrawCode) {
+    return this.http.post(`${this.apiUrl}/withdraw/statusWithdraw`, { withdrawCode })
       .toPromise()
       .then(result => result)
       .catch(error => error);
@@ -88,6 +88,27 @@ export class WithdrawService {
 
   searchByWard(wardId, dateSearch1, dateSearch2) {
     return this.http.post(`${this.apiUrl}/withdraw/searchByWard`, { wardId, dateSearch1, dateSearch2 })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  getByReq(requisitionCode) {
+    return this.http.post(`${this.apiUrl}/withdraw/getByReq`, { requisitionCode })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  getDetailByCode(Withdraw_withdrawCode) {
+    return this.http.post(`${this.apiUrl}/withdrawDetail/byCode`, { Withdraw_withdrawCode })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  getDetailRoundByCode(Withdraw_withdrawCode, round) {
+    return this.http.post(`${this.apiUrl}/withdrawDetail/roundByCode`, { Withdraw_withdrawCode, round })
       .toPromise()
       .then(result => result)
       .catch(error => error);

@@ -84,6 +84,10 @@
           <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
           จัดการผู้ใช้งาน
         </a>
+        <a clrVerticalNavLink *ngIf="authority.seven=='true'" routerLink="./manage-porter" routerLinkActive="active">
+          <clr-icon shape="clipboard" clrVerticalNavIcon></clr-icon>
+          จัดการเจ้าหน้าที่นำจ่าย
+        </a>
         <a clrVerticalNavLink *ngIf="authority.ten=='true'" routerLink="./authority" routerLinkActive="active">
           <clr-icon shape="bullseye" clrVerticalNavIcon></clr-icon>
           จัดการสิทธิ์
