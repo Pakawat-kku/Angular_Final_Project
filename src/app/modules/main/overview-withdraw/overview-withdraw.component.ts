@@ -75,43 +75,153 @@ export class OverviewWithdrawComponent implements OnInit {
             if (result3.rows.length !== 0) {
               if (result3.rows.length > 1) {
                 for (const item of result3.rows) {
-                  this.requisitionList.push({
-                    requisitionCode: item.requisitionCode,
-                    reqTime: moment(item.reqDate).format('HH:mm'),
-                    reqDate: moment(item.reqDate).add(543, 'years').format('DD MMMM YYYY'),
-                    wardName: item.wardName,
-                    wardId: item.wardId,
-                    description: '',
-                    round: 0
-                  });
-                  this.reqDetailList.push({
-                    Requisition_requisitionCode: item.requisitionCode,
-                    clothId: item.clothId,
-                    clothName: item.clothName,
-                    amountClothReal: item.amountClothReal,
-                    totalRound: 0
-                  });
-                  // console.log(this.reqDetailList);
+                  const code = 'nk' + item.requisitionCode;
+                  // console.log(code);
+                  const result4: any = await this.withdrawService.getByReq(code);
+                  if (result4.rows.length === 0) {
+                    this.reqDetailList.push({
+                      Requisition_requisitionCode: item.requisitionCode,
+                      clothId: item.clothId,
+                      clothName: item.clothName,
+                      amountClothReal: item.amountClothReal,
+                      totalRound: 1,
+                      amountClothWithdraw: 0,
+                      remains: item.amountClothReal,
+                      export: 0,
+                      check: 0
+                    });
+                    if (this.reqDetailList.length !== 0) {
+                      this.requisitionList.push({
+                        requisitionCode: item.requisitionCode,
+                        reqTime: moment(item.reqDate).format('HH:mm'),
+                        reqDate: moment(item.reqDate).add(543, 'years').format('DD MMMM YYYY'),
+                        wardName: item.wardName,
+                        wardId: item.wardId,
+                        description: '',
+                        round: 0
+                      });
+                    }
+                  } else {
+                    // tslint:disable-next-line: no-shadowed-variable
+                    const code = 'nk' + item.requisitionCode;
+                    const result5: any = await this.withdrawService.getByReq(code);
+                    if (result5.rows.length !== 0) {
+                      if (result5.rows[0].withdraw_status === '0') {
+                        const results2: any = await this.requisitionService.showReqWaitDetailNapkin(item.requisitionCode);
+                        const results1: any = await this.withdrawService
+                          .getDetailRoundByCode(result5.rows[0].withdrawCode, result5.rows[0].totalRound);
+                        if (results1.rows.length !== 0) {
+                          this.withdrawList.push(results1.rows[0]);
+                        }
+                        if (results2.rows.length !== 0) {
+                          results2.rows[0].Requisition_requisitionCode = item.requisitionCode;
+                          results2.rows[0].withdrawCode = result5.rows[0].withdrawCode;
+                          this.reqDetailList.push(results2.rows[0]);
+                        }
+                        // console.log(results2.rows, results1.rows);
+                        if (this.reqDetailList.length !== 0) {
+                          this.requisitionList.push({
+                            requisitionCode: item.requisitionCode,
+                            reqTime: moment(item.reqDate).format('HH:mm'),
+                            reqDate: moment(item.reqDate).add(543, 'years').format('DD MMMM YYYY'),
+                            wardName: item.wardName,
+                            wardId: item.wardId,
+                            description: '',
+                            round: results1.rows[0].round
+                          });
+                          for (let i = 0; i < this.reqDetailList.length; i++) {
+                            for (let j = 0; j < this.withdrawList.length; j++) {
+                              if (this.reqDetailList[i].Cloth_clothId === this.withdrawList[j].Cloth_clothId
+                                && this.reqDetailList[i].totalRound === undefined) {
+                                this.reqDetailList[i].remains = this.withdrawList[j].WithdrawDetail_remain;
+                                this.reqDetailList[i].export =
+                                  this.reqDetailList[i].amountClothReal - this.withdrawList[j].WithdrawDetail_remain;
+                              }
+                            }
+                          }
+                          console.log(this.withdrawList, this.reqDetailList);
+                        }
+                      }
+                    }
+                  }
                 }
               } else {
-                this.requisitionList.push({
-                  requisitionCode: result3.rows[0].requisitionCode,
-                  reqTime: moment(result3.rows[0].reqDate).format('HH:mm'),
-                  reqDate: moment(result3.rows[0].reqDate).add(543, 'years').format('DD MMMM YYYY'),
-                  wardName: result3.rows[0].wardName,
-                  wardId: result3.rows[0].wardId,
-                  description: '',
-                  clothId: result3.rows[0].clothId,
-                  clothName: result3.rows[0].clothName,
-                  amountClothReal: result3.rows[0].amountClothReal,
-                  round: 0
-                });
+                const code = 'nk' + result3.rows[0].requisitionCode;
+                const result4: any = await this.withdrawService.getByReq(code);
+                console.log(result4.rows);
+                if (result4.rows.length === 0) {
+                  this.reqDetailList.push({
+                    Requisition_requisitionCode: result3.rows[0].requisitionCode,
+                    clothId: result3.rows[0].clothId,
+                    clothName: result3.rows[0].clothName,
+                    amountClothReal: result3.rows[0].amountClothReal,
+                    totalRound: 1,
+                    amountClothWithdraw: 0,
+                    remains: result3.rows[0].amountClothReal,
+                    export: 0,
+                    check: 0
+                  });
+                  if (this.reqDetailList.length !== 0) {
+                    this.requisitionList.push({
+                      requisitionCode: result3.rows[0].requisitionCode,
+                      reqTime: moment(result3.rows[0].reqDate).format('HH:mm'),
+                      reqDate: moment(result3.rows[0].reqDate).add(543, 'years').format('DD MMMM YYYY'),
+                      wardName: result3.rows[0].wardName,
+                      wardId: result3.rows[0].wardId,
+                      description: '',
+                      round: 0
+                    });
+                  }
+                } else {
+                  // tslint:disable-next-line: no-shadowed-variable
+                  const code = 'nk' + result3.rows[0].requisitionCode;
+                  const result5: any = await this.withdrawService.getByReq(code);
+                  if (result5.rows.length !== 0) {
+                    if (result5.rows[0].withdraw_status === '0') {
+                      const results2: any = await this.requisitionService.showReqWaitDetailNapkin(result3.rows[0].requisitionCode);
+                      const results1: any = await this.withdrawService
+                        .getDetailRoundByCode(result5.rows[0].withdrawCode, result5.rows[0].totalRound);
+                      if (results1.rows.length !== 0) {
+                        this.withdrawList.push(results1.rows[0]);
+                      }
+                      if (results2.rows.length !== 0) {
+                        results2.rows[0].Requisition_requisitionCode = result3.rows[0].requisitionCode;
+                        results2.rows[0].withdrawCode = result5.rows[0].withdrawCode;
+                        this.reqDetailList.push(results2.rows[0]);
+                      }
+                      // console.log(results2.rows, results1.rows);
+                      if (this.reqDetailList.length !== 0) {
+                        this.requisitionList.push({
+                          requisitionCode: result3.rows[0].requisitionCode,
+                          reqTime: moment(result3.rows[0].reqDate).format('HH:mm'),
+                          reqDate: moment(result3.rows[0].reqDate).add(543, 'years').format('DD MMMM YYYY'),
+                          wardName: result3.rows[0].wardName,
+                          wardId: result3.rows[0].wardId,
+                          description: '',
+                          round: results1.rows[0].round
+                        });
+                        for (let i = 0; i < this.reqDetailList.length; i++) {
+                          for (let j = 0; j < this.withdrawList.length; j++) {
+                            if (this.reqDetailList[i].Cloth_clothId === this.withdrawList[j].Cloth_clothId
+                              && this.reqDetailList[i].totalRound === undefined) {
+                              this.reqDetailList[i].remains = this.withdrawList[j].WithdrawDetail_remain;
+                              this.reqDetailList[i].export =
+                                this.reqDetailList[i].amountClothReal - this.withdrawList[j].WithdrawDetail_remain;
+                            }
+                          }
+                        }
+                        console.log(this.withdrawList, this.reqDetailList);
+                      }
+                    }
+                  }
+                }
               }
             }
             // ไม่ใช่ผ้าเช็ดมือ
           } else {
             // getเอาreqตามวอร์ด
             const result2: any = await this.requisitionService.getByWard(row.wardId);
+            // console.log(result2.rows);
             if (result2.rows.length !== 0) {
               if (result2.rows.length > 1) {
                 for (const item of result2.rows) {
@@ -121,19 +231,20 @@ export class OverviewWithdrawComponent implements OnInit {
                     const result6: any = await this.requisitionService.showReqWaitDetail(item.requisitionCode);
                     if (result6.rows) {
                       // tslint:disable-next-line: no-shadowed-variable
-                      for (const row of result6.rows) {
-                        if (row.clothName !== 'ผ้าเช็ดมือ') {
-                          row.amountClothWithdraw = 0;
-                          row.totalRound = 1;
-                          // row.remains = row.amountClothReal;
-                          // row.export = 0;
-                          this.reqDetailList.push(row);
+                      for (const rowr of result6.rows) {
+                        if (rowr.clothName !== 'ผ้าเช็ดมือ') {
+                          rowr.amountClothWithdraw = 0;
+                          rowr.totalRound = 1;
+                          // rowr.remains = rowr.amountClothReal;
+                          // rowr.export = 0;
+                          this.reqDetailList.push(rowr);
                         }
                       }
                       // tslint:disable-next-line: no-shadowed-variable
                       for (const item of this.reqDetailList) {
                         item.remains = item.amountClothReal;
                         item.export = 0;
+                        item.check = 0;
                       }
                       // console.log(this.reqDetailList);
                     }
@@ -157,20 +268,21 @@ export class OverviewWithdrawComponent implements OnInit {
                   const result7: any = await this.requisitionService.showReqWaitDetail(result2.rows[0].requisitionCode);
                   if (result7.rows) {
                     // tslint:disable-next-line: no-shadowed-variable
-                    for (const row of result7.rows) {
-                      if (row.clothName !== 'ผ้าเช็ดมือ') {
-                        row.amountClothWithdraw = 0;
-                        row.totalRound = 1;
-                        // row.export = 0;
-                        // row.remains = row.amountClothReal;
-                        await this.reqDetailList.push(row);
-                        console.log(this.reqDetailList);
+                    for (const rowl of result7.rows) {
+                      if (rowl.clothName !== 'ผ้าเช็ดมือ') {
+                        rowl.amountClothWithdraw = 0;
+                        rowl.totalRound = 1;
+                        // rowl.export = 0;
+                        // rowl.remains = rowl.amountClothReal;
+                        await this.reqDetailList.push(rowl);
+                        // console.log(this.reqDetailList);
                       }
                     }
                     for (const items of this.reqDetailList) {
-                      console.log(items.amountClothReal , items.id);
+                      // console.log(items.amountClothReal, items.id);
                       items.remains = items.amountClothReal;
                       items.export = 0;
+                      items.check = 0;
                     }
                   }
                   // console.log(this.reqDetailList, result2.rows[0].requisitionCode);
@@ -190,7 +302,7 @@ export class OverviewWithdrawComponent implements OnInit {
               // มีใบเบิกแล้ว
             } else {
               const result9: any = await this.requisitionService.getByWardStatusWD1(row.wardId);
-              if (result9.rows) {
+              if (result9.rows.length !== 0) {
                 if (result9.rows.length !== 0) {
                   if (result9.rows.length > 1) {
                     for (const item of result9.rows) {
@@ -204,40 +316,52 @@ export class OverviewWithdrawComponent implements OnInit {
                   } else {
                     const result4: any = await this.withdrawService.getByReq(result9.rows[0].requisitionCode);
                     if (result4.rows.length !== 0) {
-                      const results2: any = await this.requisitionService.showReqWaitDetail(result9.rows[0].requisitionCode);
-                      const results1: any = await this.withdrawService
-                        .getDetailRoundByCode(result4.rows[0].withdrawCode, result4.rows[0].totalRound);
-                      if (results1.rows.length > 1) {
-                        for (const items of results1.rows) {
-                          if (items.clothName !== 'ผ้าเช็ดมือ') {
-                            this.withdrawList.push(items);
-                          }
-                        }
-                        for (const rows of results2.rows) {
-                          if (rows.clothName !== 'ผ้าเช็ดมือ') {
-                            rows.Requisition_requisitionCode = result9.rows[0].requisitionCode;
-                            this.reqDetailList.push(rows);
-                          }
-                        }
-                        for (let i = 0; i < this.reqDetailList.length; i++) {
-                          for (let j = 0; j < this.withdrawList.length; j++) {
-                            if (this.reqDetailList[i].Cloth_clothId === this.withdrawList[j].Cloth_clothId) {
-                              this.reqDetailList[i].remains = this.withdrawList[j].WithdrawDetail_remain;
-                              this.reqDetailList[i].export =
-                                this.reqDetailList[i].amountClothReal - this.withdrawList[j].WithdrawDetail_remain;
+                      if (result4.rows[0].withdraw_status === '0') {
+                        const results2: any = await this.requisitionService.showReqWaitDetail(result9.rows[0].requisitionCode);
+                        const results1: any = await this.withdrawService
+                          .getDetailRoundByCode(result4.rows[0].withdrawCode, result4.rows[0].totalRound);
+                        if (results1.rows.length > 1) {
+                          for (const items of results1.rows) {
+                            if (items.clothName !== 'ผ้าเช็ดมือ') {
+                              this.withdrawList.push(items);
                             }
                           }
-                        }
-                        if (this.reqDetailList.length !== 0) {
-                          this.requisitionList.push({
-                            requisitionCode: result9.rows[0].requisitionCode,
-                            reqTime: moment(result9.rows[0].reqDate).format('HH:mm'),
-                            reqDate: moment(result9.rows[0].reqDate).add(543, 'years').format('DD MMMM YYYY'),
-                            wardName: result9.rows[0].wardName,
-                            wardId: result9.rows[0].wardId,
-                            description: '',
-                            round: results1.rows[0].round
-                          });
+                          for (const rows of results2.rows) {
+                            if (rows.clothName !== 'ผ้าเช็ดมือ') {
+                              rows.Requisition_requisitionCode = result9.rows[0].requisitionCode;
+                              rows.withdrawCode = result4.rows[0].withdrawCode;
+                              this.reqDetailList.push(rows);
+                            }
+                          }
+
+                          if (this.reqDetailList.length !== 0) {
+                            this.requisitionList.push({
+                              requisitionCode: result9.rows[0].requisitionCode,
+                              reqTime: moment(result9.rows[0].reqDate).format('HH:mm'),
+                              reqDate: moment(result9.rows[0].reqDate).add(543, 'years').format('DD MMMM YYYY'),
+                              wardName: result9.rows[0].wardName,
+                              wardId: result9.rows[0].wardId,
+                              description: '',
+                              round: results1.rows[0].round
+                            });
+                            // for (let rew of this.requisitionList) {
+                            //   if (rew.round > 0) {
+                            for (let i = 0; i < this.reqDetailList.length; i++) {
+                              for (let j = 0; j < this.withdrawList.length; j++) {
+                                // console.log(this.reqDetailList[i].id, ')',this.reqDetailList[i].totalRound);
+                                if (this.reqDetailList[i].Cloth_clothId === this.withdrawList[j].Cloth_clothId
+                                  && this.reqDetailList[i].totalRound === undefined) {
+                                  this.reqDetailList[i].remains = this.withdrawList[j].WithdrawDetail_remain;
+                                  this.reqDetailList[i].export =
+                                    this.reqDetailList[i].amountClothReal - this.withdrawList[j].WithdrawDetail_remain;
+                                  // console.log('(', this.reqDetailList[i].id, ')', this.reqDetailList[i].export, '=',
+                                  //   this.reqDetailList[i].amountClothReal, '-', this.withdrawList[j].WithdrawDetail_remain);
+                                  //   }
+                                  // }
+                                }
+                              }
+                            }
+                          }
                         }
                       }
                     }
@@ -271,7 +395,7 @@ export class OverviewWithdrawComponent implements OnInit {
       }
     }
     this.round = this.reqList[0].round + 1;
-    console.log(this.reqList, this.detailList);
+    // console.log(this.detailList);
   }
 
   async onSave() {
@@ -288,61 +412,75 @@ export class OverviewWithdrawComponent implements OnInit {
       try {
         const data: any = [];
         const wd: any = [];
-        // กรณียังไม่มีใบเบิก
-        if (this.round === 1) {
-          for (const row of this.detailList) {
-            row.remain = 0;
-            num++;
-            if (row.amountClothWithdraw < 0) {
-              this.alertService.error('จำนวน ' + ' ' + row.clothName + 'ผิดพลาด');
-            } else {
-              row.remain = row.remains - row.amountClothWithdraw;
-              console.log(row.remain, '=', row.remains, '-', row.amountClothWithdraw);
-              // ค้างส่ง
-              if (row.remain > 0) {
-                row.statusRemain = 1;
-                if (this.uncomplete === 0) {
-                  this.clothRemain = this.clothRemain + row.clothName;
-                } else {
-                  this.clothRemain = this.clothRemain + ', ' + row.clothName;
-                }
-                this.uncomplete += 1;
-                // ส่งครบ
-              } else if (row.remain === 0) {
-                row.statusRemain = 2;
-                this.remain = true;
-                // ส่งเกิน
+        for (const row of this.detailList) {
+          row.remain = 0;
+          num++;
+          if (row.amountClothWithdraw === '' || row.amountClothWithdraw === undefined) {
+            row.amountClothWithdraw = 0;
+          }
+          if (row.amountClothWithdraw < 0) {
+            this.alertService.error('จำนวน ' + ' ' + row.clothName + 'ผิดพลาด');
+          } else {
+            row.remain = row.remains - row.amountClothWithdraw;
+            // console.log(row.remain, '=', row.remains, '-', row.amountClothWithdraw);
+            // ค้างส่ง
+            if (row.remain > 0) {
+              row.statusRemain = 1;
+              if (this.uncomplete === 0) {
+                this.clothRemain = this.clothRemain + row.clothName;
               } else {
-                if (this.over === 0) {
-                  this.clothOver = this.clothOver + row.clothName;
-                } else {
-                  this.clothOver = this.clothOver + ', ' + row.clothName;
-                }
-                this.over += 1;
+                this.clothRemain = this.clothRemain + ', ' + row.clothName;
               }
-            }
-            i++;
-          }
-          if (this.over > 0) {
-            const decision2: any = await this.alertService.error('จำนวน' + this.clothOver + 'เกินจำนวนที่เบิก');
-          } else if (this.uncomplete > 0) {
-            const decision2: any = await this.alertService.confirm('จำนวน' + this.clothRemain + 'ไม่ครบตามจำนวนที่เบิก');
-            if (decision2.value) {
+              this.uncomplete += 1;
+              // ส่งครบ
+            } else if (row.remain === 0) {
+              row.statusRemain = 2;
               this.remain = true;
+              // ส่งเกิน
+            } else {
+              if (this.over === 0) {
+                this.clothOver = this.clothOver + row.clothName;
+              } else {
+                this.clothOver = this.clothOver + ', ' + row.clothName;
+              }
+              this.over += 1;
             }
           }
-          if (this.over === 0 && this.remain === true) {
+          i++;
+        }
+        if (this.over > 0) {
+          const decision2: any = await this.alertService.error('จำนวน' + this.clothOver + 'เกินจำนวนที่เบิก');
+        } else if (this.uncomplete > 0) {
+          const decision2: any = await this.alertService.confirm('จำนวน' + this.clothRemain + 'ไม่ครบตามจำนวนที่เบิก');
+          if (decision2.value) {
+            this.remain = true;
+          }
+        }
+        if (this.over === 0 && this.remain === true) {
+          // ไม่มีใบเบิก
+          if (this.round === 1) {
             for (const req of this.reqList) {
               this.withdrawCode = '';
               this.withdrawCode = this.decoded.userId + moment().format('YYYYMMDDHHmmss');
-              await data.push({
-                withdrawCode: this.withdrawCode,
-                withdrawDate: moment().format('YYYY-MM-DD HH:mm:ss'),
-                withdraw_status: '0',
-                Ward_wardId: req.wardId,
-                Requisition_requisitionCode: req.requisitionCode,
-                totalRound: 1
-              });
+              if (this.wardCheck === false) {
+                await data.push({
+                  withdrawCode: this.withdrawCode,
+                  withdrawDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+                  withdraw_status: '0',
+                  Ward_wardId: req.wardId,
+                  Requisition_requisitionCode: req.requisitionCode,
+                  totalRound: 1
+                });
+              } else {
+                await data.push({
+                  withdrawCode: this.withdrawCode,
+                  withdrawDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+                  withdraw_status: '0',
+                  Ward_wardId: req.wardId,
+                  Requisition_requisitionCode: 'nk' + req.requisitionCode,
+                  totalRound: 1
+                });
+              }
               for (const row of this.detailList) {
                 await wd.push({
                   Withdraw_withdrawCode: this.withdrawCode,
@@ -370,11 +508,47 @@ export class OverviewWithdrawComponent implements OnInit {
                   const result1: any = await this.requisitionService.statusWithdrawSuccess(this.reqList.Requisition_requisitionCode);
                   const result6: any = await this.requisitionService.statusDetailWithdrawSuccess(row.id);
                   val++;
-                  // console.log(val);
-                  if (val === this.detailList.length) {
-                    const result2: any = await this.withdrawService.statusWithdraw(this.withdrawCode);
-                  }
+                  // console.log(val, row.withdrawCode);
                 }
+              }
+              if (val === this.detailList.length) {
+                const result2: any = await this.withdrawService.statusWithdraw(this.withdrawCode);
+              }
+            }
+            // มีใบเบิก
+          } else {
+            for (const req of this.detailList) {
+              await wd.push({
+                amountCloth: req.amountClothWithdraw,
+                description: this.reqList.description,
+                Withdraw_withdrawCode: req.withdrawCode,
+                round: this.round,
+                Cloth_clothId: req.Cloth_clothId,
+                WithdrawDetail_remain: req.remain,
+                WithdrawDetail_status_remain: req.statusRemain,
+                Users_userId: this.decoded.userId
+              });
+            }
+            // console.log(wd);
+            const results: any = await this.withdrawService.saveWithdrawDetail(wd);
+            const results2: any = await this.withdrawService.updateRoundCode(this.round, this.detailList[0].withdrawCode);
+            if (results.statusCode === 200) {
+              await this.alertService.success();
+              this.modalShow = false;
+              await this.getRequisition();
+              let val = 0;
+              // console.log(val);
+              for (const row of this.detailList) {
+                if (row.statusRemain === 2) {
+                  // tslint:disable-next-line: max-line-length
+                  // const result1: any = await this.requisitionService.statusWithdrawSuccess(this.rows.Requisition_requisitionCode);
+                  const result6: any = await this.requisitionService.statusDetailWithdrawSuccess(row.id);
+                  val++;
+                  // console.log(val, this.detailList[0].withdrawCode, this.detailList.length);
+                }
+              }
+              if (val === this.detailList.length) {
+                const result2: any = await this.withdrawService.statusWithdraw(this.detailList[0].withdrawCode);
               }
             }
           }

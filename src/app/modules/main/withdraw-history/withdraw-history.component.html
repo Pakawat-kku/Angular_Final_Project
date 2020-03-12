@@ -2,7 +2,7 @@
 <br>
 <div *ngIf="withdrawList">
     <div *ngFor="let item of withdrawList">
-      <a routerLink="/main/overview-withdraw-detail/{{item.withdrawCode}}" style="color: rgb(3, 44, 3)"> 
+      <a routerLink="/main/withdraw-history-detail/{{item.withdrawCode}}" style="color: rgb(3, 44, 3)"> 
         <clr-icon shape="file"></clr-icon>
         <b>
            รายการที่ {{item.withdrawCode}} 

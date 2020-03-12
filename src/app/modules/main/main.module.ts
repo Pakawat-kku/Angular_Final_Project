@@ -1,3 +1,4 @@
+import { RegisterComponent } from './register/register.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -67,7 +68,7 @@ import { MoveWarehouseBillDetailComponent } from './move-warehouse-bill-detail/m
     WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent,
     ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent,
     OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent,
-    RepairDetailComponent, AuthorityComponent, MoveWarehouseDetailComponent, MoveWarehouseBillDetailComponent
+    RepairDetailComponent, AuthorityComponent, MoveWarehouseDetailComponent, MoveWarehouseBillDetailComponent, RegisterComponent
   ],
   imports: [
     CommonModule,
@@ -77,8 +78,7 @@ import { MoveWarehouseBillDetailComponent } from './move-warehouse-bill-detail/m
     MainRoutingModule,
     Select2Module,
     ReactiveFormsModule,
-    MyDatePickerTHModule,
-
+    MyDatePickerTHModule
   ]
 })
 export class MainModule { }

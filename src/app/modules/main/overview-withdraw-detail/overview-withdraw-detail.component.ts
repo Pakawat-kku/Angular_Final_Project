@@ -184,7 +184,7 @@ export class OverviewWithdrawDetailComponent implements OnInit {
         // console.log('num', num);
         // if (row.amountClothWithdraw === '' || row.amountClothWithdraw === undefined) {
         //   row.amountClothWithdraw = 0;
-        // } 
+        // }
         if (row.amountClothWithdraw < 0) {
           this.alertService.error('จำนวน ' + ' ' + row.clothName + 'ผิดพลาด');
         } else {

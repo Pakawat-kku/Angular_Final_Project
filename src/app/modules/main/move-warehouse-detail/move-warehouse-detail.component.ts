@@ -6,7 +6,7 @@ import { AlertService } from 'src/app/services/alert.service';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { AvailableService } from './../../../services/available.service';
-import { Warehouse_export_availableService } from './../../../services/Warehouse_export_available';
+import { Warehouse_export_availableService } from './../../../services/warehouse_export_available';
 import { Warehouse_export_availableDetailService } from './../../../services/warehouse_export_availableDetail';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import * as jwt_decode from 'jwt-decode';

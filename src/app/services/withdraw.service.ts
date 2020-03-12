@@ -114,4 +114,25 @@ export class WithdrawService {
       .catch(error => error);
   }
 
+  updateRoundCode(round, withdrawCode) {
+    return this.http.post(`${this.apiUrl}/withdraw/updateRoundCode`, { round, withdrawCode })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  getWithdrawByCodeNapkin(withdrawCode) {
+    return this.http.post(`${this.apiUrl}/withdraw/getByCodeNapkin`, { withdrawCode })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  getDetailRoundByCodeUser(Withdraw_withdrawCode) {
+    return this.http.post(`${this.apiUrl}/withdrawDetail/getRoundByCodeUser`, { Withdraw_withdrawCode })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
 }

@@ -6,13 +6,11 @@
 
 <clr-datagrid class="clr-col-8">
     <clr-dg-column>วอร์ด</clr-dg-column>
-    <clr-dg-column *ngIf="wardCheck==true">จำนวนที่เบิก</clr-dg-column>
     <clr-dg-column>เวลา</clr-dg-column>
     <clr-dg-column>วันที่</clr-dg-column>
     <clr-dg-column>รายละเอียด</clr-dg-column>
     <clr-dg-row *clrDgItems="let item of requisitionList" [clrDgItem]="item">
         <clr-dg-cell>{{item.wardName}}</clr-dg-cell>
-        <clr-dg-cell *ngIf="wardCheck==true">{{item.amountClothReal}}</clr-dg-cell>
         <clr-dg-cell>{{item.reqTime}} น.</clr-dg-cell>
         <clr-dg-cell>{{item.reqDate}}</clr-dg-cell>
         <clr-dg-cell><button (click)="onShow(item.requisitionCode)"
@@ -81,20 +79,3 @@
         </div>
     </div>
 </clr-modal>
-<!-- 
-<clr-modal [(clrModalOpen)]="modalShow">
-    <h3 class="modal-title">รายละเอียดการเบิก</h3>
-    <div class="modal-body">
-        <clr-datagrid>
-            <clr-dg-column>รายการผ้า</clr-dg-column>
-            <clr-dg-column>จำนวน</clr-dg-column>
-            <clr-dg-row *ngFor="let item of reqDetailList">
-                <clr-dg-cell>{{item.clothName}}</clr-dg-cell>
-                <clr-dg-cell>{{item.amountClothReal}}</clr-dg-cell>
-            </clr-dg-row>
-        </clr-datagrid>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="modalShow = false">Ok</button>
-    </div>
-</clr-modal> -->

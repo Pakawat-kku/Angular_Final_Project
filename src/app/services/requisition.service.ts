@@ -214,4 +214,18 @@ export class RequisitionService {
       .catch(err => err);
   }
 
+  showReqWaitDetailNapkin(requisitionCode) {
+    return this.http.post(`${this.apiUrl}/req/showReqWaitDetailNapkin`, { requisitionCode })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  getReqNapkin(requisitionCode) {
+    return this.http.post(`${this.apiUrl}/req/getReqNapkin`, { requisitionCode })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
 }

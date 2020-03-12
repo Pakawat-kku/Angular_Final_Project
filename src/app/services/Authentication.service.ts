@@ -1,3 +1,4 @@
+import { Users } from './../modules/main/register/users';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -5,13 +6,12 @@ import { map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
 
-import { Users } from '../modules/main/register/users';
 
 @Injectable({ providedIn: 'root' })
 
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<Users>;
-    public  currentUser: Observable<Users>;
+    public currentUser: Observable<Users>;
     private router: Router;
 
     constructor(
@@ -19,7 +19,7 @@ export class AuthenticationService {
         private alertService: AlertService,
 
     ) {
-        this.currentUserSubject = new BehaviorSubject<Users>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUserSubject = new BehaviorSubject<Users>(JSON.parse(sessionStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
@@ -35,10 +35,10 @@ export class AuthenticationService {
 
                 if (users && users.token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(users));
+                    sessionStorage.setItem('currentUser', JSON.stringify(users));
                     this.currentUserSubject.next(users);
 
-                 } else {
+                } else {
                     this.alertService.error('username หรือ password ไม่ถูกต้อง');
                     this.router.navigate(['/login/login-page']);
                 }
@@ -49,7 +49,8 @@ export class AuthenticationService {
 
     logout() {
         // remove user from local storage and set current user to null
-        localStorage.removeItem('currentUser');
+        sessionStorage.clear();
+        // sessionStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }
 }

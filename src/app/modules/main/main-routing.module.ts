@@ -1,3 +1,4 @@
+import { AuthGuard } from './../../services/auth.guard';
 import { WeightInHosComponent } from './weight-in-hos/weight-in-hos.component';
 import { WeightComponent } from './weight/weight.component';
 import { WithdrawHistoryDetailComponent } from './withdraw-history-detail/withdraw-history-detail.component';
@@ -54,7 +55,7 @@ const routes: Routes = [
   {
     path: 'main',
     component: LayoutComponent,
-    // canActivate: [AuthGuardService],
+    canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'main', pathMatch: 'full' },
       { path: 'main', component: MainPageComponent },

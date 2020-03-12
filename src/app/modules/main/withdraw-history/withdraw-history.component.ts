@@ -40,7 +40,7 @@ export class WithdrawHistoryComponent implements OnInit {
         for (let item of this.withdrawList) {
           item.date = moment(item.withdrawDate).add(543, 'years').format('DD MMMM YYYY');
         }
-        console.log(this.withdrawList);
+        // console.log(this.withdrawList);
       }
     } catch (error) {
       console.log(error);
