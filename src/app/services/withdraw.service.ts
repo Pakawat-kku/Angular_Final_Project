@@ -16,6 +16,13 @@ export class WithdrawService {
       .catch(error => error);
   }
 
+  getWithdraw() {
+    return this.http.get(`${this.apiUrl}/withdraw/`, {})
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
   saveWithdrawDetail(data) {
     return this.http.post(`${this.apiUrl}/withdrawDetail/`, { data })
       .toPromise()
@@ -133,6 +140,14 @@ export class WithdrawService {
       .toPromise()
       .then(result => result)
       .catch(error => error);
+  }
+
+  checkPerMonth(date1, date2) {
+    return this.http
+      .post(`${this.apiUrl}/withdraw/checkMonth`, { date1, date2 })
+      .toPromise()
+      .then(result => result)
+      .catch(err => err);
   }
 
 }

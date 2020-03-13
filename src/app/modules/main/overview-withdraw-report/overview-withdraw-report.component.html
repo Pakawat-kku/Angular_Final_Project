@@ -1,0 +1,67 @@
+<h1>รายการจ่ายผ้า</h1>
+<br>
+<form clrForm>
+    <div class="clr-row">
+        <div class="clr-col-1">
+            <label>วันที่</label>
+        </div>
+        <div class="clr-col-3">
+            <my-date-picker-th name="dateSearch1" [options]="myDatePickerOptions" [(ngModel)]="dateSearch3" required>
+            </my-date-picker-th>
+        </div>
+        <div class="clr-col-1">
+            <label>ถึงวันที่</label>
+        </div>
+        <div class="clr-col-3">
+            <my-date-picker-th name="dateSearch2" [options]="myDatePickerOptions" [(ngModel)]="dateSearch4" required>
+            </my-date-picker-th>
+        </div>
+    </div>
+    <div class="clr-col-3">
+        ค้นหาวอร์ด :
+        <select name="wardId" [(ngModel)]="wardId">
+            <option value="0">ทุกวอร์ด</option>
+            <option *ngFor="let row of wardList" [value]="row.wardId">{{row.wardName}}</option>
+        </select>
+    </div>
+    <div class="clr-col-1">
+        <button type="button" (click)="letSearch(wardId,dateSearch3,dateSearch4)" class="btn btn-primary">ค้นหา</button>
+    </div>
+</form>
+
+<div *ngIf="wardList">
+    <div *ngFor="let row of wardList;">
+        <b>รหัสวอร์ด : </b>{{row.wardCode}}<br>
+        <b>วอร์ด : </b>{{row.wardName}}<br>
+        <hr>
+        <clr-datagrid>
+            <clr-dg-column>วันที่</clr-dg-column>
+            <clr-dg-column [clrDgField]="'wardName'">วอร์ด</clr-dg-column>
+            <clr-dg-column>เลขที่ใบนำจ่าย</clr-dg-column>
+            <clr-dg-column>จำนวนรอบการนำจ่าย</clr-dg-column>
+            <clr-dg-column>สถานะ</clr-dg-column>
+            <clr-dg-column>#</clr-dg-column>
+            <clr-dg-row *ngFor="let item of withdrawList">
+                <clr-dg-cell>{{item.withdrawDate}}</clr-dg-cell>
+                <clr-dg-cell>{{item.wardName}}</clr-dg-cell>
+                <clr-dg-cell>{{item.withdrawCode}}</clr-dg-cell>
+                <clr-dg-cell>{{item.totalRound}}</clr-dg-cell>
+                <clr-dg-cell *ngIf="item.withdraw_status=='1'">ส่งเสร็จ</clr-dg-cell>
+                <clr-dg-cell *ngIf="item.withdraw_status=='0'">ส่งไม่เสร็จ</clr-dg-cell>
+                <clr-dg-cell>
+                    <a routerLink="/main/overview-withdraw-admin-detail/{{item.withdrawCode}}">
+                        <button class="btn btn-primary">ดูการนำจ่าย</button>
+                    </a>
+                </clr-dg-cell>
+            </clr-dg-row>
+
+            <clr-dg-footer>ผลลัพธ์ทั้งหมด {{withdrawList.length}} รายการ
+                <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                    <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]"></clr-dg-page-size>
+                    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                    of {{pagination.totalItems}} leave
+                </clr-dg-pagination>
+            </clr-dg-footer>
+        </clr-datagrid>
+    </div>
+</div>

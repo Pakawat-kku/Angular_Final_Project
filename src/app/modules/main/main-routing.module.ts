@@ -46,6 +46,9 @@ import { RepairDetailComponent } from './repair-detail/repair-detail.component';
 import { AuthorityComponent } from './authority/authority.component';
 import { MoveWarehouseDetailComponent } from './move-warehouse-detail/move-warehouse-detail.component';
 import { MoveWarehouseBillDetailComponent } from './move-warehouse-bill-detail/move-warehouse-bill-detail.component';
+import { CompanyComponent } from './company/company.component';
+import { OverviewWithdrawMonthComponent } from './overview-withdraw-month/overview-withdraw-month.component';
+import { OverviewWithdrawReportComponent } from './overview-withdraw-report/overview-withdraw-report.component';
 
 
 // import { WithdrawService } from 'src/app/services/withdraw.service';
@@ -67,6 +70,7 @@ const routes: Routes = [
       { path: 'requisition-bill-detail/:requisitionCode', component: RequisitionBillDetailComponent },
       { path: 'requisition-detail-admin', component: RequisitionDetailAdminComponent },
       { path: 'stock', component: StockComponent },
+      { path: 'company', component: CompanyComponent },
       { path: 'authority', component: AuthorityComponent },
       { path: 'ward', component: WardComponent },
       { path: 'repair', component: RepairComponent },
@@ -77,7 +81,9 @@ const routes: Routes = [
       { path: 'purchase', component: PurchaseComponent },
       { path: 'report-purchase', component: ReportPurchaseComponent },
       { path: 'overview-withdraw', component: OverviewWithdrawComponent },
+      { path: 'overview-withdraw-month', component: OverviewWithdrawMonthComponent },
       { path: 'overview-withdraw-admin', component: OverviewWithdrawAdminComponent },
+      { path: 'overview-withdraw-report', component: OverviewWithdrawReportComponent },
       { path: 'overview-withdraw-admin-detail/:withdrawCode', component: OverviewWithdrawAdminDetailComponent },
       { path: 'overview-damage', component: OverviewDamageComponent },
       { path: 'overview-damage-detail/:clothId', component: OverviewDamageDetailComponent },

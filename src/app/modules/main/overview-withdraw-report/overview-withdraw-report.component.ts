@@ -4,15 +4,16 @@ import { AlertService } from './../../../services/alert.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { InputArray } from '../requisition/inputArray';
+import { StockService } from 'src/app/services/stock.service';
+import * as _ from 'lodash';
 
 @Component({
-  selector: 'app-overview-withdraw-admin',
-  templateUrl: './overview-withdraw-admin.component.html',
-  styleUrls: ['./overview-withdraw-admin.component.scss']
+  selector: 'app-overview-withdraw-report',
+  templateUrl: './overview-withdraw-report.component.html',
+  styleUrls: ['./overview-withdraw-report.component.scss']
 })
-export class OverviewWithdrawAdminComponent implements OnInit {
-  wardList: any;
+export class OverviewWithdrawReportComponent implements OnInit {
+  wardList: any = [{}];
   sum: any;
   wardId: any;
   warning: any;
@@ -22,15 +23,18 @@ export class OverviewWithdrawAdminComponent implements OnInit {
   dateSearch2: any;
   dateSearch3: any;
   dateSearch4: any;
+  clothList: any = [];
+  showList: any = [{}];
   constructor(
     private alertService: AlertService,
+    private stockService: StockService,
     private wardService: WardService,
     private withdrawService: WithdrawService
   ) { }
 
-  ngOnInit() {
-    this.getWithdraw();
-    this.getWard();
+  async ngOnInit() {
+    await this.getWard();
+    await this.getWithdraw();
     moment.locale('th');
     this.wardId = 0;
     this.dateSearch3 = {
@@ -55,6 +59,19 @@ export class OverviewWithdrawAdminComponent implements OnInit {
     };
   }
 
+  async getCloth() {
+    try {
+      const result: any = await this.stockService.getCloth();
+      if (result.rows) {
+        console.log('cloth', result.rows);
+        this.clothList = result.rows;
+        console.log('check', this.clothList);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async getWard() {
     try {
       const result: any = await this.wardService.getAllWard();
@@ -70,6 +87,18 @@ export class OverviewWithdrawAdminComponent implements OnInit {
     try {
       const result: any = await this.withdrawService.getWithdraw();
       if (result.rows) {
+        let k = 0;
+        for (let i = 0; i < this.wardList.length; i++) {
+          for (const row of result.rows) {
+            // console.log(item.wardId, row.Ward_wardId);
+            if (this.wardList[i].wardId === row.Ward_wardId) {
+              row.withdrawDate = moment(row.withdrawDate).add(543, 'years').format('DD MMMM YYYY');
+              this.showList[k] = row;
+              k++;
+            }
+          }
+        }
+        console.log(this.showList);
         this.withdrawList = result.rows;
         this.warning = '';
         this.onProcess = [];
@@ -119,11 +148,19 @@ export class OverviewWithdrawAdminComponent implements OnInit {
           try {
             const result: any = await this.withdrawService.searchByDate(dateSearch3, dateSearch4);
             if (result.rows.length) {
+              // console.log(result.rows);
+              // for (const item of this.wardList) {
               for (const row of result.rows) {
+                // console.log(item.wardId, row.Ward_wardId);
+                // if (item.wardId === row.Ward_wardId) {
                 row.withdrawDate = moment(row.withdrawDate).add(543, 'years').format('DD MMMM YYYY');
+                // await item.push(row);
+                // }
               }
-              this.withdrawList = result.rows;
-              console.log(this.withdrawList);
+              // }
+              // this.withdrawList = result.rows;
+              // console.log(this.withdrawList);
+              console.log(this.wardList);
             }
           } catch (error) {
             console.log(error);
