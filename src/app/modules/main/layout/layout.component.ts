@@ -28,10 +28,8 @@ export class LayoutComponent implements OnInit {
     private mainService: MainService
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
-      if (users) {
         this.currentUser = users;
         this.decoded = jwt_decode(users.token);
-      }
     });
     this.authenticationService.currentUser.subscribe(x =>
       this.currentUser = x

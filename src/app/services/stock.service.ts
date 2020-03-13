@@ -43,6 +43,12 @@ export class StockService {
       .then(result => result)
       .catch(error => error);
   }
+  getClothById(clothId) {
+    return this.http.post(`${this.apiUrl}/cloth/getClothById`, {clothId})
+    .toPromise()
+    .then(result => result)
+    .catch(error => error);
+  }
 
   updateCloth(data) {
     return this.http.post(`${this.apiUrl}/cloth/update`, { data })

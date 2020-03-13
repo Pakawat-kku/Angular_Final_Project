@@ -60,6 +60,10 @@
           <clr-icon shape="file-group" clrVerticalNavIcon></clr-icon>
           รายการเบิกผ้าเข้าของวอร์ด
         </a>
+        <a clrVerticalNavLink *ngIf="authority.two=='true'" routerLink="./overview-requisition" routerLinkActive="active">
+          <clr-icon shape="file" clrVerticalNavIcon></clr-icon>
+          ภาพรวมการเบิกผ้า
+        </a>
         <a clrVerticalNavLink *ngIf="decoded.position==2" routerLink="./requisition" routerLinkActive="active">
           <clr-icon shape="note" clrVerticalNavIcon></clr-icon>
           เบิกผ้า

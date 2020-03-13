@@ -49,6 +49,7 @@ import { MoveWarehouseBillDetailComponent } from './move-warehouse-bill-detail/m
 import { CompanyComponent } from './company/company.component';
 import { OverviewWithdrawMonthComponent } from './overview-withdraw-month/overview-withdraw-month.component';
 import { OverviewWithdrawReportComponent } from './overview-withdraw-report/overview-withdraw-report.component';
+import { OverviewRequisitionComponent } from './overview-requisition/overview-requisition.component';
 
 
 // import { WithdrawService } from 'src/app/services/withdraw.service';
@@ -104,6 +105,7 @@ const routes: Routes = [
       { path: 'move-warehouse-detail', component: MoveWarehouseDetailComponent },
       { path: 'move-warehouse-bill-detail/:warehouse_export_availableCode', component: MoveWarehouseBillDetailComponent },
       { path: 'manage-porter', component: ManagePorterComponent },
+      { path: 'overview-requisition', component: OverviewRequisitionComponent },
       { path: '**', component: PageNotFoundComponent },
     ]
   }

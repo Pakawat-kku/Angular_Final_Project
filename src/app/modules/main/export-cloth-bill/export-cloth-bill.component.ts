@@ -14,6 +14,7 @@ import { ImportClothService } from 'src/app/services/import-cloth.service';
 import { ImportDetailWeightService } from 'src/app/services/import-detail-weight.service';
 import { ImportDetailWeightSumService } from 'src/app/services/import-detail-weight-sum.service';
 
+import { UsersAuthorityService } from 'src/app/services/users-authority.service';
 @Component({
   selector: 'app-export-cloth-bill',
   templateUrl: './export-cloth-bill.component.html',
@@ -38,6 +39,7 @@ export class ExportClothBillComponent implements OnInit {
   getInner = '';
   exportClothCodeDummy: any;
   importClothCode = '';
+  authority: any = [];
 
 
   constructor(
@@ -51,7 +53,8 @@ export class ExportClothBillComponent implements OnInit {
     private importService: ImportClothService,
     private importDetailWeightClothService: ImportDetailWeightService,
     private importDetailWeightSumService: ImportDetailWeightSumService,
-
+    private users_authorityService: UsersAuthorityService,
+    
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
@@ -62,6 +65,35 @@ export class ExportClothBillComponent implements OnInit {
   }
 
   async ngOnInit() {
+    const result: any = await this.users_authorityService.getById(this.decoded.userId);
+    // console.log('result.rows' , result);
+    for (const item of result.rows) {
+      if (item.aId === 1) {
+        this.authority.one = 'true';
+      } if (item.aId === 2) {
+        this.authority.two = 'true';
+      } if (item.aId === 3) {
+        this.authority.three = 'true';
+      } if (item.aId === 4) {
+        this.authority.four = 'true';
+      } if (item.aId === 5) {
+        this.authority.five = 'true';
+      } if (item.aId === 6) {
+        this.authority.six = 'true';
+      } if (item.aId === 7) {
+        this.authority.seven = 'true';
+      } if (item.aId === 8) {
+        this.authority.eigth = 'true';
+      } if (item.aId === 9) {
+        this.authority.nine = 'true';
+      } if (item.aId === 10) {
+        this.authority.eigth = 'true';
+      }
+    }
+    if (this.authority.ten !== 'true') {
+      this.alertService.error();
+      this.router.navigate(['main/main']);
+    } else {
     moment.locale('th');
     this.exportClothCode = this._Activatedroute.snapshot.paramMap.get('exportClothCode');
     console.log('id-pass', this.exportClothCode);
@@ -70,7 +102,7 @@ export class ExportClothBillComponent implements OnInit {
     await this.getImportDetail();
     await this.getImportCloth();
     await this.getImportDetailWeightSum();
-
+    }
   }
 
   async getExportCloth() {

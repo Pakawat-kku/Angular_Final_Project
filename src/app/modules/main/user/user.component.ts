@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertService } from 'src/app/services/alert.service';
 import { UsersService } from 'src/app/services/users.service';
-import { Router } from '@angular/router';
+import { Router , ActivatedRoute} from '@angular/router';
 import * as moment from 'moment';
 import { AuthorityService } from 'src/app/services/authority.service';
 import { UsersAuthorityService } from 'src/app/services/users-authority.service';
-
+import * as jwt_decode from 'jwt-decode';
+import { Subscription } from 'rxjs';
+import { AuthenticationService } from '../../../services//Authentication.service';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -22,19 +24,60 @@ export class UserComponent implements OnInit {
   dateApprove: any;
   type = 'firstname';
   authorityList: any = [];
-
+  currentUser: any;
+  currentUserSubscription: Subscription;
+  decoded: any ;
+  authority: any = [];
   constructor(
     private alertService: AlertService,
     private userService: UsersService,
     private router: Router,
     private authorityService: AuthorityService,
-    private users_authorityService: UsersAuthorityService
-  ) { }
+    private users_authorityService: UsersAuthorityService,
+    private _Activatedroute: ActivatedRoute,
+    private authenticationService: AuthenticationService,
 
-  ngOnInit() {
+  ) { 
+    this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
+      this.currentUser = users;
+      this.decoded = jwt_decode(users.token);
+  });
+  }
+
+  async ngOnInit() {
+    const result: any = await this.users_authorityService.getById(this.decoded.userId);
+    // console.log('result.rows' , result);
+    for (const item of result.rows) {
+      if (item.aId === 1) {
+        this.authority.one = 'true';
+      } if (item.aId === 2) {
+        this.authority.two = 'true';
+      } if (item.aId === 3) {
+        this.authority.three = 'true';
+      } if (item.aId === 4) {
+        this.authority.four = 'true';
+      } if (item.aId === 5) {
+        this.authority.five = 'true';
+      } if (item.aId === 6) {
+        this.authority.six = 'true';
+      } if (item.aId === 7) {
+        this.authority.seven = 'true';
+      } if (item.aId === 8) {
+        this.authority.eigth = 'true';
+      } if (item.aId === 9) {
+        this.authority.nine = 'true';
+      } if (item.aId === 10) {
+        this.authority.ten = 'true';
+      }
+    }
+    if (this.authority.ten !== 'true') {
+      this.alertService.error();
+      this.router.navigate(['main/main']);
+    } else {
     moment.locale('th');
     this.getUser();
     this.getAuthority();
+    }
   }
 
   async getUser() {

@@ -6,8 +6,9 @@ import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import * as jwt_decode from 'jwt-decode';
 import { RequisitionService } from './../../../services/requisition.service';
-import { Router } from '@angular/router';
+import { Router , ActivatedRoute} from '@angular/router';
 
+import { UsersAuthorityService } from 'src/app/services/users-authority.service';
 @Component({
   selector: 'app-requisition-detail',
   templateUrl: './requisition-detail.component.html',
@@ -26,31 +27,61 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
   requisitionCode: any;
   regWaitDetail: any;
   showSearchRequisitionId: any;
+  authority: any = [];
 
   constructor(
     private alertService: AlertService,
     private requisitionService: RequisitionService,
     private router: Router,
     private authenticationService: AuthenticationService,
+    private _Activatedroute: ActivatedRoute,
+    private users_authorityService: UsersAuthorityService,
 
   ) {
       this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
-      console.log('users' , users );
       this.decoded = jwt_decode(users.token);
       console.log('decoded', this.decoded);
 
   });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const result: any = await this.users_authorityService.getById(this.decoded.userId);
+    // console.log('result.rows' , result);
+    for (const item of result.rows) {
+      if (item.aId === 1) {
+        this.authority.one = 'true';
+      } if (item.aId === 2) {
+        this.authority.two = 'true';
+      } if (item.aId === 3) {
+        this.authority.three = 'true';
+      } if (item.aId === 4) {
+        this.authority.four = 'true';
+      } if (item.aId === 5) {
+        this.authority.five = 'true';
+      } if (item.aId === 6) {
+        this.authority.six = 'true';
+      } if (item.aId === 7) {
+        this.authority.seven = 'true';
+      } if (item.aId === 8) {
+        this.authority.eigth = 'true';
+      } if (item.aId === 9) {
+        this.authority.nine = 'true';
+      } if (item.aId === 10) {
+        this.authority.ten = 'true';
+      }
+    }
+    if (this.decoded.position !== 2) {
+      this.alertService.error();
+      this.router.navigate(['main/main']);
+    } else {
     moment.locale('th');
-
     this.getReqWait();
+    }
   }
 
   async getReqWait() {
-    console.log('this.decoded.Ward_wardId', this.decoded.Ward_wardId);
     try {
       const result: any = await this.requisitionService.showReqWait(this.decoded.Ward_wardId);
       if (result.rows) {

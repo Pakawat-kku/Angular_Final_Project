@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { RequisitionService } from './../../../services/requisition.service';
 import { StockService } from './../../../services/stock.service';
 import { throwError, fromEvent } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router , ActivatedRoute} from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
 import { NgForm, FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import * as _ from 'lodash';
@@ -16,7 +16,7 @@ import { Select2OptionData } from 'ng2-select2';
 import { endWith } from 'rxjs/operators';
 import { LocaleHelperService } from '@clr/angular/forms/datepicker/providers/locale-helper.service';
 import { LoginModule } from '../../login/login.module';
-
+import { UsersAuthorityService } from 'src/app/services/users-authority.service';
 @Component({
   selector: 'app-requisition',
   templateUrl: './requisition.component.html',
@@ -60,6 +60,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
   unRepeat = 0;
   hour: any;
   min: any;
+  authority: any = [];
 
   constructor(
     private alertService: AlertService,
@@ -69,6 +70,8 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
     private userService: UsersService,
+    private _Activatedroute: ActivatedRoute,
+    private users_authorityService: UsersAuthorityService,
 
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
@@ -79,12 +82,18 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     });
   }
 
-  async ngOnInit() {
+   async ngOnInit() {
+    console.log('this.decoded.positionId', this.decoded.positionId);
+    if (this.decoded.position !== 2) {
+      this.alertService.error();
+      this.router.navigate(['main/main']);
+    } else {
     moment.locale('th');
     this.getDate();
     await this.getCloth();
     this.checkTime();
     // this.exampleData = this.clothList;
+    }
   }
 
   getDate() {
@@ -103,7 +112,6 @@ export class RequisitionComponent implements OnInit, OnDestroy {
     this.hour = parseInt(moment().format('HH'));
     // tslint:disable-next-line: radix
     this.min = parseInt(moment().format('mm'));
-    console.log(this.hour, this.min);
   }
 
   onClickSubmit(formData) {

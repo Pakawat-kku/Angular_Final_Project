@@ -54,6 +54,8 @@ import { MoveWarehouseBillDetailComponent } from './move-warehouse-bill-detail/m
 import { CompanyComponent } from './company/company.component';
 import { OverviewWithdrawMonthComponent } from './overview-withdraw-month/overview-withdraw-month.component';
 import { OverviewWithdrawReportComponent } from './overview-withdraw-report/overview-withdraw-report.component';
+import { OverviewRequisitionComponent } from './overview-requisition/overview-requisition.component';
+import { OverviewRequisitionDetailComponent } from './overview-requisition-detail/overview-requisition-detail.component';
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
@@ -72,7 +74,8 @@ import { OverviewWithdrawReportComponent } from './overview-withdraw-report/over
     ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent,
     OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent,
     RepairDetailComponent, AuthorityComponent, MoveWarehouseDetailComponent,
-    MoveWarehouseBillDetailComponent, RegisterComponent, CompanyComponent, OverviewWithdrawMonthComponent, OverviewWithdrawReportComponent
+    MoveWarehouseBillDetailComponent, RegisterComponent, CompanyComponent, OverviewWithdrawMonthComponent, OverviewWithdrawReportComponent,
+    OverviewRequisitionDetailComponent
   ],
   imports: [
     CommonModule,

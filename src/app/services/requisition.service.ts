@@ -228,4 +228,33 @@ export class RequisitionService {
       .catch(error => error);
   }
 
+
+  searchByDate(dateSearch1, dateSearch2) {
+    return this.http.post(`${this.apiUrl}/req/searchByDate`, { dateSearch1, dateSearch2 })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  searchByDateGroupbyWard(dateSearch1, dateSearch2) {
+    return this.http.post(`${this.apiUrl}/req/searchByDateGroupbyWard`, { dateSearch1, dateSearch2 })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  searchByWard(wardId, dateSearch1, dateSearch2) {
+    return this.http.post(`${this.apiUrl}/req/searchByWard`, { wardId, dateSearch1, dateSearch2 })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
+  searchByDateAmount(requisitionCode) {
+    return this.http.post(`${this.apiUrl}/req/searchByDateAmount`, { requisitionCode })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
 }
