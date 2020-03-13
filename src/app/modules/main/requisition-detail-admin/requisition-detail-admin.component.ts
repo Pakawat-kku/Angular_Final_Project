@@ -10,6 +10,7 @@ import * as jwt_decode from 'jwt-decode';
 import { RequisitionService } from './../../../services/requisition.service';
 import { Router , ActivatedRoute } from '@angular/router';
 
+import { UsersAuthorityService } from 'src/app/services/users-authority.service';
 @Component({
   selector: 'app-requisition-detail-admin',
   templateUrl: './requisition-detail-admin.component.html',
@@ -35,12 +36,15 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
   resultAllApprove: any;
   approve = 0;
   searchRequisition = 0;
+  authority: any = [];
 
   constructor(
     private alertService: AlertService,
     private requisitionService: RequisitionService,
     private router: Router,
     private authenticationService: AuthenticationService,
+    private users_authorityService: UsersAuthorityService,
+
 
   ) {
       this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
@@ -52,13 +56,42 @@ export class RequisitionDetailAdminComponent implements OnInit , OnDestroy {
   });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const result: any = await this.users_authorityService.getById(this.decoded.userId);
+    // console.log('result.rows' , result);
+    for (const item of result.rows) {
+      if (item.aId === 1) {
+        this.authority.one = 'true';
+      } if (item.aId === 2) {
+        this.authority.two = 'true';
+      } if (item.aId === 3) {
+        this.authority.three = 'true';
+      } if (item.aId === 4) {
+        this.authority.four = 'true';
+      } if (item.aId === 5) {
+        this.authority.five = 'true';
+      } if (item.aId === 6) {
+        this.authority.six = 'true';
+      } if (item.aId === 7) {
+        this.authority.seven = 'true';
+      } if (item.aId === 8) {
+        this.authority.eigth = 'true';
+      } if (item.aId === 9) {
+        this.authority.nine = 'true';
+      } if (item.aId === 10) {
+        this.authority.ten = 'true';
+      }
+    }
+    if (this.authority.two !== 'true') {
+      this.alertService.error();
+      this.router.navigate(['main/main']);
+    } else {
     moment.locale('th');
-
     this.showReqWaitAdmin();
     // tslint:disable-next-line: no-unused-expression
     this.showReqWaitDetailAdmin;
   }
+}
 
   async showReqWaitAdmin() {
 

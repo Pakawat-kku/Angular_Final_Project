@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
 import { WareHouseService } from './../../../services/wareHouse.service';
 
+import * as jwt_decode from 'jwt-decode';
+import { Subscription } from 'rxjs';
+import { AuthenticationService } from '../../../services//Authentication.service';
+import { UsersAuthorityService } from 'src/app/services/users-authority.service';
 @Component({
   selector: 'app-available',
   templateUrl: './available.component.html',
@@ -16,6 +20,10 @@ export class AvailableComponent implements OnInit {
   currentRow: any;
   modalEdit = false;
   notHave: any;
+  currentUser: any;
+  currentUserSubscription: Subscription;
+  decoded: any = { status_approve: false };
+  authority: any = [];
 
   constructor(
     private alertService: AlertService,
@@ -23,11 +31,49 @@ export class AvailableComponent implements OnInit {
     private wareHouseService: WareHouseService,
     private stockService: StockService,
     private availableService: AvailableService,
-  )  { }
+    private authenticationService: AuthenticationService,
+    private users_authorityService: UsersAuthorityService,
+
+  )  {
+    this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
+      this.currentUser = users;
+      this.decoded = jwt_decode(users.token);
+  });
+  }
 
   async ngOnInit() {
+    const result: any = await this.users_authorityService.getById(this.decoded.userId);
+    // console.log('result.rows' , result);
+    for (const item of result.rows) {
+      if (item.aId === 1) {
+        this.authority.one = 'true';
+      } if (item.aId === 2) {
+        this.authority.two = 'true';
+      } if (item.aId === 3) {
+        this.authority.three = 'true';
+      } if (item.aId === 4) {
+        this.authority.four = 'true';
+      } if (item.aId === 5) {
+        this.authority.five = 'true';
+      } if (item.aId === 6) {
+        this.authority.six = 'true';
+      } if (item.aId === 7) {
+        this.authority.seven = 'true';
+      } if (item.aId === 8) {
+        this.authority.eigth = 'true';
+      } if (item.aId === 9) {
+        this.authority.nine = 'true';
+      } if (item.aId === 10) {
+        this.authority.ten = 'true';
+      }
+    }
+    if (this.authority.five !== 'true') {
+      this.alertService.error();
+      this.router.navigate(['main/main']);
+    } else {
     await this.getAvailable();
   }
+}
 
   async getAvailable() {
     try {

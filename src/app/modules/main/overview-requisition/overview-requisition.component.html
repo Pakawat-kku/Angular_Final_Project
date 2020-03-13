@@ -1,0 +1,55 @@
+<h1>ภาพรวมการเบิกผ้า</h1>
+<br>
+<form clrForm>
+    <div class="clr-row">
+        <div class="clr-col-1">
+            <label>วันที่</label>
+        </div>
+        <div class="clr-col-3">
+            <my-date-picker-th name="dateSearch1" [options]="myDatePickerOptions" [(ngModel)]="dateSearch3" required>
+            </my-date-picker-th>
+        </div>
+        <div class="clr-col-1">
+            <label>ถึงวันที่</label>
+        </div>
+        <div class="clr-col-3">
+            <my-date-picker-th name="dateSearch2" [options]="myDatePickerOptions" [(ngModel)]="dateSearch4" required>
+            </my-date-picker-th>
+        </div>
+    </div>
+    <div class="clr-col-3">
+        ค้นหาวอร์ด :
+        <select name="wardId" [(ngModel)]="wardId">
+            <option value="0">ทุกวอร์ด</option>
+            <option *ngFor="let row of wardList" [value]="row.wardId">{{row.wardName}}</option>
+        </select>
+    </div>
+    <div class="clr-col-1">
+        <button type="button" (click)="letSearch(wardId,dateSearch3,dateSearch4)" class="btn btn-primary">ค้นหา</button>
+    </div>
+</form>
+
+<clr-datagrid *ngIf = "someWard == '1'">
+    <clr-dg-column>รหัสวอร์ด</clr-dg-column>
+    <clr-dg-column>ชื่อวอร์ด</clr-dg-column>
+    <clr-dg-placeholder>ไม่มีข้อมูล</clr-dg-placeholder>
+    <clr-dg-row *clrDgItems="let item of this.clothIdList" >
+        <clr-dg-cell style="background-color: rgb(247, 233, 233);">{{item.Ward_wardId}}</clr-dg-cell>
+        <clr-dg-cell  style="background-color: rgb(247, 233, 233);">{{item.wardName}}</clr-dg-cell>       
+      
+        <app-overview-requisition-detail *clrIfExpanded [user]="item" ngProjectAs="clr-dg-row-detail"></app-overview-requisition-detail>
+
+    </clr-dg-row>
+</clr-datagrid>
+
+<clr-datagrid *ngIf = "someWard=='2'">
+    <clr-dg-column>รหัสผ้า</clr-dg-column>
+    <clr-dg-column>ชื่อผ้า</clr-dg-column>
+    <clr-dg-column>จำนวนที่เบิก</clr-dg-column>
+    <clr-dg-placeholder>ไม่มีข้อมูล</clr-dg-placeholder>
+    <clr-dg-row *clrDgItems="let item of this.clothIdList" >
+        <clr-dg-cell>{{item.clothId}}</clr-dg-cell>
+        <clr-dg-cell >{{item.clothName}}</clr-dg-cell>        
+        <clr-dg-cell >{{item.amount}}</clr-dg-cell> 
+    </clr-dg-row>
+</clr-datagrid>

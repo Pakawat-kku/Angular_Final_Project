@@ -22,12 +22,12 @@ export class MainPageComponent implements OnInit {
     private authenticationService: AuthenticationService
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
-      if (users) {
+
         this.currentUser = users;
         // console.log('users', users);
         this.decoded = jwt_decode(users.token);
         // console.log('decoded', this.decoded);
-      }
+
     });
     this.authenticationService.currentUser.subscribe(x =>
       this.currentUser = x
