@@ -40,8 +40,7 @@ export class LayoutComponent implements OnInit {
     this.currentUser = await this.mainService.decodeToken();
     // tslint:disable-next-line: no-unused-expression
     if (!this.currentUser) {
-      // this.onLogout();
-      this.mainService.logout();
+      this.onLogout();
       return;
     }
     await this.decoded;
@@ -73,8 +72,6 @@ export class LayoutComponent implements OnInit {
         this.authority.nine = 'true';
       } if (item.aId === 10) {
         this.authority.ten = 'true';
-      } if (item.aId === 12) {
-        this.authority.twelve = 'true';
       }
     }
     // console.log('this.authority', this.authority);
@@ -82,9 +79,8 @@ export class LayoutComponent implements OnInit {
 
 
   onLogout() {
-    // sessionStorage.clear();
-    // this.router.navigate(['/login']);
-    this.mainService.logout();
+    sessionStorage.clear();
+    this.router.navigate(['login']);
   }
 
 }

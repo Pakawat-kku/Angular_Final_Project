@@ -1,22 +1,16 @@
 import { Injectable, Inject } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient } from '@angular/common/http';
-import { MainService } from './main.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StockService {
 
-  constructor(
-    private http: HttpClient,
-    @Inject('API_URL') private apiUrl,
-    private mainService: MainService
-  ) { }
+  constructor(private http: HttpClient, @Inject('API_URL') private apiUrl) {}
 
-  async getCloth() {
-    const headers: any = await this.mainService.getHeader();
-    return this.http.get(`${this.apiUrl}/cloth/`, { headers })
+  getCloth() {
+    return this.http.get(`${this.apiUrl}/cloth/`, {})
       .toPromise()
       .then(result => result)
       .catch(error => error);
@@ -36,12 +30,11 @@ export class StockService {
       .catch(error => error);
   }
 
-  async insertCloth(data) {
-    const headers: any = await this.mainService.getHeader();
-    return this.http.post(`${this.apiUrl}/cloth/`, { data }, { headers })
-      .toPromise()
-      .then(result => result)
-      .catch(error => error);
+  insertCloth(data) {
+    return this.http.post(`${this.apiUrl}/cloth/`, {data})
+    .toPromise()
+    .then(result => result)
+    .catch(error => error);
   }
   getClothById(clothId) {
     return this.http.post(`${this.apiUrl}/cloth/getClothById`, {clothId})
@@ -51,17 +44,17 @@ export class StockService {
   }
 
   updateCloth(data) {
-    return this.http.post(`${this.apiUrl}/cloth/update`, { data })
-      .toPromise()
-      .then(result => result)
-      .catch(error => error);
+    return this.http.post(`${this.apiUrl}/cloth/update`, {data})
+    .toPromise()
+    .then(result => result)
+    .catch(error => error);
   }
 
   getSearch(search) {
-    return this.http.post(`${this.apiUrl}/cloth/search`, { search })
-      .toPromise()
-      .then(result => result)
-      .catch(error => error);
+    return this.http.post(`${this.apiUrl}/cloth/search`, {search})
+    .toPromise()
+    .then(result => result)
+    .catch(error => error);
   }
 
   getStock() {

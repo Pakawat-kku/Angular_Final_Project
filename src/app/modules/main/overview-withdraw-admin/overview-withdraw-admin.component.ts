@@ -47,7 +47,7 @@ export class OverviewWithdrawAdminComponent implements OnInit {
    }
 
    async ngOnInit() {
-    this.getWithdraw();
+    // this.getWithdraw();
     const result: any = await this.users_authorityService.getById(this.decoded.userId);
     // console.log('result.rows' , result);
     for (const item of result.rows) {
@@ -108,28 +108,6 @@ export class OverviewWithdrawAdminComponent implements OnInit {
       const result: any = await this.wardService.getAllWard();
       if (result.rows) {
         this.wardList = result.rows;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async getWithdraw() {
-    try {
-      const result: any = await this.withdrawService.getWithdraw();
-      if (result.rows) {
-        this.withdrawList = result.rows;
-        this.warning = '';
-        this.onProcess = [];
-        for (const row of this.withdrawList) {
-          if (row.withdraw_status === '0') {
-            this.onProcess.push({
-              wardName: row.wardName,
-              date: row.withdrawDate,
-            });
-          }
-          row.withdrawDate = moment(row.withdrawDate).add(543, 'years').format('DD MMMM YYYY');
-        }
       }
     } catch (error) {
       console.log(error);
@@ -206,7 +184,7 @@ export class OverviewWithdrawAdminComponent implements OnInit {
           });
         }
       }
-      // console.log(this.onProcess);
+      console.log(this.onProcess);
     }
   }
 

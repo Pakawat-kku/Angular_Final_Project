@@ -24,6 +24,7 @@ export class MainPageComponent implements OnInit {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
 
         this.currentUser = users;
+        // console.log('users', users);
         this.decoded = jwt_decode(users.token);
         // console.log('decoded', this.decoded);
 
@@ -38,6 +39,7 @@ export class MainPageComponent implements OnInit {
   async ngOnInit() {
     // tslint:disable-next-line: no-unused-expression
     await this.decoded;
+
   }
 
 }
