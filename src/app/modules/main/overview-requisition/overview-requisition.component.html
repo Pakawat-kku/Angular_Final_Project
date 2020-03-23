@@ -1,4 +1,4 @@
-<h1>ภาพรวมการเบิกผ้า</h1>
+<h1>ภาพรวมการเบิกผ้าของวอร์ด</h1>
 <br>
 <form clrForm>
     <div class="clr-row">
@@ -29,16 +29,14 @@
     </div>
 </form>
 
-<clr-datagrid *ngIf = "someWard == '1'">
-    <clr-dg-column>รหัสวอร์ด</clr-dg-column>
+<!-- <clr-datagrid *ngIf = "someWard == '1'">
     <clr-dg-column>ชื่อวอร์ด</clr-dg-column>
+    <clr-dg-column></clr-dg-column>
     <clr-dg-placeholder>ไม่มีข้อมูล</clr-dg-placeholder>
     <clr-dg-row *clrDgItems="let item of this.clothIdList" >
-        <clr-dg-cell style="background-color: rgb(247, 233, 233);">{{item.Ward_wardId}}</clr-dg-cell>
         <clr-dg-cell  style="background-color: rgb(247, 233, 233);">{{item.wardName}}</clr-dg-cell>       
-      
+        <clr-dg-cell  style="background-color: rgb(247, 233, 233);"></clr-dg-cell>       
         <app-overview-requisition-detail *clrIfExpanded [user]="item" ngProjectAs="clr-dg-row-detail"></app-overview-requisition-detail>
-
     </clr-dg-row>
 </clr-datagrid>
 
@@ -47,9 +45,24 @@
     <clr-dg-column>ชื่อผ้า</clr-dg-column>
     <clr-dg-column>จำนวนที่เบิก</clr-dg-column>
     <clr-dg-placeholder>ไม่มีข้อมูล</clr-dg-placeholder>
-    <clr-dg-row *clrDgItems="let item of this.clothIdList" >
+    <clr-dg-row *clrDgItems="let item of clothIdList" >
         <clr-dg-cell>{{item.clothId}}</clr-dg-cell>
         <clr-dg-cell >{{item.clothName}}</clr-dg-cell>        
         <clr-dg-cell >{{item.amount}}</clr-dg-cell> 
     </clr-dg-row>
-</clr-datagrid>
+</clr-datagrid> -->
+<div class="table-responsive">
+<table border="1">
+    <tr>
+        <th rowspan="2">วันที่</th>
+        <td *ngFor ="let item of clothIdList" colspan="2">{{item.clothName}}</td>
+    </tr>
+    <tr >
+        <td *ngFor = "let item of dayOfCloth" >{{item.re}}</td>
+    </tr>
+    <tr>
+      <th>{{daySome}}</th>
+      <td rowspan="2" *ngFor = "let item of dayOfCloth" >{{item.requisition}}</td>
+    </tr> 
+</table>
+</div>
