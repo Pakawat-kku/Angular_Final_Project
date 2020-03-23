@@ -53,8 +53,7 @@ export class ExportClothBillComponent implements OnInit {
     private importService: ImportClothService,
     private importDetailWeightClothService: ImportDetailWeightService,
     private importDetailWeightSumService: ImportDetailWeightSumService,
-    private users_authorityService: UsersAuthorityService,
-    
+    private users_authorityService: UsersAuthorityService
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
