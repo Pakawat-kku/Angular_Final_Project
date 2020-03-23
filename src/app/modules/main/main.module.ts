@@ -51,6 +51,7 @@ import { RepairDetailComponent } from './repair-detail/repair-detail.component';
 import { AuthorityComponent } from './authority/authority.component';
 import { MoveWarehouseDetailComponent } from './move-warehouse-detail/move-warehouse-detail.component';
 import { MoveWarehouseBillDetailComponent } from './move-warehouse-bill-detail/move-warehouse-bill-detail.component';
+import { CompanyComponent } from './company/company.component';
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
@@ -69,7 +70,7 @@ import { MoveWarehouseBillDetailComponent } from './move-warehouse-bill-detail/m
     ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent,
     OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent,
     RepairDetailComponent, AuthorityComponent, MoveWarehouseDetailComponent,
-    MoveWarehouseBillDetailComponent, RegisterComponent,
+    MoveWarehouseBillDetailComponent, RegisterComponent, CompanyComponent,
     // CompanyComponent, OverviewWithdrawMonthComponent, OverviewWithdrawReportComponent
   ],
   imports: [

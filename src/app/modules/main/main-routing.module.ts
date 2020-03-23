@@ -46,6 +46,7 @@ import { RepairDetailComponent } from './repair-detail/repair-detail.component';
 import { AuthorityComponent } from './authority/authority.component';
 import { MoveWarehouseDetailComponent } from './move-warehouse-detail/move-warehouse-detail.component';
 import { MoveWarehouseBillDetailComponent } from './move-warehouse-bill-detail/move-warehouse-bill-detail.component';
+import { CompanyComponent } from './company/company.component';
 
 
 // import { WithdrawService } from 'src/app/services/withdraw.service';
@@ -93,6 +94,7 @@ const routes: Routes = [
       { path: 'import-cloth-amount-hos/:importClothCode', component: ImportClothAmountHosComponent },
       { path: 'export-cloth-bill/:exportClothCode', component: ExportClothBillComponent },
       { path: 'warehouse', component: WarehouseComponent },
+      { path: 'company', component: CompanyComponent },
       { path: 'available', component: AvailableComponent },
       { path: 'move-warehouse', component: MoveWarehouseComponent },
       { path: 'move-warehouse-detail', component: MoveWarehouseDetailComponent },

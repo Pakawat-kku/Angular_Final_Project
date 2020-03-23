@@ -9,13 +9,15 @@ import { MainService } from './main.service';
 export class AuthGuard implements CanActivate {
   constructor(
     private mainService: MainService
-  ) {}
+  ) { }
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    this.mainService.decodeToken();
+  async canActivate() {
+    const result = await this.mainService.decodeToken();
+    if (result) {
       return true;
+    } else {
+      return false;
+    }
   }
 
 }
