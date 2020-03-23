@@ -342,6 +342,8 @@ export class OverviewWithdrawComponent implements OnInit {
                     for (const item of result9.rows) {
                       const result4: any = await this.withdrawService.getByReq(item.requisitionCode);
                       if (result4.rows.length !== 0) {
+                        console.log(result4.rows);
+                        
                         console.log('test');
                       } else {
                         console.log(result4.rows);

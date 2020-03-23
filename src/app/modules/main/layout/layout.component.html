@@ -108,10 +108,10 @@
           <clr-icon shape="wrench" clrVerticalNavIcon></clr-icon>
           รายการซ่อมผ้า
         </a>
-        <!-- <clr-vertical-nav-group *ngIf="authority.seven=='true'" routerLinkActive="active">
+        <clr-vertical-nav-group *ngIf="authority.seven=='true'" routerLinkActive="active">
           <clr-icon shape="rack-server" clrVerticalNavIcon></clr-icon>
           รายการจ่ายผ้า
-          <clr-vertical-nav-group-children> -->
+          <clr-vertical-nav-group-children>
             <a clrVerticalNavLink routerLink="./overview-withdraw-admin" routerLinkActive="active">
               รายการจ่ายผ้าทั้งหมด
             </a>
@@ -121,8 +121,8 @@
             <a clrVerticalNavLink routerLink="./overview-withdraw-report" routerLinkActive="active">
               รายงานการจ่ายผ้า
             </a>
-          <!-- </clr-vertical-nav-group-children>
-        </clr-vertical-nav-group> -->
+          </clr-vertical-nav-group-children>
+        </clr-vertical-nav-group>
         <a clrVerticalNavLink *ngIf="authority.eigth=='true'" routerLink="./export-cloth" routerLinkActive="active">
           <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
           ชั่งน้ำหนักผ้า

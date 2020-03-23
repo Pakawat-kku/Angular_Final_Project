@@ -82,11 +82,11 @@ export class WithdrawHistoryDetailComponent implements OnInit {
       this.alertService.error();
       this.router.navigate(['main/main']);
     } else {
-    this.withdrawCode = this._Activatedroute.snapshot.paramMap.get('withdrawCode');
-    // console.log('withdrawCode', this.withdrawCode);
-    moment.locale('th');
-    this.getWithdraw();
-  }
+      this.withdrawCode = this._Activatedroute.snapshot.paramMap.get('withdrawCode');
+      // console.log('withdrawCode', this.withdrawCode);
+      moment.locale('th');
+      this.getWithdraw();
+    }
   }
 
   async getWithdraw() {
@@ -144,7 +144,9 @@ export class WithdrawHistoryDetailComponent implements OnInit {
     this.round = this.rows.totalRound + 1;
     // console.log(code);
     try {
-      const results: any = await this.requisitonService.showReqWaitDetail(code.requisitionCode);
+      const results: any = await this.requisitonService.showReqWaitDetail(code.Requisition_requisitionCode);
+      // console.log(results.rows);
+
       if (results.rows) {
         for (let row of results.rows) {
           row.amountClothWithdraw = 0;
@@ -152,15 +154,17 @@ export class WithdrawHistoryDetailComponent implements OnInit {
         this.reqDetailList = results.rows;
         // console.log('round', this.round);
         if (this.round > 1) {
+          console.log('k');
+
           const result1: any = await this.withdrawService.getDetailById(this.rows.withdrawCode, this.round - 1);
           const result2: any = await this.withdrawService.getDetailRound(this.rows.withdrawCode);
-          // console.log(result1, result2);
+          console.log(result1, result2);
           if (result2.rows) {
             this.withdrawRoundList = result2.rows;
           }
           if (result1.rows) {
             this.withdrawDetailList = result1.rows;
-            // console.log(this.reqDetailList, this.withdrawRoundList, this.withdrawDetailList);
+            console.log(this.reqDetailList, this.withdrawRoundList, this.withdrawDetailList);
             for (let i = 0; i < this.reqDetailList.length; i++) {
               this.reqDetailList[i].check = false;
               for (let j = 0; j < this.withdrawDetailList.length; j++) {
@@ -209,6 +213,7 @@ export class WithdrawHistoryDetailComponent implements OnInit {
           // console.log('list', this.lists);
           // console.log('tezt', this.roundList);
         } else {
+          // console.log('p');
           for (const item of this.reqDetailList) {
             item.remains = item.amountClothReal;
             item.export = 0;

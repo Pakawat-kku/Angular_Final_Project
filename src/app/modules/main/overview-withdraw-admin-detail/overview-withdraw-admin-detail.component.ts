@@ -100,18 +100,41 @@ export class OverviewWithdrawAdminDetailComponent implements OnInit {
 
   async getWithdraw() {
     try {
-      const result: any = await this.withdrawService.getWithdrawByCode(this.withdrawCode);
-      if (result.rows) {
-        this.withdrawList = result.rows;
-        for (const item of this.withdrawList) {
-          item.reqTime = moment(item.reqDate).format('HH:mm');
-          item.reqDate = moment(item.reqDate).add(543, 'years').format('DD MMMM YYYY');
-          item.totalRound += 1;
-          this.round = item.totalRound;
+      const result1: any = await this.withdrawService.getWithdrawByCode(this.withdrawCode);
+      const results: any = await this.reqService.showReqWaitDetail(result1.rows[0].requisitionCode);
+      if (results.rows) {
+        if (result1.rows) {
+          this.withdrawList = result1.rows;
+          for (const item of this.withdrawList) {
+            item.reqTime = moment(item.reqDate).format('HH:mm');
+            item.reqDate = moment(item.reqDate).add(543, 'years').format('DD MMMM YYYY');
+            item.totalRound += 1;
+            this.round = item.totalRound;
+          }
+          this.date = moment(result1.rows[0].withdrawDate).add(543, 'years').format('DD MMMM YYYY');
         }
-        this.date = moment(result.rows[0].withdrawDate).add(543, 'years').format('DD MMMM YYYY');
+       } else {
+        this.wardCheck = true;
+        const result: any = await this.withdrawService.getWithdrawByCodeNapkin(this.withdrawCode);
+        if (result.rows) {
+          this.withdrawList = result.rows;
+          for (const item of this.withdrawList) {
+            const code = item.Requisition_requisitionCode;
+            // console.log(code.substring(2));
+            const result3: any = await this.reqService.getReqNapkin(code.substring(2));
+            // console.log(result3.rows[0]);
+            if (result3.rows) {
+              item.reqTime = moment(result3.rows[0].reqDate).format('HH:mm');
+              item.reqDate = moment(result3.rows[0].reqDate).add(543, 'years').format('DD MMMM YYYY');
+              item.reqId = result3.rows[0].reqId;
+              item.requisitionCode = result3.rows[0].requisitionCode;
+              item.status = result3.rows[0].status;
+              item.status_withdraw = result3.rows[0].status_withdraw;
+            }
+          }
+          this.date = moment(result.rows[0].withdrawDate).add(543, 'years').format('DD MMMM YYYY');
+        }
       }
-      // console.log('withdrawList', this.withdrawList);
     } catch (error) {
       console.log(error);
     }
@@ -120,7 +143,7 @@ export class OverviewWithdrawAdminDetailComponent implements OnInit {
   async onShow(code) {
     this.modalShow = true;
     this.rows = code;
-    this.round = this.rows.totalRound;
+    this.round = this.rows.totalRound + 1;
     try {
       const results: any = await this.reqService.showReqWaitDetail(code.requisitionCode);
       if (results.rows) {
@@ -129,154 +152,56 @@ export class OverviewWithdrawAdminDetailComponent implements OnInit {
         }
         this.reqDetailList = results.rows;
         if (this.round > 1) {
-          // console.log('round', this.round);
-          const result1: any = await this.withdrawService.getDetailById(this.rows.withdrawId, this.round - 1);
-          const result2: any = await this.withdrawService.getDetailRound(this.rows.withdrawId);
+          const result1: any = await this.withdrawService.getDetailById(this.rows.withdrawCode, this.round - 1);
+          const result2: any = await this.withdrawService.getDetailRound(this.rows.withdrawCode);
           if (result2.rows) {
             this.withdrawRoundList = result2.rows;
-            // console.log(this.withdrawRoundList);
           }
           if (result1.rows) {
             this.withdrawDetailList = result1.rows;
+            // console.log(this.reqDetailList, this.withdrawRoundList, this.withdrawDetailList);
             for (let i = 0; i < this.reqDetailList.length; i++) {
+              this.reqDetailList[i].check = false;
               for (let j = 0; j < this.withdrawDetailList.length; j++) {
                 if (this.reqDetailList[i].Cloth_clothId === this.withdrawDetailList[j].Cloth_clothId) {
-                  // console.log(this.reqDetailList[i].Cloth_clothId);
                   this.reqDetailList[i].remains = this.withdrawDetailList[j].WithdrawDetail_remain;
-                  this.reqDetailList[i].export = this.reqDetailList[i].amountClothReal - this.withdrawDetailList[j].WithdrawDetail_remain;
+                  this.reqDetailList[i].export =
+                    this.reqDetailList[i].amountClothReal - this.withdrawDetailList[j].WithdrawDetail_remain;
+                  this.reqDetailList[i].check = true;
                 }
               }
             }
           }
+          if (this.wardCheck === true) {
+            this.reqDetailList = await _.dropWhile(this.reqDetailList, ['check', false]);
+          } else {
+            this.reqDetailList = await _.takeWhile(this.reqDetailList, ['check', true]);
+          }
+
           for (let i = 0; i < this.reqDetailList.length; i++) {
             for (let j = 0; j < this.round - 1; j++) {
               this.r = 'round';
               // tslint:disable-next-line: max-line-length
-              const result4: any = await this.withdrawService.getDetailByCloth(this.rows.withdrawId, this.reqDetailList[i].Cloth_clothId, j + 1);
-              // console.log('1', result4.rows[0]);
+              const result4: any = await this.withdrawService.getDetailByCloth(this.rows.withdrawCode, this.reqDetailList[i].Cloth_clothId, j + 1);
               this.r = this.r + j;
-              // console.log(i, j);
               const obj = {
                 clothName: this.reqDetailList[i].clothName,
                 round: j,
                 amountCloth: result4.rows[0].amountCloth
               };
-              // console.log(obj);
               this.roundList[i] = obj;
             }
           }
-          // console.log('list', this.lists);
-          // console.log('tezt', this.roundList);
         } else {
           for (const item of this.reqDetailList) {
             item.remains = item.amountClothReal;
             item.export = 0;
           }
         }
-        // console.log('reqDetailList ', this.reqDetailList);
-        // console.log('withDetailList ', this.withdrawDetailList);
       }
     } catch (error) {
       console.log(error);
     }
   }
 
-  async onSave() {
-    const decision: any = await this.alertService.confirm('ยืนยันการทำรายการ ?');
-    if (decision.value) {
-      const data: any = [];
-      this.clothRemain = '';
-      this.clothOver = '';
-      this.uncomplete = 0;
-      this.over = 0;
-      this.remain = false;
-      let num = 0;
-      // console.log('list', this.reqDetailList);
-      for (const row of this.reqDetailList) {
-        row.remain = 0;
-        num++;
-        // console.log('num', num);
-        if (row.amountClothWithdraw === '' || row.amountClothWithdraw === undefined) {
-          row.amountClothWithdraw = 0;
-        } else if (row.amountClothWithdraw < 0) {
-          this.alertService.error('จำนวน ' + ' ' + row.clothName + 'ผิดพลาด');
-        } else {
-          row.remain = row.remains - row.amountClothWithdraw;
-          // console.log(row.remain, '=', row.remains, '-', row.amountClothWithdraw);
-          // console.log(row.remain);
-          // ค้างส่ง
-          if (row.remain > 0) {
-            row.statusRemain = 1;
-            if (this.uncomplete === 0) {
-              this.clothRemain = this.clothRemain + row.clothName;
-            } else {
-              this.clothRemain = this.clothRemain + ', ' + row.clothName;
-            }
-            this.uncomplete += 1;
-            // ส่งครบ
-          } else if (row.remain === 0) {
-            row.statusRemain = 2;
-            this.remain = true;
-            // ส่งเกิน
-          } else {
-            if (this.over === 0) {
-              this.clothOver = this.clothOver + row.clothName;
-            } else {
-              this.clothOver = this.clothOver + ', ' + row.clothName;
-            }
-            this.over += 1;
-          }
-        }
-      }
-      if (this.over > 0) {
-        const decision2: any = await this.alertService.error('จำนวน' + this.clothOver + 'เกินจำนวนที่เบิก');
-      } else if (this.uncomplete > 0) {
-        const decision2: any = await this.alertService.confirm('จำนวน' + this.clothRemain + 'ไม่ครบตามจำนวนที่เบิก');
-        if (decision2.value) {
-          this.remain = true;
-        }
-      }
-      // console.log(this.remain, this.over);
-      if (this.over === 0 && this.remain === true) {
-        for (const row of this.reqDetailList) {
-          await data.push({
-            amountCloth: row.amountClothWithdraw,
-            description: this.rows.description,
-            Withdraw_withdrawId: this.rows.withdrawId,
-            round: this.round,
-            Cloth_clothId: row.Cloth_clothId,
-            WithdrawDetail_remain: row.remain,
-            WithdrawDetail_status_remain: row.statusRemain,
-            Users_userId: this.decoded.userId
-          });
-        }
-        // console.log(data);
-        try {
-          const result: any = await this.withdrawService.saveWithdrawDetail(data);
-          const result3: any = await this.withdrawService.updateRound(this.round, this.rows.withdrawId);
-          if (result.statusCode === 200) {
-            await this.alertService.success();
-            this.modalShow = false;
-            await this.getWithdraw();
-            let val = 0;
-            console.log(val);
-            for (const row of this.reqDetailList) {
-              if (row.statusRemain === 2) {
-                // tslint:disable-next-line: max-line-length
-                const result1: any = await this.reqService.statusWithdrawSuccess(this.rows.Requisition_requisitionCode);
-                const result6: any = await this.reqService.statusDetailWithdrawSuccess(row.id);
-                val++;
-                console.log(val);
-                if (val === this.reqDetailList.length) {
-                  const result2: any = await this.withdrawService.statusWithdraw(this.rows.withdrawId);
-                }
-              }
-            }
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    }
-  }
 }
