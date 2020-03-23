@@ -70,7 +70,8 @@ import { OverviewRequisitionDetailComponent } from './overview-requisition-detai
     WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent,
     ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent,
     OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent,
-    RepairDetailComponent, AuthorityComponent, MoveWarehouseDetailComponent, MoveWarehouseBillDetailComponent, RegisterComponent, OverviewRequisitionComponent, OverviewRequisitionDetailComponent
+    RepairDetailComponent, AuthorityComponent, MoveWarehouseDetailComponent, MoveWarehouseBillDetailComponent,
+    RegisterComponent, OverviewRequisitionComponent, OverviewRequisitionDetailComponent
   ],
   imports: [
     CommonModule,

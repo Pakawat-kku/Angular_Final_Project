@@ -19,6 +19,8 @@ import { UsersAuthorityService } from 'src/app/services/users-authority.service'
 import { WardService } from './../../../services/ward.service';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { OverviewRequisitionDetailComponent } from '../overview-requisition-detail/overview-requisition-detail.component';
+import { Items } from '@clr/angular/data/datagrid/providers/items';
+import { WithdrawService } from 'src/app/services/withdraw.service';
 
 @Component({
   selector: 'app-overview-requisition',
@@ -44,6 +46,8 @@ export class OverviewRequisitionComponent implements OnInit {
   num: number;
   arr: any[] = [];
   someWard = '1';
+  dayOfCloth: any[] = [];
+  daySome: any[] = [] ;
 
   constructor(
     private alertService: AlertService,
@@ -56,6 +60,7 @@ export class OverviewRequisitionComponent implements OnInit {
     private _Activatedroute: ActivatedRoute,
     private users_authorityService: UsersAuthorityService,
     private wardService: WardService,
+    private withdrawService: WithdrawService,
 
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
@@ -109,6 +114,8 @@ export class OverviewRequisitionComponent implements OnInit {
   async letSearch(wardId, dateSearch3, dateSearch4) {
     this.requisitionList = [];
     this.clothIdList = [];
+    this.dayOfCloth = [];
+    this.sum = 0;
 
     if (dateSearch3 === null || dateSearch4 === null) {
       await this.alertService.error('กรุณาเลือกวันที่ที่ต้องการค้นหา');
@@ -130,14 +137,18 @@ export class OverviewRequisitionComponent implements OnInit {
         this.alertService.error('กรอกข้อมูลวันที่ผิดพลาด', 'กรุณากรอกข้อมูลใหม่');
       } else {
         dateSearch3 = moment(dateSearch3)
-          .subtract(1, 'days')
+          // .subtract(1, 'days')
           .format('YYYY-MM-DD');
         dateSearch4 = moment(dateSearch4)
           .add(1, 'days')
           .format('YYYY-MM-DD');
+        console.log('dateSearch3', moment(dateSearch3).format('DD'));
 
-        if (wardId === 0 || wardId === '0') {
+        console.log('this.dayOfCloth', this.dayOfCloth);
+
+        if (wardId === 0 || wardId === '0') { // เลือกแบบทุกวอร์ด
           console.log('wardId', wardId);
+          this.someWard = '1';
           try {
             const result: any = await this.requisitionService.searchByDate(dateSearch3, dateSearch4);
             console.log('result', result.rows);
@@ -145,7 +156,7 @@ export class OverviewRequisitionComponent implements OnInit {
             for (const item of result.rows) {
 
               if (_.findIndex(this.clothIdList, ['Ward_wardId', item.Ward_wardId]) < 0) {
-                 await this.clothIdList.push({
+                await this.clothIdList.push({
                   Ward_wardId: item.Ward_wardId,
                   wardName: item.wardName,
                   dateSearch3: dateSearch3,
@@ -158,10 +169,16 @@ export class OverviewRequisitionComponent implements OnInit {
           } catch (error) {
             console.log(error);
           }
-        } else {
+        } else { // เลือกวอร์ดเดียว
           this.someWard = '2';
           try {
             const result: any = await this.requisitionService.searchByWard(wardId, dateSearch3, dateSearch4);
+            console.log('result', result.rows);
+            for (const item of result.rows) {
+              const result1: any = await this.withdrawService.getWithdrawByCode(item.requisitionCode);
+              console.log('result1', result1.rows);
+            }
+
             if (result.rows) {
               for (const row of result.rows) {
                 row.reqDate = moment(row.reqDate).add(543, 'years').format('DD MMMM YYYY');
@@ -182,13 +199,40 @@ export class OverviewRequisitionComponent implements OnInit {
               }
             }
 
+            for (let i = 0; i < this.clothIdList.length; i++) {
+              if (i % 2 === 0) {
+
+                this.dayOfCloth.push({
+                  re: 'บ',
+                  requisition: this.clothIdList[i].amount,
+                });
+              } else {
+
+                this.dayOfCloth.push({
+                  re: 'บ',
+                  requisition: this.clothIdList[i].amount,
+                });
+              }
+              if (i % 2 !== 0) {
+                this.dayOfCloth.push({
+                  re: 'จ',
+                  requisition: 0,
+                });
+              } else {
+                this.dayOfCloth.push({
+                  re: 'จ',
+                  requisition: 0,
+                });
+              }
+            }
+            console.log(moment(dateSearch3).format('DD'));
+            console.log(moment(dateSearch4).format('DD'));
+
             for (const item of this.clothIdList) {
               const result1: any = await this.stockService.getClothById(item.clothId);
               this.num = _.findIndex(this.clothIdList, ['clothId', item.clothId]);
               item.clothName = result1.rows[0].clothName;
             }
-
-            console.log('this.clothIdList', this.clothIdList);
 
           } catch (error) {
             console.log(error);
@@ -215,7 +259,7 @@ export class OverviewRequisitionComponent implements OnInit {
   }
 
   onAdd(item) {
-    console.log('item' , item);
+    console.log('item', item);
 
   }
 }

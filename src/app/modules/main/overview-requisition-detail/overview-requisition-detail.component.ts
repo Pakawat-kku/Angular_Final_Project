@@ -7,7 +7,8 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-overview-requisition-detail',
   templateUrl: './overview-requisition-detail.component.html',
-  styleUrls: ['./overview-requisition-detail.component.scss']
+  styleUrls: ['./overview-requisition-detail.component.scss',
+]
 })
 export class OverviewRequisitionDetailComponent implements OnInit {
   @Input()

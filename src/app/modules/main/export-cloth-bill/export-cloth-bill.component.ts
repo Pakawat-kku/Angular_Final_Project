@@ -90,7 +90,7 @@ export class ExportClothBillComponent implements OnInit {
         this.authority.eigth = 'true';
       }
     }
-    if (this.authority.ten !== 'true') {
+    if (this.authority.eigth !== 'true') {
       this.alertService.error();
       this.router.navigate(['main/main']);
     } else {
