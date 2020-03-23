@@ -1,3 +1,5 @@
+import { OverviewWithdrawReportComponent } from './overview-withdraw-report/overview-withdraw-report.component';
+import { OverviewRequisitionComponent } from './overview-requisition/overview-requisition.component';
 import { AuthGuard } from './../../services/auth.guard';
 import { WeightInHosComponent } from './weight-in-hos/weight-in-hos.component';
 import { WeightComponent } from './weight/weight.component';
@@ -77,6 +79,8 @@ const routes: Routes = [
       { path: 'weight-in-company', component: WeightInCompanyComponent },
       { path: 'purchase', component: PurchaseComponent },
       { path: 'report-purchase', component: ReportPurchaseComponent },
+      { path: 'overview-requisition', component: OverviewRequisitionComponent },
+      { path: 'overview-withdraw-report', component: OverviewWithdrawReportComponent },
       { path: 'overview-withdraw', component: OverviewWithdrawComponent },
       { path: 'overview-withdraw-admin', component: OverviewWithdrawAdminComponent },
       { path: 'overview-withdraw-admin-detail/:withdrawCode', component: OverviewWithdrawAdminDetailComponent },
