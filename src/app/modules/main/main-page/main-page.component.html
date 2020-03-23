@@ -1,8 +1,8 @@
-<marquee bgcolor="#A9E0B8" behavior="alternate">
+<!-- <marquee bgcolor="#A9E0B8" behavior="alternate">
   <h1>
-    <u>งานซักรีดโรงพยาบาลขอนแก่น</u>
+    <u>งานซักผ้าโรงพยาบาลขอนแก่น</u>
   </h1>
-</marquee>
+</marquee> -->
 <div *ngIf="decoded.status_approve != 'true'" style="text-align: center;">
   <h1 style="color:red">
     *บัญชีนี้ยังไม่สามารถใช้งานได้*
@@ -10,7 +10,32 @@
   ขออภัยในความไม่สะดวก กรุณารอผู้ดูแลระบบอนุมัติก่อน ขอบคุณค่ะ
 </div>
 <div *ngIf="decoded.status_approve == 'true'">
-  <h1>
-    ยินดีต้อนรับเข้าสู่ระบบคุณ {{decoded.firstname}} {{decoded.lastname}}
-  </h1>
+  <img src="../../../../assets/images/banner.jpg" width="100%">
+  <h4>
+    <b>
+      ยินดีต้อนรับเข้าสู่ระบบคุณ {{decoded.firstname}} {{decoded.lastname}}
+    </b>
+  </h4>
+  <div *ngIf="decoded.position == 1">
+    สิทธิ์ในการทำงาน<br>
+    <div class="clr-row">
+      <div class="clr-col-md-4" *ngFor="let item of userAuList; let i = index">
+        <!-- <div class="card card-block" [ngStyle]="{'background-color': getRandomColor()}"> -->
+        <div class="card card-block" style="background-color: rgb(229, 248, 225);">
+          <p class="card-text">
+            {{item.description}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <br><br>
+    ที่อยู่: 54 ถ.ศรีจันทร์ ต ในเมือง อ.เมือง อำเภอเมืองขอนแก่น ขอนแก่น 40000<br>
+    โทร: (+66) 043 009 900<br>
+    Fax: 043 – 236974, 043 – 236006, 043 – 236042<br>
+    ฉุกเฉิน: 1669<br>
+    Email : prkkh2016@gmail.com<br>
+    ID Line : prkkh<br>
+  </div>
 </div>

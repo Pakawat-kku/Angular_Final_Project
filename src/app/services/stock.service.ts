@@ -30,15 +30,14 @@ export class StockService {
       .catch(error => error);
   }
 
-  getClothById(clothId) {
-    return this.http.post(`${this.apiUrl}/cloth/getClothById`, {clothId})
+  insertCloth(data) {
+    return this.http.post(`${this.apiUrl}/cloth/`, {data})
     .toPromise()
     .then(result => result)
     .catch(error => error);
   }
-
-  insertCloth(data) {
-    return this.http.post(`${this.apiUrl}/cloth/`, {data})
+  getClothById(clothId) {
+    return this.http.post(`${this.apiUrl}/cloth/getClothById`, {clothId})
     .toPromise()
     .then(result => result)
     .catch(error => error);

@@ -32,7 +32,7 @@ export class OverviewRequisitionDetailComponent implements OnInit {
   }
 
   async requisitionByWard() {
-    console.log(this.user);
+    // console.log(this.user);
     try {
       const result: any = await this.requisitionService.searchByWard(this.user.Ward_wardId, this.user.dateSearch3, this.user.dateSearch4);
       if (result.rows) {
@@ -40,7 +40,7 @@ export class OverviewRequisitionDetailComponent implements OnInit {
           row.reqDate = moment(row.reqDate).add(543, 'years').format('DD MMMM YYYY');
         }
       }
-      console.log('result.rows', result.rows);
+      // console.log('result.rows', result.rows);
 
       for (const item of result.rows) {
 
@@ -63,7 +63,7 @@ export class OverviewRequisitionDetailComponent implements OnInit {
         item.clothName = result1.rows[0].clothName;
       }
 
-      console.log('this.clothIdList', this.clothIdList);
+      // console.log('this.clothIdList', this.clothIdList);
 
 
     } catch (err) {

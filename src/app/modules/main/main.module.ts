@@ -51,8 +51,11 @@ import { RepairDetailComponent } from './repair-detail/repair-detail.component';
 import { AuthorityComponent } from './authority/authority.component';
 import { MoveWarehouseDetailComponent } from './move-warehouse-detail/move-warehouse-detail.component';
 import { MoveWarehouseBillDetailComponent } from './move-warehouse-bill-detail/move-warehouse-bill-detail.component';
+import { CompanyComponent } from './company/company.component';
 import { OverviewRequisitionComponent } from './overview-requisition/overview-requisition.component';
 import { OverviewRequisitionDetailComponent } from './overview-requisition-detail/overview-requisition-detail.component';
+import { OverviewWithdrawReportComponent } from './overview-withdraw-report/overview-withdraw-report.component';
+import { OverviewWithdrawReportDetailComponent } from './overview-withdraw-report-detail/overview-withdraw-report-detail.component';
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,

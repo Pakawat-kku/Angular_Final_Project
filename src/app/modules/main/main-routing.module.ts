@@ -1,3 +1,5 @@
+import { OverviewWithdrawReportComponent } from './overview-withdraw-report/overview-withdraw-report.component';
+import { OverviewRequisitionComponent } from './overview-requisition/overview-requisition.component';
 import { AuthGuard } from './../../services/auth.guard';
 import { WeightInHosComponent } from './weight-in-hos/weight-in-hos.component';
 import { WeightComponent } from './weight/weight.component';
@@ -46,7 +48,7 @@ import { RepairDetailComponent } from './repair-detail/repair-detail.component';
 import { AuthorityComponent } from './authority/authority.component';
 import { MoveWarehouseDetailComponent } from './move-warehouse-detail/move-warehouse-detail.component';
 import { MoveWarehouseBillDetailComponent } from './move-warehouse-bill-detail/move-warehouse-bill-detail.component';
-import { OverviewRequisitionComponent } from './overview-requisition/overview-requisition.component';
+import { CompanyComponent } from './company/company.component';
 
 
 // import { WithdrawService } from 'src/app/services/withdraw.service';
@@ -77,6 +79,8 @@ const routes: Routes = [
       { path: 'weight-in-company', component: WeightInCompanyComponent },
       { path: 'purchase', component: PurchaseComponent },
       { path: 'report-purchase', component: ReportPurchaseComponent },
+      { path: 'overview-requisition', component: OverviewRequisitionComponent },
+      { path: 'overview-withdraw-report', component: OverviewWithdrawReportComponent },
       { path: 'overview-withdraw', component: OverviewWithdrawComponent },
       { path: 'overview-withdraw-admin', component: OverviewWithdrawAdminComponent },
       { path: 'overview-withdraw-admin-detail/:withdrawCode', component: OverviewWithdrawAdminDetailComponent },
@@ -94,12 +98,12 @@ const routes: Routes = [
       { path: 'import-cloth-amount-hos/:importClothCode', component: ImportClothAmountHosComponent },
       { path: 'export-cloth-bill/:exportClothCode', component: ExportClothBillComponent },
       { path: 'warehouse', component: WarehouseComponent },
+      { path: 'company', component: CompanyComponent },
       { path: 'available', component: AvailableComponent },
       { path: 'move-warehouse', component: MoveWarehouseComponent },
       { path: 'move-warehouse-detail', component: MoveWarehouseDetailComponent },
       { path: 'move-warehouse-bill-detail/:warehouse_export_availableCode', component: MoveWarehouseBillDetailComponent },
       { path: 'manage-porter', component: ManagePorterComponent },
-      { path: 'overview-requisition', component: OverviewRequisitionComponent },
       { path: '**', component: PageNotFoundComponent },
     ]
   }

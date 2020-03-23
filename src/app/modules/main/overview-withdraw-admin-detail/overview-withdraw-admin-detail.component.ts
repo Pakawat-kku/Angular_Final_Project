@@ -39,12 +39,13 @@ export class OverviewWithdrawAdminDetailComponent implements OnInit {
   clothOver = '';
   roundList: any = [];
   r: any = '';
+  wardCheck = false;
   authority: any = [];
 
   constructor(
     private authenticationService: AuthenticationService,
     private withdrawService: WithdrawService,
-    private requisitonService: RequisitionService,
+    private reqService: RequisitionService,
     private alertService: AlertService,
     private _Activatedroute: ActivatedRoute,
     private router: Router,
@@ -121,10 +122,12 @@ export class OverviewWithdrawAdminDetailComponent implements OnInit {
     this.rows = code;
     this.round = this.rows.totalRound;
     try {
-      const result: any = await this.requisitonService.showReqWaitDetail(code.Requisition_requisitionCode);
-      if (result.rows) {
-        this.reqDetailList = result.rows;
-        console.log(this.reqDetailList);
+      const results: any = await this.reqService.showReqWaitDetail(code.requisitionCode);
+      if (results.rows) {
+        for (const row of results.rows) {
+          row.amountClothWithdraw = 0;
+        }
+        this.reqDetailList = results.rows;
         if (this.round > 1) {
           // console.log('round', this.round);
           const result1: any = await this.withdrawService.getDetailById(this.rows.withdrawId, this.round - 1);
@@ -260,8 +263,8 @@ export class OverviewWithdrawAdminDetailComponent implements OnInit {
             for (const row of this.reqDetailList) {
               if (row.statusRemain === 2) {
                 // tslint:disable-next-line: max-line-length
-                const result1: any = await this.requisitonService.statusWithdrawSuccess(this.rows.Requisition_requisitionCode);
-                const result6: any = await this.requisitonService.statusDetailWithdrawSuccess(row.id);
+                const result1: any = await this.reqService.statusWithdrawSuccess(this.rows.Requisition_requisitionCode);
+                const result6: any = await this.reqService.statusDetailWithdrawSuccess(row.id);
                 val++;
                 console.log(val);
                 if (val === this.reqDetailList.length) {

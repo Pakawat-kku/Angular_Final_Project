@@ -18,6 +18,7 @@ import { LoginModule } from '../../login/login.module';
 import { UsersAuthorityService } from 'src/app/services/users-authority.service';
 import { WardService } from './../../../services/ward.service';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
+
 import { OverviewRequisitionDetailComponent } from '../overview-requisition-detail/overview-requisition-detail.component';
 import { Items } from '@clr/angular/data/datagrid/providers/items';
 import { WithdrawService } from 'src/app/services/withdraw.service';
@@ -144,6 +145,7 @@ export class OverviewRequisitionComponent implements OnInit {
           .format('YYYY-MM-DD');
         console.log('dateSearch3', moment(dateSearch3).format('DD'));
 
+
         console.log('this.dayOfCloth', this.dayOfCloth);
 
         if (wardId === 0 || wardId === '0') { // เลือกแบบทุกวอร์ด
@@ -151,7 +153,7 @@ export class OverviewRequisitionComponent implements OnInit {
           this.someWard = '1';
           try {
             const result: any = await this.requisitionService.searchByDate(dateSearch3, dateSearch4);
-            console.log('result', result.rows);
+            // console.log('result', result.rows);
             let i = 0;
             for (const item of result.rows) {
 
@@ -164,7 +166,7 @@ export class OverviewRequisitionComponent implements OnInit {
                 });
               }
             }
-            console.log('this.clothIdList', this.clothIdList);
+            // console.log('this.clothIdList', this.clothIdList);
 
           } catch (error) {
             console.log(error);
@@ -240,22 +242,6 @@ export class OverviewRequisitionComponent implements OnInit {
         }
       }
     }
-    // if (this.requisitionList.length === 0) {
-    //   this.onProcess = [];
-    //   this.warning = 'ไม่มีรายการที่ค้นหาตรงกัน';
-    // } else {
-    //   this.warning = '';
-    //   this.onProcess = [];
-    //   for (const row of this.requisitionList) {
-    //     if (row.withdraw_status === '0') {
-    //       this.onProcess.push({
-    //         wardName: row.wardName,
-    //         date: row.reqDate,
-    //       });
-    //     }
-    //   }
-    // console.log(this.onProcess);
-    // }
   }
 
   onAdd(item) {
