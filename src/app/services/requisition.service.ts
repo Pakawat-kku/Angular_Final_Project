@@ -10,14 +10,14 @@ export class RequisitionService {
   constructor(private http: HttpClient, @Inject('API_URL') private apiUrl) { }
 
   insertReq(data) {
-    return this.http.post(`http://localhost:3001/req/insertReq`, { data })
+    return this.http.post(`${this.apiUrl}/req/insertReq`, { data })
       .toPromise()
       .then(result => result)
       .catch(err => err);
   }
 
   insertRealReq(data) {
-    return this.http.post(`http://localhost:3001/req/insertRealReq`, { data })
+    return this.http.post(`${this.apiUrl}/req/insertRealReq`, { data })
       .toPromise()
       .then(result => result)
       .catch(err => err);
@@ -25,7 +25,7 @@ export class RequisitionService {
 
   showReqWait(wardId) {
     // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-    return this.http.post(`http://localhost:3001/req/showReqWait`, { wardId })
+    return this.http.post(`${this.apiUrl}/req/showReqWait`, { wardId })
       .toPromise()
       .then(result => result)
       .catch(error => error);
@@ -33,7 +33,7 @@ export class RequisitionService {
 
   // showReqWaitDetail(wardId, requisitionCode) {
   //   // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-  //   return this.http.get(`http://localhost:3001/req/showReqWaitDetail?wardId=${wardId}&&requisitionCode=${requisitionCode}`)
+  //   return this.http.get(`${this.apiUrl}/req/showReqWaitDetail?wardId=${wardId}&&requisitionCode=${requisitionCode}`)
   //     .toPromise()
   //     .then(result => result)
   //     .catch(error => error);
@@ -47,7 +47,7 @@ export class RequisitionService {
   }
 
   showReqWaitDetail(requisitionCode) {
-    return this.http.post(`http://localhost:3001/req/showReqWaitDetail`, { requisitionCode })
+    return this.http.post(`${this.apiUrl}/req/showReqWaitDetail`, { requisitionCode })
       .toPromise()
       .then(result => result)
       .catch(error => error);
@@ -55,7 +55,7 @@ export class RequisitionService {
 
   // showReqWaitDetail(requisitionCode) {
   //   // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-  //   return this.http.get(`http://localhost:3001/req/showReqWaitDetail?requisitionCode=${requisitionCode}`)
+  //   return this.http.get(`${this.apiUrl}/req/showReqWaitDetail?requisitionCode=${requisitionCode}`)
   //   .toPromise()
   //   .then(result => result)
   //   .catch(error => error);
@@ -71,7 +71,7 @@ export class RequisitionService {
 
   showReqWaitDetailOnly(requisitionCode) {
     // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-    return this.http.get(`http://localhost:3001/req/showReqWaitDetailOnly?requisitionCode=${requisitionCode}`)
+    return this.http.get(`${this.apiUrl}/req/showReqWaitDetailOnly?requisitionCode=${requisitionCode}`)
       .toPromise()
       .then(result => result)
       .catch(error => error);
@@ -79,7 +79,7 @@ export class RequisitionService {
 
   showReqWaitAdmin() {
     // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-    return this.http.get(`http://localhost:3001/req/showReqWaitAdmin/`, {})
+    return this.http.get(`${this.apiUrl}/req/showReqWaitAdmin/`, {})
       .toPromise()
       .then(result => result)
       .catch(error => error);
@@ -87,7 +87,7 @@ export class RequisitionService {
 
   showReqWaitAdminApprove() {
     // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-    return this.http.get(`http://localhost:3001/req/showReqWaitAdminApprove/`, {})
+    return this.http.get(`${this.apiUrl}/req/showReqWaitAdminApprove/`, {})
       .toPromise()
       .then(result => result)
       .catch(error => error);
@@ -95,7 +95,7 @@ export class RequisitionService {
 
   showReqWaitAdminNotApprove() {
     // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-    return this.http.get(`http://localhost:3001/req/showReqWaitAdminNotApprove/`, {})
+    return this.http.get(`${this.apiUrl}/req/showReqWaitAdminNotApprove/`, {})
       .toPromise()
       .then(result => result)
       .catch(error => error);
@@ -103,14 +103,14 @@ export class RequisitionService {
 
   showReqWaitDetailAdmin(requisitionCode) {
     // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-    return this.http.get(`http://localhost:3001/req/showReqWaitDetailAdmin?requisitionCode=${requisitionCode}`)
+    return this.http.get(`${this.apiUrl}/req/showReqWaitDetailAdmin?requisitionCode=${requisitionCode}`)
       .toPromise()
       .then(result => result)
       .catch(error => error);
   }
 
   approveReq(requisitionCode) {
-    return this.http.post(`http://localhost:3001/req/approveReq`, { requisitionCode })
+    return this.http.post(`${this.apiUrl}/req/approveReq`, { requisitionCode })
       .toPromise()
       .then(result => result)
       .catch(err => err);
@@ -138,56 +138,56 @@ export class RequisitionService {
   }
 
   notApproveList(requisitionCode, clothId) {
-    return this.http.post(`http://localhost:3001/req/notApproveList`, { requisitionCode, clothId })
+    return this.http.post(`${this.apiUrl}/req/notApproveList`, { requisitionCode, clothId })
       .toPromise()
       .then(result => result)
       .catch(err => err);
   }
 
   notApproveReq(requisitionCode) {
-    return this.http.post(`http://localhost:3001/req/notApproveReq`, { requisitionCode })
+    return this.http.post(`${this.apiUrl}/req/notApproveReq`, { requisitionCode })
       .toPromise()
       .then(result => result)
       .catch(err => err);
   }
 
   submitEdit(requisitionCode, clothId, amountCloth) {
-    return this.http.post(`http://localhost:3001/req/editReq`, { requisitionCode, clothId, amountCloth })
+    return this.http.post(`${this.apiUrl}/req/editReq`, { requisitionCode, clothId, amountCloth })
       .toPromise()
       .then(result => result)
       .catch(err => err);
   }
 
   searchWard(searchWard) {
-    return this.http.post(`http://localhost:3001/req/searchWard`, { searchWard })
+    return this.http.post(`${this.apiUrl}/req/searchWard`, { searchWard })
       .toPromise()
       .then(result => result)
       .catch(err => err);
   }
 
   searchRequisitionCode(requisitionCode) {
-    return this.http.post(`http://localhost:3001/req/searchReqId`, { requisitionCode })
+    return this.http.post(`${this.apiUrl}/req/searchReqId`, { requisitionCode })
       .toPromise()
       .then(result => result)
       .catch(err => err);
   }
 
   searchTypeApprove(wardId) {
-    return this.http.post(`http://localhost:3001/req/searchTypeApprove`, { wardId })
+    return this.http.post(`${this.apiUrl}/req/searchTypeApprove`, { wardId })
       .toPromise()
       .then(result => result)
       .catch(err => err);
   }
 
   searchTypeNotApprove(wardId) {
-    return this.http.post(`http://localhost:3001/req/searchTypeNotApprove`, { wardId })
+    return this.http.post(`${this.apiUrl}/req/searchTypeNotApprove`, { wardId })
       .toPromise()
       .then(result => result)
       .catch(err => err);
   }
 
   updateAmountReal(clothId, requisitionCode, amountClothReal) {
-    return this.http.post(`http://localhost:3001/req/updateAmountReal`, { clothId, requisitionCode, amountClothReal })
+    return this.http.post(`${this.apiUrl}/req/updateAmountReal`, { clothId, requisitionCode, amountClothReal })
       .toPromise()
       .then(result => result)
       .catch(err => err);

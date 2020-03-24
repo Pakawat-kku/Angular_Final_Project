@@ -74,7 +74,8 @@ import { OverviewWithdrawReportDetailComponent } from './overview-withdraw-repor
     ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent,
     OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent,
     RepairDetailComponent, AuthorityComponent, MoveWarehouseDetailComponent, MoveWarehouseBillDetailComponent,
-    RegisterComponent, OverviewRequisitionComponent, OverviewRequisitionDetailComponent
+    RegisterComponent, OverviewRequisitionComponent, OverviewRequisitionDetailComponent, OverviewWithdrawReportComponent,
+    OverviewWithdrawReportDetailComponent, CompanyComponent
   ],
   imports: [
     CommonModule,

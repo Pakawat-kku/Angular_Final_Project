@@ -82,9 +82,9 @@ export class SignupPageComponent implements OnInit {
       for(let row of this.wardList) {
         await this.ward.push(row.wardName);
       }
-      console.log('this.ward' , this.ward);
+      // console.log('this.ward' , this.ward);
 
-      console.log(this.items);
+      // console.log(this.items);
     }
   }
 
