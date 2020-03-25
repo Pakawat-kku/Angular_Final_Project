@@ -1,3 +1,4 @@
+import { WithdrawUserReportComponent } from './withdraw-user-report/withdraw-user-report.component';
 import { OverviewWithdrawReportComponent } from './overview-withdraw-report/overview-withdraw-report.component';
 import { OverviewRequisitionComponent } from './overview-requisition/overview-requisition.component';
 import { AuthGuard } from './../../services/auth.guard';
@@ -89,6 +90,7 @@ const routes: Routes = [
       { path: 'overview-import-cloth', component: OverviewImportClothComponent },
       { path: 'overview-import-cloth-detail/:importCode', component: OverviewImportClothDetailComponent },
       { path: 'withdraw-history', component: WithdrawHistoryComponent },
+      { path: 'withdraw-user-report', component: WithdrawUserReportComponent },
       { path: 'overview-withdraw-detail/:withdrawCode', component: OverviewWithdrawDetailComponent },
       { path: 'withdraw-history-detail/:withdrawCode', component: WithdrawHistoryDetailComponent },
       { path: 'report-purchase-detail/:purchaseId', component: ReportPurchaseDetailComponent },

@@ -21,7 +21,7 @@
            รออนุมัติ
         </b><br>
     </span>
-    <span *ngIf="item.status=='1' && decoded.position== '1' ">
+    <span *ngIf="item.status=='1' && (decoded.position== '1' || decoded.position==5) ">
         <b>สถานะ​​ :</b><b style="color:green">
          อนุมัติแล้ว
         </b><br>
@@ -50,7 +50,7 @@
     <clr-dg-column *ngIf="decoded.position==2 && items.status=='1'">จำนวนที่สามารถจ่ายได้</clr-dg-column>
     </div>
     <clr-dg-column *ngIf="decoded.position==2">แก้ไข</clr-dg-column>
-    <clr-dg-column *ngIf="decoded.position==1" >จำนวนที่สามารถจ่ายได้</clr-dg-column>
+    <clr-dg-column *ngIf="decoded.position==1 || decoded.position==5" >จำนวนที่สามารถจ่ายได้</clr-dg-column>
 
 
     <clr-dg-row id="bgc" *clrDgItems="let item of requisitionBillDetail ;let i = index">
@@ -65,11 +65,11 @@
             {{ item.amountCloth }} 
         </clr-dg-cell>
 
-        <clr-dg-cell *ngIf="decoded.position=='1' && status == 0 ">
+        <clr-dg-cell *ngIf="(decoded.position=='5' ||decoded.position=='1') && status == 0 ">
             <input type="number"  name="amountClothReal.{{i}}"  [(ngModel)]="item.amountClothReal" ngModel/>
         </clr-dg-cell>
 
-        <clr-dg-cell *ngIf="decoded.position=='1' && status == 1 ">
+        <clr-dg-cell *ngIf="(decoded.position=='5' || decoded.position=='1') && status == 1 ">
             {{ item.amountClothReal }}
         </clr-dg-cell>
 

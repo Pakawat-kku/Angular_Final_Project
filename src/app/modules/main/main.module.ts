@@ -56,6 +56,7 @@ import { OverviewRequisitionComponent } from './overview-requisition/overview-re
 import { OverviewRequisitionDetailComponent } from './overview-requisition-detail/overview-requisition-detail.component';
 import { OverviewWithdrawReportComponent } from './overview-withdraw-report/overview-withdraw-report.component';
 import { OverviewWithdrawReportDetailComponent } from './overview-withdraw-report-detail/overview-withdraw-report-detail.component';
+import { WithdrawUserReportComponent } from './withdraw-user-report/withdraw-user-report.component';
 @NgModule({
   declarations: [
     MainPageComponent, PageNotFoundComponent,
@@ -75,7 +76,7 @@ import { OverviewWithdrawReportDetailComponent } from './overview-withdraw-repor
     OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent,
     RepairDetailComponent, AuthorityComponent, MoveWarehouseDetailComponent, MoveWarehouseBillDetailComponent,
     RegisterComponent, OverviewRequisitionComponent, OverviewRequisitionDetailComponent, OverviewWithdrawReportComponent,
-    OverviewWithdrawReportDetailComponent, CompanyComponent
+    OverviewWithdrawReportDetailComponent, CompanyComponent, WithdrawUserReportComponent
   ],
   imports: [
     CommonModule,
