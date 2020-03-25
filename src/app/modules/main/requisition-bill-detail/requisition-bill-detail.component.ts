@@ -53,7 +53,7 @@ export class RequisitionBillDetailComponent implements OnInit {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
       this.decoded = jwt_decode(users.token);
-      console.log('decoded', this.decoded);
+      // console.log('decoded', this.decoded);
 
     });
   }
@@ -98,19 +98,19 @@ export class RequisitionBillDetailComponent implements OnInit {
 
   async requisitionBill() {
     try {
-      console.log('this.requisitionCode', this.requisitionCode);
+      // console.log('this.requisitionCode', this.requisitionCode);
 
       const result: any = await this.requisitionService.showReqWaitDetail(this.requisitionCode);
       if (result.statusCode === 200) {
         this.requisitionBillDetail = result.rows;
 
-        console.log('find1', _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '1' }));
-        console.log('find2', _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '2' }));
+        // console.log('find1', _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '1' }));
+        // console.log('find2', _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '2' }));
 
         this.find1 = _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '1' });
         this.find2 = _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '2' });
 
-        console.log('this.requisitionBillDetail', this.requisitionBillDetail);
+        // console.log('this.requisitionBillDetail', this.requisitionBillDetail);
         this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
 
       }
@@ -122,7 +122,7 @@ export class RequisitionBillDetailComponent implements OnInit {
 
   async requisitionHeadBill() {
     try {
-      console.log('check', this.requisitionCode);
+      // console.log('check', this.requisitionCode);
       const result: any = await this.requisitionService.showReqWaitDetailOnly(this.requisitionCode);
       if (result.rows) {
         this.requisitionBillDetailOnly = result.rows;
@@ -134,11 +134,11 @@ export class RequisitionBillDetailComponent implements OnInit {
           item.day = item.date + ' ' + item.month + ' ' + item.year;
         }
         this.requisitionBillDetailOnly = this.requisitionBillDetailOnly;
-        console.log('this.requisitionBillDetailOnly', this.requisitionBillDetailOnly);
+        // console.log('this.requisitionBillDetailOnly', this.requisitionBillDetailOnly);
 
         this.status = this.requisitionBillDetailOnly[0].status;
-        console.log('status', this.status);
-        console.log('this.decoded.position', this.decoded.position);
+        // console.log('status', this.status);
+        // console.log('this.decoded.position', this.decoded.position);
 
 
       }
@@ -166,15 +166,15 @@ export class RequisitionBillDetailComponent implements OnInit {
     this.head = _.chunk(_.take(Object.values(formData), j), 2);
     this.tail = _.takeRight(Object.values(formData), minus);
 
-    console.log('head', _.chunk(_.take(Object.values(formData), j), 2));
-    console.log('tail', _.takeRight(Object.values(formData), minus));
+    // console.log('head', _.chunk(_.take(Object.values(formData), j), 2));
+    // console.log('tail', _.takeRight(Object.values(formData), minus));
 
     let unNor = 0;
     let sum = 0;
 
     for (const item of _.chunk(_.takeRight(Object.values(formData), minus))) {
-      console.log('item[0]', item[0]);
-      console.log('_.nth(this.head[0], 1)', _.nth(this.head[unNor], 1));
+      // console.log('item[0]', item[0]);
+      // console.log('_.nth(this.head[0], 1)', _.nth(this.head[unNor], 1));
 
       if (item[0] > _.nth(this.head[unNor], 1) || item[0] < 0 || item[0] === null) {
         this.unNormal = this.unNormal + 1;
@@ -185,23 +185,23 @@ export class RequisitionBillDetailComponent implements OnInit {
       }
     }
     unNor = 0;
-    console.log('this.unNormal', this.unNormal);
+    // console.log('this.unNormal', this.unNormal);
 
     if (this.unNormal > 0) {
       this.alertService.error('ไม่สามารถอนุมัติได้กรุณาตรวจสอบ');
       this.unNormal = 0;
 
     } else {
-      console.log('_.chunk(_.takeRight(Object.values(formData), minus))', _.chunk(_.takeRight(Object.values(formData), minus)));
+      // console.log('_.chunk(_.takeRight(Object.values(formData), minus))', _.chunk(_.takeRight(Object.values(formData), minus)));
 
       for (const item of _.chunk(_.takeRight(Object.values(formData), minus))) {
-        console.log('item', item[0]);
-        console.log('[0]', _.take(this.head[sum]));
-        console.log('[1]', _.tail(this.head[sum]));
+        // console.log('item', item[0]);
+        // console.log('[0]', _.take(this.head[sum]));
+        // console.log('[1]', _.tail(this.head[sum]));
         const result: any = await this.requisitionService.updateAmountReal(_.take(this.head[sum]), this.requisitionCode, item[0]);
-        console.log(result);
+        // console.log(result);
         sum = sum + 1;
-        console.log('sum', sum);
+        // console.log('sum', sum);
       }
 
       try {
@@ -266,7 +266,7 @@ export class RequisitionBillDetailComponent implements OnInit {
   }
 
   async submitEdit() {
-    console.log('this.currentRow', this.currentRow);
+    // console.log('this.currentRow', this.currentRow);
     if (this.currentRow.amountCloth <= 0) {
       this.alertService.error('จำนวนเบิกแก้ไขผิดพลาด');
     } else {
