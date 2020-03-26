@@ -81,7 +81,7 @@
     <clr-dg-column *ngIf="decoded.position==2 && items.status=='1'">จำนวนที่สามารถจ่ายได้</clr-dg-column>
     </div>
     <clr-dg-column *ngIf="decoded.position==2">แก้ไข</clr-dg-column>
-    <clr-dg-column *ngIf="decoded.position==1 || decoded.position==5" >จำนวนที่สามารถจ่ายได้</clr-dg-column>
+    <clr-dg-column *ngIf="decoded.position==1">จำนวนที่สามารถจ่ายได้</clr-dg-column>
 
 
     <clr-dg-row id="bgc" *clrDgItems="let item of requisitionBillDetail ;let i = index">

@@ -160,12 +160,17 @@ export class RequisitionBillDetailComponent implements OnInit {
           }
         }
         this.requisitionBillDetailOnly = this.requisitionBillDetailOnly;
-        // console.log('this.requisitionBillDetailOnly', this.requisitionBillDetailOnly);
+        console.log('requisitionBillDetailOnly', this.requisitionBillDetailOnly);
+        console.log('requisitionBillDetailDept', this.requisitionBillDetailDept);
 
-        this.status = this.requisitionBillDetailOnly[0].status;
-        // console.log('status', this.status);
+        if (this.requisitionBillDetailOnly.length === 0) {
+          this.status = this.requisitionBillDetailDept[0].status;
+        } else {
+          this.status = this.requisitionBillDetailOnly[0].status;
+
+        }
+        console.log('status', this.status);
         // console.log('this.decoded.position', this.decoded.position);
-
 
       }
 
