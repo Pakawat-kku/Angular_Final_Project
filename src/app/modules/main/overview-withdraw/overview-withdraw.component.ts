@@ -49,7 +49,7 @@ export class OverviewWithdrawComponent implements OnInit {
     private wardService: WardService,
     private router: Router,
     private users_authorityService: UsersAuthorityService,
- 
+
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
@@ -87,9 +87,9 @@ export class OverviewWithdrawComponent implements OnInit {
       this.alertService.error();
       this.router.navigate(['main/main']);
     } else {
-    await moment.locale('th');
-    await this.getRequisition();
-    this.time = moment().add(543, 'years').format('DD MMMM YYYY');
+      await moment.locale('th');
+      await this.getRequisition();
+      this.time = moment().add(543, 'years').format('DD MMMM YYYY');
     }
   }
 
@@ -173,7 +173,7 @@ export class OverviewWithdrawComponent implements OnInit {
                               }
                             }
                           }
-                          console.log(this.withdrawList, this.reqDetailList);
+                          // console.log(this.withdrawList, this.reqDetailList);
                         }
                       }
                     }
@@ -182,7 +182,7 @@ export class OverviewWithdrawComponent implements OnInit {
               } else {
                 const code = 'nk' + result3.rows[0].requisitionCode;
                 const result4: any = await this.withdrawService.getByReq(code);
-                console.log(result4.rows);
+                // console.log(result4.rows);
                 if (result4.rows.length === 0) {
                   this.reqDetailList.push({
                     Requisition_requisitionCode: result3.rows[0].requisitionCode,
@@ -244,7 +244,7 @@ export class OverviewWithdrawComponent implements OnInit {
                             }
                           }
                         }
-                        console.log(this.withdrawList, this.reqDetailList);
+                        // console.log(this.withdrawList, this.reqDetailList);
                       }
                     }
                   }
@@ -341,11 +341,57 @@ export class OverviewWithdrawComponent implements OnInit {
                   if (result9.rows.length > 1) {
                     for (const item of result9.rows) {
                       const result4: any = await this.withdrawService.getByReq(item.requisitionCode);
-                      if (result4.rows.length !== 0) {
-                        console.log(result4.rows);
-                        console.log('test');
+                      // console.log(item, result4.rows);
+                      if (result4.rows[0].withdraw_status === '0') {
+                        const results2: any = await this.requisitionService.showReqWaitDetail(item.requisitionCode);
+                        const results1: any = await this.withdrawService
+                          .getDetailRoundByCode(result4.rows[0].withdrawCode, result4.rows[0].totalRound);
+                        if (results1.rows.length > 1) {
+                          for (const items of results1.rows) {
+                            if (items.clothName !== 'ผ้าเช็ดมือ') {
+                              this.withdrawList.push(items);
+                            }
+                          }
+                          for (const rows of results2.rows) {
+                            if (rows.clothName !== 'ผ้าเช็ดมือ') {
+                              rows.Requisition_requisitionCode = item.requisitionCode;
+                              rows.withdrawCode = result4.rows[0].withdrawCode;
+                              this.reqDetailList.push(rows);
+                            }
+                          }
+
+                          if (this.reqDetailList.length !== 0) {
+                            this.requisitionList.push({
+                              requisitionCode: item.requisitionCode,
+                              reqTime: moment(item.reqDate).format('HH:mm'),
+                              reqDate: moment(item.reqDate).add(543, 'years').format('DD MMMM YYYY'),
+                              wardName: item.wardName,
+                              wardId: item.wardId,
+                              description: '',
+                              round: results1.rows[0].round
+                            });
+                            // for (let rew of this.requisitionList) {
+                            //   if (rew.round > 0) {
+                            for (let i = 0; i < this.reqDetailList.length; i++) {
+                              for (let j = 0; j < this.withdrawList.length; j++) {
+                                // console.log(this.reqDetailList[i].id, ')',this.reqDetailList[i].totalRound);
+                                if (this.reqDetailList[i].Cloth_clothId === this.withdrawList[j].Cloth_clothId
+                                  && this.reqDetailList[i].totalRound === undefined) {
+                                  this.reqDetailList[i].remains = this.withdrawList[j].WithdrawDetail_remain;
+                                  this.reqDetailList[i].export =
+                                    this.reqDetailList[i].amountClothReal - this.withdrawList[j].WithdrawDetail_remain;
+                                  // console.log('(', this.reqDetailList[i].id, ')', this.reqDetailList[i].export, '=',
+                                  //   this.reqDetailList[i].amountClothReal, '-', this.withdrawList[j].WithdrawDetail_remain);
+                                  //   }
+                                  // }
+                                }
+                              }
+                            }
+                          }
+                        }
                       } else {
-                        console.log(result4.rows);
+                        // console.log(result4.rows);
+                        console.log('oops');
                       }
                     }
                   } else {

@@ -59,6 +59,7 @@ export class RequisitionBillDetailComponent implements OnInit {
       this.currentUser = users;
       this.decoded = jwt_decode(users.token);
 
+      // console.log('decoded', this.decoded);
 
     });
   }
@@ -103,16 +104,19 @@ export class RequisitionBillDetailComponent implements OnInit {
 
   async requisitionBill() {
     try {
-
+      // console.log('this.requisitionCode', this.requisitionCode);
 
       const result: any = await this.requisitionService.showReqWaitDetail(this.requisitionCode);
       if (result.statusCode === 200) {
         this.requisitionBillDetail = result.rows;
 
+        // console.log('find1', _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '1' }));
+        // console.log('find2', _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '2' }));
+
         this.find1 = _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '1' });
         this.find2 = _.findKey(this.requisitionBillDetail, { 'requisitionDetailStatus': '2' });
 
-
+        // console.log('this.requisitionBillDetail', this.requisitionBillDetail);
         this.router.navigate(['main/requisition-bill-detail/' + this.requisitionCode]);
 
       }
@@ -124,7 +128,7 @@ export class RequisitionBillDetailComponent implements OnInit {
 
   async requisitionHeadBill() {
     try {
-
+      // console.log('check', this.requisitionCode);
       const result: any = await this.requisitionService.showReqWaitDetailOnly(this.requisitionCode);
 
       const result1: any = await this.requisitionService.showReqWaitDetailDept(this.requisitionCode);
@@ -155,16 +159,12 @@ export class RequisitionBillDetailComponent implements OnInit {
             this.wardNameDept = this.requisitionBillDetailDept[0].wardName;
           }
         }
+        this.requisitionBillDetailOnly = this.requisitionBillDetailOnly;
+        // console.log('this.requisitionBillDetailOnly', this.requisitionBillDetailOnly);
 
-
-        // this.requisitionBillDetailOnly = this.requisitionBillDetailOnly;
-
-
-        if (result.rows.length === 0) {
-          this.status = this.requisitionBillDetailDept[0].status;
-        } else {
-          this.status = this.requisitionBillDetailOnly[0].status;
-        }
+        this.status = this.requisitionBillDetailOnly[0].status;
+        // console.log('status', this.status);
+        // console.log('this.decoded.position', this.decoded.position);
 
 
       }
@@ -325,7 +325,6 @@ export class RequisitionBillDetailComponent implements OnInit {
   }
 
   async submitEdit() {
-
     if (this.currentRow.amountCloth <= 0) {
       this.alertService.error('จำนวนเบิกแก้ไขผิดพลาด');
     } else {

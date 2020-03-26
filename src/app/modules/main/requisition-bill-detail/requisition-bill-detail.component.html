@@ -22,7 +22,7 @@
            รออนุมัติ
         </b><br>
     </span>
-    <span *ngIf="item.status=='1' && decoded.position== '1' ">
+    <span *ngIf="item.status=='1' && (decoded.position== '1' || decoded.position==5) ">
         <b>สถานะ​​ :</b><b style="color:green">
          อนุมัติแล้ว
         </b><br>
@@ -81,7 +81,7 @@
     <clr-dg-column *ngIf="decoded.position==2 && items.status=='1'">จำนวนที่สามารถจ่ายได้</clr-dg-column>
     </div>
     <clr-dg-column *ngIf="decoded.position==2">แก้ไข</clr-dg-column>
-    <clr-dg-column *ngIf="decoded.position==1" >จำนวนที่สามารถจ่ายได้</clr-dg-column>
+    <clr-dg-column *ngIf="decoded.position==1 || decoded.position==5" >จำนวนที่สามารถจ่ายได้</clr-dg-column>
 
 
     <clr-dg-row id="bgc" *clrDgItems="let item of requisitionBillDetail ;let i = index">
@@ -100,7 +100,7 @@
             <input type="number"  name="amountClothReal.{{i}}"  [(ngModel)]="item.amountClothReal" ngModel/>
         </clr-dg-cell>
 
-        <clr-dg-cell *ngIf="decoded.position==1 && status == '1' ">
+        <clr-dg-cell *ngIf=" decoded.position==1 && status == '1' ">
             {{ item.amountClothReal }}
         </clr-dg-cell>
 
@@ -126,18 +126,18 @@
 </clr-datagrid>
 <div *ngIf = "wardName === undefined">
 <div class="clr-row clr-justify-content-start" style="margin-left: 1.5%;" *ngFor="let items of requisitionBillDetailOnly">
-<div class="clr-col-1.5" *ngIf="decoded.position==1">
-    <button *ngIf="decoded.position==1" 
-    [disabled]="items.status=='1' || items.status=='2' || (find1 == undefined && find2 == 0)  " 
+<!-- <div class="clr-col-1.5" *ngIf="decoded.position==5"> -->
+    <button *ngIf="decoded.position==5 || decoded.position==1" 
+    [disabled]="items.status!='0'" 
     type="submit" class="btn btn-success-outline" >ยืนยันอนุมัติการเบิก
     </button>
-</div>
-<div class="clr-col-1" *ngIf="decoded.position==1">
-        <button *ngIf="decoded.position==1" 
+<!-- </div> -->
+<!-- <div class="clr-col-1" *ngIf="decoded.position==1"> -->
+        <button *ngIf="decoded.position==5 || decoded.position==1" 
         [disabled]="items.status=='1' || items.status=='2' "
         type="button" class="btn btn-danger-outline" (click)="notApproveReq(requisitionCode)">ไม่อนุมัติการเบิกนี้
         </button>
-</div>
+<!-- </div> -->
 </div>
 </div>
 
