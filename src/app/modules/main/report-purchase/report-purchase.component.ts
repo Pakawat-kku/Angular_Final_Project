@@ -82,7 +82,7 @@ export class ReportPurchaseComponent implements OnInit {
           item.year = moment(item.purchaseDate).add(543, 'years').format('YYYY');
         }
       }
-      console.log(this.purchaseList);
+
     } catch (error) {
       console.log(error);
 

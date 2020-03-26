@@ -9,6 +9,7 @@
     </button>
 </a>
 <h1 style="text-align: center;">รายละเอียดใบเบิก {{requisitionCode}}</h1> 
+<div *ngIf= "decoded.position == 2 || decoded.position == 1 && wardName !== null && wardNameDept === undefined">
 <div class="head-bill" *ngFor="let item of requisitionBillDetailOnly">
     <span >
         <b>รหัสการเบิก : {{requisitionCode}}</b><br>
@@ -37,9 +38,39 @@
         <b style="color:red" *ngIf="item.status=='0' && decoded.position==2">
             *******ถ้ายังไม่ผ่านการอนุมัติจากส่วนการเบิกผ้า ท่านสามารถแก้ไขได้********
         </b>
-     
 </div> 
-
+</div>
+<div *ngIf= "decoded.position == 1 && wardName == null && requisitionBillDetailDept !== undefined ">
+    <div class="head-bill" *ngFor="let item of requisitionBillDetailDept">
+        <span >
+            <b>รหัสการเบิก : {{requisitionCode}}</b><br>
+            <b>หน่วยงาน : {{item.description}}</b><br>
+            <b>เมื่อวันที่ : {{item.day}}</b><br>
+            <b>เวลา : {{item.time}}</b><br>
+        </span>
+        <span *ngIf="item.status=='0'">
+            <b>สถานะ​​ :</b> <b style="color:blue"> 
+               รออนุมัติ
+            </b><br>
+        </span>
+        <span *ngIf="item.status=='1' && decoded.position==1 ">
+            <b>สถานะ​​ :</b><b style="color:green">
+             อนุมัติแล้ว
+            </b><br>
+        </span>
+        <span *ngIf="item.status=='1' && decoded.position==2 ">
+            <b>สถานะ​​ :</b><b style="color:green">
+             อนุมัติแล้ว(กำลังจัดส่ง)
+            </b><br>
+        </span>
+        <span *ngIf="item.status=='2'">
+                <b>สถานะ​​ :</b><b style="color:red"> ไม่อนุมัติ</b><br>
+            </span>
+            <b style="color:red" *ngIf="item.status=='0' && decoded.position==2">
+                *******ถ้ายังไม่ผ่านการอนุมัติจากส่วนการเบิกผ้า ท่านสามารถแก้ไขได้********
+            </b>
+    </div> 
+    </div>
 <form #myform="ngForm" (ngSubmit)="approve(myform.value)">
 
 <clr-datagrid *ngIf="requisitionBillDetail" class=" clr-col-10 ">
@@ -65,19 +96,19 @@
             {{ item.amountCloth }} 
         </clr-dg-cell>
 
-        <clr-dg-cell *ngIf="decoded.position=='1' && status == 0 ">
+        <clr-dg-cell *ngIf="decoded.position==1 && status == '0' ">
             <input type="number"  name="amountClothReal.{{i}}"  [(ngModel)]="item.amountClothReal" ngModel/>
         </clr-dg-cell>
 
-        <clr-dg-cell *ngIf="decoded.position=='1' && status == 1 ">
+        <clr-dg-cell *ngIf="decoded.position==1 && status == '1' ">
             {{ item.amountClothReal }}
         </clr-dg-cell>
 
-        <clr-dg-cell *ngIf="decoded.position=='2' && status == 1 ">
+        <clr-dg-cell *ngIf="decoded.position==2 && status == '1' ">
             {{ item.amountClothReal }}
         </clr-dg-cell>
 
-        <clr-dg-cell *ngIf="decoded.position=='2'">
+        <clr-dg-cell *ngIf="decoded.position==2">
             <button type="button" class="btn btn-sm btn-primary" (click)="showEditBill(item)" *ngFor="let items of requisitionBillDetailOnly"
             [disabled]="items.status=='1' || items.status=='2'">แก้ไข</button>
         </clr-dg-cell> 
@@ -93,7 +124,7 @@
         </clr-dg-pagination>
     </clr-dg-footer>
 </clr-datagrid>
-
+<div *ngIf = "wardName === undefined">
 <div class="clr-row clr-justify-content-start" style="margin-left: 1.5%;" *ngFor="let items of requisitionBillDetailOnly">
 <div class="clr-col-1.5" *ngIf="decoded.position==1">
     <button *ngIf="decoded.position==1" 
@@ -108,6 +139,24 @@
         </button>
 </div>
 </div>
+</div>
+
+<div *ngIf = "wardNameDept === undefined">
+    <div class="clr-row clr-justify-content-start" style="margin-left: 1.5%;" *ngFor="let items of requisitionBillDetailDept">
+    <div class="clr-col-1.5" *ngIf="decoded.position==1">
+        <button *ngIf="decoded.position==1" 
+        [disabled]="items.status=='1' || items.status=='2' || (find1 == undefined && find2 == 0)  " 
+        type="submit" class="btn btn-success-outline" >ยืนยันอนุมัติการเบิก
+        </button>
+    </div>
+    <div class="clr-col-1" *ngIf="decoded.position==1">
+            <button *ngIf="decoded.position==1" 
+            [disabled]="items.status=='1' || items.status=='2' "
+            type="button" class="btn btn-danger-outline" (click)="notApproveReq(requisitionCode)">ไม่อนุมัติการเบิกนี้
+            </button>
+    </div>
+    </div>
+    </div>
 </form>
 
 <!-- <div *ngIf="decoded.position==2">

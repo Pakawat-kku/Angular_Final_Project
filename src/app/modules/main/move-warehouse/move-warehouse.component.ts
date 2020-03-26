@@ -3,18 +3,14 @@ import { StockService } from './../../../services/stock.service';
 import { WareHouseService } from './../../../services/wareHouse.service';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/services/alert.service';
-import { NgForm, FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-import { InputArray, InputDummy, InputPurchase } from './inputArray';
+import { InputArray} from './inputArray';
 import { AvailableService } from './../../../services/available.service';
 import { Warehouse_export_availableDetailService } from './../../../services/warehouse_export_availableDetail';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import * as jwt_decode from 'jwt-decode';
-import { analyzeFileForInjectables } from '@angular/compiler';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import * as jquery from 'jquery';
 import { Warehouse_export_availableService } from 'src/app/services/warehouse_export_available';
 
 import { UsersAuthorityService } from 'src/app/services/users-authority.service';
@@ -152,7 +148,7 @@ export class MoveWarehouseComponent implements OnInit {
         // arrayId.id = i + 1;
         // this.arrayList.push(arrayId);
       }
-      console.log('arraylist', this.arrayList);
+
     }
     for (const item of this.purchaseLists) {
       const result: any = await this.wareHouseService.getWareHouse(item.clothId);
@@ -207,7 +203,7 @@ export class MoveWarehouseComponent implements OnInit {
   }
 
   async onSave() {
-    console.log('this.purchaseLists', this.purchaseLists);
+
     let unNormal = 0;
 
 
@@ -218,7 +214,7 @@ export class MoveWarehouseComponent implements OnInit {
         this.unRepeat = i + 1 + '';
         this.unRepeatString += this.unRepeat + ' ';
       } else {
-        console.log('clothAmountปกติ');
+
       }
     }
 
@@ -246,9 +242,7 @@ export class MoveWarehouseComponent implements OnInit {
         this.overString += this.over + ' ';
       }
     }
-    console.log('f', f);
-    console.log('k', k);
-    console.log('unnormal', unNormal);
+
 
     if (k.length !== 0 || unNormal !== 0 || f.length !== 0) {
       if (unNormal !== 0) {
@@ -262,7 +256,7 @@ export class MoveWarehouseComponent implements OnInit {
           for (const items of _.uniq(k)) {
             // tslint:disable-next-line: radix
             if (item.clothId === parseInt(items)) {
-              console.log('item.clothId', item.clothName);
+
               this.string += item.clothName + ' ';
             }
           }
@@ -278,8 +272,6 @@ export class MoveWarehouseComponent implements OnInit {
       }
 
     } else {
-      console.log('ผ่าน');
-
       await this.getDate();
 
       try {
@@ -288,21 +280,21 @@ export class MoveWarehouseComponent implements OnInit {
         for (const row of this.purchaseLists) {
           const result2: any = await this.wareHouseService.getWareHouse(row.clothId);
           const result4: any = await this.availableService.getAvailable(row.clothId);
-          console.log('result2', result2);
-          console.log('result4', result4);
+
+
           if (result4.rows.length === 0) {
             const obj1 = {
               Cloth_clothId: row.clothId,
               AvailableAmount: row.amountCloth + 0,
             };
-            console.log('obj1', obj1);
+
             const result: any = await this.availableService.insertAvailable(obj1);
 
             const obj3 = {
               warehouseAmount: result2.rows[0].warehouseAmount - row.amountCloth,
             };
 
-            console.log('obj3', obj3);
+
             const result3: any = await this.wareHouseService.updateWareHouse(row.clothId, obj3);
 
             const obj6 = {
@@ -311,24 +303,24 @@ export class MoveWarehouseComponent implements OnInit {
               warehouse_export_availableAmount: row.amountCloth,
             };
 
-            console.log('obj6', obj6);
+
 
             const result6: any = await this.warehouse_export_availableDetailService.insertWarehouse_export_availableDetail(obj6);
-            console.log('result6', result6);
+
 
           } else {
 
             const obj2 = {
               AvailableAmount: row.amountCloth + result4.rows[0].AvailableAmount,
             };
-            console.log('obj2', obj2);
+
             const result: any = await this.availableService.updateAvailable(row.clothId, obj2);
 
             const obj3 = {
               warehouseAmount: result2.rows[0].warehouseAmount - row.amountCloth,
             };
 
-            console.log('obj3', obj3);
+
             const result3: any = await this.wareHouseService.updateWareHouse(row.clothId, obj3);
 
             const obj6 = {
@@ -336,11 +328,11 @@ export class MoveWarehouseComponent implements OnInit {
               Cloth_clothId: row.clothId,
               warehouse_export_availableAmount: row.amountCloth,
             };
-            console.log('obj6', obj6);
+
 
 
             const result6: any = await this.warehouse_export_availableDetailService.insertWarehouse_export_availableDetail(obj6);
-            console.log('result6', result6);
+
 
           }
         }
@@ -389,14 +381,14 @@ export class MoveWarehouseComponent implements OnInit {
     console.log('checkValue', this.purchaseLists);
     for (const item of this.purchaseLists) {
       const result: any = await this.wareHouseService.getWareHouse(item.clothId);
-      console.log('result', result.rows);
+
       if (result.rows.length === 0) {
         item.warehouseAmount = 0;
       } else {
         item.warehouseAmount = result.rows[0].warehouseAmount;
       }
     }
-    console.log('result.rows', this.purchaseLists);
+
 
   }
 

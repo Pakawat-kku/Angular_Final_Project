@@ -143,17 +143,13 @@ export class OverviewRequisitionComponent implements OnInit {
         dateSearch4 = moment(dateSearch4)
           .add(1, 'days')
           .format('YYYY-MM-DD');
-        console.log('dateSearch3', moment(dateSearch3).format('DD'));
-
-
-        console.log('this.dayOfCloth', this.dayOfCloth);
 
         if (wardId === 0 || wardId === '0') { // เลือกแบบทุกวอร์ด
-          console.log('wardId', wardId);
+;
           this.someWard = '1';
           try {
             const result: any = await this.requisitionService.searchByDate(dateSearch3, dateSearch4);
-            // console.log('result', result.rows);
+
             let i = 0;
             for (const item of result.rows) {
 
@@ -166,7 +162,6 @@ export class OverviewRequisitionComponent implements OnInit {
                 });
               }
             }
-            // console.log('this.clothIdList', this.clothIdList);
 
           } catch (error) {
             console.log(error);
@@ -175,10 +170,10 @@ export class OverviewRequisitionComponent implements OnInit {
           this.someWard = '2';
           try {
             const result: any = await this.requisitionService.searchByWard(wardId, dateSearch3, dateSearch4);
-            console.log('result', result.rows);
+
             for (const item of result.rows) {
               const result1: any = await this.withdrawService.getWithdrawByCode(item.requisitionCode);
-              console.log('result1', result1.rows);
+
             }
 
             if (result.rows) {
@@ -227,8 +222,6 @@ export class OverviewRequisitionComponent implements OnInit {
                 });
               }
             }
-            console.log(moment(dateSearch3).format('DD'));
-            console.log(moment(dateSearch4).format('DD'));
 
             for (const item of this.clothIdList) {
               const result1: any = await this.stockService.getClothById(item.clothId);
@@ -245,7 +238,7 @@ export class OverviewRequisitionComponent implements OnInit {
   }
 
   onAdd(item) {
-    console.log('item', item);
+    // console.log('item', item);
 
   }
 }

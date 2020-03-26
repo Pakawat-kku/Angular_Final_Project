@@ -50,7 +50,7 @@ editRow: any;
     const obj = {
       companyName: this.currentRow.companyName
     };
-    console.log('obj', obj);
+
 
     try {
       if (this.currentRow.mode === 'add') {
@@ -82,9 +82,9 @@ editRow: any;
           companyName: this.currentRow.companyName,
         };
         const result: any = await this.companyService.updateCompany(obj);
-        console.log(obj);
+
         if (result.rows) {
-          console.log('edit: ', result.rows);
+
           this.alertService.success('แก้ไขสำเร็จ').then(value => {
             if (value.dismiss) {
               this.modalEdit = false;

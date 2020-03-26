@@ -40,20 +40,18 @@ export class RegisterComponent implements OnInit {
                 Position_pId: 'k',
 
               };
-              console.log(obj);
 
               const result = await this.usersService.insertUsers(obj);
               console.log('result', result);
 
 
               if (result) {
-                console.log(result);
+
                 this.router.navigate(['main/register']);
               }
         } else if (value.dismiss) {
           console.log('false');
         }
-        console.log('k', value);
           if (value.dismiss) {
 
           }

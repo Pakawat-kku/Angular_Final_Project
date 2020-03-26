@@ -57,9 +57,9 @@ export class ExportClothBillComponent implements OnInit {
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
-      console.log('users', users);
+
       this.decoded = jwt_decode(users.token);
-      console.log('decoded', this.decoded);
+
     });
   }
 
@@ -95,7 +95,7 @@ export class ExportClothBillComponent implements OnInit {
     } else {
     moment.locale('th');
     this.exportClothCode = this._Activatedroute.snapshot.paramMap.get('exportClothCode');
-    console.log('id-pass', this.exportClothCode);
+
     await this.getExportCloth();
     await this.getExportDetail();
     await this.getImportDetail();
@@ -106,14 +106,14 @@ export class ExportClothBillComponent implements OnInit {
 
   async getExportCloth() {
     try {
-      console.log('exportClothCode', this.exportClothCode);
+
       const result: any = await this.exportService.showExportClothCompany(this.exportClothCode);
       const result1: any = await this.exportService.showExportClothHospital(this.exportClothCode);
 
-      console.log('result', result);
+
 
       if (result.rows) {
-        console.log(result.rows);
+
         this.exportCloth = result.rows;
         for (const item of this.exportCloth) {
           item.date = moment(item.exportClothDate).format('DD');
@@ -125,7 +125,7 @@ export class ExportClothBillComponent implements OnInit {
           item.percent = parseFloat(item.percent).toFixed(2);
           this.exportClothType = item.exportClothType;
         }
-        console.log('this.exportCloth', this.exportCloth);
+
 
         this.exportClothHospital = result1.rows;
         for (const item of this.exportClothHospital) {
@@ -139,8 +139,8 @@ export class ExportClothBillComponent implements OnInit {
           this.exportClothTypeHospital = item.exportClothType;
 
         }
-        console.log('this.exportClothType', this.exportClothType);
-        console.log('exportClothTypeHospital', this.exportClothTypeHospital);
+
+
       }
 
     } catch (err) {
@@ -154,7 +154,7 @@ export class ExportClothBillComponent implements OnInit {
       if (result.rows) {
         console.log(result.rows);
         this.exportDetail = result.rows;
-        console.log('this.exportDetail', this.exportDetail);
+
 
       }
 
@@ -167,7 +167,7 @@ export class ExportClothBillComponent implements OnInit {
     try {
       const result: any = await this.importService.showImportCloth(this.exportClothCode);
       if (result.rows) {
-        console.log(result.rows);
+
 
         this.importCloth = result.rows;
 
@@ -179,7 +179,7 @@ export class ExportClothBillComponent implements OnInit {
           item.day = item.date + '  ' + item.month + '  ' + item.year;
           this.importClothCode = item.importCode;
         }
-        console.log('this.importCloth', this.importCloth);
+
 
       }
 
@@ -192,9 +192,9 @@ export class ExportClothBillComponent implements OnInit {
     try {
       const result: any = await this.importDetailWeightClothService.showImportDetailWeight(this.exportClothCode);
       if (result.rows) {
-        console.log(result.rows);
+
         this.importDetail = result.rows;
-        console.log('this.importDetail', this.importDetail);
+
 
       }
 
@@ -204,13 +204,13 @@ export class ExportClothBillComponent implements OnInit {
   }
   async getImportDetailWeightSum() {
     try {
-      console.log(this.exportClothCode);
+
       const result: any = await this.importService.showImportCloth(this.exportClothCode);
       this.exportClothCodeDummy = result.rows;
       for (const item of this.exportClothCodeDummy) {
         this.exportClothCodeDummy = item.importCode;
       }
-      console.log('this.exportClothCodeDummy', this.exportClothCodeDummy);
+
 
       const result1: any = await this.importService.getInner(this.exportClothCode);
       const result2: any = await this.importDetailWeightSumService.showImportDetailWeightSum(this.exportClothCodeDummy);
@@ -218,9 +218,9 @@ export class ExportClothBillComponent implements OnInit {
       if (result.rows && result1.rows) {
         console.log(result.rows);
         this.getInner = result1.rows;
-        console.log('this.getInner', this.getInner);
+
         this.importDetailWeightSum = result2.rows;
-        console.log('this.importDetailWeightSum', this.importDetailWeightSum);
+
 
       }
 

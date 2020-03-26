@@ -80,9 +80,7 @@ export class StockComponent implements OnInit {
     try {
       const result: any = await this.stockService.getCloth();
       if (result.rows) {
-        console.log('cloth', result.rows);
         this.clothList = result.rows;
-        console.log('check', this.clothList);
       }
     } catch (err) {
       console.log(err);
@@ -92,7 +90,7 @@ export class StockComponent implements OnInit {
     try {
       const result: any = await this.stockService.getClothType();
       if (result.rows) {
-        console.log('cloth type', result.rows);
+
         this.clothTypeList = result.rows;
       }
     } catch (error) {
@@ -102,10 +100,10 @@ export class StockComponent implements OnInit {
 
   async letSearch(search) {
     try {
-      console.log('search : ', search);
+
       const result: any = await this.stockService.getSearch(search);
       if (result.rows) {
-        console.log('get search ', result.rows);
+
         this.clothList = result.rows;
       }
     } catch (error) {
@@ -139,9 +137,7 @@ export class StockComponent implements OnInit {
       if (this.currentRow.mode === 'add') {
         const result: any = await this.stockService.insertCloth(obj);
         if (result.rows) {
-          console.log('add : ', result.rows);
           this.alertService.success('บันทึกสำเร็จ').then(value => {
-            console.log('value', value);
             if (value.dismiss) {
               this.getCloth();
               this.modalEdit = false;
@@ -162,9 +158,9 @@ export class StockComponent implements OnInit {
         const result: any = await this.stockService.updateCloth(obj);
         console.log(obj);
         if (result.rows) {
-          console.log('edit: ', result.rows);
+
           this.alertService.success('บันทึกสำเร็จ').then(value => {
-            console.log('value', value);
+
             if (value.dismiss) {
               this.getCloth();
               this.modalEdit = false;

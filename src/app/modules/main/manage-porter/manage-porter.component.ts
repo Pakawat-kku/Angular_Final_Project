@@ -43,7 +43,7 @@ export class ManagePorterComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private users_authorityService: UsersAuthorityService,
 
-  ) { 
+  ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
       this.decoded = jwt_decode(users.token);
@@ -227,19 +227,16 @@ export class ManagePorterComponent implements OnInit {
       this.blank2 = false ;
     }
 
-    console.log('i', i);
-    console.log('j', j);
 
     if (this.selected.length === 0 ) {
       this.diseble = false;
-      console.log('this.diseble[]', this.diseble);
+
 
     } else {
       this.diseble = true;
-      console.log('this.diseble![]', this.diseble);
+
     }
-    console.log('this.blank1', this.blank1);
-    console.log('this.blank2', this.blank2);
+
   }
 }
 

@@ -73,8 +73,10 @@ import { OverviewWithdrawReportDetailComponent } from './overview-withdraw-repor
     WithdrawHistoryComponent, WithdrawHistoryDetailComponent, ExportClothComponent, ExportClothDetailComponent,
     ExportClothBillComponent, ImportClothAmountComponent, ImportClothAmountHosComponent, OverviewDamageComponent,
     OverviewDamageDetailComponent, OverviewWithdrawAdminComponent, OverviewWithdrawAdminDetailComponent, RepairComponent,
-    RepairDetailComponent, AuthorityComponent, MoveWarehouseDetailComponent, MoveWarehouseBillDetailComponent,
-    RegisterComponent, OverviewRequisitionComponent, OverviewRequisitionDetailComponent
+    RepairDetailComponent, AuthorityComponent, MoveWarehouseDetailComponent,
+    MoveWarehouseBillDetailComponent, RegisterComponent, CompanyComponent, OverviewRequisitionComponent, 
+    OverviewRequisitionDetailComponent, OverviewWithdrawReportComponent, OverviewWithdrawReportDetailComponent,
+    // CompanyComponent, OverviewWithdrawMonthComponent, OverviewWithdrawReportComponent
   ],
   imports: [
     CommonModule,

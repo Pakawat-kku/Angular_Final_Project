@@ -82,10 +82,8 @@ export class WarehouseComponent implements OnInit {
     try {
       const result1: any = await this.stockService.getCloth();
       this.stock = result1.rows;
-      // console.log('this.stock', this.stock);
       for (const item of this.stock) {
         const result: any = await this.wareHouseService.getWareHouse(item.clothId);
-        // console.log('result', result.rows);
         if (result.rows.length === 0) {
           item.warehouseAmount = 0;
         } else {
@@ -95,14 +93,12 @@ export class WarehouseComponent implements OnInit {
     } catch (err) {
       console.log(err);
     }
-    // console.log(this.stock);
   }
 
   async getClothType() {
     try {
       const result: any = await this.stockService.getClothType();
       if (result.rows) {
-        console.log('cloth type', result.rows);
         this.clothTypeList = result.rows;
       }
     } catch (error) {
@@ -112,10 +108,8 @@ export class WarehouseComponent implements OnInit {
 
   async letSearch(search) {
     try {
-      console.log('search : ', search);
       const result: any = await this.wareHouseService.getSearch(search);
       if (result.rows) {
-        console.log('get search ', result.rows);
         this.stock = result.rows;
       }
     } catch (error) {
@@ -140,27 +134,22 @@ export class WarehouseComponent implements OnInit {
   }
 
   async onSave() {
-    console.log(this.notHave);
 
     const result: any = await this.wareHouseService.getWareHouse( this.currentRow.clothId);
     console.log(result.rows);
-
-    console.log('this.currentRow.warehouseAmount', this.currentRow.warehouseAmount);
 
     if (this.notHave === 1 && result.rows.length === 0) {
       const obj = {
         Cloth_clothId: this.currentRow.clothId,
         warehouseAmount: this.currentRow.warehouseAmount,
       };
-      console.log('obj', obj);
- 
+
       try {
           const result: any = await this.wareHouseService.insertWareHouse(obj);
           console.log('result.rows', result.rows);
 
           if (result.rows) {
             this.alertService.success('บันทึกสำเร็จ').then(value => {
-              console.log('value', value);
               if (value.dismiss) {
                 this.getWareHouse();
                 this.modalEdit = false;
@@ -176,21 +165,15 @@ export class WarehouseComponent implements OnInit {
       } catch (err) {
         console.log(err);
       }
-
     } else {
 
       const obj = {
         warehouseAmount: this.currentRow.warehouseAmount,
       };
-      console.log('obj', obj);
-
       try {
-
           const result: any = await this.wareHouseService.updateWareHouse(this.currentRow.clothId, obj);
-          console.log('result.rows', result.rows);
           if (result.rows) {
             this.alertService.success('บันทึกสำเร็จ').then(value => {
-              console.log('value', value);
               if (value.dismiss) {
                 this.getWareHouse();
                 this.modalEdit = false;

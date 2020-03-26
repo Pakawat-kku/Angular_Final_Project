@@ -128,7 +128,7 @@ export class ExportClothComponent implements OnInit, OnDestroy {
     const result: any = await this.companyService.getCompany();
     if (result.rows) {
       this.companyList = result.rows;
-      console.log('company', this.companyList);
+
     }
   }
 
@@ -154,7 +154,7 @@ export class ExportClothComponent implements OnInit, OnDestroy {
   }
 
   onClickSubmit(formData) {
-    console.log(formData);
+
     if (formData.amount < 1) {
       this.alertService.error('จำนวนรายการผ้าที่สั่งซื้อไม่ถูกต้อง');
     } else {
@@ -169,7 +169,7 @@ export class ExportClothComponent implements OnInit, OnDestroy {
         arrayId.id = i + 1;
         this.arrayList.push(arrayId);
       }
-      console.log('arraylist', this.arrayList);
+
     }
     this.amount = 0;
   }
@@ -195,18 +195,15 @@ export class ExportClothComponent implements OnInit, OnDestroy {
         }
       });
       this.exportList = data;
-      console.log('del', this.exportList);
+
     }
   }
 
   async onSave() {
     try {
-      console.log('exportCarId', this.exportCarId);
-      console.log('this.exportList', this.exportList);
-      console.log('exportClothType', this.exportClothType);
       this.getDate();
       // tslint:disable-next-line: no-unused-expression
-      console.log('diff', (this.exportList, [0]));
+
       this.calculateWeight();
       if (this.exportClothType === 1) {
       for (let i = 0; i < this.exportList.length; i++) {
@@ -252,12 +249,12 @@ export class ExportClothComponent implements OnInit, OnDestroy {
       console.log('pass', this.pass);
 
       if (this.pass > 0) {
-      console.log('this.exportClothType', this.exportClothType);
-      if (this.exportClothType === 1) { 
+
+      if (this.exportClothType === 1) {
         const result_alert: any = await this.alertService.confirm('น้ำหนักผ้าเปื้อน ' + this.weightSum + ' กก.');
         if (result_alert.value) {
 
-        console.log('ซักเอง');
+
         const obj = {
           exportClothCode: this.exportClothCode,
           exportClothDate: this.dates,
@@ -269,7 +266,7 @@ export class ExportClothComponent implements OnInit, OnDestroy {
           exportClothUserImport : this.exportClothUserImport,
 
         };
-        console.log('obj', obj);
+
         const result: any = this.exportService.insertExportCloth(obj);
 
         for (const row of this.exportList) {
@@ -282,10 +279,10 @@ export class ExportClothComponent implements OnInit, OnDestroy {
               exportDetailSumWeight : this.exportDetailSumWeight,
 
             };
-            console.log('obj1', obj1);
+
             const dataInsert: any = this.exportService.insertExportDetail(obj1);
             if (dataInsert.rows) {
-              console.log('check', dataInsert.rows);
+
             }
           }
         }
@@ -296,9 +293,8 @@ export class ExportClothComponent implements OnInit, OnDestroy {
       } else {
         const result_alert: any = await this.alertService.confirm('น้ำหนักผ้าเปื้อน ' + this.weightSum + ' กก.');
         if (result_alert.value) {
-        console.log('ส่งบริษัท');
 
-        console.log('this.exportClothUserImport', this.exportClothUserImport);
+
 
         const obj = {
           exportClothCode: this.exportClothCode,
@@ -310,7 +306,7 @@ export class ExportClothComponent implements OnInit, OnDestroy {
           exportCarId : this.exportCarId,
           exportClothUserImport : this.exportClothUserImport,
         };
-        console.log('obj', obj);
+
         const result: any = this.exportService.insertExportCloth(obj);
 
         for (const row of this.exportList) {
@@ -322,10 +318,10 @@ export class ExportClothComponent implements OnInit, OnDestroy {
               exportDetailWeightCar : row.weightCar,
               exportDetailSumWeight : this.exportDetailSumWeight,
             };
-            console.log('obj1', obj1);
+
             const dataInsert: any = this.exportService.insertExportDetail(obj1);
             if (dataInsert.rows) {
-              console.log('check', dataInsert.rows);
+
             }
           }
         }

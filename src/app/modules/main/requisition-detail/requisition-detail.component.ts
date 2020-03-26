@@ -41,7 +41,7 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
       this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
       this.decoded = jwt_decode(users.token);
-      console.log('decoded', this.decoded);
+
 
   });
   }
@@ -121,11 +121,10 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
   async search(searchRequisitionId) {
 
     try {
-      console.log('searchWard : ', searchRequisitionId);
 
       const result: any = await this.requisitionService.searchRequisitionCode(searchRequisitionId);
       if (result.rows) {
-        console.log('search ', result.rows);
+
         this.showReqlist = result.rows;
         for (const item of this.showReqlist) {
           item.date = moment(item.reqDate).format('DD');
@@ -134,7 +133,6 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
           item.time = moment(item.reqDate).format('HH:mm');
           item.day = item.date + '  ' + item.month + '  ' + item.year;
       }
-          console.log(this.showReqlist);
       }
     } catch (error) {
       console.log(error);
@@ -143,12 +141,11 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
 
 
   async searchTypeApprove() {
-    console.log('this.decoded.Ward_wardId', this.decoded.Ward_wardId);
 
     try {
       const result: any = await this.requisitionService.searchTypeApprove(this.decoded.Ward_wardId);
       if (result.rows) {
-        console.log('search ', result.rows);
+
         this.showReqlist = result.rows;
         for (const item of this.showReqlist) {
           item.date = moment(item.reqDate).format('DD');
@@ -157,7 +154,6 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
           item.time = moment(item.reqDate).format('HH:mm');
           item.day = item.date + '  ' + item.month + '  ' + item.year;
       }
-          console.log(this.showReqlist);
       }
     } catch (error) {
       console.log(error);
@@ -165,12 +161,11 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
   }
 
   async searchTypeNotApprove() {
-    console.log('this.decoded.Ward_wardId', this.decoded.Ward_wardId);
 
     try {
       const result: any = await this.requisitionService.searchTypeNotApprove(this.decoded.Ward_wardId);
       if (result.rows) {
-        console.log('search ', result.rows);
+
         this.showReqlist = result.rows;
         for (const item of this.showReqlist) {
           item.date = moment(item.reqDate).format('DD');
@@ -179,7 +174,7 @@ export class RequisitionDetailComponent implements OnInit , OnDestroy {
           item.time = moment(item.reqDate).format('HH:mm');
           item.day = item.date + '  ' + item.month + '  ' + item.year;
       }
-          console.log(this.showReqlist);
+
       }
     } catch (error) {
       console.log(error);

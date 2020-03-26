@@ -40,7 +40,7 @@ export class OverviewRequisitionDetailComponent implements OnInit {
           row.reqDate = moment(row.reqDate).add(543, 'years').format('DD MMMM YYYY');
         }
       }
-      // console.log('result.rows', result.rows);
+      console.log('result.rows', result.rows);
 
       for (const item of result.rows) {
 
@@ -57,7 +57,6 @@ export class OverviewRequisitionDetailComponent implements OnInit {
 
       for (const item of this.clothIdList) {
         const result1: any = await this.stockService.getClothById(item.clothId);
-        console.log('result1', result1);
 
         this.num = _.findIndex(this.clothIdList, ['clothId', item.clothId]);
         item.clothName = result1.rows[0].clothName;

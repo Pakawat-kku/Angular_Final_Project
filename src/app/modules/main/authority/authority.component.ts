@@ -109,7 +109,7 @@ export class AuthorityComponent implements OnInit {
         const result: any = await this.authorityService.insertAuthority(obj);
         if (result.rows) {
           this.alertService.success('บันทึกสำเร็จ').then(value => {
-            console.log('value', value);
+
             if (value.dismiss) {
               this.getAuthority();
               this.modalEdit = false;

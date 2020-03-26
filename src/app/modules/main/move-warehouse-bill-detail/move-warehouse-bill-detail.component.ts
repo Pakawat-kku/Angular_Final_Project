@@ -28,7 +28,7 @@ export class MoveWarehouseBillDetailComponent implements OnInit {
   currentUserSubscription: Subscription;
   decoded: any = { status_approve: false };
   authority: any = [];
-  
+
   constructor(
     private alertService: AlertService,
     private router: Router,
@@ -43,7 +43,7 @@ export class MoveWarehouseBillDetailComponent implements OnInit {
 
 
 
-  ) { 
+  ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
       this.decoded = jwt_decode(users.token);
@@ -90,7 +90,7 @@ export class MoveWarehouseBillDetailComponent implements OnInit {
     // tslint:disable-next-line: max-line-length
     const result: any = await this.warehouse_export_availableDetailService.getWarehouse_export_availableDetailByCode(this.warehouse_export_availableCode);
     this.warehouse_export_availableDetail = result.rows;
-    console.log('warehouse_export_availableDetail' , this.warehouse_export_availableDetail);
+
 
     // tslint:disable-next-line: max-line-length
     const result1: any = await this.warehouse_export_availableService.getWarehouse_export_availableByCode(this.warehouse_export_availableCode);
@@ -102,7 +102,7 @@ export class MoveWarehouseBillDetailComponent implements OnInit {
       item.time = moment(item.warehouse_export_availableDate).format('HH:mm');
       item.day = item.date + ' ' + item.month + ' ' + item.year;
     }
-    console.log('warehouse_export_available', this.warehouse_export_available);
+
 
 
   }

@@ -28,7 +28,7 @@ export class MoveWarehouseDetailComponent implements OnInit {
   currentUserSubscription: Subscription;
   decoded: any = { status_approve: false };
   authority: any = [];
-  
+
   constructor(
     private alertService: AlertService,
     private router: Router,
@@ -39,9 +39,9 @@ export class MoveWarehouseDetailComponent implements OnInit {
     private warehouse_export_availableDetailService: Warehouse_export_availableDetailService,
     private authenticationService: AuthenticationService,
     private users_authorityService: UsersAuthorityService,
-    
 
-  ) { 
+
+  ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
       this.decoded = jwt_decode(users.token);
@@ -94,7 +94,7 @@ export class MoveWarehouseDetailComponent implements OnInit {
       item.time = moment(item.warehouse_export_availableDate).format('HH:mm');
       item.day = item.date + '  ' + item.month + '  ' + item.year;
     }
-    console.log('getWarehouse_export_available', this.Warehouse_export_available);
+
 
   }
 
@@ -105,11 +105,11 @@ export class MoveWarehouseDetailComponent implements OnInit {
         this.alertService.error('กรุณากรอกรหัสการเบิกที่ต้องการค้นหา');
       } else {
 
-      console.log('this.warehouse_export_availableCode', this.warehouse_export_availableCode);
+
 
       // tslint:disable-next-line: max-line-length
       const result: any = await this.warehouse_export_availableService.searchWarehouse_export_available(this.warehouse_export_availableCode);
-      console.log('result.rows', result.rows);
+
       if (result.rows) {
 
         this.Warehouse_export_available = result.rows;
@@ -120,7 +120,7 @@ export class MoveWarehouseDetailComponent implements OnInit {
           item.time = moment(item.warehouse_export_availableDate).format('HH:mm');
           item.day = item.date + '  ' + item.month + '  ' + item.year;
         }
-        console.log('getWarehouse_export_available', this.Warehouse_export_available);
+
       }
     }
     } catch (error) {
@@ -131,11 +131,11 @@ export class MoveWarehouseDetailComponent implements OnInit {
   async modalDetailExport(row) {
     this.currentRow = Object.assign({}, row);
     this.modalDetail = true;
-    console.log('warehouse_export_availableCode', this.currentRow.warehouse_export_availableCode);
+
 
     // tslint:disable-next-line: max-line-length
     const result: any = await this.warehouse_export_availableDetailService.getWarehouse_export_availableDetailByCode(this.currentRow.warehouse_export_availableCode);
-    console.log(result.rows);
+
     this.warehouse_export_availableDetail = result.rows;
 
 
