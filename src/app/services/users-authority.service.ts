@@ -23,6 +23,13 @@ export class UsersAuthorityService {
     .catch(error => error);
   }
 
+  getByAuth(Authority_aId) {
+    return this.http.post(`${this.apiUrl}/users_authority/getByAuth`, {Authority_aId})
+    .toPromise()
+    .then(result => result)
+    .catch(error => error);
+  }
+
   insert(data) {
     return this.http.post(`${this.apiUrl}/users_authority/`, {data})
       .toPromise()
