@@ -72,7 +72,7 @@ export class ReportPurchaseDetailComponent implements OnInit {
     } else {
     moment.locale('th');
     this.purchaseId = this._Activatedroute.snapshot.paramMap.get('purchaseId');
-    console.log('id-pass', this.purchaseId);
+
     this.getPurchaseDetail();
     }
   }
@@ -84,12 +84,12 @@ export class ReportPurchaseDetailComponent implements OnInit {
         this.date = moment(purchase.rows[0].purchaseDate).format('DD');
         this.month = moment(purchase.rows[0].purchaseDate).format('MMMM');
         this.year = moment(purchase.rows[0].purchaseDate).add(543, 'years').format('YYYY');
-        console.log('date', this.date, this.month, this.year);
+
       }
       const result: any = await this.purchaseService.getPurchaseDetailById(this.purchaseId);
       if (result.rows) {
         this.purchaseDetailList = result.rows;
-        console.log('list', this.purchaseDetailList);
+
       }
     } catch (error) {
       console.log(error);

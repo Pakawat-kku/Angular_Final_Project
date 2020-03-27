@@ -77,6 +77,14 @@ export class RequisitionService {
       .catch(error => error);
   }
 
+  showReqWaitDetailDept(requisitionCode) {
+    // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
+    return this.http.get(`http://localhost:3001/req/showReqWaitDetailDept?requisitionCode=${requisitionCode}`)
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
   showReqWaitAdmin() {
     // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
     return this.http.get(`${this.apiUrl}/req/showReqWaitAdmin/`, {})

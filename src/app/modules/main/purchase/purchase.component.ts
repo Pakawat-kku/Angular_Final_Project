@@ -132,7 +132,7 @@ export class PurchaseComponent implements OnInit {
         arrayId.id = i + 1;
         this.arrayList.push(arrayId);
       }
-      // console.log('arraylist', this.arrayList);
+
     }
     this.amount = 0;
   }
@@ -141,7 +141,6 @@ export class PurchaseComponent implements OnInit {
     const result: any = await this.stockService.getCloth();
     if (result.rows) {
       this.clothList = result.rows;
-      // console.log('cloth', this.clothList);
     }
   }
 
@@ -163,7 +162,6 @@ export class PurchaseComponent implements OnInit {
         }
       });
       this.purchaseLists = data;
-      // console.log('del', this.purchaseLists);
     }
   }
 
@@ -235,7 +233,6 @@ export class PurchaseComponent implements OnInit {
             };
             // ส่วนของการ update เข้า warehouse
             const result: any = await this.wareHouseService.getWareHouse(row.clothId);
-            console.log('result.rows', result.rows);
 
             if (result.rows.length === 0) {
               const data1 = {
@@ -299,13 +296,14 @@ export class PurchaseComponent implements OnInit {
                   }
                 }
               }
-              this.alertService.success('บันทึกข้อมูลเรียบร้อย');
-              this.router.navigate(['main/report-purchase-detail/' + this.purchaseId]);
+
             }
           } catch (error) {
             console.log(error);
           }
         }
+        this.alertService.success('บันทึกข้อมูลเรียบร้อย');
+        this.router.navigate(['main/report-purchase-detail/' + this.purchaseId]);
       }
     }
   }

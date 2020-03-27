@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { StockService } from 'src/app/services/stock.service';
 import { InputArray } from '../requisition/inputArray';
 import * as _ from 'lodash';
+import { AvailableService } from './../../../services/available.service';
 
 import * as jwt_decode from 'jwt-decode';
 import { Subscription } from 'rxjs';
@@ -48,8 +49,9 @@ export class ImportClothAmountComponent implements OnInit {
     private damageService: DamageService,
     private authenticationService: AuthenticationService,
     private users_authorityService: UsersAuthorityService,
+    private availableService: AvailableService,
 
-  ) { 
+  ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
       this.decoded = jwt_decode(users.token);
@@ -217,6 +219,16 @@ export class ImportClothAmountComponent implements OnInit {
             Cloth_clothId: row.clothId,
             ImportCloth_importCode: this.ImportCloth_importCode
           };
+
+            const result3: any = await this.availableService.getAvailable(row.clothId);
+            let deficient = 0;
+            deficient = result3.rows[0].AvailableAmount + row.importDetailAmount;
+            console.log('deficient', deficient);
+            const obj = {
+              AvailableAmount: deficient
+           };
+           const result4: any = await this.availableService.updateAvailable(obj , row.clothId);
+
           try {
             const result1: any = await this.damageService.insertDamage(data1);
             const result2: any = await this.importDetailAmountService.insertImportDetailAmount(data2);

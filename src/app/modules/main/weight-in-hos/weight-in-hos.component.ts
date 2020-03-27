@@ -103,7 +103,6 @@ export class WeightInHosComponent implements OnInit {
     this.date = moment().add(543, 'years').format('DD MMMM YYYY');
     this.time = moment().format('hh:mm');
     this.exportClothCode = this._Activatedroute.snapshot.paramMap.get('exportClothCode');
-    console.log('this.exportClothCode', this.exportClothCode);
     this.getCompany();
     this.getExportCloth();
     }
@@ -111,12 +110,9 @@ export class WeightInHosComponent implements OnInit {
 
   async getExportCloth() {
     try {
-      console.log('exportClothCode', this.exportClothCode);
 
       const result: any = await this.exportService.showExportClothCompany(this.exportClothCode);
       const result1: any = await this.exportService.showExportClothHospital(this.exportClothCode);
-
-      console.log('result', result);
 
       if (result.rows) {
         console.log(result.rows);
@@ -130,7 +126,6 @@ export class WeightInHosComponent implements OnInit {
           this.exportClothType = item.exportClothType;
 
         }
-        console.log('this.exportCloth', this.exportCloth);
 
         this.exportClothHospital = result1.rows;
         for (const item of this.exportClothHospital) {
@@ -144,10 +139,7 @@ export class WeightInHosComponent implements OnInit {
           this.exportClothTypeHos = item.exportClothType;
 
         }
-        console.log('this.exportClothHospital', this.exportClothHospital);
       }
-      console.log('exportClothType', this.exportClothType);
-      console.log('exportClothTypeHos', this.exportClothTypeHos);
 
     } catch (err) {
       console.log(err);
@@ -158,7 +150,6 @@ export class WeightInHosComponent implements OnInit {
     const result: any = await this.companyService.getCompany();
     if (result.rows) {
       this.companyList = result.rows;
-      console.log('company', this.companyList);
     }
   }
 
@@ -207,7 +198,6 @@ export class WeightInHosComponent implements OnInit {
 
     this.importCode = this.decoded.userId + moment().format('DDMMYYYYhhmmss');
     this.calculateWeight();
-    console.log('this.importCarId' , this.importCarId);
 
     if (this.exportClothTypeHos === '1') {
       for (let i = 0; i < this.weightList.length; i++) {
@@ -265,13 +255,11 @@ export class WeightInHosComponent implements OnInit {
           Export_exportClothCode: this.exportClothCode,
           importCarId: this.importCarId
         };
-        console.log('data', data);
 
         const data2 = {
           importDetailWeightSumTotal: this.weightSum,
           ImportCloth_importCode: this.importCode
         };
-        console.log('data1', data2);
 
         const result: any = await this.importClothService.insertImportCloth(data);
         const toSum: any = await this.importWeightSumService.insertImportDetailWeightSum(data2);
@@ -285,7 +273,6 @@ export class WeightInHosComponent implements OnInit {
             Import_importCode: this.importCode,
 
           };
-          console.log('obj', obj);
 
           const toWeight: any = await this.importWeightService.insertImportDetailWeight(obj);
         }
@@ -307,13 +294,11 @@ export class WeightInHosComponent implements OnInit {
           Company_idCompany: this.exportClothHospital[0].Company_idCompany,
           Export_exportClothCode: this.exportClothCode
         };
-        console.log('data', data);
 
         const data2 = {
           importDetailWeightSumTotal: this.weightSum,
           ImportCloth_importCode: this.importCode
         };
-        console.log('data1', data2);
 
         const result: any = await this.importClothService.insertImportCloth(data);
         const toSum: any = await this.importWeightSumService.insertImportDetailWeightSum(data2);
@@ -327,7 +312,6 @@ export class WeightInHosComponent implements OnInit {
             Import_importCode: this.importCode,
 
           };
-          console.log('obj', obj);
 
           const toWeight: any = await this.importWeightService.insertImportDetailWeight(obj);
         }

@@ -1,63 +1,96 @@
 <!-- <ol class="breadcrumb breadcrumb-arrow">
     <li><a href="javascript://">Purchase</a></li>
 </ol> -->
+
 <h1 class="req">
     เบิกผ้า
 </h1>
 <br>
-<b>เบิกจากวอร์ด : {{decoded.wardName}}</b><br>
-<b>วันที่ : {{date}} {{year}}</b><br>
-<b>เวลา : {{time}}</b>
-<div *ngIf="hour>9 && min >0" style="color: red;">
-<b>*** หลังเวลา 9.00 น. กรุณาไปรับผ้าที่เบิกได้ที่งานซักฟอก ***</b>
-<br><br>
+<div *ngIf="position == 1">
+    <div style="margin-left: 2px;" class="clr-row clr-align-items-center">
+        <div class="clr-col-1.5">
+            <label><b>เบิกให้วอร์ดหรือหน่วยงานอื่นๆ</b></label>
+        </div>
+        <div class="clr-col-1">
+            <select name="section" [(ngModel)]="section">
+                <option [value]="1">วอร์ด</option>
+                <option [value]="2">หน่วยงานอื่นๆ</option>
+            </select>
+        </div>
+    </div>
+
+    <div *ngIf="section == 2">
+        <b>ชื่อหน่วยงาน : </b><input type="text" name="Department" [(ngModel)]="Department">
+    </div>
+
+    <div *ngIf="section == 1" style="margin-left: 2px;" class="clr-row clr-align-items-center">
+
+        <div class="clr-col-1.5">
+            <label><b>วอร์ด</b></label>
+        </div>
+        <div class="clr-col-1">
+            <select name="wardId" [(ngModel)]="wardId">
+                <option *ngFor="let row of wardList" [value]="row.wardId">{{row.wardName}}</option>
+            </select>
+        </div>
+    </div>
 </div>
-<form #purchase="ngForm" (ngSubmit)="onClickSubmit(purchase.value)">
+    <b *ngIf="position == 2">เบิกจากวอร์ด : {{decoded.wardName}}</b>
+    <br>
+    <b>วันที่ : {{date}} {{year}}</b><br>
+    <b>เวลา : {{time}}</b>
+    <div *ngIf="hour>9 && min >0" style="color: red;">
+        <b *ngIf="position == 2">*** หลังเวลา 9.00 น. กรุณาไปรับผ้าที่เบิกได้ที่งานซักฟอก ***</b>
+        <div *ngIf="position == 2">
+            <br><br>
+        </div>
+    </div>
+    <form #purchase="ngForm" (ngSubmit)="onClickSubmit(purchase.value)">
 
-    <b>เพิ่มจำนวนช่องรายการ </b>
-    <input type="number" placeholder="ex. 12" name="amount" ngModel />
-    <input type="submit" value="ตกลง" class="btn btn-sm btn-primary-outline">
-</form>
-<br>
+        <b>เพิ่มจำนวนช่องรายการ </b>
+        <input type="number" placeholder="ex. 12" name="amount" ngModel />
+        <input type="submit" value="ตกลง" class="btn btn-sm btn-primary-outline">
+    </form>
+    <br>
 
-<div *ngIf="purchaseLists && purchaseLists.length">
-    <div *ngFor="let item of purchaseLists; let i = index">
-        {{i+1}} )
-        <b> รายการผ้า : </b>
+    <div *ngIf="purchaseLists && purchaseLists.length">
+        <div *ngFor="let item of purchaseLists; let i = index">
+            {{i+1}} )
+            <b> รายการผ้า : </b>
 
-        <!-- <select2 [data]="exampleData" ></select2>  -->
-        <!-- <ng-select2 [(ngModel)]="exampleData.clothId" [data]="exampleData" [placeholder]="'Please select a fruit...'">
+            <!-- <select2 [data]="exampleData" ></select2>  -->
+            <!-- <ng-select2 [(ngModel)]="exampleData.clothId" [data]="exampleData" [placeholder]="'Please select a fruit...'">
     </ng-select2> -->
 
 
 
-        <div class="clr-select-wrapper">
-            <select id="clothId" class="clr-select" name="clothId" [(ngModel)]="item.clothId">
-                <option *ngFor="let j of clothList" value="{{j.clothId}}">
-                    {{ j.clothName }}
-                </option>
-            </select>
+            <div class="clr-select-wrapper">
+                <select id="clothId" class="clr-select" name="clothId" [(ngModel)]="item.clothId">
+                    <option *ngFor="let j of clothList" value="{{j.clothId}}">
+                        {{ j.clothName }}
+                    </option>
+                </select>
+            </div>
+
+            <!-- <b> จำนวน : </b><input type="number" name="amountCloth" [(ngModel)]="item.amountCloth" (change)="addNewRow(i)" /> -->
+            <b> จำนวน : </b><input type="number" name="amountCloth" [(ngModel)]="item.amountCloth" />
+            <button *ngIf="i>=0" (click)="addNewRow(i)" class="btn btn-icon btn-sm btn-peimary-outline"
+                style="margin-left:3px">
+                <clr-icon shape="plus-circle" class="is-solid"></clr-icon>
+            </button>
+            <button *ngIf="i>0" (click)="onDelete(i)" class="btn btn-icon btn-sm btn-danger-outline"
+                style="margin-left:3px">
+                <clr-icon shape="trash"></clr-icon>
+            </button>
+            <br>
+            <br>
         </div>
-
-        <!-- <b> จำนวน : </b><input type="number" name="amountCloth" [(ngModel)]="item.amountCloth" (change)="addNewRow(i)" /> -->
-        <b> จำนวน : </b><input type="number" name="amountCloth" [(ngModel)]="item.amountCloth" />
-        <button *ngIf="i>=0" (click)="addNewRow(i)" class="btn btn-icon btn-sm btn-peimary-outline"
-            style="margin-left:3px">
-            <clr-icon shape="plus-circle" class="is-solid"></clr-icon>
-        </button>
-        <button *ngIf="i>0" (click)="onDelete(i)" class="btn btn-icon btn-sm btn-danger-outline"
-            style="margin-left:3px">
-            <clr-icon shape="trash"></clr-icon>
-        </button>
-        <br>
-        <br>
+        <button class="btn btn-success" (click)="onSave()">บันทึก</button>
+        <!-- <input type="submit" value="save"> -->
+        <!-- </form> -->
     </div>
-    <button class="btn btn-success" (click)="onSave()">บันทึก</button>
-    <!-- <input type="submit" value="save"> -->
-    <!-- </form> -->
-</div>
 
-<!-- <clr-modal *ngIf="regWaitDetail" [(clrModalOpen)]="modalBill">
+    <!-- <clr-modal *ngIf="regWaitDetail" [(clrModalOpen)]="modalBill">
     <div class="modal-body">
             <h2 style="text-align: center;"><b>รายการผ้าที่เบิก</b></h2>
         <clr-datagrid >
@@ -72,4 +105,4 @@
         <button type="button" class="btn btn-outline" (click)="modalEdit = false">ปิด</button>
     </div>
     </div> -->
-<!-- </clr-modal> -->
+    <!-- </clr-modal> -->

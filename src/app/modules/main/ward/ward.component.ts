@@ -83,7 +83,6 @@ export class WardComponent implements OnInit, OnDestroy {
     try {
       const result: any = await this.wardService.getAllWard();
       if (result.rows) {
-        console.log('ward', result.rows);
         this.wardList = result.rows;
       }
     } catch (err) {
@@ -94,7 +93,6 @@ export class WardComponent implements OnInit, OnDestroy {
   async printPDF() {
     const result: any = await this.pdfSefvice.printPDF();
     if (result) {
-      console.log('result.url', result.url);
       window.open(result.url, '_blank');
     }
   }
@@ -103,7 +101,6 @@ export class WardComponent implements OnInit, OnDestroy {
     this.currentRow = {
       wardName: '',
     };
-    console.log('this.currentRow', this.currentRow);
 
     this.currentRow.mode = 'add';
     this.modalEdit = true;
@@ -120,13 +117,10 @@ export class WardComponent implements OnInit, OnDestroy {
       wardName: this.currentRow.wardName,
 
     };
-    console.log('obj', obj);
 
     try {
       if (this.currentRow.mode === 'add') {
         const resultWard: any = await this.wardService.getAllWard();
-        console.log('resultWard', resultWard);
-        console.log('find', _.findIndex(resultWard.rows, ['wardName', obj.wardName]));
 
         if (_.findIndex(resultWard.rows, ['wardName', obj.wardName]) >= 0) {
           this.alertService.error('มีข้อมูลนี้อยู่แล้ว');
@@ -136,9 +130,7 @@ export class WardComponent implements OnInit, OnDestroy {
         } else {
           const result: any = await this.wardService.insertWard(obj);
           if (result.rows) {
-            console.log('add : ', result.rows);
             this.alertService.success('บันทึกสำเร็จ').then(value => {
-              console.log('value', value);
               if (value.dismiss) {
                 this.modalEdit = false;
                 this.getWard();
@@ -157,11 +149,10 @@ export class WardComponent implements OnInit, OnDestroy {
           wardName: this.currentRow.wardName,
         };
         const result: any = await this.wardService.updateWard(obj);
-        console.log(obj);
         if (result.rows) {
-          console.log('edit: ', result.rows);
+
           this.alertService.success('แก้ไขสำเร็จ').then(value => {
-            console.log('value', value);
+
             if (value.dismiss) {
               this.modalEdit = false;
               this.getWard();
@@ -180,13 +171,13 @@ export class WardComponent implements OnInit, OnDestroy {
 
   async search(searchWard) {
     try {
-      console.log('searchWard : ', searchWard);
+
       if (searchWard.length === 0) {
         this.getWard();
       } else {
         const result: any = await this.wardService.searchWard(searchWard);
         if (result.rows) {
-          console.log('search ', result.rows);
+
           this.wardList = result.rows;
           console.log(this.wardList);
         }
@@ -200,12 +191,9 @@ export class WardComponent implements OnInit, OnDestroy {
   async onDelete(row) {
     try {
       this.currentRow = Object.assign({}, row);
-      console.log(this.currentRow);
       const result: any = await this.wardService.deleteWard(this.currentRow);
       if (result.rows) {
-        console.log('delete: ', result.rows);
         this.alertService.deleteSuccess('ลบสำเร็จ').then(value => {
-          console.log('value', value);
           if (value.dismiss) {
             this.getWard();
             this.router.navigate(['main/ward']);
@@ -226,13 +214,12 @@ onPdf() {
         const result: any = await this.wardService.printPdfWard();
 
         if (result) {
-          console.log('result.url', result.url);
+
           window.open(result.url, '_blank');
         }
        } else if (value.dismiss) {
           console.log('false');
         }
-        console.log('k', value);
       })
       .catch(err => {
         console.log('false', err);

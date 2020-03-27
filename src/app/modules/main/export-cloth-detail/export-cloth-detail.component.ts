@@ -38,9 +38,8 @@ export class ExportClothDetailComponent implements OnInit {
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
-      console.log('users', users);
       this.decoded = jwt_decode(users.token);
-      console.log('decoded', this.decoded);
+
     });
   }
 
@@ -80,11 +79,9 @@ export class ExportClothDetailComponent implements OnInit {
 }
 
   async exportClothHospital() {
-    console.log('this.decoded.Ward_wardId', this.decoded.Ward_wardId);
+
     try {
       const result: any = await this.exportService.getExportClothHos();
-
-      console.log('result', result);
 
       if (result.rows) {
         this.exportClothHos = result.rows;
@@ -95,10 +92,10 @@ export class ExportClothDetailComponent implements OnInit {
               item.time = moment(item.exportClothDate).format('HH:mm');
               item.day = item.date + '  ' + item.month + '  ' + item.year;
           }
-          console.log('this.exportClothHos' , this.exportClothHos);
+
         }
           this.status =  1;
-          console.log('status', this.status);
+
 
     } catch (err) {
       console.log(err);
@@ -107,11 +104,9 @@ export class ExportClothDetailComponent implements OnInit {
 
 
 async exportClothCom() {
-  console.log('this.decoded.Ward_wardId', this.decoded.Ward_wardId);
+
   try {
     const result: any = await this.exportService.getExportClothCompany();
-
-    console.log('result', result);
 
     if (result.rows) {
 
@@ -123,7 +118,7 @@ async exportClothCom() {
             item.time = moment(item.exportClothDate).format('HH:mm');
             item.day = item.date + '  ' + item.month + '  ' + item.year;
         }
-        console.log('this.exportClothHos', this.exportClothHos);
+
     }
     this.status =  2;
 

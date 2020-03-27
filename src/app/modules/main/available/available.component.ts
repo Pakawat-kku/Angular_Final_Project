@@ -79,7 +79,7 @@ export class AvailableComponent implements OnInit {
     try {
       const result1: any = await this.stockService.getCloth();
       this.stock = result1.rows;
-      console.log('this.stock', this.stock);
+
 
       for (const item of this.stock) {
         const result: any = await this.availableService.getAvailable(item.clothId);
@@ -101,7 +101,7 @@ export class AvailableComponent implements OnInit {
     } catch (err) {
       console.log(err);
     }
-    console.log('this.stock', this.stock);
+
   }
 
   onAdd(row) {

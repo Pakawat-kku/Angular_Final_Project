@@ -7,7 +7,7 @@ import * as moment from 'moment';
 import { StockService } from 'src/app/services/stock.service';
 import { InputArray } from '../requisition/inputArray';
 import * as _ from 'lodash';
-
+import { AvailableService } from './../../../services/available.service';
 import * as jwt_decode from 'jwt-decode';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../../services//Authentication.service';
@@ -47,7 +47,8 @@ export class ImportClothAmountHosComponent implements OnInit {
     private damageService: DamageService,
     private authenticationService: AuthenticationService,
     private users_authorityService: UsersAuthorityService,
-   
+    private availableService: AvailableService,
+
   ) { 
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
@@ -180,11 +181,11 @@ export class ImportClothAmountHosComponent implements OnInit {
     purchNum = _.size(this.importList);
     dumNum = _.size(_.uniq(this.dummy));
     if (dumNum < purchNum) {
-      console.log('มีผ้าซ้ำ');
+      // console.log('มีผ้าซ้ำ');
       unRepeat = unRepeat + 1;
-      console.log('this.unRepeat', unRepeat);
+      // console.log('this.unRepeat', unRepeat);
     } else {
-      console.log('ไม่มีผ้าซ้ำ');
+      // console.log('ไม่มีผ้าซ้ำ');
     }
     if (unRepeat !== 0) {
       this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำ');
@@ -201,7 +202,7 @@ export class ImportClothAmountHosComponent implements OnInit {
           this.val++;
         }
       }
-    
+
     if (this.val === 0) {
       for (let i = 0; i < this.importList.length; i++) {
         const data = {
@@ -211,6 +212,7 @@ export class ImportClothAmountHosComponent implements OnInit {
           ImportCloth_importCode: this.ImportCloth_importCode
         };
         try {
+
           const result: any = await this.damageService.insertDamage(data);
           if (result.rows) {
           }
