@@ -1,15 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AlertService } from 'src/app/services/alert.service';
 import * as _ from 'lodash';
-import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import * as jwt_decode from 'jwt-decode';
 import { WardService } from './../../../services/ward.service';
 import { Router , ActivatedRoute} from '@angular/router';
 import { PdfService } from 'src/app/services/pdf.service';
-
 import { UsersAuthorityService } from 'src/app/services/users-authority.service';
+
 @Component({
   selector: 'app-ward',
   templateUrl: './ward.component.html',
@@ -211,7 +210,7 @@ onPdf() {
   this.alertService.print()
     .then(async (value) => {
       if (value.value === true) {
-        const result: any = await this.wardService.printPdfWard();
+        const result: any = await this.pdfSefvice.printPDF();
 
         if (result) {
 
