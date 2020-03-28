@@ -314,7 +314,7 @@ export class MoveWarehouseComponent implements OnInit {
               AvailableAmount: row.amountCloth + result4.rows[0].AvailableAmount,
             };
 
-            const result: any = await this.availableService.updateAvailable(row.clothId, obj2);
+            const result: any = await this.availableService.updateAvailable(obj2 , row.clothId);
 
             const obj3 = {
               warehouseAmount: result2.rows[0].warehouseAmount - row.amountCloth,
