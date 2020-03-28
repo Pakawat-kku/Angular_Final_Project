@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { InputArray } from '../requisition/inputArray';
 import * as jwt_decode from 'jwt-decode';
+import * as _ from 'lodash';
 import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../../services//Authentication.service';
 import { UsersAuthorityService } from 'src/app/services/users-authority.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { RequisitionService } from 'src/app/services/requisition.service';
 
 @Component({
   selector: 'app-overview-withdraw-admin',
@@ -29,8 +31,17 @@ export class OverviewWithdrawAdminComponent implements OnInit {
   dateSearch4: any;
   currentUser: any;
   currentUserSubscription: Subscription;
-  decoded: any ;
+  decoded: any;
   authority: any = [];
+  round: any;
+  modalShow = false;
+  rows: any = [];
+  reqDetailList: any[];
+  withdrawRoundList: any[];
+  withdrawDetailList: any[];
+  r: any = '';
+  roundList: any = [];
+  wardCheck = false;
 
   constructor(
     private alertService: AlertService,
@@ -39,14 +50,16 @@ export class OverviewWithdrawAdminComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private users_authorityService: UsersAuthorityService,
     private router: Router,
+    private requisitonService: RequisitionService,
+
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
       this.decoded = jwt_decode(users.token);
-  });
-   }
+    });
+  }
 
-   async ngOnInit() {
+  async ngOnInit() {
     // this.getWithdraw();
     const result: any = await this.users_authorityService.getById(this.decoded.userId);
     // console.log('result.rows' , result);
@@ -77,31 +90,31 @@ export class OverviewWithdrawAdminComponent implements OnInit {
       this.alertService.error();
       this.router.navigate(['main/main']);
     } else {
-    this.getWard();
-    moment.locale('th');
-    this.wardId = 0;
-    this.dateSearch3 = {
-      date: {
-        // tslint:disable-next-line: radix
-        year: parseInt(moment().format('YYYY')),
-        // tslint:disable-next-line: radix
-        month: parseInt(moment().format('MM')),
-        // tslint:disable-next-line: radix
-        day: parseInt(moment().format('DD'))
-      }
-    };
-    this.dateSearch4 = {
-      date: {
-        // tslint:disable-next-line: radix
-        year: parseInt(moment().format('YYYY')),
-        // tslint:disable-next-line: radix
-        month: parseInt(moment().format('MM')),
-        // tslint:disable-next-line: radix
-        day: parseInt(moment().format('DD'))
-      }
-    };
+      this.getWard();
+      moment.locale('th');
+      this.wardId = 0;
+      this.dateSearch3 = {
+        date: {
+          // tslint:disable-next-line: radix
+          year: parseInt(moment().format('YYYY')),
+          // tslint:disable-next-line: radix
+          month: parseInt(moment().format('MM')),
+          // tslint:disable-next-line: radix
+          day: parseInt(moment().format('DD'))
+        }
+      };
+      this.dateSearch4 = {
+        date: {
+          // tslint:disable-next-line: radix
+          year: parseInt(moment().format('YYYY')),
+          // tslint:disable-next-line: radix
+          month: parseInt(moment().format('MM')),
+          // tslint:disable-next-line: radix
+          day: parseInt(moment().format('DD'))
+        }
+      };
+    }
   }
-}
 
   async getWard() {
     try {
@@ -149,7 +162,7 @@ export class OverviewWithdrawAdminComponent implements OnInit {
                 row.withdrawDate = moment(row.withdrawDate).add(543, 'years').format('DD MMMM YYYY');
               }
               this.withdrawList = result.rows;
-              console.log(this.withdrawList);
+              // console.log(this.withdrawList);
             }
           } catch (error) {
             console.log(error);
@@ -162,7 +175,7 @@ export class OverviewWithdrawAdminComponent implements OnInit {
                 row.withdrawDate = moment(row.withdrawDate).add(543, 'years').format('DD MMMM YYYY');
               }
               this.withdrawList = result.rows;
-              console.log(result.rows);
+              // console.log(result.rows);
             }
           } catch (error) {
             console.log(error);
@@ -184,7 +197,87 @@ export class OverviewWithdrawAdminComponent implements OnInit {
           });
         }
       }
-      console.log(this.onProcess);
+      // console.log(this.onProcess);
+    }
+  }
+
+  async onShow(code) {
+    this.modalShow = true;
+    this.rows = code;
+    this.round = this.rows.totalRound + 1;
+    this.wardCheck = false;
+    // console.log('code', code);
+    try {
+      // console.log(this.wardCheck);
+
+      const results: any = await this.requisitonService.showReqWaitDetail(code.Requisition_requisitionCode);
+      // console.log(results.rows);
+      if (results.rows.length > 0) {
+        for (const row of results.rows) {
+          row.amountClothWithdraw = 0;
+        }
+        this.reqDetailList = results.rows;
+      } else {
+          const results1: any = await this.requisitonService.showReqWaitDetail(code.Requisition_requisitionCode.substring(2));
+          for (const row of results1.rows) {
+            row.amountClothWithdraw = 0;
+          }
+          this.reqDetailList = results1.rows;
+          this.wardCheck = true;
+      }
+
+      // if (this.wardCheck === true) {
+      // } else {
+      // }
+      if (this.round > 1) {
+        const result1: any = await this.withdrawService.getDetailById(this.rows.withdrawCode, this.round - 1);
+        const result2: any = await this.withdrawService.getDetailRound(this.rows.withdrawCode);
+        if (result2.rows) {
+          this.withdrawRoundList = result2.rows;
+        }
+        if (result1.rows) {
+          this.withdrawDetailList = result1.rows;
+          // console.log(this.reqDetailList, this.withdrawRoundList, this.withdrawDetailList);
+          for (let i = 0; i < this.reqDetailList.length; i++) {
+            this.reqDetailList[i].check = false;
+            for (let j = 0; j < this.withdrawDetailList.length; j++) {
+              if (this.reqDetailList[i].Cloth_clothId === this.withdrawDetailList[j].Cloth_clothId) {
+                this.reqDetailList[i].remains = this.withdrawDetailList[j].WithdrawDetail_remain;
+                this.reqDetailList[i].export =
+                  this.reqDetailList[i].amountClothReal - this.withdrawDetailList[j].WithdrawDetail_remain;
+                this.reqDetailList[i].check = true;
+              }
+            }
+          }
+        }
+        if (this.wardCheck === true) {
+          this.reqDetailList = await _.dropWhile(this.reqDetailList, ['check', false]);
+        } else {
+          this.reqDetailList = await _.takeWhile(this.reqDetailList, ['check', true]);
+        }
+
+        for (let i = 0; i < this.reqDetailList.length; i++) {
+          for (let j = 0; j < this.round - 1; j++) {
+            this.r = 'round';
+            // tslint:disable-next-line: max-line-length
+            const result4: any = await this.withdrawService.getDetailByCloth(this.rows.withdrawCode, this.reqDetailList[i].Cloth_clothId, j + 1);
+            this.r = this.r + j;
+            const obj = {
+              clothName: this.reqDetailList[i].clothName,
+              round: j,
+              amountCloth: result4.rows[0].amountCloth
+            };
+            this.roundList[i] = obj;
+          }
+        }
+      } else {
+        for (const item of this.reqDetailList) {
+          item.remains = item.amountClothReal;
+          item.export = 0;
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 

@@ -60,9 +60,7 @@
         <clr-dg-cell *ngIf="item.withdraw_status=='1'">ส่งเสร็จ</clr-dg-cell>
         <clr-dg-cell *ngIf="item.withdraw_status=='0'">ส่งไม่เสร็จ</clr-dg-cell>
         <clr-dg-cell>
-            <a routerLink="/main/overview-withdraw-admin-detail/{{item.withdrawCode}}">
-            <button class="btn btn-primary">ดูการนำจ่าย</button>
-            </a>
+            <button class="btn btn-primary" (click)="onShow(item)">ดูการนำจ่าย</button>
         </clr-dg-cell>
     </clr-dg-row>
 
@@ -74,3 +72,50 @@
         </clr-dg-pagination>
     </clr-dg-footer>
 </clr-datagrid>
+
+<clr-modal *ngIf="rows" [(clrModalOpen)]="modalShow" [clrModalSize]="'xl'">
+    <h3 class="modal-title"><b><u>ทำรายการจ่ายผ้า</u></b></h3>
+    <div class="modal-body">
+            <label><b>เลขที่ใบนำจ่าย : {{withdrawCode}}</b></label><br>
+            <label><b>วอร์ดที่เบิก : {{rows.wardName}}</b></label><br>
+            <label><b>รอบการนำจ่าย : {{rows.totalRound}}</b></label>
+            <clr-datagrid class="clr-align-items-center">
+                    <clr-dg-column>รายการผ้า</clr-dg-column>
+                    <clr-dg-column>จำนวนที่เบิก</clr-dg-column>
+                    <clr-dg-column>จำนวนที่จ่ายแล้ว</clr-dg-column>
+                    <clr-dg-column>จำนวนที่ต้องนำจ่าย</clr-dg-column>
+                    <clr-dg-column>จำนวนที่จ่าย</clr-dg-column>
+                    <clr-dg-row *clrDgItems="let list of reqDetailList" [clrDgItem]="list">
+                            <clr-dg-cell>{{list.clothName}}</clr-dg-cell>
+                            <clr-dg-cell>{{list.amountClothReal}}</clr-dg-cell>
+                            <clr-dg-cell *ngIf="(rows.totalRound + 1) === 1">-</clr-dg-cell>
+                            <clr-dg-cell *ngIf="(rows.totalRound+1) !== 1">{{list.export}}</clr-dg-cell>
+                            <clr-dg-cell style="color:red" *ngIf="(rows.totalRound + 1) === 1">
+                                    <b>{{list.amountClothReal}}</b></clr-dg-cell>
+                            <clr-dg-cell style="color:red" *ngIf="(rows.totalRound+1) !== 1"><b>{{list.remains}}</b>
+                            </clr-dg-cell>
+                            <clr-dg-cell style="color: rgb(17, 121, 24);"
+                                    *ngIf="list.remains === 0">
+                                    ส่งเสร็จเรียบร้อย</clr-dg-cell>
+                            <clr-dg-cell *ngIf="list.remains !== 0">
+                                    อยู่ในขั้นตอนการนำจ่าย
+                            </clr-dg-cell>
+                    </clr-dg-row>
+            </clr-datagrid><br>
+            <div *ngIf="(rows.totalRound+1) !== 1">
+                    <br><br>
+                    <b><u>ประวัติการส่ง</u></b>
+                    <br>
+                    <clr-datagrid class="clr-align-items-center">
+                            <clr-dg-column>รอบที่จ่าย</clr-dg-column>
+                            <clr-dg-column>รายการผ้า</clr-dg-column>
+                            <clr-dg-column>จำนวนที่จ่าย</clr-dg-column>
+                            <clr-dg-row *clrDgItems="let r of withdrawRoundList">
+                                    <clr-dg-cell>{{r.round}}</clr-dg-cell>
+                                    <clr-dg-cell>{{r.clothName}}</clr-dg-cell>
+                                    <clr-dg-cell>{{r.amountCloth}}</clr-dg-cell>
+                            </clr-dg-row>
+                    </clr-datagrid>
+            </div>
+    </div>
+</clr-modal>
