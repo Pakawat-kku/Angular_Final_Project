@@ -12,6 +12,7 @@ import { AuthenticationService } from '../../../services//Authentication.service
 import { UsersAuthorityService } from 'src/app/services/users-authority.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RequisitionService } from 'src/app/services/requisition.service';
+import { StockService } from 'src/app/services/stock.service';
 
 @Component({
   selector: 'app-overview-withdraw-admin',
@@ -42,6 +43,10 @@ export class OverviewWithdrawAdminComponent implements OnInit {
   r: any = '';
   roundList: any = [];
   wardCheck = false;
+  month: any = [{}];
+  dayOfCloth: any[] = [];
+  clothList: any = [];
+  cal = 0;
 
   constructor(
     private alertService: AlertService,
@@ -51,6 +56,7 @@ export class OverviewWithdrawAdminComponent implements OnInit {
     private users_authorityService: UsersAuthorityService,
     private router: Router,
     private requisitonService: RequisitionService,
+    private stockService: StockService
 
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
@@ -132,22 +138,27 @@ export class OverviewWithdrawAdminComponent implements OnInit {
     if (dateSearch3 === null || dateSearch4 === null) {
       await this.alertService.error('กรุณาเลือกวันที่ที่ต้องการค้นหา');
     } else {
-      dateSearch3 = moment(
+
+      dateSearch3 = await moment(
         `${dateSearch3.date.year}-${dateSearch3.date.month}-${
         dateSearch3.date.day
         }`,
         'YYYY-MM-DD'
       );
-      dateSearch4 = moment(
+      dateSearch4 = await moment(
         `${dateSearch4.date.year}-${dateSearch4.date.month}-${
         dateSearch4.date.day
         }`,
         'YYYY-MM-DD'
       );
+
       this.sum = dateSearch4.diff(dateSearch3, 'days');
       if (this.sum < 0) {
         this.alertService.error('กรอกข้อมูลวันที่ผิดพลาด', 'กรุณากรอกข้อมูลใหม่');
       } else {
+        this.dateSearch1 = await dateSearch3;
+        this.dateSearch2 = await dateSearch4;
+        await this.onTable();
         dateSearch3 = moment(dateSearch3)
           .subtract(1, 'days')
           .format('YYYY-MM-DD');
@@ -218,12 +229,12 @@ export class OverviewWithdrawAdminComponent implements OnInit {
         }
         this.reqDetailList = results.rows;
       } else {
-          const results1: any = await this.requisitonService.showReqWaitDetail(code.Requisition_requisitionCode.substring(2));
-          for (const row of results1.rows) {
-            row.amountClothWithdraw = 0;
-          }
-          this.reqDetailList = results1.rows;
-          this.wardCheck = true;
+        const results1: any = await this.requisitonService.showReqWaitDetail(code.Requisition_requisitionCode.substring(2));
+        for (const row of results1.rows) {
+          row.amountClothWithdraw = 0;
+        }
+        this.reqDetailList = results1.rows;
+        this.wardCheck = true;
       }
 
       // if (this.wardCheck === true) {
@@ -279,6 +290,101 @@ export class OverviewWithdrawAdminComponent implements OnInit {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async onTable() {
+    // console.log(this.dateSearch1, this.dateSearch2);
+    // console.log(this.dateSearch2.diff(this.dateSearch1, 'month'));
+    this.cal = 0;
+    this.month = [{}];
+    this.dayOfCloth = [];
+    this.clothList = [];
+    this.cal = this.dateSearch2.diff(this.dateSearch1, 'month') + 1;
+
+    if (this.cal > 1) {
+      this.month[0] = {
+        name: moment(this.dateSearch1).format('MMM'),
+        // tslint:disable-next-line: radix
+        id: parseInt(moment(this.dateSearch1).format('MM'))
+      };
+      for (let i = 1; i < this.cal; i++) {
+        this.month[i] = {
+          name: moment(this.dateSearch1).add(i, 'month').format('MMM'),
+          // tslint:disable-next-line: radix
+          id: parseInt(moment(this.dateSearch1).add(i, 'month').format('MM'))
+        };
+      }
+    } else if (this.cal === 1) {
+      this.month[0] = {
+        name: moment(this.dateSearch1).format('MMM'),
+        // tslint:disable-next-line: radix
+        id: parseInt(moment(this.dateSearch1).format('MM'))
+      };
+    }
+
+    for (let i = 0; i < this.month.length; i++) {
+      if (i % 2 === 0) {
+        this.dayOfCloth.push({
+          text: 'บ',
+          type: 'req',
+          monthId: this.month[i].id,
+        });
+      } else {
+        this.dayOfCloth.push({
+          text: 'บ',
+          type: 'req',
+          monthId: this.month[i].id,
+        });
+      }
+      if (i % 2 !== 0) {
+        this.dayOfCloth.push({
+          text: 'จ',
+          type: 'wtd',
+          monthId: this.month[i].id,
+        });
+      } else {
+        this.dayOfCloth.push({
+          text: 'จ',
+          type: 'wtd',
+          monthId: this.month[i].id,
+        });
+      }
+    }
+
+    const result: any = await this.stockService.getCloth();
+    if (result.rows) {
+      this.clothList = result.rows;
+    }
+
+
+    const results: any = await this.wardService.getAllWard();
+    // console.log(results.rows);
+    if (results.rows) {
+      let month1 = '';
+      let month2 = '';
+
+      // for (let item of results.rows) {
+      if (this.cal > 1) {
+        for (let i = 0; i < this.cal; i++) {
+          if (i === (this.cal - 1)) {
+            month1 = moment(this.dateSearch1).add(i, 'month').subtract(1, 'days').format('YYYY-MM-DD');
+            month2 = moment(this.dateSearch2).add(1, 'days').format('YYYY-MM-DD');
+          } else {
+            month1 = moment(this.dateSearch1).add(i, 'month').subtract(1, 'days').format('YYYY-MM-DD');
+            month2 = moment(this.dateSearch1).add(i + 1, 'month').format('YYYY-MM-DD');
+          }
+          console.log(month1, month2);
+        }
+      } else {
+        month1 = moment(this.dateSearch1).subtract(1, 'days').format('YYYY-MM-DD');
+        month2 = moment(this.dateSearch2).add(1, 'days').format('YYYY-MM-DD');
+        console.log(month1, month2);
+      }
+      // const row1: any = await this.requisitonService.searchByDate(item.wardId,)
+      // }
+    }
+
+    // console.log(this.month, this.dayOfCloth);
   }
 
 }

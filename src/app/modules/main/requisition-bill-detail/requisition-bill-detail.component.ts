@@ -172,8 +172,9 @@ export class RequisitionBillDetailComponent implements OnInit {
           this.status = this.requisitionBillDetailOnly[0].status;
 
         }
-        console.log('status', this.status);
+        // console.log('status', this.status);
         // console.log('this.decoded.position', this.decoded.position);
+        // console.log(this.wardName, this.wardNameDept);
 
       }
 
