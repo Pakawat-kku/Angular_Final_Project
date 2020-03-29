@@ -176,14 +176,40 @@ export class RepairComponent implements OnInit {
             Cloth_clothId: row.clothId,
             repairDate: moment().format('YYYY-MM-DD')
           };
-          const result3: any = await this.availableService.getAvailable(row.clothId);
-          if (result3.rows) {
-            const obj = {
-              AvailableAmount: result3.rows[0].AvailableAmount + row.amount
-            };
+
+          const result5: any = await this.availableService.getAvailable( row.clothId);
+          if (result5.rows) {
+
+            if (result5.rows.length === 0) {
+              console.log('เข้าแบบไม่มีในคลัง');
+              let deficient = 0;
+              console.log('row.amount',  row.amount);
+              deficient = 0 +  row.amount;
+              console.log('deficient', deficient);
+              const obj1 = {
+                AvailableAmount: deficient,
+                Cloth_clothId: row.clothId,
+             };
+             console.log('obj', obj1);
+
+             const result6: any = await this.availableService.insertAvailable(obj1);
+            } else {
+              console.log('เข้าแบบมี');
+              let deficient = 0;
+              console.log('row.amount',  row.amount);
+              console.log('result5.rows[0].AvailableAmount ', result5.rows[0].AvailableAmount );
+              deficient = result5.rows[0].AvailableAmount +  row.amount;
+              console.log('deficient', deficient);
+              const obj1 = {
+                AvailableAmount: deficient
+             };
+             console.log('obj', obj1);
+             const result6: any = await this.availableService.updateAvailable(obj1 ,  row.clothId);
+            }
+
             try {
               const result: any = await this.repairService.insertRepair(data);
-              const result2: any = await this.availableService.updateAvailable(obj, row.clothId);
+              // const result2: any = await this.availableService.updateAvailable(obj, row.clothId);
             } catch (error) {
               console.log(error);
             }

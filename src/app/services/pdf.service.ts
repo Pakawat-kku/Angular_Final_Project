@@ -16,4 +16,10 @@ export class PdfService {
       .catch(error => error);
   }
 
+  printRequisition(requisitionCode) {
+    return this.http.post(`${this.apiUrl}/pdf/requisitionPDF`, {requisitionCode})
+    .toPromise()
+    .then(result => result)
+    .catch(error => error);
+  }
 }

@@ -206,24 +206,15 @@ export class WardComponent implements OnInit, OnDestroy {
     }
   }
 
-onPdf() {
-  this.alertService.print()
-    .then(async (value) => {
-      if (value.value === true) {
-        const result: any = await this.pdfSefvice.printPDF();
+// async printPDF() {
 
-        if (result) {
+//         const result: any = await this.pdfSefvice.printPDF();
 
-          window.open(result.url, '_blank');
-        }
-       } else if (value.dismiss) {
-          console.log('false');
-        }
-      })
-      .catch(err => {
-        console.log('false', err);
-      });
-  }
+//         if (result) {
+
+//           window.open(result.url, '_blank');
+//         }
+//   }
 
 
   ngOnDestroy() {

@@ -12,6 +12,7 @@ import * as _ from 'lodash';
 import { UsersAuthorityService } from 'src/app/services/users-authority.service';
 import { AvailableService } from './../../../services/available.service';
 import { StockService } from './../../../services/stock.service';
+import { PdfService } from 'src/app/services/pdf.service';
 
 @Component({
   selector: 'app-requisition-bill-detail',
@@ -54,6 +55,8 @@ export class RequisitionBillDetailComponent implements OnInit {
     private availableService: AvailableService,
     private users_authorityService: UsersAuthorityService,
     private stockService: StockService,
+    private pdfSefvice: PdfService,
+
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
       this.currentUser = users;
@@ -350,5 +353,4 @@ export class RequisitionBillDetailComponent implements OnInit {
       }
     }
   }
-
 }
