@@ -75,4 +75,11 @@ export class WardService {
         .then(result => result)
         .catch(err => err);
   }
+
+  getOverview(date1, date2) {
+    return this.http.post(`${this.apiUrl}/ward/getOverview`, {date1, date2})
+        .toPromise()
+        .then(result => result)
+        .catch(err => err);
+  }
 }
