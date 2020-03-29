@@ -1,0 +1,52 @@
+<h1>ภาพรวมการเบิกจ่ายผ้าของวอร์ด</h1>
+<br>
+<form clrForm>
+    <div class="clr-row">
+        <div class="clr-col-1">
+            <label>วันที่</label>
+        </div>
+        <div class="clr-col-3">
+            <my-date-picker-th name="dateSearch1" [options]="myDatePickerOptions" [(ngModel)]="dateSearch3" required>
+            </my-date-picker-th>
+        </div>
+        <div class="clr-col-1">
+            <label>ถึงวันที่</label>
+        </div>
+        <div class="clr-col-3">
+            <my-date-picker-th name="dateSearch2" [options]="myDatePickerOptions" [(ngModel)]="dateSearch4" required>
+            </my-date-picker-th>
+        </div>
+    </div>
+    <div class="clr-col-3">
+        ค้นหาวอร์ด :
+        <select name="wardId" [(ngModel)]="wardId">
+            <option value="0">ทุกวอร์ด</option>
+            <option *ngFor="let row of wardList" [value]="row.wardId">{{row.wardName}}</option>
+        </select>
+        ประเภท :
+        <select name="select" [(ngModel)]="select">
+            <option value="1">การเบิกผ้า</option>
+            <option value="2">การนำจ่ายผ้า</option>
+        </select>
+    </div>
+        <button type="button" (click)="onTable(wardId, dateSearch3,dateSearch4)" class="btn btn-primary">ค้นหา</button>
+        <button type="button" (click)="exportToExcel()" class="btn btn-success">บันทึกตาราง (excel)</button>
+</form>
+<div>
+<div class="col-md-12 table-responsive" #epltable>
+<table style="width:100%" border="1"  class="table table-bordered">
+<tr>
+    <th rowspan="2" style="width:30%">รายชื่อผ้า</th>
+    <th  *ngFor="let m of month">{{m.name}}</th>
+</tr>
+<tr >
+    <td *ngFor = "let item of dayOfCloth" style="text-align: center;">{{item.text}}</td>
+</tr>
+<tr *ngFor="let row of showList">
+    <td>{{row.clothName}}</td>
+    <td *ngFor="let t of dayOfCloth">
+        {{row[t.monthId]}}
+      </td>
+</tr>
+</table>
+</div>
