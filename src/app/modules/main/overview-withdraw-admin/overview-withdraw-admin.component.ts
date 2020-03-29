@@ -363,25 +363,35 @@ export class OverviewWithdrawAdminComponent implements OnInit {
       let month1 = '';
       let month2 = '';
 
-      // for (let item of results.rows) {
-      if (this.cal > 1) {
-        for (let i = 0; i < this.cal; i++) {
-          if (i === (this.cal - 1)) {
-            month1 = moment(this.dateSearch1).add(i, 'month').subtract(1, 'days').format('YYYY-MM-DD');
-            month2 = moment(this.dateSearch2).add(1, 'days').format('YYYY-MM-DD');
-          } else {
-            month1 = moment(this.dateSearch1).add(i, 'month').subtract(1, 'days').format('YYYY-MM-DD');
-            month2 = moment(this.dateSearch1).add(i + 1, 'month').format('YYYY-MM-DD');
+      for (const item of results.rows) {
+        if (this.cal > 1) {
+          for (let i = 0; i < this.cal; i++) {
+            if (i === (this.cal - 1)) {
+              month1 = moment(this.dateSearch1).add(i, 'month').subtract(1, 'days').format('YYYY-MM-DD');
+              month2 = moment(this.dateSearch2).add(1, 'days').format('YYYY-MM-DD');
+            } else {
+              month1 = moment(this.dateSearch1).add(i, 'month').subtract(1, 'days').format('YYYY-MM-DD');
+              month2 = moment(this.dateSearch1).add(i + 1, 'month').format('YYYY-MM-DD');
+            }
+            // console.log(month1, month2);
           }
-          console.log(month1, month2);
+        } else {
+          month1 = moment(this.dateSearch1).subtract(1, 'days').format('YYYY-MM-DD');
+          month2 = moment(this.dateSearch2).add(1, 'days').format('YYYY-MM-DD');
+          // console.log(month1, month2);
         }
-      } else {
-        month1 = moment(this.dateSearch1).subtract(1, 'days').format('YYYY-MM-DD');
-        month2 = moment(this.dateSearch2).add(1, 'days').format('YYYY-MM-DD');
-        console.log(month1, month2);
+        const row1: any = await this.requisitonService.searchByWard(item.wardId, month1, month2);
+        const row2: any = await this.withdrawService.searchByWard(item.wardId, month1, month2);
+        if (row1.rows.length > 1 || row2.rows.length > 1) {
+          for (const m of this.month) {
+            for (const r of row1.rows) {
+              r.month = m.id;
+            }
+          }
+          console.log(row1.rows, row2.rows);
+        }
+
       }
-      // const row1: any = await this.requisitonService.searchByDate(item.wardId,)
-      // }
     }
 
     // console.log(this.month, this.dayOfCloth);

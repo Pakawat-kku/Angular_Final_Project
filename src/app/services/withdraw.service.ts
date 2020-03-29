@@ -107,6 +107,13 @@ export class WithdrawService {
       .catch(error => error);
   }
 
+  searchByWardDetail(wardId, dateSearch1, dateSearch2) {
+    return this.http.post(`${this.apiUrl}/withdrawDetail/searchByWard`, { wardId, dateSearch1, dateSearch2 })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
   searchByCode(withdrawCode, dateSearch1, dateSearch2) {
     return this.http.post(`${this.apiUrl}/withdraw/searchByCode`, { withdrawCode, dateSearch1, dateSearch2 })
       .toPromise()
