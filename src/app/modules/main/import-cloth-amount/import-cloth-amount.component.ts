@@ -27,13 +27,13 @@ export class ImportClothAmountComponent implements OnInit {
   day: string;
   pee: string;
   amount: any;
-  val = false;
+  val = 0;
   dummy: any = [];
   arrayList: Array<InputArray> = [];
   importList: any[] = [{
     clothId: '1',
     importDetailAmount: null,
-    damageAmount: null
+    damageAmount: 0
   }];
   currentUser: any;
   currentUserSubscription: Subscription;
@@ -130,7 +130,7 @@ export class ImportClothAmountComponent implements OnInit {
         this.importList.push({
           clothId: '1',
           importDetailAmount: null,
-          damageAmount: null
+          damageAmount: 0
         });
         arrayId.id = i + 1;
         this.arrayList.push(arrayId);
@@ -144,7 +144,7 @@ export class ImportClothAmountComponent implements OnInit {
     await this.importList.push({
       clothId: '1',
       importDetailAmount: null,
-      damageAmount: null
+      damageAmount: 0
     });
   }
 
@@ -162,21 +162,14 @@ export class ImportClothAmountComponent implements OnInit {
   }
 
   async onSave() {
-    // console.log(this.importList);
+    console.log(this.importList);
     let i = 0;
-    // this.dummy = this.importList;
-    // for (let i = 0; i < this.importList.length; i++) {
-    //   for(let j=0; j<this.dummy.length; j++){
-    //     if(this.importList[i].clothId === this.dummy[j].clothId){
-    //       console.log(this.dummy[j].clothId);
-    //     }
-    //   }
-    // }
 
     let unRepeat = 0;
     let dumNum = 0;
     let purchNum = 0;
     let intersect = 0;
+    this.val = 0;
 
     for (let i = 0; i < this.importList.length; i++) {
       this.dummy[i] = this.importList[i].clothId;
@@ -184,81 +177,110 @@ export class ImportClothAmountComponent implements OnInit {
     purchNum = _.size(this.importList);
     dumNum = _.size(_.uniq(this.dummy));
     if (dumNum < purchNum) {
-      console.log('มีผ้าซ้ำ');
+      // console.log('มีผ้าซ้ำ');
       unRepeat = unRepeat + 1;
-      console.log('this.unRepeat', unRepeat);
+      // console.log('this.unRepeat', unRepeat);
     } else {
-      console.log('ไม่มีผ้าซ้ำ');
+      // console.log('ไม่มีผ้าซ้ำ');
     }
     if (unRepeat !== 0) {
       this.alertService.error('กรุณาตรวจสอบรายการผ้าซ้ำ');
     } else {
+      let j = 0;
+      for (let i = 0; i < this.importList.length; i++) {
+        j++;
+        // tslint:disable-next-line: max-line-length
+        if (this.importList[i].importDetailAmount === null || this.importList[i].importDetailAmount === undefined || this.importList[i].importDetailAmount === '') {
+          console.log('เข้าผ้าไม่ปกติ');
+          this.alertService.error('กรุณาตรวจสอบรายการที่ ' + j );
 
-      for (let row of this.importList) {
-        this.val = false;
-        i++;
-        if (row.importDetailAmount === null || row.importDetailAmount === undefined || row.importDetailAmount === '') {
-          if (row.damageAmount === null || row.damageAmount === undefined || row.damageAmount === '') {
-            this.alertService.error('รายการที่ ' + i + ' ไม่มีจำนวนผ้า');
+          // tslint:disable-next-line: max-line-length
+          if (this.importList[i].damageAmount === null || this.importList[i].damageAmount === undefined || this.importList[i].damageAmount === '') {
+            console.log('เข้าชำรุดไม่ปกติ');
+
+            this.alertService.error('กรุณาตรวจสอบรายการที่ ' + j );
+
           }
-          row.importDetailAmount = 0;
-          this.val = false;
+          this.val++;
+          this.importList[i].importDetailAmount = 0;
+
         }
-        if (row.importDetailAmount < 0 || row.damageAmount < 0) {
-          this.alertService.error('รายการที่ ' + i + ' จำนวนผิดพลาด');
-          this.val = false;
-        } else if (row.damageAmount > 0) {
+        console.log('this.val' , this.val);
+
+        // tslint:disable-next-line: max-line-length
+        if ((this.importList[i].importDetailAmount < 0 ||  this.importList[i].damageAmount < 0) || (this.importList[i].importDetailAmount === 0 && this.importList[i].damageAmount === 0)) {
+          this.alertService.error('รายการที่ ' + j + ' จำนวนผิดพลาด');
+          this.val++;
+        // tslint:disable-next-line: max-line-length
+        } else if (this.importList[i].damageAmount >= 0 && this.importList[i].importDetailAmount > 0 ) {
+
           const data1 = {
-            damageAmount: row.damageAmount,
-            Cloth_clothId: row.clothId,
+            damageAmount:  this.importList[i].damageAmount,
+            Cloth_clothId: this.importList[i].clothId,
             damageDate: moment().format('YYYY-MM-DD'),
             ImportCloth_importCode: this.ImportCloth_importCode
           };
           const data2 = {
-            importDetailAmount: row.importDetailAmount,
-            Cloth_clothId: row.clothId,
+            importDetailAmount:  this.importList[i].importDetailAmount,
+            Cloth_clothId:  this.importList[i].clothId,
             ImportCloth_importCode: this.ImportCloth_importCode
           };
 
-            const result3: any = await this.availableService.getAvailable(row.clothId);
-            let deficient = 0;
-            deficient = result3.rows[0].AvailableAmount + row.importDetailAmount;
-            console.log('deficient', deficient);
-            const obj = {
-              AvailableAmount: deficient
-           };
-           const result4: any = await this.availableService.updateAvailable(obj , row.clothId);
+            const result3: any = await this.availableService.getAvailable( this.importList[i].clothId);
+            console.log('result3', result3);
+
+            if (result3.rows.length === 0) {
+              let deficient = 0;
+              // console.log('this.importList[i].importDetailAmount',  this.importList[i].importDetailAmount);
+              deficient = 0 +  this.importList[i].importDetailAmount;
+              console.log('deficient', deficient);
+              const obj = {
+                AvailableAmount: deficient,
+                Cloth_clothId: this.importList[i].clothId,
+             };
+             const result4: any = await this.availableService.insertAvailable(obj);
+            } else {
+              let deficient = 0;
+              console.log('this.importList[i].importDetailAmount',  this.importList[i].importDetailAmount);
+              deficient = result3.rows[0].AvailableAmount +  this.importList[i].importDetailAmount;
+              console.log('deficient', deficient);
+              const obj = {
+                AvailableAmount: deficient
+             };
+             const result4: any = await this.availableService.updateAvailable(obj ,  this.importList[i].clothId);
+            }
 
           try {
             const result1: any = await this.damageService.insertDamage(data1);
             const result2: any = await this.importDetailAmountService.insertImportDetailAmount(data2);
-            if (result1.rows && result2.rows) {
-              this.val = true;
-            }
+            // if (result1.rows && result2.rows) {
+            //   this.val = ;
+            // }
           } catch (error) {
             console.log(error);
           }
         } else {
           const data = {
-            importDetailAmount: row.importDetailAmount,
-            Cloth_clothId: row.clothId,
+            importDetailAmount:  this.importList[i].importDetailAmount,
+            Cloth_clothId:  this.importList[i].clothId,
             ImportCloth_importCode: this.ImportCloth_importCode
           };
           try {
             const result: any = await this.importDetailAmountService.insertImportDetailAmount(data);
-            if (result.rows) {
-              this.val = true;
-            }
+            // if (result.rows) {
+            //   // this.val = 0;
+            // }
           } catch (error) {
             console.log(error);
           }
         }
       }
+      if (this.val === 0) {
+        await this.alertService.success('บันทึกรายการสำเร็จ');
+        this.router.navigate(['main/export-cloth-detail/']);
+      }
     }
-        if (this.val === true) {
-          await this.alertService.success('บันทึกรายการสำเร็จ');
-          this.router.navigate(['main/export-cloth-detail/']);
-        }
   }
+
 
 }
