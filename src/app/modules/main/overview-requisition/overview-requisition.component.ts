@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { RequisitionService } from './../../../services/requisition.service';
 import { StockService } from './../../../services/stock.service';
 import { throwError, fromEvent } from 'rxjs';
@@ -18,7 +18,7 @@ import { LoginModule } from '../../login/login.module';
 import { UsersAuthorityService } from 'src/app/services/users-authority.service';
 import { WardService } from './../../../services/ward.service';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
-
+import * as xlsx from 'xlsx';
 import { OverviewRequisitionDetailComponent } from '../overview-requisition-detail/overview-requisition-detail.component';
 import { Items } from '@clr/angular/data/datagrid/providers/items';
 import { WithdrawService } from 'src/app/services/withdraw.service';
@@ -29,6 +29,7 @@ import { WithdrawService } from 'src/app/services/withdraw.service';
   styleUrls: ['./overview-requisition.component.scss']
 })
 export class OverviewRequisitionComponent implements OnInit {
+  @ViewChild('epltable', { static: true }) epltable: ElementRef;
   currentUser: any;
   currentUserSubscription: Subscription;
   decoded: any;
@@ -44,11 +45,15 @@ export class OverviewRequisitionComponent implements OnInit {
   wardId: any;
   requisitionListReal: any[];
   clothIdList: any[] = [];
-  num: number;
   arr: any[] = [];
   someWard = '1';
-  dayOfCloth: any[] = [];
   daySome: any[] = [];
+  month: any = [];
+  dayOfCloth: any = {};
+  clothList: any = [];
+  cal = 0;
+  num = 0;
+  showList: any = [];
 
   constructor(
     private alertService: AlertService,
@@ -146,7 +151,6 @@ export class OverviewRequisitionComponent implements OnInit {
           .format('YYYY-MM-DD');
 
         if (wardId === 0 || wardId === '0') { // เลือกแบบทุกวอร์ด
-
           this.someWard = '1';
           try {
             const result: any = await this.requisitionService.searchByDate(dateSearch3, dateSearch4);
@@ -269,5 +273,185 @@ export class OverviewRequisitionComponent implements OnInit {
 onAdd(item) {
   // console.log('item', item);
 
-}
+  }
+
+  async onTable(dateSearch3, dateSearch4) {
+    this.dateSearch1 = await moment(
+      `${dateSearch3.date.year}-${dateSearch3.date.month}-${
+      dateSearch3.date.day
+      }`,
+      'YYYY-MM-DD'
+    );
+    this.dateSearch2 = await moment(
+      `${dateSearch4.date.year}-${dateSearch4.date.month}-${
+      dateSearch4.date.day
+      }`,
+      'YYYY-MM-DD'
+    );
+
+    // console.log(this.dateSearch1, this.dateSearch2);
+    // console.log(this.dateSearch2.diff(this.dateSearch1, 'month'));
+    this.cal = 0;
+    this.month = [{}];
+    this.dayOfCloth = [];
+    this.clothList = [];
+    this.showList = [];
+    this.cal = this.dateSearch2.diff(this.dateSearch1, 'month') + 1;
+
+    if (this.cal > 1) {
+      this.month[0] = {
+        name: moment(this.dateSearch1).format('MMM'),
+        // tslint:disable-next-line: radix
+        id: parseInt(moment(this.dateSearch1).format('MM'))
+      };
+      for (let i = 1; i < this.cal; i++) {
+        this.month[i] = {
+          name: moment(this.dateSearch1).add(i, 'month').format('MMM'),
+          // tslint:disable-next-line: radix
+          id: parseInt(moment(this.dateSearch1).add(i, 'month').format('MM'))
+        };
+      }
+    } else if (this.cal === 1) {
+      this.month[0] = {
+        name: moment(this.dateSearch1).format('MMM'),
+        // tslint:disable-next-line: radix
+        id: parseInt(moment(this.dateSearch1).format('MM'))
+      };
+    }
+
+    for (let i = 0; i < this.month.length; i++) {
+      // if (i % 2 === 0) {
+      //   this.dayOfCloth.push({
+      //     text: 'บ',
+      //     monthId: this.month[i].id,
+      //   });
+      // } else {
+      this.dayOfCloth.push({
+        text: 'บ',
+        monthId: this.month[i].id,
+      });
+      // }
+      // if (i % 2 !== 0) {
+      //   this.dayOfCloth.push({
+      //     text: 'จ',
+      //     monthId: this.month[i].id,
+      //   });
+      // } else {
+      //   this.dayOfCloth.push({
+      //     text: 'จ',
+      //     monthId: this.month[i].id,
+      //   });
+      // }
+    }
+
+    const result: any = await this.stockService.getCloth();
+    if (result.rows) {
+      this.clothList = result.rows;
+    }
+
+
+    const results: any = await this.wardService.getAllWard();
+    // console.log(results.rows);
+    if (results.rows) {
+      let month1 = '';
+      let month2 = '';
+
+      // console.log(this.cal);
+      for (const item of results.rows) {
+        if (this.cal > 1) {
+          for (let i = 0; i < this.cal; i++) {
+            if (i === (this.cal - 1)) {
+              month1 = moment(this.dateSearch1).add(i, 'month').subtract(1, 'days').format('YYYY-MM-DD');
+              month2 = moment(this.dateSearch2).add(1, 'days').format('YYYY-MM-DD');
+              const row1: any = await this.requisitionService.searchByWard(item.wardId, month1, month2);
+              // const row2: any = await this.withdrawService.searchByWardDetail(item.wardId, month1, month2);
+              if (row1.rows.length > 1) {
+                console.log(i, month1, month2);
+                for (const r of row1.rows) {
+                  // tslint:disable-next-line: radix
+                  r.monthId = parseInt(moment(r.reqDate).format('MM'));
+                  console.log(r.monthId);
+                  if (_.findIndex(this.showList, ['clothId', r.Cloth_clothId]) < 0) {
+                    const obj: any = {
+                      wardId: r.Ward_wardId,
+                      clothName: r.clothName,
+                      clothId: r.Cloth_clothId,
+                    };
+                    obj[r.monthId] = r.amountClothReal;
+                    this.showList.push(obj);
+                  } else {
+                    this.num = _.findIndex(this.showList, ['clothId', r.Cloth_clothId]);
+                    this.showList[this.num][r.monthId] += r.amountClothReal;
+                  }
+                }
+              }
+            } else {
+              month1 = moment(this.dateSearch1).add(i, 'month').subtract(1, 'days').format('YYYY-MM-DD');
+              month2 = moment(this.dateSearch1).add(i + 1, 'month').format('YYYY-MM-DD');
+              const row1: any = await this.requisitionService.searchByWard(item.wardId, month1, month2);
+              if (row1.rows.length > 1) {
+                console.log(i, month1, month2);
+                for (const r of row1.rows) {
+                  // tslint:disable-next-line: radix
+                  r.monthId = parseInt(moment(r.reqDate).format('MM'));
+                  if (_.findIndex(this.showList, ['clothId', r.Cloth_clothId]) < 0) {
+                    const obj: any = {
+                      wardId: r.Ward_wardId,
+                      clothName: r.clothName,
+                      clothId: r.Cloth_clothId,
+                    };
+                    obj[r.monthId] = r.amountClothReal;
+                    this.showList.push(obj);
+                  } else {
+                    this.num = _.findIndex(this.showList, ['clothId', r.Cloth_clothId]);
+                    this.showList[this.num][r.monthId] += r.amountClothReal;
+                  }
+
+                }
+              }
+            }
+          }
+        } else {
+          month1 = moment(this.dateSearch1).subtract(1, 'days').format('YYYY-MM-DD');
+          month2 = moment(this.dateSearch2).add(1, 'days').format('YYYY-MM-DD');
+          const row1: any = await this.requisitionService.searchByWard(item.wardId, month1, month2);
+          if (row1.rows.length > 1) {
+            console.log(month1, month2);
+            for (const r of row1.rows) {
+              // r.month = m.id;
+              // tslint:disable-next-line: radix
+              r.monthId = parseInt(moment(r.reqDate).format('MM'));
+              if (_.findIndex(this.showList, ['clothId', r.Cloth_clothId]) < 0) {
+                const obj: any = {
+                  wardId: r.Ward_wardId,
+                  clothName: r.clothName,
+                  clothId: r.Cloth_clothId,
+                  // req: r.amountClothReal,
+                  // monthId: m.id,
+                  // wtd: 0
+                };
+                obj[r.monthId] = r.amountClothReal;
+                this.showList.push(obj);
+              } else {
+                this.num = _.findIndex(this.showList, ['clothId', r.Cloth_clothId]);
+                this.showList[this.num][r.monthId] += r.amountClothReal;
+              }
+
+            }
+          }
+          // console.log(month1, month2);
+        }
+      }
+
+    }
+    this.exportToExcel();
+  }
+
+  exportToExcel() {
+    const ws: xlsx.WorkSheet =
+      xlsx.utils.table_to_sheet(this.epltable.nativeElement);
+    const wb: xlsx.WorkBook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
+    xlsx.writeFile(wb, 'requisition.xlsx');
+  }
 }

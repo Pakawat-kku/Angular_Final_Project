@@ -52,6 +52,7 @@ import { MoveWarehouseBillDetailComponent } from './move-warehouse-bill-detail/m
 import { CompanyComponent } from './company/company.component';
 import { OverviewRepairComponent } from './overview-repair/overview-repair.component';
 import { OverviewDamageExcelComponent } from './overview-damage-excel/overview-damage-excel.component';
+import { OverviewComponent } from './overview/overview.component';
 
 
 // import { WithdrawService } from 'src/app/services/withdraw.service';
@@ -82,6 +83,7 @@ const routes: Routes = [
       { path: 'weight-in-company', component: WeightInCompanyComponent },
       { path: 'purchase', component: PurchaseComponent },
       { path: 'report-purchase', component: ReportPurchaseComponent },
+      { path: 'overview', component: OverviewComponent },
       { path: 'overview-requisition', component: OverviewRequisitionComponent },
       { path: 'overview-withdraw-report', component: OverviewWithdrawReportComponent },
       { path: 'overview-withdraw', component: OverviewWithdrawComponent },
