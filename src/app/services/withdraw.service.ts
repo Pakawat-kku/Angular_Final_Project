@@ -108,7 +108,7 @@ export class WithdrawService {
   }
 
   searchByWardDetail(wardId, dateSearch1, dateSearch2) {
-    return this.http.post(`${this.apiUrl}/withdrawDetail/searchByWard`, { wardId, dateSearch1, dateSearch2 })
+    return this.http.post(`${this.apiUrl}/withdraw/searchByWardDetail`, { wardId, dateSearch1, dateSearch2 })
       .toPromise()
       .then(result => result)
       .catch(error => error);

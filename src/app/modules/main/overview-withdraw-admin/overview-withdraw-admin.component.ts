@@ -44,9 +44,11 @@ export class OverviewWithdrawAdminComponent implements OnInit {
   roundList: any = [];
   wardCheck = false;
   month: any = [{}];
-  dayOfCloth: any[] = [];
+  dayOfCloth: any = {};
   clothList: any = [];
   cal = 0;
+  num = 0;
+  showList: any = [];
 
   constructor(
     private alertService: AlertService,
@@ -299,6 +301,7 @@ export class OverviewWithdrawAdminComponent implements OnInit {
     this.month = [{}];
     this.dayOfCloth = [];
     this.clothList = [];
+    this.showList = [];
     this.cal = this.dateSearch2.diff(this.dateSearch1, 'month') + 1;
 
     if (this.cal > 1) {
@@ -326,29 +329,25 @@ export class OverviewWithdrawAdminComponent implements OnInit {
       if (i % 2 === 0) {
         this.dayOfCloth.push({
           text: 'บ',
-          type: 'req',
           monthId: this.month[i].id,
         });
       } else {
         this.dayOfCloth.push({
           text: 'บ',
-          type: 'req',
           monthId: this.month[i].id,
         });
       }
-      if (i % 2 !== 0) {
-        this.dayOfCloth.push({
-          text: 'จ',
-          type: 'wtd',
-          monthId: this.month[i].id,
-        });
-      } else {
-        this.dayOfCloth.push({
-          text: 'จ',
-          type: 'wtd',
-          monthId: this.month[i].id,
-        });
-      }
+      // if (i % 2 !== 0) {
+      //   this.dayOfCloth.push({
+      //     text: 'จ',
+      //     monthId: this.month[i].id,
+      //   });
+      // } else {
+      //   this.dayOfCloth.push({
+      //     text: 'จ',
+      //     monthId: this.month[i].id,
+      //   });
+      // }
     }
 
     const result: any = await this.stockService.getCloth();
@@ -381,19 +380,61 @@ export class OverviewWithdrawAdminComponent implements OnInit {
           // console.log(month1, month2);
         }
         const row1: any = await this.requisitonService.searchByWard(item.wardId, month1, month2);
-        const row2: any = await this.withdrawService.searchByWard(item.wardId, month1, month2);
+        const row2: any = await this.withdrawService.searchByWardDetail(item.wardId, month1, month2);
         if (row1.rows.length > 1 || row2.rows.length > 1) {
-          for (const m of this.month) {
+          // console.log(row2.rows);
+          for (const m of this.dayOfCloth) {
             for (const r of row1.rows) {
-              r.month = m.id;
+              console.log(m.monthId);
+              
+              // r.month = m.id;
+              if (_.findIndex(this.showList, ['clothId', r.Cloth_clothId]) < 0) {
+                const obj: any = {
+                  wardId: r.Ward_wardId,
+                  clothName: r.clothName,
+                  clothId: r.Cloth_clothId,
+                  // req: r.amountClothReal,
+                  // monthId: m.id,
+                  // wtd: 0
+                };
+                obj[m.monthId] = r.amountClothReal;
+                this.showList.push(obj);
+              } else {
+                this.num = _.findIndex(this.showList, ['clothId', r.Cloth_clothId]);
+                this.showList[this.num][m.monthId] += r.amountClothReal;
+              }
+
             }
+            // for (const s of this.showList) {
+            //   for (const r of row2.rows) {
+            //     // r.month = m.id;
+            //     if (_.findIndex(this.showList, ['clothId', r.Cloth_clothId]) < 0) {
+            //       this.showList.push({
+            //         wardId: r.Ward_wardId,
+            //         clothName: r.clothName,
+            //         clothId: r.Cloth_clothId,
+            //         wtd: r.amountCloth,
+            //         month: m.id
+            //       });
+            //     } else {
+            //       if (s.wtd > 0) {
+            //         this.num = _.findIndex(this.showList, ['clothId', r.Cloth_clothId]);
+            //         this.showList[this.num].wtd = this.showList[this.num].wtd + r.amountCloth;
+            //       } else {
+            //         this.num = _.findIndex(this.showList, ['clothId', r.Cloth_clothId]);
+            //         this.showList[this.num].wtd = r.amountCloth;
+            //       }
+            //     }
+            //   }
+            // }
           }
-          console.log(row1.rows, row2.rows);
         }
 
       }
     }
-
+    // console.log(this.dayOfCloth);
+    console.log(this.showList);
+    
     // console.log(this.month, this.dayOfCloth);
   }
 
