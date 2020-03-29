@@ -50,6 +50,8 @@ import { AuthorityComponent } from './authority/authority.component';
 import { MoveWarehouseDetailComponent } from './move-warehouse-detail/move-warehouse-detail.component';
 import { MoveWarehouseBillDetailComponent } from './move-warehouse-bill-detail/move-warehouse-bill-detail.component';
 import { CompanyComponent } from './company/company.component';
+import { OverviewRepairComponent } from './overview-repair/overview-repair.component';
+import { OverviewDamageExcelComponent } from './overview-damage-excel/overview-damage-excel.component';
 
 
 // import { WithdrawService } from 'src/app/services/withdraw.service';
@@ -106,6 +108,8 @@ const routes: Routes = [
       { path: 'move-warehouse-detail', component: MoveWarehouseDetailComponent },
       { path: 'move-warehouse-bill-detail/:warehouse_export_availableCode', component: MoveWarehouseBillDetailComponent },
       { path: 'manage-porter', component: ManagePorterComponent },
+      { path: 'overview-repair', component: OverviewRepairComponent },
+      { path: 'overview-damage-excel', component: OverviewDamageExcelComponent },
       { path: '**', component: PageNotFoundComponent },
     ]
   }

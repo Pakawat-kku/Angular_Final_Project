@@ -1,0 +1,60 @@
+<h1 class="text-center py-4">ภาพรวมซ่อมผ้า</h1><br>
+
+<form clrForm>
+    <div class="clr-row">
+        <div class="clr-col-1">
+            <label>วันที่</label>
+        </div>
+        <div class="clr-col-3">
+            <my-date-picker-th name="dateSearch1" [options]="myDatePickerOptions" [(ngModel)]="dateSearch3" required>
+            </my-date-picker-th>
+        </div>
+        <div class="clr-col-1">
+            <label>ถึงวันที่</label>
+        </div>
+        <div class="clr-col-3">
+            <my-date-picker-th name="dateSearch2" [options]="myDatePickerOptions" [(ngModel)]="dateSearch4" required>
+            </my-date-picker-th>
+        </div>
+    </div>
+    <!-- <div class="clr-col-3">
+        ค้นหาวอร์ด :
+        <select name="wardId" [(ngModel)]="wardId">
+            <option value="0">ทุกวอร์ด</option>
+            <option *ngFor="let row of wardList" [value]="row.wardId">{{row.wardName}}</option>
+        </select>
+    </div> -->
+    <div class="clr-col-1">
+        <button type="button" (click)="letSearch(wardId,dateSearch3,dateSearch4)" class="btn btn-primary">ค้นหา</button>
+    </div>
+</form>
+
+<div class="container">
+    <div class="row py-5 justify-content-center">
+     <div class="col-md-8">
+      <div class="col-md-12 table-responsive" #epltable>
+       <div style="padding-bottom: 10px;padding-top: 10px;">
+        <div class="row">
+         <div class="col-sm-12">
+          <button (click)="exportToExcel()" class="btn btn-success">บันทึกเป็น Excel</button> 
+         </div>
+        </div>
+       </div>
+       <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+         <th>ชื่อผ้า</th>
+         <th>จำนวน</th>
+        </tr>
+       </thead>
+       <tbody>
+        <tr *ngFor="let club of clothIdList">
+         <td>{{club.clothName}}</td>
+         <td>{{club.amount}}</td>
+        </tr>
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+  </div>

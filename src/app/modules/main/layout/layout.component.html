@@ -51,10 +51,10 @@
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
           รายงานรายการสั่งซื้อผ้า
         </a>
-        <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./move-warehouse" routerLinkActive="active">
-          <clr-icon shape="pop-out" clrVerticalNavIcon></clr-icon>
+        <!-- <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./move-warehouse" routerLinkActive="active"> -->
+          <!-- <clr-icon shape="pop-out" clrVerticalNavIcon></clr-icon>
           เบิกผ้าเข้าส่วนกลาง
-        </a>
+        </a> -->
         <a clrVerticalNavLink *ngIf="authority.two=='true'" routerLink="./requisition-detail-admin"
           routerLinkActive="active">
           <clr-icon shape="file-group" clrVerticalNavIcon></clr-icon>
@@ -100,14 +100,32 @@
           <clr-icon shape="bullseye" clrVerticalNavIcon></clr-icon>
           จัดการสิทธิ์
         </a>
-        <a clrVerticalNavLink *ngIf="authority.nine=='true'" routerLink="./overview-damage" routerLinkActive="active">
+        <clr-vertical-nav-group *ngIf="authority.nine=='true'" routerLinkActive="active">
           <clr-icon shape="no-access" clrVerticalNavIcon></clr-icon>
           รายการผ้าชำรุด
-        </a>
-        <a clrVerticalNavLink *ngIf="authority.nine=='true'" routerLink="./repair" routerLinkActive="active">
+          <clr-vertical-nav-group-children>
+            <a clrVerticalNavLink routerLink="./overview-damage" routerLinkActive="active">
+              ผ้าชำรุด
+            </a>
+            <a clrVerticalNavLink routerLink="./overview-damage-excel" routerLinkActive="active">
+              ภาพรวมผ้าชำรุด
+            </a>
+          </clr-vertical-nav-group-children>
+    </clr-vertical-nav-group>
+
+        <clr-vertical-nav-group *ngIf="authority.nine=='true'" routerLinkActive="active">
           <clr-icon shape="wrench" clrVerticalNavIcon></clr-icon>
           รายการซ่อมผ้า
-        </a>
+          <clr-vertical-nav-group-children>
+            <a clrVerticalNavLink routerLink="./repair" routerLinkActive="active">
+              ซ่อมผ้า
+            </a>
+            <a clrVerticalNavLink routerLink="./overview-repair" routerLinkActive="active">
+              ภาพรวมซ่อมผ้า
+            </a>
+          </clr-vertical-nav-group-children>
+      </clr-vertical-nav-group>
+
         <clr-vertical-nav-group *ngIf="authority.seven=='true'" routerLinkActive="active">
           <clr-icon shape="rack-server" clrVerticalNavIcon></clr-icon>
           รายการจ่ายผ้า
@@ -126,28 +144,39 @@
             </a>
           </clr-vertical-nav-group-children>
         </clr-vertical-nav-group>
+
         <a clrVerticalNavLink *ngIf="authority.eigth=='true'" routerLink="./export-cloth" routerLinkActive="active">
           <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
           ชั่งน้ำหนักผ้า
         </a>
-        <a clrVerticalNavLink *ngIf="authority.eigth=='true'" routerLink="./export-cloth-detail"
-          routerLinkActive="active">
+        <a clrVerticalNavLink *ngIf="authority.eigth=='true'" routerLink="./export-cloth-detail" routerLinkActive="active">
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
           ประวัติการชั่งน้ำหนัก
         </a>
-        <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./move-warehouse" routerLinkActive="active">
-          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
-          เบิกผ้าเข้าส่วนกลาง
+        <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./warehouse" routerLinkActive="active">
+          <clr-icon shape="storage" class="has-alert is-solid"></clr-icon>
+          คลังผ้าใหญ่
         </a>
-        <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./move-warehouse-detail"
-          routerLinkActive="active">
-          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
-          ประวัติการเบิกเข้าผ้าส่วนกลาง
-        </a>
-        <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./available" routerLinkActive="active">
-          <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
+
+        <clr-vertical-nav-group *ngIf="authority.five=='true'" routerLinkActive="active">
+          <clr-icon shape="storage"></clr-icon>
           คลังผ้าส่วนกลาง
-        </a>
+          <clr-vertical-nav-group-children>
+            <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./available" routerLinkActive="active">
+              <!-- <clr-icon shape="install"></clr-icon> -->
+              คลังผ้าส่วนกลาง
+            </a>
+            <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./move-warehouse" routerLinkActive="active">
+              <!-- <clr-icon shape="install"></clr-icon> -->
+              เบิกผ้าเข้าส่วนกลาง
+            </a>
+            <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./move-warehouse-detail" routerLinkActive="active">
+              <!-- <clr-icon shape="align-right-text"></clr-icon> -->
+              ประวัติการเบิกเข้าผ้าส่วนกลาง
+            </a>
+          </clr-vertical-nav-group-children>
+        </clr-vertical-nav-group>
+
       </div>
     </clr-vertical-nav>
   </div>

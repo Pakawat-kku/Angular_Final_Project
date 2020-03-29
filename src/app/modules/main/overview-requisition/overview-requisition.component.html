@@ -50,7 +50,8 @@
         <clr-dg-cell >{{item.clothName}}</clr-dg-cell>        
         <clr-dg-cell >{{item.amount}}</clr-dg-cell> 
     </clr-dg-row>
-</clr-datagrid> -->
+</clr-datagrid> 
+
 <!-- <div class="table-responsive">
 <table border="1">
     <tr>
@@ -60,9 +61,9 @@
     <tr >
         <td *ngFor = "let item of dayOfCloth" >{{item.re}}</td>
     </tr>
-    <tr>
-      <th>{{daySome}}</th>
-      <td rowspan="2" *ngFor = "let item of dayOfCloth" >{{item.requisition}}</td>
+    <tr *ngFor = "let item of daySome" >
+      <th>{{item.day}}</th>
+      <td *ngFor = "let item of requisition">{{item.requisition}}</td>
     </tr> 
 </table>
 </div> -->

@@ -26,6 +26,7 @@
     "@clr/ui": "^2.2.0",
     "@webcomponents/custom-elements": "^1.0.0",
     "core-js": "^3.2.1",
+    "file": "^0.2.2",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
@@ -40,6 +41,7 @@
     "sweetalert": "^2.1.2",
     "sweetalert2": "^8.17.1",
     "tslib": "^1.10.0",
+    "xlsx": "^0.15.6",
     "zone.js": "^0.10.2"
   },
   "devDependencies": {

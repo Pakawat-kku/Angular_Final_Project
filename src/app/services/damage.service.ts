@@ -37,4 +37,12 @@ export class DamageService {
       .catch(error => error);
   }
 
+
+  searchByDate(dateSearch1, dateSearch2) {
+    return this.http.post(`${this.apiUrl}/damage/searchByDate`, { dateSearch1, dateSearch2 })
+      .toPromise()
+      .then(result => result)
+      .catch(error => error);
+  }
+
 }
