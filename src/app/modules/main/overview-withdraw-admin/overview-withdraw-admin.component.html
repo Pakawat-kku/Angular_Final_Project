@@ -120,35 +120,3 @@
     </div>
 </clr-modal>
 
-<br><br>
-<table style="width:100%" border="1" *ngIf="cal != 0">
-<tr>
-    <th rowspan="2" style="width:30%">รายชื่อผ้า</th>
-    <th  *ngFor="let m of month">{{m.name}}</th>
-</tr>
-<tr >
-    <td *ngFor = "let item of dayOfCloth" style="text-align: center;">{{item.text}}</td>
-</tr>
-<tr *ngFor="let row of showList">
-    <td>{{row.clothName}}</td>
-    <td *ngFor="let t of dayOfCloth">
-        {{row[t.monthId]}}
-      </td>
-</tr>
-</table>
-
-<!-- <table style="width:100%" border="1" *ngIf="cal != 0">
-    <tr>
-        <th rowspan="2" style="width:30%">รายชื่อผ้า</th>
-        <th colspan="2" *ngFor="let m of month">{{m.name}}</th>
-    </tr>
-    <tr >
-        <td *ngFor = "let item of dayOfCloth" style="text-align: center;">{{item.text}}</td>
-    </tr>
-    <tr *ngFor="let row of clothList">
-        <td>{{row.clothName}}</td>
-        <td *ngFor="let t of month">
-            {{row[t.monthId]}}
-          </td>
-    </tr>
-    </table> -->

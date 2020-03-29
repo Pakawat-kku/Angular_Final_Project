@@ -79,7 +79,7 @@ export class RequisitionService {
 
   showReqWaitDetailDept(requisitionCode) {
     // return this.http.get(`${this.url}/get-annouce/${month}/${year}`)
-    return this.http.get(`http://localhost:3001/req/showReqWaitDetailDept?requisitionCode=${requisitionCode}`)
+    return this.http.get(`${this.apiUrl}/req/showReqWaitDetailDept?requisitionCode=${requisitionCode}`)
       .toPromise()
       .then(result => result)
       .catch(error => error);
