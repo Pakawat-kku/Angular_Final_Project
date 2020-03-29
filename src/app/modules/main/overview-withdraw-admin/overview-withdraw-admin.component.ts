@@ -360,19 +360,27 @@ export class OverviewWithdrawAdminComponent implements OnInit {
     const results: any = await this.wardService.getAllWard();
     // console.log(results.rows);
     if (results.rows) {
+      let month1 = '';
+      let month2 = '';
+
       // for (let item of results.rows) {
+      if (this.cal > 1) {
         for (let i = 0; i < this.cal; i++) {
-          if (i === 0) {
-            const month1 = moment(this.dateSearch1).subtract(1, 'days').format('YYYY-MM-DD');
-            const month2 = moment(this.dateSearch1).add(1, 'days').format('YYYY-MM-DD');
-            console.log(month1, month2);
+          if (i === (this.cal - 1)) {
+            month1 = moment(this.dateSearch1).add(i, 'month').subtract(1, 'days').format('YYYY-MM-DD');
+            month2 = moment(this.dateSearch2).add(1, 'days').format('YYYY-MM-DD');
           } else {
-            const month1 = moment(this.dateSearch1).add(i, 'month').subtract(1, 'days').format('YYYY-MM-DD');
-            const month2 = moment(this.dateSearch1).add(i, 'month').add(1, 'days').format('YYYY-MM-DD');
-            console.log(month1, month2);
+            month1 = moment(this.dateSearch1).add(i, 'month').subtract(1, 'days').format('YYYY-MM-DD');
+            month2 = moment(this.dateSearch1).add(i + 1, 'month').format('YYYY-MM-DD');
           }
+          console.log(month1, month2);
         }
-        // const row1: any = await this.requisitonService.searchByDate(item.wardId,)
+      } else {
+        month1 = moment(this.dateSearch1).subtract(1, 'days').format('YYYY-MM-DD');
+        month2 = moment(this.dateSearch2).add(1, 'days').format('YYYY-MM-DD');
+        console.log(month1, month2);
+      }
+      // const row1: any = await this.requisitonService.searchByDate(item.wardId,)
       // }
     }
 

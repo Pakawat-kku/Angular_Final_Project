@@ -124,16 +124,16 @@
         </clr-dg-pagination>
     </clr-dg-footer>
 </clr-datagrid>
-<div *ngIf = "wardName === undefined">
+<div *ngIf = "wardNameDept">
 <div class="clr-row clr-justify-content-start" style="margin-left: 1.5%;" *ngFor="let items of requisitionBillDetailOnly">
 <!-- <div class="clr-col-1.5" *ngIf="decoded.position==5"> -->
-    <button *ngIf="decoded.position==5 || decoded.position==1" 
+    <button *ngIf="decoded.position==1" 
     [disabled]="items.status!='0'" 
     type="submit" class="btn btn-success-outline" >ยืนยันอนุมัติการเบิก
     </button>
 <!-- </div> -->
 <!-- <div class="clr-col-1" *ngIf="decoded.position==1"> -->
-        <button *ngIf="decoded.position==5 || decoded.position==1" 
+        <button *ngIf="decoded.position==1" 
         [disabled]="items.status=='1' || items.status=='2' "
         type="button" class="btn btn-danger-outline" (click)="notApproveReq(requisitionCode)">ไม่อนุมัติการเบิกนี้
         </button>
@@ -141,7 +141,7 @@
 </div>
 </div>
 
-<div *ngIf = "wardNameDept === undefined">
+<div *ngIf = "wardName">
     <div class="clr-row clr-justify-content-start" style="margin-left: 1.5%;" *ngFor="let items of requisitionBillDetailDept">
     <div class="clr-col-1.5" *ngIf="decoded.position==1">
         <button *ngIf="decoded.position==1" 
