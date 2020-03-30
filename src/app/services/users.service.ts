@@ -83,4 +83,5 @@ export class UsersService {
   register(user: Users) {
     return this.http.post(`auth/register`, user);
   }
+
 }

@@ -27,6 +27,7 @@ export class SignupPageComponent implements OnInit {
     'op', 'kl'
   ];
   wardId = 15;
+  checkUser = false;
 
   constructor(
     private positionService: PositionService,

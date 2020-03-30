@@ -389,9 +389,6 @@ export class OverviewWithdrawComponent implements OnInit {
                             }
                           }
                         }
-                      } else {
-                        // console.log(result4.rows);
-                        console.log('oops');
                       }
                     }
                   } else {
@@ -402,6 +399,49 @@ export class OverviewWithdrawComponent implements OnInit {
                         const results1: any = await this.withdrawService
                           .getDetailRoundByCode(result4.rows[0].withdrawCode, result4.rows[0].totalRound);
                         if (results1.rows.length > 1) {
+                          for (const items of results1.rows) {
+                            if (items.clothName !== 'ผ้าเช็ดมือ') {
+                              this.withdrawList.push(items);
+                            }
+                          }
+                          for (const rows of results2.rows) {
+                            if (rows.clothName !== 'ผ้าเช็ดมือ') {
+                              rows.Requisition_requisitionCode = result9.rows[0].requisitionCode;
+                              rows.withdrawCode = result4.rows[0].withdrawCode;
+                              this.reqDetailList.push(rows);
+                            }
+                          }
+
+                          if (this.reqDetailList.length !== 0) {
+                            this.requisitionList.push({
+                              requisitionCode: result9.rows[0].requisitionCode,
+                              reqTime: moment(result9.rows[0].reqDate).format('HH:mm'),
+                              reqDate: moment(result9.rows[0].reqDate).add(543, 'years').format('DD MMMM YYYY'),
+                              wardName: result9.rows[0].wardName,
+                              wardId: result9.rows[0].wardId,
+                              description: '',
+                              round: results1.rows[0].round
+                            });
+                            // for (let rew of this.requisitionList) {
+                            //   if (rew.round > 0) {
+                            for (let i = 0; i < this.reqDetailList.length; i++) {
+                              for (let j = 0; j < this.withdrawList.length; j++) {
+                                // console.log(this.reqDetailList[i].id, ')',this.reqDetailList[i].totalRound);
+                                if (this.reqDetailList[i].Cloth_clothId === this.withdrawList[j].Cloth_clothId
+                                  && this.reqDetailList[i].totalRound === undefined) {
+                                  this.reqDetailList[i].remains = this.withdrawList[j].WithdrawDetail_remain;
+                                  this.reqDetailList[i].export =
+                                    this.reqDetailList[i].amountClothReal - this.withdrawList[j].WithdrawDetail_remain;
+                                  // console.log('(', this.reqDetailList[i].id, ')', this.reqDetailList[i].export, '=',
+                                  //   this.reqDetailList[i].amountClothReal, '-', this.withdrawList[j].WithdrawDetail_remain);
+                                  //   }
+                                  // }
+                                }
+                              }
+                            }
+                          }
+                        } else {
+                          // console.log(results1.rows);
                           for (const items of results1.rows) {
                             if (items.clothName !== 'ผ้าเช็ดมือ') {
                               this.withdrawList.push(items);
@@ -489,6 +529,7 @@ export class OverviewWithdrawComponent implements OnInit {
     let i = 0;
     let minus = 0;
     let minusCloth = '';
+    let zero = 0;
 
     const decision: any = await this.alertService.confirm('ยืนยันการทำรายการ ?');
     if (decision.value === true) {
@@ -501,7 +542,10 @@ export class OverviewWithdrawComponent implements OnInit {
           if (row.amountClothWithdraw === '' || row.amountClothWithdraw === undefined) {
             row.amountClothWithdraw = 0;
           }
-          console.log(row.amountClothWithdraw);
+          if (row.amountClothWithdraw === 0) {
+            zero++;
+          }
+          // console.log(row.amountClothWithdraw);
           if (row.amountClothWithdraw < 0) {
             this.alertService.error('จำนวน ' + ' ' + row.clothName + 'ผิดพลาด');
             minus += 1;
@@ -544,7 +588,9 @@ export class OverviewWithdrawComponent implements OnInit {
           }
           i++;
         }
-        if (minus > 0) {
+        // console.log(this.detailList.length, zero);
+
+        if (minus > 0 || zero === this.detailList.length) {
           this.alertService.error('จำนวนนำจ่ายผิดพลาด');
         } else {
           if (this.over > 0) {
@@ -652,6 +698,9 @@ export class OverviewWithdrawComponent implements OnInit {
               }
             }
           }
+          await this.getRequisition();
+          this.modalShow = false;
+          await this.router.navigate(['main/overview-withdraw']);
         }
       } catch (error) {
         console.log(error);
