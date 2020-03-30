@@ -1,19 +1,19 @@
 <h2 class="title">ประวัติการเบิกผ้าเข้าสู่ส่วนกลาง </h2>
 <form clrForm >
-    <div class="clr-row clr-align-items-center">
-        <div class="clr-col-1">
-            <label>ค้นหา</label>
-        </div>
+    <!-- <div class="clr-row clr-align-items-center">
+        <div class="clr-col-1"> -->
+        <label>ค้นหา</label>
+        <!-- </div> -->
         <input class="clr-col-3" placeholder="รหัสการเบิก" name="warehouse_export_availableCode" [(ngModel)]="warehouse_export_availableCode" />
        
-        <div class="clr-col-1">
+        <!-- <div class="clr-col-1"> -->
             <button type="button" (click)="search(warehouse_export_availableCode)" class="btn btn-primary">ค้นหา</button>
-        </div>
-    </div>
+        <!-- </div> -->
+    <!-- </div> -->
 
 </form>
 <div class="limit-height">
-<clr-datagrid class="datagrid-compact clr-col-8" *ngIf="Warehouse_export_available">
+<clr-datagrid class="datagrid-compact" *ngIf="Warehouse_export_available">
         <clr-dg-placeholder>ไม่มีรายการเบิก!</clr-dg-placeholder>
 
         <clr-dg-column>รหัสการเบิก</clr-dg-column>

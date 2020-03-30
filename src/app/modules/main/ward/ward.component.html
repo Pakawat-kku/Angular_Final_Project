@@ -1,15 +1,15 @@
 <h2 class="title">รายชื่อวอร์ด</h2>
 <form clrForm>
-    <div class="clr-row clr-align-items-center">
-        <div class="clr-col-1">
+    <!-- <div class="clr-row clr-align-items-center"> -->
+        <!-- <div class="clr-col-1"> -->
             <label>search</label>
-        </div>
-        <input class="clr-col-3" placeholder="wardName" name="searchWard" [(ngModel)]="searchWard" />
+        <!-- </div> -->
+        <input class="clr-col-3" placeholder="ชื่อวอร์ด" name="searchWard" [(ngModel)]="searchWard" />&nbsp;&nbsp;
         <!-- <input class="clr-col-3" placeholder="วันเวลา" name="searchDate" [(ngModel)]="searchDate" /> -->
-        <div class="clr-col-1">
+        <!-- <div class="clr-col-1"> -->
             <button type="button" (click)="search(searchWard)" class="btn btn-primary">ค้นหา</button>
-        </div>
-    </div>
+        <!-- </div> -->
+    <!-- </div> -->
 </form>
 <div style="text-align: left; margin-left: 10px;">
     <button type="button" (click)="onAdd()" class="btn btn-success">
@@ -19,7 +19,7 @@
             พิมพ์รายชื่อวอร์ด
         </button>
 
-        <clr-datagrid class="clr-col-10" *ngIf="wardList">
+        <clr-datagrid class="datagrid-compact" *ngIf="wardList">
             <clr-dg-column>รหัสวอร์ด</clr-dg-column>
             <clr-dg-column>ชื่อวอร์ด</clr-dg-column>
             <clr-dg-column>แก้ไขชื่อวอร์ด</clr-dg-column>

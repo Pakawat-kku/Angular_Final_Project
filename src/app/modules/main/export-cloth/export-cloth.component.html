@@ -16,45 +16,45 @@
 <br>
 <b>ชื่อผู้ชั่งน้ำหนัก : {{decoded.firstname}}  {{decoded.lastname}}</b>
 <br><br>
-<div class="cen">
-  <div class="clr-row">
-    <div class="clr-col-1.5">
-      <b> ประเภทของการซัก :</b>
-    </div>
-    <div class="clr-col-4" style="margin-top: -2%;">
-      <select clrSelect name="exportClothType" [(ngModel)]="exportClothType">
+<div >
+  <!-- <div class="clr-row"> -->
+    <!-- <div class="clr-col-1.5"> -->
+      <b> ประเภทของการซัก :</b>&nbsp;&nbsp;
+    <!-- </div> -->
+    <!-- <div class="clr-col-4" style="margin-top: -2%;"> -->
+      <select  name="exportClothType" [(ngModel)]="exportClothType">
         <option value="1">ซักเอง</option>
         <option value="2">ส่งซัก</option>
       </select>
-    </div>
-  </div><br>
+    <!-- </div> -->
+</div><br>
 
-  <div class="clr-row" *ngIf="exportClothType === '2'">
-    <div class="clr-col-1.5">
-      <b> บริษัท :</b>
-    </div>
-    <div class="clr-col-4" style="margin-top: -2%;">
-      <select clrSelect name="company" [(ngModel)]="company">
+  <div *ngIf="exportClothType === '2'">
+    <!-- <div class="clr-col-1.5"> -->
+      <b> บริษัท :</b>&nbsp;&nbsp;
+    <!-- </div> -->
+    <!-- <div class="clr-col-4" style="margin-top: -2%;"> -->
+      <select name="company" [(ngModel)]="company">
         <option *ngFor="let item of companyList;" value="{{item.idCompany}}">{{item.companyName}}</option>
       </select>
       <br>
-    </div>
+    <!-- </div> -->
     <br>
   </div>
 
-  <div class="clr-row">
-    <div class="clr-col-1.5">
-      <b> วันที่ชั่งน้ำหนักผ้า :</b>
-    </div>
+  <!-- <div class="clr-row"> -->
+    <!-- <div class="clr-col-1.5"> -->
+      <b> วันที่ชั่งน้ำหนักผ้า :</b>&nbsp;&nbsp;
+    <!-- </div> -->
 
-    <div class="clr-col-4">
+    <!-- <div class="clr-col-4"> -->
       <b>{{date}}</b><br>
       <!-- <my-date-picker-th name="mydate" [options]="myDatePickerOptions"
     [(ngModel)]="model" required>
   </my-date-picker-th> -->
-    </div>
-  </div>
-</div>
+    <!-- </div> -->
+  <!-- </div> -->
+<!-- </div> -->
 <!-- <br> -->
 <br>
 

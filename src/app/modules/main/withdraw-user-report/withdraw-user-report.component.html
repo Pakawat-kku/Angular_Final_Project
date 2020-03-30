@@ -1,32 +1,32 @@
 <h1>รายการจ่ายผ้า</h1>
 <br>
 <form clrForm>
-    <div class="clr-row">
-        <div class="clr-col-1">
+    <!-- <div class="clr-row"> -->
+        <!-- <div class="clr-col-1"> -->
             <label>วันที่</label>
-        </div>
-        <div class="clr-col-3">
+        <!-- </div> -->
+        <!-- <div class="clr-col-3"> -->
             <my-date-picker-th name="dateSearch1" [options]="myDatePickerOptions" [(ngModel)]="dateSearch3" required>
             </my-date-picker-th>
-        </div>
-        <div class="clr-col-1">
+        <!-- </div> -->
+        <!-- <div class="clr-col-1"> -->
             <label>ถึงวันที่</label>
-        </div>
-        <div class="clr-col-3">
+        <!-- </div> -->
+        <!-- <div class="clr-col-3"> -->
             <my-date-picker-th name="dateSearch2" [options]="myDatePickerOptions" [(ngModel)]="dateSearch4" required>
             </my-date-picker-th>
-        </div>
-    </div>
-    <div class="clr-col-3">
+        <!-- </div> -->
+    <!-- </div> -->
+    <!-- <div class="clr-col-3"> -->
         เจ้าหน้าที่นำจ่าย :
         <select name="userId" [(ngModel)]="userId">
             <option value="0">ทุกคน</option>
             <option *ngFor="let row of userAuth" [value]="row.userId">{{row.firstname}} {{row.lastname}}</option>
-        </select>
-    </div>
-    <div class="clr-col-1">
+        </select><br>
+    <!-- </div> -->
+    <!-- <div class="clr-col-1"> -->
         <button type="button" (click)="letSearch(userId,dateSearch3,dateSearch4)" class="btn btn-primary">ค้นหา</button>
-    </div>
+    <!-- </div> -->
 </form>
 
 <h3 style="color: brown;">{{warning}}</h3>

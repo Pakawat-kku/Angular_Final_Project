@@ -245,55 +245,55 @@ export class RequisitionDetailAdminComponent implements OnInit, OnDestroy {
   }
 
   async allApprove() {
+    // ส่วนตัดสต็อก
+    // for (const item of this.selected) {
+    //   const result: any = await this.requisitionService.showReqWaitDetail(item.requisitionCode);
 
-    for (const item of this.selected) {
-      const result: any = await this.requisitionService.showReqWaitDetail(item.requisitionCode);
+    //   for (const itemm of result.rows) {
 
-      for (const itemm of result.rows) {
+    //     if (_.findIndex(this.clothIdList, ['clothId', itemm.Cloth_clothId]) < 0) {
+    //       this.clothIdList.push({
+    //         clothId: itemm.Cloth_clothId,
+    //         amount: itemm.amountClothReal,
+    //       });
+    //     } else {
+    //       this.num = _.findIndex(this.clothIdList, ['clothId', itemm.Cloth_clothId]);
+    //       this.clothIdList[this.num].amount = this.clothIdList[this.num].amount + itemm.amountClothReal;
+    //     }
+    //   }
 
-        if (_.findIndex(this.clothIdList, ['clothId', itemm.Cloth_clothId]) < 0) {
-          this.clothIdList.push({
-            clothId: itemm.Cloth_clothId,
-            amount: itemm.amountClothReal,
-          });
-        } else {
-          this.num = _.findIndex(this.clothIdList, ['clothId', itemm.Cloth_clothId]);
-          this.clothIdList[this.num].amount = this.clothIdList[this.num].amount + itemm.amountClothReal;
-        }
-      }
+    // }
+    // let noten = 0;
+    // let note = 0;
 
-    }
-    let noten = 0;
-    let note = 0;
+    // for (const item of this.clothIdList) {
 
-    for (const item of this.clothIdList) {
+    //   const result1: any = await this.availableService.getAvailable(item.clothId);
 
-      const result1: any = await this.availableService.getAvailable(item.clothId);
+    //   if (result1.rows.length === 0) {
+    //     noten = noten + 1;
+    //     const result2: any = await this.stockService.getClothById(item.clothId);
+    //     this.notEnough[note] = result2.rows[0].clothName;
+    //     note = note + 1;
+    //   } else {
 
-      if (result1.rows.length === 0) {
-        noten = noten + 1;
-        const result2: any = await this.stockService.getClothById(item.clothId);
-        this.notEnough[note] = result2.rows[0].clothName;
-        note = note + 1;
-      } else {
+    //     if (result1.rows[0].AvailableAmount < item.amount) {
+    //       noten = noten + 1;
 
-        if (result1.rows[0].AvailableAmount < item.amount) {
-          noten = noten + 1;
+    //       const result2: any = await this.stockService.getClothById(item.clothId);
+    //       this.notEnough[note] = result2.rows[0].clothName;
+    //       note = note + 1;
+    //     }
+    //   }
+    // }
 
-          const result2: any = await this.stockService.getClothById(item.clothId);
-          this.notEnough[note] = result2.rows[0].clothName;
-          note = note + 1;
-        }
-      }
-    }
+    // if (noten > 0) {
 
-    if (noten > 0) {
-
-      for (const item of this.notEnough) {
-      this.stringError += item + '';
-      this.alertService.error('ไม่สามารถอนุมัติได้เนื่องจาก ' + this.stringError + 'ไม่เพียงพอ' );
-      }
-    } else {
+    //   for (const item of this.notEnough) {
+    //   this.stringError += item + '';
+    //   this.alertService.error('ไม่สามารถอนุมัติได้เนื่องจาก ' + this.stringError + 'ไม่เพียงพอ' );
+    //   }
+    // } else {
 
 
       for (const item of this.clothIdList) {
@@ -317,7 +317,7 @@ export class RequisitionDetailAdminComponent implements OnInit, OnDestroy {
       this.modalAllApprove = false;
       this.router.navigate(['main/requisition-detail-admin/']);
       this.showReqWaitAdmin();
-    }
+    // }
 
   }
 
