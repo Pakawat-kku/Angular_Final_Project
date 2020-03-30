@@ -33,7 +33,7 @@ export class ImportClothAmountComponent implements OnInit {
   importList: any[] = [{
     clothId: '1',
     importDetailAmount: null,
-    damageAmount: 0
+    damageAmount: null
   }];
   currentUser: any;
   currentUserSubscription: Subscription;
@@ -130,7 +130,7 @@ export class ImportClothAmountComponent implements OnInit {
         this.importList.push({
           clothId: '1',
           importDetailAmount: null,
-          damageAmount: 0
+          damageAmount: null
         });
         arrayId.id = i + 1;
         this.arrayList.push(arrayId);
@@ -144,7 +144,7 @@ export class ImportClothAmountComponent implements OnInit {
     await this.importList.push({
       clothId: '1',
       importDetailAmount: null,
-      damageAmount: 0
+      damageAmount: null
     });
   }
 
