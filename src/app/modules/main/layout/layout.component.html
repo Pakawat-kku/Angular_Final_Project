@@ -84,6 +84,10 @@
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
           ประวัติการเบิก
         </a>
+        <clr-vertical-nav-group *ngIf="authority.one=='true'" routerLinkActive="active">
+          <clr-icon shape="table" clrVerticalNavIcon></clr-icon>
+          การนำจ่ายผ้า
+          <clr-vertical-nav-group-children>
         <a clrVerticalNavLink *ngIf="authority.one=='true'" routerLink="./overview-withdraw" routerLinkActive="active">
           <clr-icon shape="event" clrVerticalNavIcon></clr-icon>
           รายการเบิกผ้าทั้งหมด
@@ -92,6 +96,8 @@
           <clr-icon shape="view-list" clrVerticalNavIcon></clr-icon>
           รายการเบิกผ้าที่เลือก
         </a>
+        </clr-vertical-nav-group-children>
+        </clr-vertical-nav-group>
         <a clrVerticalNavLink *ngIf="authority.ten=='true'" routerLink="./user" routerLinkActive="active">
           <clr-icon shape="user" clrVerticalNavIcon></clr-icon>
           จัดการผู้ใช้งาน
@@ -100,10 +106,10 @@
           <clr-icon shape="clipboard" clrVerticalNavIcon></clr-icon>
           จัดการเจ้าหน้าที่นำจ่าย
         </a>
-        <a clrVerticalNavLink *ngIf="authority.ten=='true'" routerLink="./authority" routerLinkActive="active">
+        <!-- <a clrVerticalNavLink *ngIf="authority.ten=='true'" routerLink="./authority" routerLinkActive="active">
           <clr-icon shape="bullseye" clrVerticalNavIcon></clr-icon>
           จัดการสิทธิ์
-        </a>
+        </a> -->
         <clr-vertical-nav-group *ngIf="authority.nine=='true'" routerLinkActive="active">
           <clr-icon shape="no-access" clrVerticalNavIcon></clr-icon>
           รายการผ้าชำรุด
@@ -158,12 +164,12 @@
           ประวัติการชั่งน้ำหนัก
         </a>
         <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./warehouse" routerLinkActive="active">
-          <clr-icon shape="storage" class="has-alert is-solid"></clr-icon>
+          <clr-icon shape="heat-map" clrVerticalNavIcon></clr-icon>
           คลังผ้าใหญ่
         </a>
 
         <clr-vertical-nav-group *ngIf="authority.five=='true'" routerLinkActive="active">
-          <clr-icon shape="storage"></clr-icon>
+          <clr-icon shape="storage" clrVerticalNavIcon></clr-icon>
           คลังผ้าส่วนกลาง
           <clr-vertical-nav-group-children>
             <a clrVerticalNavLink *ngIf="authority.five=='true'" routerLink="./available" routerLinkActive="active">

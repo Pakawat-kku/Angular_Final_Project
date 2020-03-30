@@ -487,6 +487,8 @@ export class OverviewWithdrawComponent implements OnInit {
     this.remain = false;
     let num = 0;
     let i = 0;
+    let minus = 0;
+    let minusCloth = '';
 
     const decision: any = await this.alertService.confirm('ยืนยันการทำรายการ ?');
     if (decision.value === true) {
@@ -499,9 +501,12 @@ export class OverviewWithdrawComponent implements OnInit {
           if (row.amountClothWithdraw === '' || row.amountClothWithdraw === undefined) {
             row.amountClothWithdraw = 0;
           }
+          console.log(row.amountClothWithdraw);
           if (row.amountClothWithdraw < 0) {
             this.alertService.error('จำนวน ' + ' ' + row.clothName + 'ผิดพลาด');
-          } else {
+            minus += 1;
+          }
+          if (row.amountClothWithdraw >= 0) {
             row.remain = row.remains - row.amountClothWithdraw;
             // console.log(row.remain, '=', row.remains, '-', row.amountClothWithdraw);
             // ค้างส่ง
@@ -514,11 +519,13 @@ export class OverviewWithdrawComponent implements OnInit {
               }
               this.uncomplete += 1;
               // ส่งครบ
-            } else if (row.remain === 0) {
+            }
+            if (row.remain === 0) {
               row.statusRemain = 2;
               this.remain = true;
               // ส่งเกิน
-            } else {
+            }
+            if (row.remain < 0) {
               if (this.over === 0) {
                 this.clothOver = this.clothOver + row.clothName;
               } else {
@@ -526,18 +533,30 @@ export class OverviewWithdrawComponent implements OnInit {
               }
               this.over += 1;
             }
+            if (minus > 0) {
+              if (this.over === 0) {
+                minusCloth = minusCloth + row.clothName;
+              } else {
+                minusCloth = minusCloth + ', ' + row.clothName;
+              }
+              this.over += 1;
+            }
           }
           i++;
         }
-        if (this.over > 0) {
-          const decision2: any = await this.alertService.error('จำนวน' + this.clothOver + 'เกินจำนวนที่เบิก');
-        } else if (this.uncomplete > 0) {
-          const decision2: any = await this.alertService.confirm('จำนวน' + this.clothRemain + 'ไม่ครบตามจำนวนที่เบิก');
-          if (decision2.value) {
-            this.remain = true;
+        if (minus > 0) {
+          this.alertService.error('จำนวนนำจ่ายผิดพลาด');
+        } else {
+          if (this.over > 0) {
+            const decision2: any = await this.alertService.error('จำนวน' + this.clothOver + 'เกินจำนวนที่เบิก');
+          } else if (this.uncomplete > 0) {
+            const decision2: any = await this.alertService.confirm('จำนวน' + this.clothRemain + 'ไม่ครบตามจำนวนที่เบิก');
+            if (decision2.value) {
+              this.remain = true;
+            }
           }
         }
-        if (this.over === 0 && this.remain === true) {
+        if (this.over === 0 && this.remain === true && minus === 0) {
           // ไม่มีใบเบิก
           if (this.round === 1) {
             for (const req of this.reqList) {

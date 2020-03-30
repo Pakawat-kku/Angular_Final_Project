@@ -26,6 +26,7 @@ export class SignupPageComponent implements OnInit {
   public items: Array<string>  = [
     'op', 'kl'
   ];
+  wardId = 15;
 
   constructor(
     private positionService: PositionService,
