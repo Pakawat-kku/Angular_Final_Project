@@ -13,7 +13,7 @@
 </form> -->
 <div class="clr-row">
     <div class="clr-col-6">
-        <clr-datagrid class="datagrid-compact" *ngIf="porter">
+        <clr-datagrid class="datagrid-compact"  *ngIf="porter">
             <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
             <clr-dg-column >ชื่อ</clr-dg-column>
             <clr-dg-column>นามสกุล</clr-dg-column>
@@ -37,7 +37,7 @@
             <clr-dg-column>คนรับผิดชอบ</clr-dg-column>
             <clr-dg-row id="green" *clrDgItems="let item of tableTwo">
                 <clr-dg-cell >{{item.wardCode}}</clr-dg-cell>
-                <clr-dg-cell>{{item.wardName}}</clr-dg-cell>
+                <clr-dg-cell >{{item.wardName}}</clr-dg-cell>
                 <clr-dg-cell>{{item.name}}</clr-dg-cell>
 
             </clr-dg-row>

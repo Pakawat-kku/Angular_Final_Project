@@ -159,12 +159,13 @@ export class RequisitionBillDetailComponent implements OnInit {
             item.year = moment(item.reqDate).add(543, 'years').format('YYYY');
             item.time = moment(item.reqDate).format('HH:mm');
             item.day = item.date + ' ' + item.month + ' ' + item.year;
-            this.wardNameDept = this.requisitionBillDetailDept[0].wardName;
+            this.wardNameDept = this.requisitionBillDetailDept[0].description;
           }
         }
         this.requisitionBillDetailOnly = this.requisitionBillDetailOnly;
         console.log('requisitionBillDetailOnly', this.requisitionBillDetailOnly);
         console.log('requisitionBillDetailDept', this.requisitionBillDetailDept);
+
 
         if (this.requisitionBillDetailOnly.length === 0) {
           this.status = this.requisitionBillDetailDept[0].status;
@@ -174,7 +175,8 @@ export class RequisitionBillDetailComponent implements OnInit {
         }
         console.log('status', this.status);
         console.log('this.decoded.position', this.decoded.position);
-        console.log(this.wardName, this.wardNameDept);
+        console.log('this.wardName' , this.wardName);
+        console.log('this.wardNameDept',  this.wardNameDept);
 
       }
 
@@ -255,22 +257,19 @@ export class RequisitionBillDetailComponent implements OnInit {
 
     } else {
       // console.log('_.chunk(_.takeRight(Object.values(formData), minus))', _.chunk(_.takeRight(Object.values(formData), minus)));
-
-      let summ = 0;
-      for (const item of _.chunk(_.takeRight(Object.values(formData), minus))) {
-        let deficient = 0 ;
-        // console.log('item', item[0]);
-        // console.log('รหัสผ้า', _.take(this.head[summ]));
-        // console.log('[1]', _.tail(this.head[summ]));
-        const result: any = await this.requisitionService.updateAmountReal(_.take(this.head[summ]), this.requisitionCode, item[0]);
-        const result1: any = await this.availableService.getAvailable(_.take(this.head[summ]));
-        deficient = result1.rows[0].AvailableAmount - item[0];
-        const obj = {
-          AvailableAmount: deficient
-        };
-        const result2: any = await this.availableService.updateAvailable(obj , _.take(this.head[summ]));
-        summ = summ + 1;
-      }
+      // ส่วนตัดสต็อกกลาง
+      // let summ = 0;
+      // for (const item of _.chunk(_.takeRight(Object.values(formData), minus))) {
+      //   let deficient = 0 ;
+      //   const result: any = await this.requisitionService.updateAmountReal(_.take(this.head[summ]), this.requisitionCode, item[0]);
+      //   const result1: any = await this.availableService.getAvailable(_.take(this.head[summ]));
+      //   deficient = result1.rows[0].AvailableAmount - item[0];
+      //   const obj = {
+      //     AvailableAmount: deficient
+      //   };
+      //   const result2: any = await this.availableService.updateAvailable(obj , _.take(this.head[summ]));
+      //   summ = summ + 1;
+      // }
 
       try {
         const result: any = await this.requisitionService.approveReq(this.requisitionCode);

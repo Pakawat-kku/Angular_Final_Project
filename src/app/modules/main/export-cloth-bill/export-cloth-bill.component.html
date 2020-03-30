@@ -70,14 +70,14 @@
                 <clr-dg-cell>{{item.exportDetailWeightCloth}}</clr-dg-cell>
                 <clr-dg-cell>{{item.exportDetailWeightCar}}</clr-dg-cell>
             </clr-dg-row>
-            <clr-dg-footer>
+            <!-- <clr-dg-footer>
                 <b>รายการผ้าทั้งหมด {{exportDetail.length}} รายการ </b>&nbsp;&nbsp;
                 <clr-dg-pagination #pagination [clrDgPageSize]="10">
                     <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
                     {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
                     of {{pagination.totalItems}} leave
                 </clr-dg-pagination>
-            </clr-dg-footer>
+            </clr-dg-footer> -->
         </clr-datagrid>
         <div *ngIf="exportClothTypeHospital=='2'">
         <div class="head-bill" *ngFor="let item of exportCloth">
@@ -106,14 +106,14 @@
                 <clr-dg-cell>{{item.importDetailWeightCloth}}</clr-dg-cell>
                 <clr-dg-cell>{{item.importDetailWeightCar}}</clr-dg-cell>
             </clr-dg-row>
-            <clr-dg-footer>
+            <!-- <clr-dg-footer>
                 <b>รายการผ้าทั้งหมด {{getInner.length}} รายการ </b>&nbsp;&nbsp;
                 <clr-dg-pagination #pagination [clrDgPageSize]="10">
                     <clr-dg-page-size [clrPageSizeOptions]="[10,15,20,25]">leave per page</clr-dg-page-size>
                     {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
                     of {{pagination.totalItems}} leave
                 </clr-dg-pagination>
-            </clr-dg-footer>
+            </clr-dg-footer> -->
         </clr-datagrid>
         <div class="head-bill" *ngFor="let item of importDetailWeightSum">
             <b>รวมรับผ้าสะอาด : <u>{{item.importDetailWeightSumTotal}}</u> กก.</b><br>

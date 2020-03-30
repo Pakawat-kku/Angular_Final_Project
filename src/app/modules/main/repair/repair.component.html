@@ -5,7 +5,7 @@
     <button type="button" (click)="onAdd()" class="btn btn-primary">เพิ่มรายการการซ่อมผ้า</button>
 </div>
 <div class="limit-height">
-    <clr-datagrid class="datagrid-compact clr-col-6">
+    <clr-datagrid class="datagrid-compact">
         <clr-dg-column [clrDgField]="'clothName'">ชนิดผ้า</clr-dg-column>
         <clr-dg-column>จำนวน</clr-dg-column>
         <clr-dg-column>#</clr-dg-column>
@@ -15,7 +15,7 @@
             <clr-dg-cell>{{item.repairAmount}} {{item.clothClassifier}}</clr-dg-cell>
             <clr-dg-cell>
                 <a routerLink="/main/repair-detail/{{item.clothId}}">
-                    <button class="btn btn-outline-primary" [disabled]="item.repairAmount === 0">
+                    <button class="btn btn-outline-primary btn btn-sm" [disabled]="item.repairAmount === 0">
                         ดูประวัติ
                     </button>
                 </a>

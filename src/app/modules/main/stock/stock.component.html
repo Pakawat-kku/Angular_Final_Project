@@ -1,23 +1,23 @@
 <h1>รายการผ้าในคลังผ้า</h1>
 <br>
 <form clrForm>
-    <div class="clr-row clr-align-items-center">
-        <div class="clr-col-1">
+    <!-- <div class="clr-row clr-align-items-center"> -->
+        <!-- <div class="clr-col-1"> -->
             <label>ค้นหา</label>
-        </div>
-        <input class="clr-col-3" placeholder="ชื่อผ้า" name="search" [(ngModel)]="search" />
-        <div class="clr-col-1">
+        <!-- </div> -->
+        <input class="clr-col-3" placeholder="ชื่อผ้า" name="search" [(ngModel)]="search" />&nbsp;&nbsp;
+        <!-- <div class="clr-col-1"> -->
             <button type="button" (click)="letSearch(search)" class="btn btn-primary">ค้นหา</button>
-        </div>
-    </div>
+        <!-- </div> -->
+    <!-- </div> -->
 </form>
-<div class="clr-col-10" style="text-align: right;">
+<!-- <div class="clr-col-10"> -->
     <button type="button" (click)="onAdd()" class="btn btn-success">
         เพิ่มข้อมูลผ้า
     </button>
-</div>
+<!-- </div> -->
 
-<clr-datagrid *ngIf="clothList" class="datagrid-compact clr-col-10">
+<clr-datagrid *ngIf="clothList" class="datagrid-compact ">
     <clr-dg-column [clrDgField]="'clothId'">ID</clr-dg-column>
     <clr-dg-column [clrDgField]="'clothName'">ชื่อ</clr-dg-column>
     <clr-dg-column [clrDgField]="'clothTypeName'">ชนิดผ้า</clr-dg-column>

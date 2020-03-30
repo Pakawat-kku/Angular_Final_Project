@@ -2,20 +2,20 @@
     จัดการบัญชีผู้ใช้งานระบบ
 </h1>
 <form clrForm>
-    <div class="clr-row clr-align-items-center">
-        <div class="clr-col-1">
+    <!-- <div class="clr-row clr-align-items-center"> -->
+        <!-- <div class="clr-col-1"> -->
             ค้นหา :
-        </div>
+        <!-- </div> -->
         <select name="type" [(ngModel)]="type">
             <option value="firstname">ชื่อ</option>
             <option value="lastname">นามสกุล</option>
             <option value="username">username</option>
-        </select>
-        <input class="clr-col-3" name="search" [(ngModel)]="search" />
-        <div class="clr-col-1">
+        </select>&nbsp;&nbsp;
+        <input class="clr-col-3" name="search" [(ngModel)]="search" />&nbsp;&nbsp;
+        <!-- <div class="clr-col-1"> -->
             <button type="button" (click)="letSearch(search,type)" class="btn btn-primary">ค้นหา</button>
-        </div>
-    </div>
+        <!-- </div> -->
+    <!-- </div> -->
 </form>
 <br>
 <div class="btn-group">
@@ -33,7 +33,7 @@
     </div>
 </div>
 <br>
-<clr-datagrid *ngIf="userList" class="clr-col-10">
+<clr-datagrid *ngIf="userList" class="datagrid-compact">
     <clr-dg-column [clrDgField]="'username'">username</clr-dg-column>
     <clr-dg-column>ชื่อ-นามสกุล</clr-dg-column>
     <clr-dg-column [clrDgField]="'positionName'">ตำแหน่ง</clr-dg-column>
