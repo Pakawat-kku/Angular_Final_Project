@@ -45,7 +45,7 @@
 <tr *ngFor="let row of showList">
     <td>{{row.clothName}}</td>
     <td *ngFor="let t of dayOfCloth">
-        {{row[t.monthId]}}
+        {{+row[t.monthId] + 0 | number}}
       </td>
 </tr>
 </table>
