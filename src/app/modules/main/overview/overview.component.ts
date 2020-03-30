@@ -333,7 +333,7 @@ export class OverviewComponent implements OnInit {
           }
         } else {
           console.log(wardId);
-          
+
           let row1: any;
           if (this.cal > 1) {
             for (let i = 0; i < this.cal; i++) {
@@ -462,6 +462,8 @@ export class OverviewComponent implements OnInit {
         }
       }
     }
+    console.log(this.showList);
+
   }
 
   exportToExcel() {
