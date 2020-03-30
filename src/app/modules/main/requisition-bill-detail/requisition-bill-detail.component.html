@@ -75,7 +75,7 @@
     </div>
 <form #myform="ngForm" (ngSubmit)="approve(myform.value)">
 
-<clr-datagrid *ngIf="requisitionBillDetail" class=" clr-col-10 ">
+<clr-datagrid *ngIf="requisitionBillDetail"  class="datagrid-compact">
     <clr-dg-placeholder>ไม่มีข้อมูล!</clr-dg-placeholder>
     <clr-dg-column [clrDgField]="'clothName'">รายการผ้า</clr-dg-column>
     <clr-dg-column>จำนวนเบิก</clr-dg-column>

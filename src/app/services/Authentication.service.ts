@@ -29,7 +29,7 @@ export class AuthenticationService {
     }
 
     login(username, password) {
-        return this.http.post<any>(`http://203.157.88.89:3000/login/login`, { username, password })
+        return this.http.post<any>(`http://localhost:3001/login/login`, { username, password })
             .pipe(map(async (users) => {
                 // login successful if there's a jwt token in the response
                 console.log('user', users);
