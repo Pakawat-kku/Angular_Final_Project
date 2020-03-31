@@ -1,3 +1,4 @@
+import { WithdrawService } from 'src/app/services/withdraw.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
@@ -44,6 +45,7 @@ export class RequisitionBillDetailComponent implements OnInit {
   wardName: any;
   wardNameDept: any;
   notEnough: any = [];
+  withdrawCode: any;
 
   constructor(
     private alertService: AlertService,
@@ -56,6 +58,7 @@ export class RequisitionBillDetailComponent implements OnInit {
     private users_authorityService: UsersAuthorityService,
     private stockService: StockService,
     private pdfSefvice: PdfService,
+    private withdrawService: WithdrawService
 
   ) {
     this.currentUserSubscription = this.authenticationService.currentUser.subscribe(users => {
@@ -67,7 +70,7 @@ export class RequisitionBillDetailComponent implements OnInit {
     });
   }
 
-   async ngOnInit() {
+  async ngOnInit() {
     const result: any = await this.users_authorityService.getById(this.decoded.userId);
     // console.log('result.rows' , result);
     for (const item of result.rows) {
@@ -98,12 +101,12 @@ export class RequisitionBillDetailComponent implements OnInit {
       this.alertService.error();
       this.router.navigate(['main/main']);
     } else {
-    moment.locale('th');
-    this.requisitionCode = this._Activatedroute.snapshot.paramMap.get('requisitionCode');
-    await this.requisitionBill();
-    await this.requisitionHeadBill();
+      moment.locale('th');
+      this.requisitionCode = this._Activatedroute.snapshot.paramMap.get('requisitionCode');
+      await this.requisitionBill();
+      await this.requisitionHeadBill();
+    }
   }
-}
 
   async requisitionBill() {
     try {
@@ -136,8 +139,6 @@ export class RequisitionBillDetailComponent implements OnInit {
 
       const result1: any = await this.requisitionService.showReqWaitDetailDept(this.requisitionCode);
 
-
-
       if (result.rows) {
         this.requisitionBillDetailOnly = result.rows;
         for (const item of this.requisitionBillDetailOnly) {
@@ -148,8 +149,6 @@ export class RequisitionBillDetailComponent implements OnInit {
           item.day = item.date + ' ' + item.month + ' ' + item.year;
           this.wardName = this.requisitionBillDetailOnly[0].wardName;
         }
-
-
 
         if (result1.rows) {
           this.requisitionBillDetailDept = result1.rows;
@@ -163,8 +162,8 @@ export class RequisitionBillDetailComponent implements OnInit {
           }
         }
         this.requisitionBillDetailOnly = this.requisitionBillDetailOnly;
-        console.log('requisitionBillDetailOnly', this.requisitionBillDetailOnly);
-        console.log('requisitionBillDetailDept', this.requisitionBillDetailDept);
+        // console.log('requisitionBillDetailOnly', this.requisitionBillDetailOnly);
+        // console.log('requisitionBillDetailDept', this.requisitionBillDetailDept);
 
 
         if (this.requisitionBillDetailOnly.length === 0) {
@@ -173,10 +172,10 @@ export class RequisitionBillDetailComponent implements OnInit {
           this.status = this.requisitionBillDetailOnly[0].status;
 
         }
-        console.log('status', this.status);
-        console.log('this.decoded.position', this.decoded.position);
-        console.log('this.wardName' , this.wardName);
-        console.log('this.wardNameDept',  this.wardNameDept);
+        // console.log('status', this.status);
+        // console.log('this.decoded.position', this.decoded.position);
+        // console.log('this.wardName' , this.wardName);
+        // console.log('this.wardNameDept',  this.wardNameDept);
 
       }
 
@@ -221,28 +220,28 @@ export class RequisitionBillDetailComponent implements OnInit {
     let noten = 0;
     let note = 0;
     for (const item of _.chunk(_.takeRight(Object.values(formData), minus))) {
-        // console.log('จำนวนที่สามารถจ่ายได้', item[0]);
-        // console.log('รหัสผ้า', _.take(this.head[sum]));
-        if (item[0] >= 0) {
-          const result1: any = await this.availableService.getAvailable(_.take(this.head[sum]));
+      // console.log('จำนวนที่สามารถจ่ายได้', item[0]);
+      // console.log('รหัสผ้า', _.take(this.head[sum]));
+      if (item[0] >= 0) {
+        const result1: any = await this.availableService.getAvailable(_.take(this.head[sum]));
 
-          if (result1.rows.length === 0) {
+        if (result1.rows.length === 0) {
+          noten = noten + 1;
+
+          const result2: any = await this.stockService.getClothById(_.take(this.head[sum]));
+          this.notEnough[note] = result2.rows[0].clothName;
+          note = note + 1;
+        } else {
+          if (result1.rows[0].AvailableAmount < item[0]) {
             noten = noten + 1;
 
             const result2: any = await this.stockService.getClothById(_.take(this.head[sum]));
             this.notEnough[note] = result2.rows[0].clothName;
             note = note + 1;
-          } else {
-            if (result1.rows[0].AvailableAmount < item[0]) {
-              noten = noten + 1;
-
-              const result2: any = await this.stockService.getClothById(_.take(this.head[sum]));
-              this.notEnough[note] = result2.rows[0].clothName;
-              note = note + 1;
-            }
           }
         }
-        sum = sum + 1;
+      }
+      sum = sum + 1;
     }
 
 
@@ -250,7 +249,7 @@ export class RequisitionBillDetailComponent implements OnInit {
       if (this.unNormal > 0) {
         this.alertService.error('ไม่สามารถอนุมัติได้กรุณาตรวจสอบความถูกต้อง');
         this.unNormal = 0;
-        } else {
+      } else {
         this.alertService.error('มีผ้าในคลังส่วนกลางไม่เพียงพอ กรุณาตรวจสอบ');
 
       }
@@ -353,4 +352,65 @@ export class RequisitionBillDetailComponent implements OnInit {
       }
     }
   }
+
+  async getWithdraw(item) {
+    this.withdrawCode = '';
+    this.withdrawCode = this.decoded.userId + moment().format('YYYYMMDDHHmmss');
+    const data: any = [];
+    const wd: any = [];
+    let decision2: any;
+    // console.log(item);
+    // console.log(this.wardNameDept, this.wardName);
+    if (this.wardName) {
+      decision2 = await this.alertService.confirm('ยืนยัน' + this.wardName + 'รับผ้าเอง');
+      // console.log(this.requisitionBillDetail);
+      await data.push({
+        withdrawCode: this.withdrawCode,
+        withdrawDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+        withdraw_status: '1',
+        Ward_wardId: item.Ward_wardId,
+        Requisition_requisitionCode: item.requisitionCode,
+        totalRound: 1
+      });
+    } else {
+      decision2 = await this.alertService.confirm('ยืนยัน' + this.wardNameDept + 'รับผ้าเอง');
+      await data.push({
+        withdrawCode: this.withdrawCode,
+        withdrawDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+        withdraw_status: '1',
+        Ward_wardId: 1,
+        Requisition_requisitionCode: item.requisitionCode,
+        totalRound: 1
+      });
+    }
+    for (const row of this.requisitionBillDetail) {
+      await wd.push({
+        Withdraw_withdrawCode: this.withdrawCode,
+        Cloth_clothId: row.Cloth_clothId,
+        amountCloth: row.amountClothReal,
+        description: '',
+        round: 1,
+        Users_userId: this.decoded.userId,
+        WithdrawDetail_remain: 0,
+        WithdrawDetail_status_remain: '2'
+      });
+    }
+    // console.log(data, wd);
+
+    if (decision2.value) {
+      const result: any = await this.withdrawService.saveWithdraw(data);
+      const result8: any = await this.withdrawService.saveWithdrawDetail(wd);
+      if (result.rows && result8.rows) {
+        await this.alertService.success();
+        await this.requisitionBill();
+        await this.requisitionHeadBill();
+        const result1: any = await this.requisitionService.statusWithdrawSuccess(item.requisitionCode);
+        for (const row of this.requisitionBillDetailOnly) {
+          const result6: any = await this.requisitionService.statusDetailWithdrawSuccess(row.id);
+        }
+        this.router.navigate(['/main/requisition-bill-detail/' + item.requisitionCode]);
+      }
+    }
+  }
+
 }
