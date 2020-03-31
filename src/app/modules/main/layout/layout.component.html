@@ -41,8 +41,10 @@
     <main class="content-area">
       <router-outlet></router-outlet>
     </main>
-    <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed" class="sidenav" [clr-nav-level]="2"
-      style="background-color: rgb(188, 226, 188);">
+    <!-- <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed" class="sidenav" [clr-nav-level]="2"
+      style="background-color: rgb(188, 226, 188);"> -->
+     <clr-vertical-nav [clrVerticalNavCollapsible]="true" [(clrVerticalNavCollapsed)]="collapsed"
+      style="background-color: rgb(188, 226, 188);"> 
       <a clrVerticalNavLink routerLink="./main" routerLinkActive="active">
         <clr-icon shape="home" clrVerticalNavIcon></clr-icon>
         หน้าแรก

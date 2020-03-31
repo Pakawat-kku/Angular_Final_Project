@@ -160,7 +160,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
       this.reqId = this.wardId + moment().format('YYYYMMDDHHmmss');
 
     }
-    
+
   }
 
   checkTime() {
@@ -376,7 +376,7 @@ export class RequisitionComponent implements OnInit, OnDestroy {
           // console.log('obj1', obj1);
           const dataInsert: any = this.requisitionService.insertReq(obj1);
         }
-
+        const result2: any = await this.requisitionService.approveReq(this.reqId);
         this.alertService.reqSuccess('บันทึกข้อมูลเรียบร้อย');
         await this.router.navigate(['main/requisition-bill-detail/' + this.reqId]);
 
